@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.camelot.kuka.log.autoconfigure.LogAop
