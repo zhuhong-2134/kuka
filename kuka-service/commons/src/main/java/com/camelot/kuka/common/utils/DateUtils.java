@@ -1,6 +1,5 @@
 package com.camelot.kuka.common.utils;
 
-import com.fehorizon.commonService.common.vo.DateCompare;
 import org.apache.commons.lang3.StringUtils;
 
 import java.text.DateFormat;
@@ -8,7 +7,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Locale;
 
 /**
  * <p>Description: [时间工具类]</p>
@@ -704,27 +706,6 @@ public class DateUtils {
 		cal.set(Calendar.DAY_OF_MONTH, cal.getActualMaximum(Calendar.DATE));
 		String lastDay = format.format(cal.getTime());
 		return getFormatDateFromString(lastDay, "yyyy-MM-dd");
-	}
-
-	/**
-	* <p>Description:[判断时间段是否有重复]</p>
-	* Created on
-	 * @param list
-	* @return  有重复则返回true
-	* @author 崔春松
-	*/
-	public static boolean compareDateQuantum(List<DateCompare> list){
-		list.sort(Comparator.comparing(DateCompare::getStartTime));
-		Long val = 0L;
-		for(DateCompare item : list){
-			Long startTime = item.getStartTime();
-			Long endTime = item.getEndTime();
-			if(val != 0L && startTime<val){
-				return true;
-			}
-			val = endTime;
-		}
-		return false;
 	}
 
 	/**
