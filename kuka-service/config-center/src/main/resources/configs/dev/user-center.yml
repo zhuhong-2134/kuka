@@ -51,6 +51,12 @@ mybatis:
   mapper-locations: classpath:/mybatis-mappers/*
   configuration:
     mapUnderscoreToCamelCase: true
+# PageHelper分页插件
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
 security:
   oauth2:
     resource:

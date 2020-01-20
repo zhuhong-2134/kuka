@@ -12,7 +12,7 @@ import lombok.Data;
  */
 @Data
 public class PageResult<T> extends Result<T> {
-    private int total;
+    private long total;
     public PageResult(){
         super();
     }
@@ -25,7 +25,7 @@ public class PageResult<T> extends Result<T> {
         return new PageResult<T>(-1,msg);
     }
 
-    public static <T> PageResult<T> success(T result,int total){
+    public static <T> PageResult<T> success(T result,long total){
         PageResult<T> pageResult = new PageResult<T>();
         pageResult.setTotal(total);
         pageResult.setData(result);

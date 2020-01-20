@@ -9,7 +9,7 @@ spring:
       profile: dev
       fail-fast: true
 server:
-  port: 0
+  port: 8866
 eureka:
   client:
     serviceUrl:

@@ -71,7 +71,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
         String openid = params[0];
         String tempCode = params[2];
 
-        userClient.wechatLoginCheck(tempCode, openid);
+        // userClient.wechatLoginCheck(tempCode, openid);
 
         // 其实这里是将密码重置，网关层的微信登录接口，密码也用同样规则即可
         loginAppUser.setPassword(passwordEncoder.encode(tempCode));

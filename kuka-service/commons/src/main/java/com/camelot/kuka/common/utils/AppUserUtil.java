@@ -20,8 +20,6 @@ public class AppUserUtil {
      */
     @SuppressWarnings("rawtypes")
     public static LoginAppUser getLoginAppUser() {
-        // TODO 测试
-        // return adminUser();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication instanceof OAuth2Authentication) {
             OAuth2Authentication oAuth2Auth = (OAuth2Authentication) authentication;
@@ -40,30 +38,6 @@ public class AppUserUtil {
             }
         }
         return null;
-    }
-
-    private static LoginAppUser superAdminUser() {
-        LoginAppUser loginAppUser = new LoginAppUser();
-//        loginAppUser.setSuperAdmin(Boolean.TRUE);
-//        loginAppUser.setOrgAdmin(Boolean.TRUE);
-//        loginAppUser.setAscription(-1L);
-//        loginAppUser.setApplications(Sets.newHashSet());
-//        loginAppUser.setPermissions(Sets.newHashSet());
-        loginAppUser.setId(-1L);
-        loginAppUser.setUsername("superAdmin");
-        return loginAppUser;
-    }
-
-    private static LoginAppUser adminUser() {
-        LoginAppUser loginAppUser = new LoginAppUser();
-//        loginAppUser.setSuperAdmin(Boolean.FALSE);
-//        loginAppUser.setOrgAdmin(Boolean.TRUE);
-//        loginAppUser.setAscription(41L);
-//        loginAppUser.setApplications(Sets.newHashSet("code1","code2","code3","code4"));
-//        loginAppUser.setPermissions(Sets.newHashSet("code1:999", "code1:122", "code1:000", "code1:676", "code1:897"));
-        loginAppUser.setId(1L);
-        loginAppUser.setUsername("feHorizonAdmin");
-        return loginAppUser;
     }
 
     /**
