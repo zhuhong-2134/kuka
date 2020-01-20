@@ -68,7 +68,7 @@ public class BaseController {
 
     /**
      * 响应请求分页数据
-     * list 直接获取到list, 原始的, copy到新的对象 总页数会不起作用
+     * list 直接获取到list, 原始的, copy到新的对象 总条数不起作用
      * clazz 返回前段的数据
      */
     protected static <T, E>  PageResult<List<T>> getPage(List<E> list, Class<T> clazz){
