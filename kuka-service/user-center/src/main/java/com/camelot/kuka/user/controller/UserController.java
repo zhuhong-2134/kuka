@@ -1,14 +1,11 @@
 package com.camelot.kuka.user.controller;
 
 import com.camelot.kuka.common.controller.BaseController;
-import com.camelot.kuka.common.page.TableDataInfo;
 import com.camelot.kuka.common.utils.AppUserUtil;
 import com.camelot.kuka.model.common.PageResult;
-import com.camelot.kuka.model.common.Result;
 import com.camelot.kuka.model.user.LoginAppUser;
 import com.camelot.kuka.model.user.req.UserReq;
 import com.camelot.kuka.model.user.resp.UserResp;
-import com.camelot.kuka.user.model.User;
 import com.camelot.kuka.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
