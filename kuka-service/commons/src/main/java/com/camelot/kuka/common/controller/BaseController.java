@@ -1,20 +1,15 @@
 package com.camelot.kuka.common.controller;
 
 import com.camelot.kuka.common.page.PageDomain;
-import com.camelot.kuka.common.page.TableDataInfo;
 import com.camelot.kuka.common.page.TableSupport;
 import com.camelot.kuka.common.sql.SqlUtil;
 import com.camelot.kuka.common.utils.BeanUtil;
 import com.camelot.kuka.model.common.PageResult;
-import com.camelot.kuka.model.common.Result;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import org.apache.catalina.User;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 
 import java.text.DateFormat;
