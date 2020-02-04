@@ -1,9 +1,10 @@
 package com.camelot.kuka.user.service;
 
+import com.camelot.kuka.model.common.CommonReq;
 import com.camelot.kuka.model.common.Result;
 import com.camelot.kuka.model.user.LoginAppUser;
+import com.camelot.kuka.model.user.req.UserPageReq;
 import com.camelot.kuka.model.user.req.UserReq;
-import com.camelot.kuka.model.user.resp.UserResp;
 import com.camelot.kuka.user.model.User;
 
 import java.util.List;
@@ -27,5 +28,39 @@ public interface UserService {
 	 */
 	LoginAppUser findByUsername(String username);
 
-	List<User> pageList(UserReq req);
+	/***
+	 * <p>Description:[分页查询]</p>
+	 * Created on 2020/2/4
+	 * @param req
+	 * @return List
+	 * @author 谢楠
+	 */
+	List<User> pageList(UserPageReq req);
+
+	/***
+	 * <p>Description:[新增用户]</p>
+	 * Created on 2020/2/4
+	 * @param req
+	 * @return Result
+	 * @author 谢楠
+	 */
+	Result addUser(UserReq req);
+
+	/***
+	 * <p>Description:[修改用户]</p>
+	 * Created on 2020/2/4
+	 * @param req
+	 * @return Result
+	 * @author 谢楠
+	 */
+	Result updateUser(UserReq req);
+
+	/***
+	 * <p>Description:[删除用户]</p>
+	 * Created on 2020/2/4
+	 * @param req
+	 * @return Result
+	 * @author 谢楠
+	 */
+	Result delUser(CommonReq req);
 }

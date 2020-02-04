@@ -60,5 +60,184 @@
 			<include refid="Base_Column_List" />
 		FROM
 			t_user
+		<where>
+			<if test ='null != entity.delState'>
+				del_state = #{entity.delState}
+			</if>
+			<if test ='null != entity.source'>
+				and source = #{entity.source}
+			</if>
+			<if test ='null != entity.createTimeSta'>
+				and create_time &gt;= #{entity.createTimeSta}
+			</if>
+			<if test ='null != entity.createTimeEnd'>
+				and create_time &lt;= #{entity.createTimeEnd}
+			</if>
+			<if test ='null != entity.queryName and entity.queryName != ""'>
+				<!-- 0 全部 1 手机号 2 姓名 3 ID -->
+				<if test ='null != entity.queryType and entity.queryType == 1'>
+					and phone = #{entity.queryName}
+				</if>
+				<if test ='null != entity.queryType and entity.queryType == 2'>
+					and user_name = #{entity.queryName}
+				</if>
+				<if test ='null != entity.queryType and entity.queryType == 3'>
+					and id = #{entity.queryName}
+				</if>
+				<!-- 综合查询 -->
+				<if test ='null != entity.queryType and entity.queryType == 0'>
+					and (
+						phone = #{entity.queryName}
+						or user_name = #{entity.queryName}
+						or id = #{entity.queryName}
+					)
+				</if>
+			</if>
+		</where>
 	</select>
+	
+	<insert id="addUser" >
+		INSERT INTO t_user(
+                account,
+                password,
+                photo_url,
+                user_name,
+                sex,
+                phone,
+                mail,
+                source,
+                province_name,
+                province_code,
+                city_name,
+                city_code,
+                district_name,
+                district_code,
+                address,
+                company,
+                type,
+                del_state,
+                create_time,
+                create_by,
+                update_time,
+                update_by
+		)
+		VALUES
+		<foreach collection="list" item="item" index="index" separator=",">
+			(
+			#{item.account},
+			#{item.password},
+			#{item.photoUrl},
+			#{item.userName},
+			#{item.sex},
+			#{item.phone},
+			#{item.mail},
+			#{item.source},
+			#{item.provinceName},
+			#{item.provinceCode},
+			#{item.cityName},
+			#{item.cityCode},
+			#{item.districtName},
+			#{item.districtCode},
+			#{item.address},
+			#{item.company},
+			#{item.type},
+			#{item.delState},
+			#{item.createTime},
+			#{item.createBy},
+			#{item.updateTime},
+			#{item.updateBy}
+			)
+		</foreach>
+	</insert>
+
+	<update id="updateUser">
+		UPDATE t_user
+		<set>
+			<if test ='null != account'>
+				account = #{account},
+			</if>
+			<if test ='null != password'>
+				password = #{password},
+			</if>
+			<if test ='null != photoUrl'>
+				photo_url = #{photoUrl},
+			</if>
+			<if test ='null != userName'>
+				user_name = #{userName},
+			</if>
+			<if test ='null != sex'>
+				sex = #{sex},
+			</if>
+			<if test ='null != phone'>
+				phone = #{phone},
+			</if>
+			<if test ='null != mail'>
+				mail = #{mail},
+			</if>
+			<if test ='null != source'>
+				source = #{source},
+			</if>
+			<if test ='null != provinceName'>
+				province_name = #{provinceName},
+			</if>
+			<if test ='null != provinceCode'>
+				province_code = #{provinceCode},
+			</if>
+			<if test ='null != cityName'>
+				city_name = #{cityName},
+			</if>
+			<if test ='null != cityCode'>
+				city_code = #{cityCode},
+			</if>
+			<if test ='null != districtName'>
+				district_name = #{districtName},
+			</if>
+			<if test ='null != districtCode'>
+				district_code = #{districtCode},
+			</if>
+			<if test ='null != address'>
+				address = #{address},
+			</if>
+			<if test ='null != company'>
+				company = #{company},
+			</if>
+			<if test ='null != type'>
+				type = #{type},
+			</if>
+			<if test ='null != delState'>
+				del_state = #{delState},
+			</if>
+			<if test ='null != createTime'>
+				create_time = #{createTime},
+			</if>
+			<if test ='null != createBy'>
+				create_by = #{createBy},
+			</if>
+			<if test ='null != updateTime'>
+				update_time = #{updateTime},
+			</if>
+			<if test ='null != updateBy'>
+				update_by = #{updateBy}
+			</if>
+		</set>
+		WHERE
+			id = #{id}
+	</update>
+
+	<update id="delUser">
+		UPDATE t_user
+		<set>
+			<if test ='null != delState'>
+				del_state = #{delState},
+			</if>
+			<if test ='null != updateTime'>
+				update_time = #{updateTime},
+			</if>
+			<if test ='null != updateBy'>
+				update_by = #{updateBy}
+			</if>
+		</set>
+		WHERE
+			id = #{id}
+	</update>
 </mapper>

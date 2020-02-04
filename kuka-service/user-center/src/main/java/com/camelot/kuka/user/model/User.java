@@ -110,7 +110,7 @@ public class User implements Serializable {
 	/**
 	 * 删除标识0:未删除;1已删除
 	 */
-	private Long delState;
+	private Integer delState;
 
 	/**
 	 * 创建时间
