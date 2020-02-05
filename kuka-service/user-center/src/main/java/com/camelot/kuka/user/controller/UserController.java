@@ -2,9 +2,14 @@ package com.camelot.kuka.user.controller;
 
 import com.camelot.kuka.common.controller.BaseController;
 import com.camelot.kuka.common.utils.AppUserUtil;
+import com.camelot.kuka.common.utils.EnumUtil;
 import com.camelot.kuka.model.common.CommonReq;
 import com.camelot.kuka.model.common.PageResult;
 import com.camelot.kuka.model.common.Result;
+import com.camelot.kuka.model.enums.DeleteEnum;
+import com.camelot.kuka.model.enums.SexEnum;
+import com.camelot.kuka.model.enums.user.CreateSourceEnum;
+import com.camelot.kuka.model.enums.user.UserPageEnum;
 import com.camelot.kuka.model.user.LoginAppUser;
 import com.camelot.kuka.model.user.req.UserPageReq;
 import com.camelot.kuka.model.user.req.UserReq;
@@ -60,7 +65,12 @@ public class UserController extends BaseController {
         // 开启分页
         startPage();
         // 返回分页
-        return getPage(userService.pageList(req), UserResp.class);
+        PageResult<List<UserResp>> page = getPage(userService.pageList(req), UserResp.class);
+        page.putEnumVal("sexEnum", EnumUtil.getEnumJson(SexEnum.class));
+        page.putEnumVal("sourceEnum", EnumUtil.getEnumJson(CreateSourceEnum.class));
+        page.putEnumVal("delStateEnum", EnumUtil.getEnumJson(DeleteEnum.class));
+        page.putEnumVal("queryTypeEnum", EnumUtil.getEnumJson(UserPageEnum.class));
+        return page;
     }
 
     /***
@@ -72,7 +82,20 @@ public class UserController extends BaseController {
      */
     @PostMapping("/users/add")
     public Result addUser(UserReq req){
-        return userService.addUser(req);
+        String loginUserName = AppUserUtil.getLoginUserName();
+        return userService.addUser(req, loginUserName);
+    }
+
+    /***
+     * <p>Description:[单条查询]</p>
+     * Created on 2020/1/20
+     * @param req
+     * @return com.camelot.kuka.model.common.PageResult
+     * @author 谢楠
+     */
+    @PostMapping("/users/queryById")
+    public Result<UserResp> queryById(CommonReq req){
+        return userService.queryById(req);
     }
 
     /***
@@ -84,7 +107,8 @@ public class UserController extends BaseController {
      */
     @PostMapping("/users/update")
     public Result updateUser(UserReq req){
-        return userService.updateUser(req);
+        String loginUserName = AppUserUtil.getLoginUserName();
+        return userService.updateUser(req, loginUserName);
     }
 
     /***
@@ -96,6 +120,8 @@ public class UserController extends BaseController {
      */
     @PostMapping("/users/del")
     public Result delUser(CommonReq req){
-        return userService.delUser(req);
+        String loginUserName = AppUserUtil.getLoginUserName();
+        return userService.delUser(req, loginUserName);
     }
+
 }

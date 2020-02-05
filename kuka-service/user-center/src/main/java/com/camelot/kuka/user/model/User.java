@@ -1,12 +1,15 @@
 package com.camelot.kuka.user.model;
 
+import com.camelot.kuka.model.enums.DeleteEnum;
+import com.camelot.kuka.model.enums.SexEnum;
+import com.camelot.kuka.model.enums.user.CreateSourceEnum;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
 
 /**
- * <p>Description: [类功能描述]</p>
+ * <p>Description: [用户实体]</p>
  * Created on 2020/1/20
  *
  * @author <a href="mailto: xienan@camelotchina.com">谢楠</a>
@@ -45,7 +48,7 @@ public class User implements Serializable {
 	/**
 	 * 性别:0:男; 1:女
 	 */
-	private Long sex;
+	private SexEnum sex;
 
 	/**
 	 * 手机号
@@ -60,7 +63,7 @@ public class User implements Serializable {
 	/**
 	 * 0:注册;1后台出创建
 	 */
-	private Long source;
+	private CreateSourceEnum source;
 
 	/**
 	 * 省名称
@@ -110,7 +113,7 @@ public class User implements Serializable {
 	/**
 	 * 删除标识0:未删除;1已删除
 	 */
-	private Integer delState;
+	private DeleteEnum delState;
 
 	/**
 	 * 创建时间
@@ -131,4 +134,13 @@ public class User implements Serializable {
 	 * 修改人
 	 */
 	private String updateBy;
+
+	/**********************************/
+	/*****以下字段,不是数据库字段******/
+	/**********************************/
+
+	/**
+	 * 地址json
+	 */
+	private String addressJson;
 }

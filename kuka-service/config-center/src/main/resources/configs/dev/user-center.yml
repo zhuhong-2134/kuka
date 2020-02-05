@@ -51,6 +51,7 @@ mybatis:
   mapper-locations: classpath:/mybatis-mappers/*
   configuration:
     mapUnderscoreToCamelCase: true
+    type-handlers-package: com.camelot.kuka.common.mybatis.handler
 # PageHelper分页插件
 pagehelper:
   helperDialect: mysql

@@ -5,6 +5,7 @@ import com.camelot.kuka.model.common.Result;
 import com.camelot.kuka.model.user.LoginAppUser;
 import com.camelot.kuka.model.user.req.UserPageReq;
 import com.camelot.kuka.model.user.req.UserReq;
+import com.camelot.kuka.model.user.resp.UserResp;
 import com.camelot.kuka.user.model.User;
 
 import java.util.List;
@@ -44,7 +45,14 @@ public interface UserService {
 	 * @return Result
 	 * @author 谢楠
 	 */
-	Result addUser(UserReq req);
+	Result addUser(UserReq req, String loginUserName);
+
+	/**
+	 * 获取单条数据
+	 * @param req
+	 * @return
+	 */
+	Result<UserResp> queryById(CommonReq req);
 
 	/***
 	 * <p>Description:[修改用户]</p>
@@ -53,7 +61,7 @@ public interface UserService {
 	 * @return Result
 	 * @author 谢楠
 	 */
-	Result updateUser(UserReq req);
+	Result updateUser(UserReq req, String loginUserName);
 
 	/***
 	 * <p>Description:[删除用户]</p>
@@ -62,5 +70,5 @@ public interface UserService {
 	 * @return Result
 	 * @author 谢楠
 	 */
-	Result delUser(CommonReq req);
+	Result delUser(CommonReq req, String loginUserName);
 }

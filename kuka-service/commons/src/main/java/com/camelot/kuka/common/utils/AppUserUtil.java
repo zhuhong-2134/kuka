@@ -2,6 +2,7 @@ package com.camelot.kuka.common.utils;
 
 import com.alibaba.fastjson.JSONObject;
 import com.camelot.kuka.model.user.LoginAppUser;
+import com.google.common.collect.Sets;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -38,6 +39,14 @@ public class AppUserUtil {
             }
         }
         return null;
+    }
+
+    /**
+     *  开发使用
+     * @return
+     */
+    public static String getLoginUserName() {
+        return "admin";
     }
 
     /**

@@ -9,10 +9,10 @@
 		<result column="password" property="password" />
 		<result column="photo_url" property="photoUrl" />
 		<result column="user_name" property="userName" />
-		<result column="sex" property="sex" />
+		<result column="sex" property="sex" typeHandler="com.camelot.kuka.common.mybatis.handler.EnumTypeHandler"/>
 		<result column="phone" property="phone" />
 		<result column="mail" property="mail" />
-		<result column="source" property="source" />
+		<result column="source" property="source" typeHandler="com.camelot.kuka.common.mybatis.handler.EnumTypeHandler"/>
 		<result column="province_name" property="provinceName" />
 		<result column="province_code" property="provinceCode" />
 		<result column="city_name" property="cityName" />
@@ -22,7 +22,7 @@
 		<result column="address" property="address" />
 		<result column="company" property="company" />
 		<result column="type" property="type" />
-		<result column="del_state" property="delState" />
+		<result column="del_state" property="delState" typeHandler="com.camelot.kuka.common.mybatis.handler.EnumTypeHandler"/>
 		<result column="create_time" property="createTime" />
 		<result column="create_by" property="createBy" />
 		<result column="update_time" property="updateTime" />
@@ -65,7 +65,7 @@
 				del_state = #{entity.delState}
 			</if>
 			<if test ='null != entity.source'>
-				and source = #{entity.source}
+				and source = #{entity.source, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}
 			</if>
 			<if test ='null != entity.createTimeSta'>
 				and create_time &gt;= #{entity.createTimeSta}
@@ -75,17 +75,17 @@
 			</if>
 			<if test ='null != entity.queryName and entity.queryName != ""'>
 				<!-- 0 全部 1 手机号 2 姓名 3 ID -->
-				<if test ='null != entity.queryType and entity.queryType == 1'>
+				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 1'>
 					and phone = #{entity.queryName}
 				</if>
-				<if test ='null != entity.queryType and entity.queryType == 2'>
+				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 2'>
 					and user_name = #{entity.queryName}
 				</if>
-				<if test ='null != entity.queryType and entity.queryType == 3'>
+				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 3'>
 					and id = #{entity.queryName}
 				</if>
 				<!-- 综合查询 -->
-				<if test ='null != entity.queryType and entity.queryType == 0'>
+				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 0'>
 					and (
 						phone = #{entity.queryName}
 						or user_name = #{entity.queryName}
@@ -128,10 +128,10 @@
 			#{item.password},
 			#{item.photoUrl},
 			#{item.userName},
-			#{item.sex},
+			#{item.sex, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
 			#{item.phone},
 			#{item.mail},
-			#{item.source},
+			#{item.source, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
 			#{item.provinceName},
 			#{item.provinceCode},
 			#{item.cityName},
@@ -141,7 +141,7 @@
 			#{item.address},
 			#{item.company},
 			#{item.type},
-			#{item.delState},
+			#{item.delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
 			#{item.createTime},
 			#{item.createBy},
 			#{item.updateTime},
@@ -166,7 +166,7 @@
 				user_name = #{userName},
 			</if>
 			<if test ='null != sex'>
-				sex = #{sex},
+				sex = #{sex, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
 			</if>
 			<if test ='null != phone'>
 				phone = #{phone},
@@ -175,7 +175,7 @@
 				mail = #{mail},
 			</if>
 			<if test ='null != source'>
-				source = #{source},
+				source = #{source, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
 			</if>
 			<if test ='null != provinceName'>
 				province_name = #{provinceName},
@@ -205,7 +205,7 @@
 				type = #{type},
 			</if>
 			<if test ='null != delState'>
-				del_state = #{delState},
+				del_state = #{delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
 			</if>
 			<if test ='null != createTime'>
 				create_time = #{createTime},
@@ -228,7 +228,7 @@
 		UPDATE t_user
 		<set>
 			<if test ='null != delState'>
-				del_state = #{delState},
+				del_state = #{delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
 			</if>
 			<if test ='null != updateTime'>
 				update_time = #{updateTime},
@@ -240,4 +240,22 @@
 		WHERE
 			id = #{id}
 	</update>
+
+	<select id="queryById" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM
+		t_user
+		<where>
+			<if test ='null != entity.delState'>
+				del_state = #{entity.delState}
+			</if>
+			<if test ='null != entity.id'>
+				and id = #{entity.id}
+			</if>
+			<if test ='null != entity.source'>
+				and source = #{entity.source}
+			</if>
+		</where>
+	</select>
 </mapper>

@@ -57,4 +57,12 @@ public interface UserDao {
 	 */
 	int delUser(User user);
 
+	/***
+	 * <p>Description:[获取单个对象]</p>
+	 * Created on 2020/2/4
+	 * @param user
+	 * @return List<User>
+	 * @author 谢楠
+	 */
+	User queryById(@Param("entity") User user);
 }

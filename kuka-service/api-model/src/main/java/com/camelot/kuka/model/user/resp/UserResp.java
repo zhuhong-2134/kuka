@@ -1,5 +1,8 @@
 package com.camelot.kuka.model.user.resp;
 
+import com.camelot.kuka.model.enums.DeleteEnum;
+import com.camelot.kuka.model.enums.SexEnum;
+import com.camelot.kuka.model.enums.user.CreateSourceEnum;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -45,7 +48,7 @@ public class UserResp implements Serializable {
 	/**
 	 * 性别:0:男; 1:女
 	 */
-	private Long sex;
+	private SexEnum sex;
 
 	/**
 	 * 手机号
@@ -60,7 +63,7 @@ public class UserResp implements Serializable {
 	/**
 	 * 0:注册;1后台出创建
 	 */
-	private Long source;
+	private CreateSourceEnum source;
 
 	/**
 	 * 省名称
@@ -93,6 +96,11 @@ public class UserResp implements Serializable {
 	private String districtCode;
 
 	/**
+	 * 地址json
+	 */
+	private String addressJson;
+
+	/**
 	 * 结构化地址
 	 */
 	private String address;
@@ -110,7 +118,7 @@ public class UserResp implements Serializable {
 	/**
 	 * 删除标识0:未删除;1已删除
 	 */
-	private Long delState;
+	private DeleteEnum delState;
 
 	/**
 	 * 创建时间

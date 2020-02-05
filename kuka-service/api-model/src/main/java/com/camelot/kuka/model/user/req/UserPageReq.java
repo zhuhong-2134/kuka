@@ -1,5 +1,8 @@
 package com.camelot.kuka.model.user.req;
 
+import com.camelot.kuka.model.enums.DeleteEnum;
+import com.camelot.kuka.model.enums.user.CreateSourceEnum;
+import com.camelot.kuka.model.enums.user.UserPageEnum;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -22,12 +25,18 @@ public class UserPageReq implements Serializable {
 	 * 用户来源
 	 * 0:注册;1后台出创建
 	 */
-	private Integer source;
+	private CreateSourceEnum source;
 
 	/**
 	 * 0 全部 1 手机号 2 姓名 3 ID
 	 */
-	private Integer queryType;
+	private UserPageEnum queryType;
+
+
+	/**
+	 * 0 全部 1 手机号 2 姓名 3 ID
+	 */
+	private Integer queryTypeCode;
 
 	/**
 	 * 查询值
@@ -47,5 +56,5 @@ public class UserPageReq implements Serializable {
 	/**
 	 * 删除标识0:未删除;1已删除
 	 */
-	private Integer delState;
+	private DeleteEnum delState;
 }

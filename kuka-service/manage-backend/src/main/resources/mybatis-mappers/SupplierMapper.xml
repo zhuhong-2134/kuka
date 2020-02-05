@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.camelot.kuka.backend.dao.SupplierDao">
+
+	<resultMap id="BaseResultMap" type="com.camelot.kuka.backend.model.Supplier" >
+		<result column="id" property="id" />
+		<result column="cover_url" property="coverUrl" />
+		<result column="supplierl_name" property="supplierlName" />
+		<result column="supplierl_desc" property="supplierlDesc" />
+		<result column="province_name" property="provinceName" />
+		<result column="province_code" property="provinceCode" />
+		<result column="city_name" property="cityName" />
+		<result column="city_code" property="cityCode" />
+		<result column="district_name" property="districtName" />
+		<result column="district_code" property="districtCode" />
+		<result column="web_url" property="webUrl" />
+		<result column="type" property="type" typeHandler="com.camelot.kuka.common.mybatis.handler.EnumTypeHandler"/>
+		<result column="industry" property="industry" typeHandler="com.camelot.kuka.common.mybatis.handler.EnumTypeHandler"/>
+		<result column="app_type" property="appType" typeHandler="com.camelot.kuka.common.mybatis.handler.EnumTypeHandler"/>
+		<result column="pattern_type" property="patternType" typeHandler="com.camelot.kuka.common.mybatis.handler.EnumTypeHandler"/>
+		<result column="iicense_url" property="iicenseUrl" />
+		<result column="del_state" property="delState" typeHandler="com.camelot.kuka.common.mybatis.handler.EnumTypeHandler"/>
+		<result column="create_time" property="createTime" />
+		<result column="create_by" property="createBy" />
+		<result column="update_time" property="updateTime" />
+		<result column="update_by" property="updateBy" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		id,
+		cover_url,
+		supplierl_name,
+		supplierl_desc,
+		province_name,
+		province_code,
+		city_name,
+		city_code,
+		district_name,
+		district_code,
+		web_url,
+		type,
+		industry,
+		app_type,
+		pattern_type,
+		iicense_url,
+		del_state,
+		create_time,
+		create_by,
+		update_time,
+		update_by
+    </sql>
+
+	<select id="queryList" resultMap="BaseResultMap">
+		SELECT
+			<include refid="Base_Column_List" />
+		FROM
+			t_supplier
+		<where>
+			<if test ='null != entity.delState'>
+				del_state = #{entity.delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}
+			</if>
+			<if test ='null != entity.queryName and entity.queryName != ""'>
+				<!-- 0 全部 1 供应商  2 id -->
+				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 1'>
+					and supplierl_name = #{entity.queryName}
+				</if>
+				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 2'>
+					and id = #{entity.queryName}
+				</if>
+				<!-- 综合查询 -->
+				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 0'>
+					and (
+					supplierl_name = #{entity.queryName}
+					or id = #{entity.queryName}
+					)
+				</if>
+			</if>
+		</where>
+	</select>
+
+	<insert id="addSupplier">
+		INSERT INTO t_supplier(
+			cover_url,
+			supplierl_name,
+			supplierl_desc,
+			province_name,
+			province_code,
+			city_name,
+			city_code,
+			district_name,
+			district_code,
+			web_url,
+			type,
+			industry,
+			app_type,
+			pattern_type,
+			iicense_url,
+			del_state,
+			create_time,
+			create_by,
+			update_time,
+			update_by
+		)
+		VALUES
+		<foreach collection="list" item="item" index="index" separator=",">
+			(
+				#{item.coverUrl},
+				#{item.supplierlName},
+				#{item.supplierlDesc},
+				#{item.provinceName},
+				#{item.provinceCode},
+				#{item.cityName},
+				#{item.cityCode},
+				#{item.districtName},
+				#{item.districtCode},
+				#{item.webUrl},
+				#{item.type, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
+				#{item.industry, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
+				#{item.appType, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
+				#{item.patternType, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
+				#{item.iicenseUrl},
+				#{item.delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
+				#{item.createTime},
+				#{item.createBy},
+				#{item.updateTime},
+				#{item.updateBy}
+
+			)
+		</foreach>
+	</insert>
+
+	<select id="queryById" resultMap="BaseResultMap">
+		SELECT
+			<include refid="Base_Column_List" />
+		FROM
+			t_supplier
+		<where>
+			<if test ='null != entity.delState'>
+				del_state = #{entity.delState}
+			</if>
+			<if test ='null != entity.id'>
+				and id = #{entity.id}
+			</if>
+		</where>
+	</select>
+
+	<update id="updateSupplier">
+		UPDATE t_supplier
+		<set>
+			<if test ='null != coverUrl'>
+				cover_url = #{coverUrl},
+			</if>
+			<if test ='null != supplierlName'>
+				supplierl_name = #{supplierlName},
+			</if>
+			<if test ='null != supplierlDesc'>
+				supplierl_desc = #{supplierlDesc},
+			</if>
+			<if test ='null != provinceName'>
+				province_name = #{provinceName},
+			</if>
+			<if test ='null != provinceCode'>
+				province_code = #{provinceCode},
+			</if>
+			<if test ='null != cityName'>
+				city_name = #{cityName},
+			</if>
+			<if test ='null != cityCode'>
+				city_code = #{cityCode},
+			</if>
+			<if test ='null != districtName'>
+				district_name = #{districtName},
+			</if>
+			<if test ='null != districtCode'>
+				district_code = #{districtCode},
+			</if>
+			<if test ='null != webUrl'>
+				web_url = #{webUrl},
+			</if>
+			<if test ='null != type'>
+				type = #{type, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
+			</if>
+			<if test ='null != industry'>
+				industry = #{industry, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
+			</if>
+			<if test ='null != appType'>
+				app_type = #{appType, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
+			</if>
+			<if test ='null != patternType'>
+				pattern_type = #{patternType, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
+			</if>
+			<if test ='null != iicenseUrl'>
+				iicense_url = #{iicenseUrl},
+			</if>
+			<if test ='null != delState'>
+				del_state = #{delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
+			</if>
+			<if test ='null != createTime'>
+				create_time = #{createTime},
+			</if>
+			<if test ='null != createBy'>
+				create_by = #{createBy},
+			</if>
+			<if test ='null != updateTime'>
+				update_time = #{updateTime},
+			</if>
+			<if test ='null != updateBy'>
+				update_by = #{updateBy}
+			</if>
+		</set>
+		WHERE
+			  id = #{id}
+	</update>
+
+	<update id="delSupplier">
+		UPDATE
+			t_supplier
+		<set>
+			<if test ='null != delState'>
+				del_state = #{delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
+			</if>
+			<if test ='null != updateTime'>
+				update_time = #{updateTime},
+			</if>
+			<if test ='null != updateBy'>
+				update_by = #{updateBy}
+			</if>
+		</set>
+		WHERE
+			id = #{id}
+	</update>
+</mapper>
