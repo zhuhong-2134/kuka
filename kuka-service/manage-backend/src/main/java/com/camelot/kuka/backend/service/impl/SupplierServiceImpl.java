@@ -3,14 +3,17 @@ package com.camelot.kuka.backend.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.camelot.kuka.backend.dao.SupplierDao;
+import com.camelot.kuka.backend.feign.user.UserClient;
 import com.camelot.kuka.backend.model.Supplier;
 import com.camelot.kuka.backend.service.SupplierService;
 import com.camelot.kuka.common.utils.BeanUtil;
 import com.camelot.kuka.model.backend.req.SupplierPageReq;
+import com.camelot.kuka.model.backend.req.SupplierReq;
 import com.camelot.kuka.model.backend.resp.SupplierResp;
 import com.camelot.kuka.model.common.CommonReq;
 import com.camelot.kuka.model.common.Result;
 import com.camelot.kuka.model.enums.DeleteEnum;
+import com.camelot.kuka.model.user.resp.UserResp;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -34,6 +37,8 @@ public class SupplierServiceImpl implements SupplierService {
 
     @Resource
     private SupplierDao supplierDao;
+    @Resource
+    private UserClient userClient;
 
     @Override
     public List<Supplier> queryList(SupplierPageReq req) {
@@ -48,7 +53,7 @@ public class SupplierServiceImpl implements SupplierService {
     }
 
     @Override
-    public Result addSupplier(SupplierResp req, String loginUserName) {
+    public Result addSupplier(SupplierReq req, String loginUserName) {
         if (null == req) {
             return Result.error("参数不能为空");
         }
@@ -71,6 +76,11 @@ public class SupplierServiceImpl implements SupplierService {
             return Result.error("经营模式不能为空");
         }
         Supplier supplier = BeanUtil.copyBean(req, Supplier.class);
+        // 参数处理
+        Result result = saveHandle(supplier);
+        if (!result.isSuccess()) {
+            return result;
+        }
         // 固定参数
         supplier.setCreateBy(loginUserName);
         supplier.setCreateTime(new Date());
@@ -85,6 +95,32 @@ public class SupplierServiceImpl implements SupplierService {
             log.error("\n 新增供应商失败, 参数:{}, \n 错误信息:{}", JSON.toJSON(req), e);
         }
         return Result.error("新增失败");
+    }
+
+    /**
+     * 新增处理责任人
+     * @param supplier
+     * @return
+     */
+    private Result saveHandle(Supplier supplier) {
+        // 新增用户信息
+//        if (null == supplier.getUserId()) {
+//             后期如果责任人信息不存在,新增用户,待确认
+//        }
+        if (null == supplier.getUserId() ) {
+            // 临时的
+            return Result.success();
+        }
+        // 获取用户信息
+        CommonReq req = new CommonReq();
+        req.setId(supplier.getId());
+        Result<UserResp> userRespResult = userClient.queryById(req);
+        if (!userRespResult.isSuccess() || null == userRespResult.getData()) {
+            return Result.error("未获取到用户信息");
+        }
+        supplier.setUserCreateTime(userRespResult.getData().getCreateTime());
+        supplier.setSource(userRespResult.getData().getSource());
+        return Result.success();
     }
 
     @Override
@@ -110,7 +146,7 @@ public class SupplierServiceImpl implements SupplierService {
     }
 
     @Override
-    public Result updateSupplier(SupplierResp req, String loginUserName) {
+    public Result updateSupplier(SupplierReq req, String loginUserName) {
         if (null == req || null == req.getId()) {
             return Result.error("主键不能为空");
         }

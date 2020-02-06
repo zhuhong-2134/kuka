@@ -4,14 +4,16 @@ import com.camelot.kuka.backend.model.Supplier;
 import com.camelot.kuka.backend.service.SupplierService;
 import com.camelot.kuka.common.controller.BaseController;
 import com.camelot.kuka.common.utils.AppUserUtil;
-import com.camelot.kuka.common.utils.EnumUtil;
 import com.camelot.kuka.model.backend.req.SupplierPageReq;
+import com.camelot.kuka.model.backend.req.SupplierReq;
 import com.camelot.kuka.model.backend.resp.SupplierResp;
 import com.camelot.kuka.model.common.CommonReq;
+import com.camelot.kuka.model.common.EnumVal;
 import com.camelot.kuka.model.common.PageResult;
 import com.camelot.kuka.model.common.Result;
 import com.camelot.kuka.model.enums.DeleteEnum;
 import com.camelot.kuka.model.enums.backend.*;
+import com.camelot.kuka.model.enums.user.CreateSourceEnum;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +41,26 @@ public class SupplierController extends BaseController {
     /***
      * <p>Description:[分页查询]</p>
      * Created on 2020/1/20
+     * @param
+     * @return com.camelot.kuka.model.common.PageResult
+     * @author 谢楠
+     */
+    @PostMapping("/supplier/queryEnum")
+    public PageResult queryEnum(){
+        PageResult page = new PageResult();
+        page.putEnumVal("typeEnum", EnumVal.getEnumList(SupplierTypeEnum.class));
+        page.putEnumVal("industryEnum", EnumVal.getEnumList(IndustryTypeEnum.class));
+        page.putEnumVal("appTypeEnum", EnumVal.getEnumList(SkilledAppEnum.class));
+        page.putEnumVal("patternTypeEnum", EnumVal.getEnumList(PatternTypeEnum.class));
+        page.putEnumVal("delStateEnum", EnumVal.getEnumList(DeleteEnum.class));
+        page.putEnumVal("queryTypeEnum", EnumVal.getEnumList(SuppliePageEnum.class));
+        page.putEnumVal("sourceEnum", EnumVal.getEnumList(CreateSourceEnum.class));
+        return page;
+    }
+
+    /***
+     * <p>Description:[分页查询]</p>
+     * Created on 2020/1/20
      * @param req
      * @return com.camelot.kuka.model.common.PageResult
      * @author 谢楠
@@ -50,12 +72,13 @@ public class SupplierController extends BaseController {
         // 返回分页
         List<Supplier> suppliers = supplierService.queryList(req);
         PageResult<List<SupplierResp>> page = getPage(suppliers, SupplierResp.class);
-        page.putEnumVal("typeEnum", EnumUtil.getEnumJson(SupplierTypeEnum.class));
-        page.putEnumVal("industryEnum", EnumUtil.getEnumJson(IndustryTypeEnum.class));
-        page.putEnumVal("appTypeEnum", EnumUtil.getEnumJson(SkilledAppEnum.class));
-        page.putEnumVal("patternTypeEnum", EnumUtil.getEnumJson(PatternTypeEnum.class));
-        page.putEnumVal("delStateEnum", EnumUtil.getEnumJson(DeleteEnum.class));
-        page.putEnumVal("queryTypeEnum", EnumUtil.getEnumJson(SuppliePageEnum.class));
+        page.putEnumVal("typeEnum", EnumVal.getEnumList(SupplierTypeEnum.class));
+        page.putEnumVal("industryEnum", EnumVal.getEnumList(IndustryTypeEnum.class));
+        page.putEnumVal("appTypeEnum", EnumVal.getEnumList(SkilledAppEnum.class));
+        page.putEnumVal("patternTypeEnum", EnumVal.getEnumList(PatternTypeEnum.class));
+        page.putEnumVal("delStateEnum", EnumVal.getEnumList(DeleteEnum.class));
+        page.putEnumVal("queryTypeEnum", EnumVal.getEnumList(SuppliePageEnum.class));
+        page.putEnumVal("sourceEnum", EnumVal.getEnumList(CreateSourceEnum.class));
         return page;
     }
 
@@ -67,7 +90,7 @@ public class SupplierController extends BaseController {
      * @author 谢楠
      */
     @PostMapping("/supplier/add")
-    public Result addSupplier(SupplierResp req){
+    public Result addSupplier(SupplierReq req){
         String loginUserName = AppUserUtil.getLoginUserName();
         return supplierService.addSupplier(req, loginUserName);
     }
@@ -92,7 +115,7 @@ public class SupplierController extends BaseController {
      * @author 谢楠
      */
     @PostMapping("/supplier/update")
-    public Result updateSupplier(SupplierResp req){
+    public Result updateSupplier(SupplierReq req){
         String loginUserName = AppUserUtil.getLoginUserName();
         return supplierService.updateSupplier(req, loginUserName);
     }

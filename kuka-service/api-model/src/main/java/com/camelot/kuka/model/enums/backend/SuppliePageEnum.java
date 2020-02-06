@@ -12,8 +12,10 @@ import com.camelot.kuka.model.enums.BaseEnum;
 public enum SuppliePageEnum implements BaseEnum {
 
     ALL(0, "全部"),
-    NAME(2, "集成商名称"),
-    ID(3, "ID");
+    PHONE(1, "手机号"),
+    SUPPLIENAME(2, "集成商名称"),
+    USERNAME(3, "负责人"),
+    ID(4, "ID");
 
     private Integer code;
     private String description;

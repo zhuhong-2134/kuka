@@ -5,6 +5,7 @@ import com.camelot.kuka.model.enums.backend.IndustryTypeEnum;
 import com.camelot.kuka.model.enums.backend.PatternTypeEnum;
 import com.camelot.kuka.model.enums.backend.SkilledAppEnum;
 import com.camelot.kuka.model.enums.backend.SupplierTypeEnum;
+import com.camelot.kuka.model.enums.user.CreateSourceEnum;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -85,28 +86,67 @@ public class SupplierReq implements Serializable {
 
     /**
      * 集成商类型
+     *  对应枚举 SupplierTypeEnum
      */
-    private SupplierTypeEnum type;
+    private String type;
 
     /**
      * 行业，具体看枚举类
+     * 对应枚举 IndustryTypeEnum
      */
-    private IndustryTypeEnum industry;
+    private String industry;
 
     /**
      * 擅长应用
+     * 对应枚举 SkilledAppEnum
      */
-    private SkilledAppEnum appType;
+    private String appType;
 
     /**
      * 经营模式
+     * 对应枚举 PatternTypeEnum
      */
-    private PatternTypeEnum patternType;
+    private String patternType;
 
     /**
      * 营业执照url
      */
     private String iicenseUrl;
+
+    /**
+     * 总负责人
+     */
+    private String userName;
+
+    /**
+     * 负责人id
+     */
+    private Long userId;
+
+    /**
+     * 负责人联系方式
+     */
+    private String userPhone;
+
+    /**
+     * 联系邮箱
+     */
+    private String userMali;
+
+    /**
+     * 详细地址
+     */
+    private String userAddress;
+
+    /**
+     * 0:注册;1后台出创建
+     */
+    private CreateSourceEnum source;
+
+    /**
+     * 注册时间
+     */
+    private Date userCreateTime;
 
     /**
      * 删除标识0:未删除;1已删除

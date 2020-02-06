@@ -15,11 +15,18 @@
 		<result column="district_name" property="districtName" />
 		<result column="district_code" property="districtCode" />
 		<result column="web_url" property="webUrl" />
-		<result column="type" property="type" typeHandler="com.camelot.kuka.common.mybatis.handler.EnumTypeHandler"/>
-		<result column="industry" property="industry" typeHandler="com.camelot.kuka.common.mybatis.handler.EnumTypeHandler"/>
-		<result column="app_type" property="appType" typeHandler="com.camelot.kuka.common.mybatis.handler.EnumTypeHandler"/>
-		<result column="pattern_type" property="patternType" typeHandler="com.camelot.kuka.common.mybatis.handler.EnumTypeHandler"/>
+		<result column="type" property="type"/>
+		<result column="industry" property="industry"/>
+		<result column="app_type" property="appType"/>
+		<result column="pattern_type" property="patternType"/>
 		<result column="iicense_url" property="iicenseUrl" />
+		<result column="user_name" property="userName" />
+		<result column="user_id" property="userId" />
+		<result column="user_phone" property="userPhone" />
+		<result column="user_mali" property="userMali" />
+		<result column="user_address" property="userAddress" />
+		<result column="source" property="source" typeHandler="com.camelot.kuka.common.mybatis.handler.EnumTypeHandler"/>
+		<result column="user_create_time" property="userCreateTime" />
 		<result column="del_state" property="delState" typeHandler="com.camelot.kuka.common.mybatis.handler.EnumTypeHandler"/>
 		<result column="create_time" property="createTime" />
 		<result column="create_by" property="createBy" />
@@ -44,6 +51,13 @@
 		app_type,
 		pattern_type,
 		iicense_url,
+		user_name,
+		user_id,
+		user_phone,
+		user_mali,
+		user_address,
+		source,
+		user_create_time,
 		del_state,
 		create_time,
 		create_by,
@@ -96,6 +110,13 @@
 			app_type,
 			pattern_type,
 			iicense_url,
+			user_name,
+			user_id,
+			user_phone,
+			user_mali,
+			user_address,
+			source,
+			user_create_time,
 			del_state,
 			create_time,
 			create_by,
@@ -115,11 +136,18 @@
 				#{item.districtName},
 				#{item.districtCode},
 				#{item.webUrl},
-				#{item.type, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
-				#{item.industry, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
-				#{item.appType, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
-				#{item.patternType, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
+				#{item.type},
+				#{item.industry},
+				#{item.appType},
+				#{item.patternType},
 				#{item.iicenseUrl},
+				#{item.userName},
+				#{item.userId},
+				#{item.userPhone},
+				#{item.userMali},
+				#{item.userAddress},
+				#{item.source, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
+				#{item.userCreateTime},
 				#{item.delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
 				#{item.createTime},
 				#{item.createBy},
@@ -179,19 +207,40 @@
 				web_url = #{webUrl},
 			</if>
 			<if test ='null != type'>
-				type = #{type, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
+				type = #{type},
 			</if>
 			<if test ='null != industry'>
-				industry = #{industry, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
+				industry = #{industry},
 			</if>
 			<if test ='null != appType'>
-				app_type = #{appType, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
+				app_type = #{appType},
 			</if>
 			<if test ='null != patternType'>
-				pattern_type = #{patternType, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
+				pattern_type = #{patternType},
 			</if>
 			<if test ='null != iicenseUrl'>
 				iicense_url = #{iicenseUrl},
+			</if>
+			<if test ='null != userName'>
+				user_name = #{userName},
+			</if>
+			<if test ='null != userId'>
+				user_id = #{userId},
+			</if>
+			<if test ='null != userPhone'>
+				user_phone = #{userPhone},
+			</if>
+			<if test ='null != userMali'>
+				user_mali = #{userMali},
+			</if>
+			<if test ='null != userAddress'>
+				user_address = #{userAddress},
+			</if>
+			<if test ='null != source'>
+				source = #{source, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
+			</if>
+			<if test ='null != userCreateTime'>
+				user_create_time = #{userCreateTime},
 			</if>
 			<if test ='null != delState'>
 				del_state = #{delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},

@@ -5,6 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -22,7 +23,7 @@ public class Result<T> implements Serializable {
 	protected String msg = "success";
 	protected T data;
 
-	protected Map<String, String> enumVal = new HashMap<>();
+	protected Map<String, List<EnumVal>> enumVal = new HashMap<>();
 
 	public Result() {
 		super();
@@ -85,14 +86,14 @@ public class Result<T> implements Serializable {
 	/**
 	 * Description: [添加枚举]
 	 * @param key 枚举key
-	 * @param valse 枚举value-必须是com.fehorizon.commonService.common.utils.EnumUtil处理得到的JSON字符串
+	 * @param list 枚举
 	 * @return: void
 	 * Created on 2019年08月20日
 	 * @version 1.0
 	 * Copyright (c) 2019 北京柯莱特科技有限公司
 	 **/
-	public void putEnumVal(String key, String valse) {
-		enumVal.put(key, valse);
+	public void putEnumVal(String key, List<EnumVal> list) {
+		enumVal.put(key, list);
 	}
 
 }

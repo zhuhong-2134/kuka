@@ -4,6 +4,7 @@ import com.camelot.kuka.common.controller.BaseController;
 import com.camelot.kuka.common.utils.AppUserUtil;
 import com.camelot.kuka.common.utils.EnumUtil;
 import com.camelot.kuka.model.common.CommonReq;
+import com.camelot.kuka.model.common.EnumVal;
 import com.camelot.kuka.model.common.PageResult;
 import com.camelot.kuka.model.common.Result;
 import com.camelot.kuka.model.enums.DeleteEnum;
@@ -66,10 +67,10 @@ public class UserController extends BaseController {
         startPage();
         // 返回分页
         PageResult<List<UserResp>> page = getPage(userService.pageList(req), UserResp.class);
-        page.putEnumVal("sexEnum", EnumUtil.getEnumJson(SexEnum.class));
-        page.putEnumVal("sourceEnum", EnumUtil.getEnumJson(CreateSourceEnum.class));
-        page.putEnumVal("delStateEnum", EnumUtil.getEnumJson(DeleteEnum.class));
-        page.putEnumVal("queryTypeEnum", EnumUtil.getEnumJson(UserPageEnum.class));
+        page.putEnumVal("sexEnum", EnumVal.getEnumList(SexEnum.class));
+        page.putEnumVal("sourceEnum", EnumVal.getEnumList(CreateSourceEnum.class));
+        page.putEnumVal("delStateEnum", EnumVal.getEnumList(DeleteEnum.class));
+        page.putEnumVal("queryTypeEnum", EnumVal.getEnumList(UserPageEnum.class));
         return page;
     }
 
