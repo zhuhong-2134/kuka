@@ -6,6 +6,7 @@ import com.camelot.kuka.model.enums.backend.PatternTypeEnum;
 import com.camelot.kuka.model.enums.backend.SkilledAppEnum;
 import com.camelot.kuka.model.enums.backend.SupplierTypeEnum;
 import com.camelot.kuka.model.enums.user.CreateSourceEnum;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -73,6 +74,11 @@ public class SupplierResp implements Serializable {
      * 区编码
      */
     private String districtCode;
+
+    /**
+     * 所在地
+     */
+    private String supplierAddress;
 
     /**
      * 地址json
@@ -146,6 +152,7 @@ public class SupplierResp implements Serializable {
     /**
      * 注册时间
      */
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     private Date userCreateTime;
 
     /**
@@ -156,6 +163,7 @@ public class SupplierResp implements Serializable {
     /**
      * 创建时间
      */
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
     /**
@@ -166,6 +174,7 @@ public class SupplierResp implements Serializable {
     /**
      * 修改时间
      */
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
 
     /**

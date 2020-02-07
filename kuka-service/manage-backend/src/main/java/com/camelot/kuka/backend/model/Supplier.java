@@ -175,4 +175,9 @@ public class Supplier implements Serializable {
      * 地址json
      */
     private String addressJson;
+
+    /**
+     * 所在地
+     */
+    private String supplierAddress;
 }

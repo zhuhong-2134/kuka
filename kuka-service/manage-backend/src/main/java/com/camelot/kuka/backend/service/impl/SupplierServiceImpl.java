@@ -212,6 +212,18 @@ public class SupplierServiceImpl implements SupplierService {
         // 总
         JSONObject zong = new JSONObject();
         zong.put("options", shen);
+        // 格式化地址
+        StringBuffer stringBuffer = new StringBuffer();
+        if (StringUtils.isNoneBlank(supplier.getProvinceName())) {
+            stringBuffer.append(supplier.getProvinceName());
+        }
+        if (StringUtils.isNoneBlank(supplier.getCityName())) {
+            stringBuffer.append(supplier.getCityName());
+        }
+        if (StringUtils.isNoneBlank(supplier.getDistrictName())) {
+            stringBuffer.append(supplier.getDistrictName());
+        }
+        supplier.setSupplierAddress(stringBuffer.toString());
         return  zong;
     }
 }
