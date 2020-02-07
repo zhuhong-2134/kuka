@@ -3,9 +3,11 @@ package com.camelot.kuka.user.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.camelot.kuka.common.utils.BeanUtil;
+import com.camelot.kuka.common.utils.CodeGenerateUtil;
 import com.camelot.kuka.model.common.CommonReq;
 import com.camelot.kuka.model.common.Result;
 import com.camelot.kuka.model.enums.DeleteEnum;
+import com.camelot.kuka.model.enums.PrincipalEnum;
 import com.camelot.kuka.model.user.LoginAppUser;
 import com.camelot.kuka.model.user.req.UserPageReq;
 import com.camelot.kuka.model.user.req.UserReq;
@@ -36,6 +38,8 @@ public class UserServiceImpl implements UserService {
 
 	@Resource
 	private UserDao userDao;
+    @Resource
+    private CodeGenerateUtil codeGenerateUtil;
 
 	@Override public LoginAppUser findByUsername(String username) {
 		return null;
@@ -70,7 +74,9 @@ public class UserServiceImpl implements UserService {
 			return Result.error("邮箱不能为空");
 		}
 		User user = BeanUtil.copyBean(req, User.class);
-		// 固定参数
+        Long id = codeGenerateUtil.generateId(PrincipalEnum.USER_USER);
+        user.setId(id);
+        // 固定参数
         user.setCreateBy(loginUserName);
         user.setCreateTime(new Date());
         user.setDelState(DeleteEnum.NO);

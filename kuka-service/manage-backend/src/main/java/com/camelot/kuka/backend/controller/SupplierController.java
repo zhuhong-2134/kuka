@@ -4,9 +4,9 @@ import com.camelot.kuka.backend.model.Supplier;
 import com.camelot.kuka.backend.service.SupplierService;
 import com.camelot.kuka.common.controller.BaseController;
 import com.camelot.kuka.common.utils.AppUserUtil;
-import com.camelot.kuka.model.backend.req.SupplierPageReq;
-import com.camelot.kuka.model.backend.req.SupplierReq;
-import com.camelot.kuka.model.backend.resp.SupplierResp;
+import com.camelot.kuka.model.backend.supplier.req.SupplierPageReq;
+import com.camelot.kuka.model.backend.supplier.req.SupplierReq;
+import com.camelot.kuka.model.backend.supplier.resp.SupplierResp;
 import com.camelot.kuka.model.common.CommonReq;
 import com.camelot.kuka.model.common.EnumVal;
 import com.camelot.kuka.model.common.PageResult;
@@ -39,7 +39,7 @@ public class SupplierController extends BaseController {
     private SupplierService supplierService;
 
     /***
-     * <p>Description:[分页查询]</p>
+     * <p>Description:[枚举查询]</p>
      * Created on 2020/1/20
      * @param
      * @return com.camelot.kuka.model.common.PageResult

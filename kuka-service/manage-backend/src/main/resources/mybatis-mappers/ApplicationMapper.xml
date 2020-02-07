@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.camelot.kuka.backend.dao.ApplicationDao">
+
+	<resultMap id="BaseResultMap" type="com.camelot.kuka.backend.model.Application" >
+		<result column="id" property="id" />
+		<result column="app_name" property="appName" />
+		<result column="app_code" property="appCode" />
+		<result column="class_type" property="classType" typeHandler="com.camelot.kuka.common.mybatis.handler.EnumTypeHandler"/>
+		<result column="trade_count" property="tradeCount" />
+		<result column="file_sum" property="fileSum" />
+		<result column="contact_by" property="contactBy" />
+		<result column="contact_phone" property="contactPhone" />
+		<result column="contact_mail" property="contactMail" />
+		<result column="app_range" property="appRange" />
+		<result column="industry" property="industry" />
+		<result column="advantage_desc" property="advantageDesc" />
+		<result column="assembly_details" property="assemblyDetails" />
+		<result column="app_desc" property="appDesc" />
+		<result column="app_explain" property="appExplain" />
+		<result column="supplier_id" property="supplierId" />
+		<result column="request_count" property="requestCount" />
+		<result column="app_status" property="appStatus" typeHandler="com.camelot.kuka.common.mybatis.handler.EnumTypeHandler"/>
+		<result column="del_state" property="delState" typeHandler="com.camelot.kuka.common.mybatis.handler.EnumTypeHandler"/>
+		<result column="create_time" property="createTime" />
+		<result column="create_by" property="createBy" />
+		<result column="update_time" property="updateTime" />
+		<result column="update_by" property="updateBy" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+                id,
+                app_name,
+                app_code,
+                class_type,
+                trade_count,
+                file_sum,
+                contact_by,
+                contact_phone,
+                contact_mail,
+                app_range,
+                industry,
+                advantage_desc,
+                assembly_details,
+                app_desc,
+                app_explain,
+                supplier_id,
+                request_count,
+                app_status,
+                del_state,
+                create_time,
+                create_by,
+                update_time,
+                update_by
+    </sql>
+
+	<select id="queryList" resultMap="BaseResultMap">
+		SELECT
+			<include refid="Base_Column_List" />
+		FROM
+			t_application
+	</select>
+</mapper>

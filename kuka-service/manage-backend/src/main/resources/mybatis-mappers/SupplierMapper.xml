@@ -95,6 +95,7 @@
 
 	<insert id="addSupplier">
 		INSERT INTO t_supplier(
+			id,
 			cover_url,
 			supplierl_name,
 			supplierl_desc,
@@ -126,6 +127,7 @@
 		VALUES
 		<foreach collection="list" item="item" index="index" separator=",">
 			(
+				#{item.id},
 				#{item.coverUrl},
 				#{item.supplierlName},
 				#{item.supplierlDesc},

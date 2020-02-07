@@ -1,7 +1,7 @@
 package com.camelot.kuka.backend.dao;
 
 import com.camelot.kuka.backend.model.Supplier;
-import com.camelot.kuka.model.backend.req.SupplierPageReq;
+import com.camelot.kuka.model.backend.supplier.req.SupplierPageReq;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

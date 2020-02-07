@@ -1,10 +1,6 @@
-package com.camelot.kuka.model.backend.req;
+package com.camelot.kuka.model.backend.comment.resp;
 
 import com.camelot.kuka.model.enums.DeleteEnum;
-import com.camelot.kuka.model.enums.backend.IndustryTypeEnum;
-import com.camelot.kuka.model.enums.backend.PatternTypeEnum;
-import com.camelot.kuka.model.enums.backend.SkilledAppEnum;
-import com.camelot.kuka.model.enums.backend.SupplierTypeEnum;
 import com.camelot.kuka.model.enums.user.CreateSourceEnum;
 import lombok.Data;
 
@@ -20,10 +16,9 @@ import java.util.Date;
  * Copyright (c) 2020 北京柯莱特科技有限公司
  */
 @Data
-public class SupplierReq implements Serializable {
+public class SupplierResp implements Serializable {
 
-    private static final long serialVersionUID = -7880889865468275561L;
-
+    private static final long serialVersionUID = 6696396921353035542L;
     /**
      * 主键
      */
@@ -73,11 +68,6 @@ public class SupplierReq implements Serializable {
      * 区编码
      */
     private String districtCode;
-
-    /**
-     * 地址json
-     */
-    private String addressJson;
 
     /**
      * 网址
@@ -173,4 +163,17 @@ public class SupplierReq implements Serializable {
      */
     private String updateBy;
 
+    /**********************************/
+    /*****以下字段,不是数据库字段******/
+    /**********************************/
+
+    /**
+     * 地址json
+     */
+    private String addressJson;
+
+    /**
+     * 所在地
+     */
+    private String supplierAddress;
 }

@@ -98,6 +98,7 @@
 	
 	<insert id="addUser" >
 		INSERT INTO t_user(
+				id,
                 account,
                 password,
                 photo_url,
@@ -124,6 +125,7 @@
 		VALUES
 		<foreach collection="list" item="item" index="index" separator=",">
 			(
+			#{item.id},
 			#{item.account},
 			#{item.password},
 			#{item.photoUrl},

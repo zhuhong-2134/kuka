@@ -1,10 +1,6 @@
-package com.camelot.kuka.model.backend.resp;
+package com.camelot.kuka.model.backend.supplier.resp;
 
 import com.camelot.kuka.model.enums.DeleteEnum;
-import com.camelot.kuka.model.enums.backend.IndustryTypeEnum;
-import com.camelot.kuka.model.enums.backend.PatternTypeEnum;
-import com.camelot.kuka.model.enums.backend.SkilledAppEnum;
-import com.camelot.kuka.model.enums.backend.SupplierTypeEnum;
 import com.camelot.kuka.model.enums.user.CreateSourceEnum;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;

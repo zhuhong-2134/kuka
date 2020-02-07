@@ -1,9 +1,9 @@
 package com.camelot.kuka.backend.service;
 
 import com.camelot.kuka.backend.model.Supplier;
-import com.camelot.kuka.model.backend.req.SupplierPageReq;
-import com.camelot.kuka.model.backend.req.SupplierReq;
-import com.camelot.kuka.model.backend.resp.SupplierResp;
+import com.camelot.kuka.model.backend.supplier.req.SupplierPageReq;
+import com.camelot.kuka.model.backend.supplier.req.SupplierReq;
+import com.camelot.kuka.model.backend.supplier.resp.SupplierResp;
 import com.camelot.kuka.model.common.CommonReq;
 import com.camelot.kuka.model.common.Result;
 

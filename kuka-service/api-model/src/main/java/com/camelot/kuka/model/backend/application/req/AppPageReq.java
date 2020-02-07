@@ -1,13 +1,15 @@
-package com.camelot.kuka.model.backend.req;
+package com.camelot.kuka.model.backend.application.req;
 
 import com.camelot.kuka.model.enums.DeleteEnum;
-import com.camelot.kuka.model.enums.backend.SuppliePageEnum;
+import com.camelot.kuka.model.enums.application.AppTypeEnum;
+import com.camelot.kuka.model.enums.backend.ApplicationPageEnum;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
- * <p>Description: [用户所有字段请求实体]</p>
+ * <p>Description: [应用查询实体]</p>
  * Created on 2020/1/19
  *
  * @author <a href="mailto: xienan@camelotchina.com">谢楠</a>
@@ -15,14 +17,19 @@ import java.io.Serializable;
  * Copyright (c) 2020 北京柯莱特科技有限公司
  */
 @Data
-public class SupplierPageReq implements Serializable {
+public class AppPageReq implements Serializable {
 
 	private static final long serialVersionUID = -8359193017155677693L;
 
 	/**
+	 * 分类
+	 */
+	private AppTypeEnum classType;
+
+	/**
 	 * 0 全部 1 姓名 2 id
 	 */
-	private SuppliePageEnum queryType;
+	private ApplicationPageEnum queryType;
 
 	private Integer queryTypeCode;
 
@@ -30,6 +37,16 @@ public class SupplierPageReq implements Serializable {
 	 * 查询值
 	 */
 	private String queryName;
+
+	/**
+	 * 创建开始时间
+	 */
+	private Date createTimeSta;
+
+	/**
+	 * 创建结束时间
+	 */
+	private Date createTimeEnd;
 
 	/**
 	 * 删除标识0:未删除;1已删除

@@ -15,6 +15,7 @@ import org.springframework.context.annotation.ComponentScan;
 @EnableFeignClients
 @EnableDiscoveryClient
 @SpringBootApplication
+@ComponentScan({"com.camelot.kuka.common","com.camelot.kuka.backend"})
 public class ManageBackendApplication {
 
 	public static void main(String[] args) {

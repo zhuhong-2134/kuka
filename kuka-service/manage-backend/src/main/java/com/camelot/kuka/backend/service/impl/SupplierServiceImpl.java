@@ -7,12 +7,14 @@ import com.camelot.kuka.backend.feign.user.UserClient;
 import com.camelot.kuka.backend.model.Supplier;
 import com.camelot.kuka.backend.service.SupplierService;
 import com.camelot.kuka.common.utils.BeanUtil;
-import com.camelot.kuka.model.backend.req.SupplierPageReq;
-import com.camelot.kuka.model.backend.req.SupplierReq;
-import com.camelot.kuka.model.backend.resp.SupplierResp;
+import com.camelot.kuka.common.utils.CodeGenerateUtil;
+import com.camelot.kuka.model.backend.supplier.req.SupplierPageReq;
+import com.camelot.kuka.model.backend.supplier.req.SupplierReq;
+import com.camelot.kuka.model.backend.supplier.resp.SupplierResp;
 import com.camelot.kuka.model.common.CommonReq;
 import com.camelot.kuka.model.common.Result;
 import com.camelot.kuka.model.enums.DeleteEnum;
+import com.camelot.kuka.model.enums.PrincipalEnum;
 import com.camelot.kuka.model.user.resp.UserResp;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -39,6 +41,8 @@ public class SupplierServiceImpl implements SupplierService {
     private SupplierDao supplierDao;
     @Resource
     private UserClient userClient;
+    @Resource
+    private CodeGenerateUtil codeGenerateUtil;
 
     @Override
     public List<Supplier> queryList(SupplierPageReq req) {
@@ -76,6 +80,9 @@ public class SupplierServiceImpl implements SupplierService {
             return Result.error("经营模式不能为空");
         }
         Supplier supplier = BeanUtil.copyBean(req, Supplier.class);
+        // 获取ID
+        Long id = codeGenerateUtil.generateId(PrincipalEnum.MANAGE_SUPPLIER);
+        supplier.setId(id);
         // 参数处理
         Result result = saveHandle(supplier);
         if (!result.isSuccess()) {

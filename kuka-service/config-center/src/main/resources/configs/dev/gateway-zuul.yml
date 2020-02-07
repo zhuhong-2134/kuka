@@ -17,16 +17,16 @@ zuul:
   sensitiveHeaders: 
   routes:
     oauth:
-      path: /api-o/**
+      path: /api/api-o/**
       serviceId: oauth-center
     api-u:
-      path: /api-u/**
+      path: /api/api-u/**
       serviceId: user-center
     backend:
-      path: /api-b/**
+      path: /api/api-b/**
       serviceId: manage-backend
     file:
-      path: /api-f/**
+      path: /api/api-f/**
       serviceId: file-center
   host:
     connect-timeout-millis: 10000
