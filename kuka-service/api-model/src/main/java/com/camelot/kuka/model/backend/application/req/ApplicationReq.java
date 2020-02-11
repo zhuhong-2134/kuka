@@ -51,6 +51,11 @@ public class ApplicationReq implements Serializable {
     private Double fileSum;
 
     /**
+     * 价格
+     */
+    private Double price;
+
+    /**
      * 应用联系人
      */
     private String contactBy;

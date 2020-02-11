@@ -10,6 +10,7 @@
 		<result column="class_type" property="classType" typeHandler="com.camelot.kuka.common.mybatis.handler.EnumTypeHandler"/>
 		<result column="trade_count" property="tradeCount" />
 		<result column="file_sum" property="fileSum" />
+		<result column="price" property="price" />
 		<result column="contact_by" property="contactBy" />
 		<result column="contact_phone" property="contactPhone" />
 		<result column="contact_mail" property="contactMail" />
@@ -36,6 +37,7 @@
                 class_type,
                 trade_count,
                 file_sum,
+                price,
                 contact_by,
                 contact_phone,
                 contact_mail,
@@ -96,6 +98,7 @@
                 class_type,
                 trade_count,
                 file_sum,
+				price,
                 contact_by,
                 contact_phone,
                 contact_mail,
@@ -123,6 +126,7 @@
 				#{item.classType, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
 				#{item.tradeCount},
 				#{item.fileSum},
+				#{item.price},
 				#{item.contactBy},
 				#{item.contactPhone},
 				#{item.contactMail},
@@ -195,6 +199,9 @@
 			</if>
 			<if test ='null != fileSum'>
 				file_sum = #{fileSum},
+			</if>
+			<if test ='null != price'>
+				price = #{price},
 			</if>
 			<if test ='null != contactBy'>
 				contact_by = #{contactBy},
