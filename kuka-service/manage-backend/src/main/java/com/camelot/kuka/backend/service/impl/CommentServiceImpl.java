@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -30,11 +31,21 @@ public class CommentServiceImpl implements CommentService {
         c1.setId(1L);
         c1.setDelState(DeleteEnum.NO);
         c1.setCommentDesc("一个是的范德萨不是");
+        c1.setCreateBy("熊大");
+        c1.setCreateTime(new Date());
+        c1.setCommentUrl("https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg,https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg,https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg");
+        c1.setCommentUrls(c1.getCommentUrl().split(","));
+        c1.setPhotoUrl("https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg");
         Comment c2 = new Comment();
         c2.setAppId(appId);
         c2.setId(1L);
         c2.setDelState(DeleteEnum.NO);
         c2.setCommentDesc("一个是的范德萨不是");
+        c2.setCreateBy("熊大");
+        c2.setCreateTime(new Date());
+        c2.setCommentUrl("https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg,https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg,https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg");
+        c2.setCommentUrls(c1.getCommentUrl().split(","));
+        c2.setPhotoUrl("https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg");
         List<Comment> comments = Arrays.asList(c1, c2);
         return comments;
     }

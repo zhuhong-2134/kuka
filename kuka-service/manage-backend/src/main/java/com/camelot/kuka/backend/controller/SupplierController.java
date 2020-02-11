@@ -70,7 +70,7 @@ public class SupplierController extends BaseController {
         // 开启分页
         startPage();
         // 返回分页
-        List<Supplier> suppliers = supplierService.queryList(req);
+        List<Supplier> suppliers = supplierService.pageList(req);
         PageResult<List<SupplierResp>> page = getPage(suppliers, SupplierResp.class);
         page.putEnumVal("typeEnum", EnumVal.getEnumList(SupplierTypeEnum.class));
         page.putEnumVal("industryEnum", EnumVal.getEnumList(IndustryTypeEnum.class));
@@ -80,6 +80,18 @@ public class SupplierController extends BaseController {
         page.putEnumVal("queryTypeEnum", EnumVal.getEnumList(SuppliePageEnum.class));
         page.putEnumVal("sourceEnum", EnumVal.getEnumList(CreateSourceEnum.class));
         return page;
+    }
+
+    /***
+     * <p>Description:[获取列表]</p>
+     * Created on 2020/1/20
+     * @param req
+     * @return com.camelot.kuka.model.common.PageResult
+     * @author 谢楠
+     */
+    @PostMapping("/supplier/list")
+    public Result<List<SupplierResp>> queryList(SupplierPageReq req){
+        return supplierService.queryList(req);
     }
 
     /***

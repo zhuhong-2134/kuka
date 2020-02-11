@@ -26,4 +26,12 @@ public interface ApplicationProbleService {
      */
     Result addProbleApplication(ApplicationProblemReq req, String loginUserName);
 
+    /***
+     * <p>Description:[修改]</p>
+     * Created on 2020/2/4
+     * @param req
+     * @return com.camelot.kuka.model.common.Result
+     * @author 谢楠
+     */
+    Result updateProbleApplication(ApplicationProblemReq req, String loginUserName);
 }

@@ -45,7 +45,7 @@ public class SupplierServiceImpl implements SupplierService {
     private CodeGenerateUtil codeGenerateUtil;
 
     @Override
-    public List<Supplier> queryList(SupplierPageReq req) {
+    public List<Supplier> pageList(SupplierPageReq req) {
         req.setDelState(DeleteEnum.NO);
         req.setQueryTypeCode(null != req.getQueryType() ? req.getQueryType().getCode() : null);
         List<Supplier> list = supplierDao.queryList(req);
@@ -54,6 +54,17 @@ public class SupplierServiceImpl implements SupplierService {
             suppliers.setAddressJson(addressJson.toJSONString());
         });
         return list;
+    }
+
+    @Override
+    public Result<List<SupplierResp>> queryList(SupplierPageReq req) {
+        List<Supplier> list = supplierDao.queryList(req);
+        list.forEach(suppliers -> {
+            JSONObject addressJson = formatAddress(suppliers);
+            suppliers.setAddressJson(addressJson.toJSONString());
+        });
+        List<SupplierResp> supplierResps = BeanUtil.copyBeanList(list, SupplierResp.class);
+        return Result.success(supplierResps);
     }
 
     @Override

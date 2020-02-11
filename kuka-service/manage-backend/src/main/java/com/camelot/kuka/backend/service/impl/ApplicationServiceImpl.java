@@ -11,8 +11,8 @@ import com.camelot.kuka.backend.service.CommentService;
 import com.camelot.kuka.common.utils.BeanUtil;
 import com.camelot.kuka.common.utils.CodeGenerateUtil;
 import com.camelot.kuka.model.backend.application.req.AppPageReq;
+import com.camelot.kuka.model.backend.application.req.ApplicationCurrencyReq;
 import com.camelot.kuka.model.backend.application.req.ApplicationEditReq;
-import com.camelot.kuka.model.backend.application.req.ApplicationProblemReq;
 import com.camelot.kuka.model.backend.application.resp.ApplicationProblemResp;
 import com.camelot.kuka.model.backend.application.resp.ApplicationResp;
 import com.camelot.kuka.model.backend.application.resp.QyeryUpdateResp;
@@ -62,8 +62,10 @@ public class ApplicationServiceImpl implements ApplicationService {
         req.setDelState(DeleteEnum.NO);
         req.setQueryTypeCode(null != req.getQueryType() ? req.getQueryType().getCode() : null);
         List<Application> list = applicationDao.queryList(req);
-        // 封面图
-        setAppImg(list);
+        if (!list.isEmpty()) {
+            // 封面图
+            setAppImg(list);
+        }
         return list;
     }
 
@@ -179,7 +181,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
-    public Result addCurrency(ApplicationProblemReq req) {
+    public Result addCurrency(ApplicationCurrencyReq req) {
         // 没有通用的不处理
         if (StringUtils.isBlank(req.getCurrencyAppIds())) {
             return Result.success();

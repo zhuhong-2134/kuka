@@ -44,4 +44,17 @@ public class AppProbleController extends BaseController {
         return applicationProbleService.addProbleApplication(req, loginUserName);
     }
 
+
+    /***
+     * <p>Description:[修改]</p>
+     * Created on 2020/2/4
+     * @param req
+     * @return com.camelot.kuka.model.common.Result
+     * @author 谢楠
+     */
+    @PostMapping("/app/proble/update")
+    public Result updateProbleApplication(ApplicationProblemReq req){
+        String loginUserName = AppUserUtil.getLoginUserName();
+        return applicationProbleService.updateProbleApplication(req, loginUserName);
+    }
 }

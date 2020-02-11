@@ -43,4 +43,13 @@ public interface ApplicationProbleDao {
      * @author 谢楠
      */
     List<ApplicationProblem> queryListByAppId(@Param("appId") Long appIds);
+
+    /***
+     * <p>Description:[修改应用常见问题]</p>
+     * Created on 2020/2/4
+     * @param problem
+     * @return com.camelot.kuka.model.common.Result
+     * @author 谢楠
+     */
+    int update(ApplicationProblem problem);
 }

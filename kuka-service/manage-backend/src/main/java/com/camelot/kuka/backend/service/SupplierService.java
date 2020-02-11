@@ -26,7 +26,16 @@ public interface SupplierService {
      * @return List
      * @author 谢楠
      */
-    List<Supplier> queryList(SupplierPageReq req);
+    List<Supplier> pageList(SupplierPageReq req);
+
+    /***
+     * <p>Description:[列表查询]</p>
+     * Created on 2020/2/5
+     * @param req
+     * @return List
+     * @author 谢楠
+     */
+    Result<List<SupplierResp>> queryList(SupplierPageReq req);
 
     /***
      * <p>Description:[新增]</p>
@@ -63,4 +72,6 @@ public interface SupplierService {
      * @author 谢楠
      */
     Result delSupplier(CommonReq req, String loginUserName);
+
+
 }

@@ -2,6 +2,7 @@ package com.camelot.kuka.backend.service;
 
 import com.camelot.kuka.backend.model.Application;
 import com.camelot.kuka.model.backend.application.req.AppPageReq;
+import com.camelot.kuka.model.backend.application.req.ApplicationCurrencyReq;
 import com.camelot.kuka.model.backend.application.req.ApplicationEditReq;
 import com.camelot.kuka.model.backend.application.req.ApplicationProblemReq;
 import com.camelot.kuka.model.backend.application.resp.QyeryUpdateResp;
@@ -63,7 +64,7 @@ public interface ApplicationService {
      * @return List<Supplier>
      * @author 谢楠
      */
-    Result addCurrency(ApplicationProblemReq req);
+    Result addCurrency(ApplicationCurrencyReq req);
 
     /***
      * <p>Description:[修改应用状态]</p>

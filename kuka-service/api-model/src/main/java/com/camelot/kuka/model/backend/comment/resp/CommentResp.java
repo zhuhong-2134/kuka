@@ -88,4 +88,14 @@ public class CommentResp implements Serializable {
      * 修改人
      */
     private String updateBy;
+
+    /**
+     * 评论图片数组
+     */
+    private String[] commentUrls;
+
+    /**
+     * 头像地址
+     */
+    private String photoUrl;
 }

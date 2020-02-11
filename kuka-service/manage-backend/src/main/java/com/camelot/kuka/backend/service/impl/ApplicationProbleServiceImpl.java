@@ -38,7 +38,6 @@ public class ApplicationProbleServiceImpl implements ApplicationProbleService {
 
     @Override
     public Result addProbleApplication(ApplicationProblemReq req, String loginUserName) {
-
         if (null == req.getAppId()) {
             return Result.error("应用主键不能为空");
         }
@@ -57,6 +56,27 @@ public class ApplicationProbleServiceImpl implements ApplicationProbleService {
         } catch (Exception e) {
             log.error("\n 新增应用常见问题失败, 参数:{}, \n 错误信息:{}", JSON.toJSON(problem), e);
             return Result.error("新增应用常见问题失败, 联系管理员");
+        }
+        return Result.success(id);
+    }
+
+    @Override
+    public Result updateProbleApplication(ApplicationProblemReq req, String loginUserName) {
+        if (null == req.getId()) {
+            return Result.error("主键不能为空");
+        }
+        ApplicationProblem problem = BeanUtil.copyBean(req, ApplicationProblem.class);
+        problem.setUpdateBy(loginUserName);
+        problem.setUpdateTime(new Date());
+        try {
+            // 新增
+            int upCon = applicationProbleDao.update(problem);
+            if (upCon == 0) {
+                return Result.error("修改应用常见问题失败, 联系管理员");
+            }
+        } catch (Exception e) {
+            log.error("\n 修改应用常见问题失败, 参数:{}, \n 错误信息:{}", JSON.toJSON(problem), e);
+            return Result.error("修改应用常见问题失败, 联系管理员");
         }
         return Result.success();
     }

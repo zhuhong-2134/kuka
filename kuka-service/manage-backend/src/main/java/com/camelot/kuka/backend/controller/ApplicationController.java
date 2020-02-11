@@ -5,6 +5,7 @@ import com.camelot.kuka.backend.service.ApplicationService;
 import com.camelot.kuka.common.controller.BaseController;
 import com.camelot.kuka.common.utils.AppUserUtil;
 import com.camelot.kuka.model.backend.application.req.AppPageReq;
+import com.camelot.kuka.model.backend.application.req.ApplicationCurrencyReq;
 import com.camelot.kuka.model.backend.application.req.ApplicationEditReq;
 import com.camelot.kuka.model.backend.application.req.ApplicationProblemReq;
 import com.camelot.kuka.model.backend.application.resp.ApplicationResp;
@@ -106,7 +107,7 @@ public class ApplicationController extends BaseController {
      * @author 谢楠
      */
     @PostMapping("/application/addCurrency")
-    public Result addCurrency(ApplicationProblemReq req){
+    public Result addCurrency(ApplicationCurrencyReq req){
         return applicationService.addCurrency(req);
     }
 

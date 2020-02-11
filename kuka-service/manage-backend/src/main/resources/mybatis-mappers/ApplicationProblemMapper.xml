@@ -69,4 +69,32 @@
 		WHERE
 			app_id = #{appId}
 	</select>
+
+	<update id="update">
+		UPDATE t_application_problem
+		<set>
+			<if test ='null != appId'>
+				app_id = #{appId},
+			</if>
+			<if test ='null != title'>
+				title = #{title},
+			</if>
+			<if test ='null != answer'>
+				answer = #{answer},
+			</if>
+			<if test ='null != createTime'>
+				create_time = #{createTime},
+			</if>
+			<if test ='null != createBy'>
+				create_by = #{createBy},
+			</if>
+			<if test ='null != updateTime'>
+				update_time = #{updateTime},
+			</if>
+			<if test ='null != updateBy'>
+				update_by = #{updateBy}
+			</if>
+		</set>
+		WHERE id = #{id}
+	</update>
 </mapper>

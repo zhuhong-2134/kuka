@@ -12,7 +12,7 @@ import com.camelot.kuka.model.enums.BaseEnum;
 public enum AppTypeEnum implements BaseEnum {
 
     ALL(0, "ALL"),
-    Software(1, "软件"),
+    SOFTWARE(1, "软件"),
     READYTOUSE(2, "Ready to use"),
     JQRFJ(3, "机器人附件"),
     GZHGZ(4, "客制化工站"),

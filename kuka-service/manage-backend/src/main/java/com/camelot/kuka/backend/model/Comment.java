@@ -87,4 +87,18 @@ public class Comment implements Serializable {
      * 修改人
      */
     private String updateBy;
+
+    /**********************************/
+    /*****以下字段,不是数据库字段******/
+    /**********************************/
+
+    /**
+     * 评论图片
+     */
+    private String[] commentUrls;
+
+    /**
+     * 头像地址
+     */
+    private String photoUrl;
 }
