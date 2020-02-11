@@ -1,6 +1,10 @@
 package com.camelot.kuka.backend.dao;
 
+import com.camelot.kuka.backend.model.ApplicationProblem;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * <p>Description: [应用常见问题DAO]</p>
@@ -12,4 +16,31 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface ApplicationProbleDao {
+
+    /***
+     * <p>Description:[根据应用ID删除]</p>
+     * Created on 2020/2/4
+     * @param appIds
+     * @return com.camelot.kuka.model.common.Result
+     * @author 谢楠
+     */
+    int deleteByAppIds(@Param("array") Long[] appIds);
+
+    /***
+     * <p>Description:[批量新增]</p>
+     * Created on 2020/2/4
+     * @param addList
+     * @return com.camelot.kuka.model.common.Result
+     * @author 谢楠
+     */
+    int insertBatch(@Param("list") List<ApplicationProblem> addList);
+
+    /***
+     * <p>Description:[根据应用ID获取数据]</p>
+     * Created on 2020/2/4
+     * @param appIds
+     * @return List<ApplicationProblem>
+     * @author 谢楠
+     */
+    List<ApplicationProblem> queryListByAppId(@Param("appId") Long appIds);
 }

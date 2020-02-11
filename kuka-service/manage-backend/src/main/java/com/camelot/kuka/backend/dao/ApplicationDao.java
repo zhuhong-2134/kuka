@@ -3,6 +3,7 @@ package com.camelot.kuka.backend.dao;
 import com.camelot.kuka.backend.model.Application;
 import com.camelot.kuka.model.backend.application.req.AppPageReq;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -24,5 +25,41 @@ public interface ApplicationDao {
      * @return List<Supplier>
      * @author 谢楠
      */
-    List<Application> queryList(AppPageReq req);
+    List<Application> queryList(@Param("entity") AppPageReq req);
+
+    /***
+     * <p>Description:[批量新增]</p>
+     * Created on 2020/2/5
+     * @param applications
+     * @return int
+     * @author 谢楠
+     */
+    int insertBatch(@Param("list") List<Application> applications);
+
+    /***
+     * <p>Description:[获取单个对象]</p>
+     * Created on 2020/2/5
+     * @param qeury
+     * @return int
+     * @author 谢楠
+     */
+    Application selectById(@Param("entity") Application qeury);
+
+    /***
+     * <p>Description:[获取适用产品]</p>
+     * Created on 2020/2/5
+     * @param appId
+     * @return List<Application>
+     * @author 谢楠
+     */
+    List<Application> queryCurrencyList(@Param("appId")Long appId);
+
+    /***
+     * <p>Description:[修改]</p>
+     * Created on 2020/2/5
+     * @param application
+     * @return int
+     * @author 谢楠
+     */
+    int update(Application application);
 }

@@ -27,7 +27,7 @@ public class AppPageReq implements Serializable {
 	private AppTypeEnum classType;
 
 	/**
-	 * 0 全部 1 姓名 2 id
+	 * 0 名称 1 ID 2 交易数
 	 */
 	private ApplicationPageEnum queryType;
 

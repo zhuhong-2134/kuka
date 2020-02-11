@@ -25,5 +25,48 @@
                 update_by
     </sql>
 
+	<insert id="insertBatch">
+		INSERT INTO t_application_problem(
+			id,
+			app_id,
+			title,
+			answer,
+			create_time,
+			create_by,
+			update_time,
+			update_by
+		)
+		VALUES
+		<foreach collection="list" item="item" index="index" separator=",">
+			(
+				#{item.id},
+				#{item.appId},
+				#{item.title},
+				#{item.answer},
+				#{item.createTime},
+				#{item.createBy},
+				#{item.updateTime},
+				#{item.updateBy}
+			)
+		</foreach>
+	</insert>
 
+	<delete id="deleteByAppIds">
+		DELETE FROM
+			t_application_problem
+		WHERE
+			app_id in
+		<foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+	<select id="queryListByAppId" resultMap="BaseResultMap">
+		SELECT
+			<include refid="Base_Column_List" />
+		FROM
+			t_application_problem
+		WHERE
+			app_id = #{appId}
+	</select>
 </mapper>

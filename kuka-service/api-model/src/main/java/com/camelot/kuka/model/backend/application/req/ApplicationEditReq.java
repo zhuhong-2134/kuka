@@ -5,10 +5,9 @@ import com.camelot.kuka.model.enums.application.AppTypeEnum;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
- * <p>Description: [产品新增实体]</p>
+ * <p>Description: [产品修改实体]</p>
  * Created on 2020/1/20
  *
  * @author <a href="mailto: xienan@camelotchina.com">谢楠</a>
@@ -16,9 +15,12 @@ import java.util.List;
  * Copyright (c) 2020 北京柯莱特科技有限公司
  */
 @Data
-public class ApplicationAddReq implements Serializable {
+public class ApplicationEditReq implements Serializable {
 
-    private static final long serialVersionUID = -4759516597998839763L;
+
+    private static final long serialVersionUID = -1049225943945318640L;
+
+
     /**
      * 主键
      */
@@ -112,12 +114,12 @@ public class ApplicationAddReq implements Serializable {
     private AppStatusEnum appStatus;
 
     /**
-     * 产品通用主键
+     * 封面URL
      */
-    private List<Long> appIds;
+    private String[] coverUrl;
 
     /**
-     * 产品常见问题
+     * 产品通用主键
      */
-    private List<ApplicationProblemReq> applicationProblem;
+    private String currencyAppIds;
 }

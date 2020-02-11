@@ -136,4 +136,9 @@ public class ApplicationResp implements Serializable {
      * 修改人
      */
     private String updateBy;
+
+    /**
+     * 封面图片
+     */
+    private String coverUrl;
 }

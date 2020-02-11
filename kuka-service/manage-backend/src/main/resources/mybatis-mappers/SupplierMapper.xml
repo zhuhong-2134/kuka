@@ -95,34 +95,34 @@
 
 	<insert id="addSupplier">
 		INSERT INTO t_supplier(
-			id,
-			cover_url,
-			supplierl_name,
-			supplierl_desc,
-			province_name,
-			province_code,
-			city_name,
-			city_code,
-			district_name,
-			district_code,
-			web_url,
-			type,
-			industry,
-			app_type,
-			pattern_type,
-			iicense_url,
-			user_name,
-			user_id,
-			user_phone,
-			user_mali,
-			user_address,
-			source,
-			user_create_time,
-			del_state,
-			create_time,
-			create_by,
-			update_time,
-			update_by
+				id,
+				cover_url,
+				supplierl_name,
+				supplierl_desc,
+				province_name,
+				province_code,
+				city_name,
+				city_code,
+				district_name,
+				district_code,
+				web_url,
+				type,
+				industry,
+				app_type,
+				pattern_type,
+				iicense_url,
+				user_name,
+				user_id,
+				user_phone,
+				user_mali,
+				user_address,
+				source,
+				user_create_time,
+				del_state,
+				create_time,
+				create_by,
+				update_time,
+				update_by
 		)
 		VALUES
 		<foreach collection="list" item="item" index="index" separator=",">
@@ -155,7 +155,6 @@
 				#{item.createBy},
 				#{item.updateTime},
 				#{item.updateBy}
-
 			)
 		</foreach>
 	</insert>

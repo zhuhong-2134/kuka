@@ -17,6 +17,12 @@ import java.util.Date;
 public class ApplicationProblem implements Serializable {
 
     private static final long serialVersionUID = -6585310791759528746L;
+
+    /**
+     * 主键
+     */
+    private Long id;
+
     /**
      * 应用主键
      */

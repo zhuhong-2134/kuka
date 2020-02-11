@@ -1,4 +1,4 @@
-package com.camelot.kuka.backend.model;
+package com.camelot.kuka.model.backend.comment.req;
 
 import com.camelot.kuka.model.enums.DeleteEnum;
 import lombok.Data;
@@ -15,9 +15,10 @@ import java.util.Date;
  * Copyright (c) 2020 北京柯莱特科技有限公司
  */
 @Data
-public class Comment implements Serializable {
+public class CommentReq implements Serializable {
 
-    private static final long serialVersionUID = 7453145544967314214L;
+
+    private static final long serialVersionUID = -922471688578296978L;
     /**
      * 主键
      */

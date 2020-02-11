@@ -60,5 +60,194 @@
 			<include refid="Base_Column_List" />
 		FROM
 			t_application
+		<where>
+			<if test ='null != entity.delState'>
+				del_state = #{entity.delState}
+			</if>
+			<if test ='null != entity.classType'>
+				and class_type = #{entity.classType, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}
+			</if>
+			<if test ='null != entity.createTimeSta'>
+				and create_time &gt;= #{entity.createTimeSta}
+			</if>
+			<if test ='null != entity.createTimeEnd'>
+				and create_time &lt;= #{entity.createTimeEnd}
+			</if>
+			<if test ='null != entity.queryName and entity.queryName != ""'>
+				<!-- 0 名称 1 ID 2 交易数 -->
+				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 0'>
+					and app_name = #{entity.queryName}
+				</if>
+				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 1'>
+					and id = #{entity.queryName}
+				</if>
+				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 2'>
+					and trade_count = #{entity.queryName}
+				</if>
+			</if>
+		</where>
 	</select>
+
+	<insert id="insertBatch">
+		INSERT INTO t_application(
+				id,
+                app_name,
+                app_code,
+                class_type,
+                trade_count,
+                file_sum,
+                contact_by,
+                contact_phone,
+                contact_mail,
+                app_range,
+                industry,
+                advantage_desc,
+                assembly_details,
+                app_desc,
+                app_explain,
+                supplier_id,
+                request_count,
+                app_status,
+                del_state,
+                create_time,
+                create_by,
+                update_time,
+                update_by
+		)
+		VALUES
+		<foreach collection="list" item="item" index="index" separator=",">
+			(
+				#{item.id},
+				#{item.appName},
+				#{item.appCode},
+				#{item.classType, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
+				#{item.tradeCount},
+				#{item.fileSum},
+				#{item.contactBy},
+				#{item.contactPhone},
+				#{item.contactMail},
+				#{item.appRange},
+				#{item.industry},
+				#{item.advantageDesc},
+				#{item.assemblyDetails},
+				#{item.appDesc},
+				#{item.appExplain},
+				#{item.supplierId},
+				#{item.requestCount},
+				#{item.appStatus, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
+				#{item.delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
+				#{item.createTime},
+				#{item.createBy},
+				#{item.updateTime},
+				#{item.updateBy}
+			)
+		</foreach>
+	</insert>
+
+	<select id="selectById" resultMap="BaseResultMap">
+		SELECT
+			<include refid="Base_Column_List" />
+		FROM
+			t_application
+		<where>
+			<if test ='null != entity.delState'>
+				del_state = #{entity.delState}
+			</if>
+			<if test ='null != entity.classType'>
+				and class_type = #{entity.classType, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}
+			</if>
+			<if test ='null != entity.id'>
+				and id = #{entity.id}
+			</if>
+		</where>
+	</select>
+
+	<select id="queryCurrencyList" resultMap="BaseResultMap">
+		SELECT
+			<include refid="Base_Column_List" />
+		FROM
+			t_application
+		WHERE
+			id in (
+				select
+					currency_id
+				from
+					t_application_currency
+				where
+					app_id = #{appId}
+		)
+	</select>
+
+	<update id="update">
+		UPDATE t_application
+		<set>
+			<if test ='null != appName'>
+				app_name = #{appName},
+			</if>
+			<if test ='null != appCode'>
+				app_code = #{appCode},
+			</if>
+			<if test ='null != classType'>
+				class_type = #{classType, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
+			</if>
+			<if test ='null != tradeCount'>
+				trade_count = #{tradeCount},
+			</if>
+			<if test ='null != fileSum'>
+				file_sum = #{fileSum},
+			</if>
+			<if test ='null != contactBy'>
+				contact_by = #{contactBy},
+			</if>
+			<if test ='null != contactPhone'>
+				contact_phone = #{contactPhone},
+			</if>
+			<if test ='null != contactMail'>
+				contact_mail = #{contactMail},
+			</if>
+			<if test ='null != appRange'>
+				app_range = #{appRange},
+			</if>
+			<if test ='null != industry'>
+				industry = #{industry},
+			</if>
+			<if test ='null != advantageDesc'>
+				advantage_desc = #{advantageDesc},
+			</if>
+			<if test ='null != assemblyDetails'>
+				assembly_details = #{assemblyDetails},
+			</if>
+			<if test ='null != appDesc'>
+				app_desc = #{appDesc},
+			</if>
+			<if test ='null != appExplain'>
+				app_explain = #{appExplain},
+			</if>
+			<if test ='null != supplierId'>
+				supplier_id = #{supplierId},
+			</if>
+			<if test ='null != requestCount'>
+				request_count = #{requestCount},
+			</if>
+			<if test ='null != appStatus'>
+				app_status = #{appStatus, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
+			</if>
+			<if test ='null != delState'>
+				del_state = #{delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
+			</if>
+			<if test ='null != createTime'>
+				create_time = #{createTime},
+			</if>
+			<if test ='null != createBy'>
+				create_by = #{createBy},
+			</if>
+			<if test ='null != updateTime'>
+				update_time = #{updateTime},
+			</if>
+			<if test ='null != updateBy'>
+				update_by = #{updateBy}
+			</if>
+		</set>
+		WHERE id = #{id}
+	</update>
 </mapper>

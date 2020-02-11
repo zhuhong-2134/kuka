@@ -1,15 +1,35 @@
 package com.camelot.kuka.backend.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.camelot.kuka.backend.dao.ApplicationCurrencyDao;
 import com.camelot.kuka.backend.dao.ApplicationDao;
-import com.camelot.kuka.backend.model.Application;
+import com.camelot.kuka.backend.dao.ApplicationImgDao;
+import com.camelot.kuka.backend.dao.ApplicationProbleDao;
+import com.camelot.kuka.backend.model.*;
 import com.camelot.kuka.backend.service.ApplicationService;
+import com.camelot.kuka.backend.service.CommentService;
+import com.camelot.kuka.common.utils.BeanUtil;
+import com.camelot.kuka.common.utils.CodeGenerateUtil;
 import com.camelot.kuka.model.backend.application.req.AppPageReq;
-import com.camelot.kuka.model.backend.application.req.ApplicationAddReq;
+import com.camelot.kuka.model.backend.application.req.ApplicationEditReq;
+import com.camelot.kuka.model.backend.application.req.ApplicationProblemReq;
+import com.camelot.kuka.model.backend.application.resp.ApplicationProblemResp;
+import com.camelot.kuka.model.backend.application.resp.ApplicationResp;
+import com.camelot.kuka.model.backend.application.resp.QyeryUpdateResp;
+import com.camelot.kuka.model.backend.comment.resp.CommentResp;
+import com.camelot.kuka.model.common.CommonReq;
 import com.camelot.kuka.model.common.Result;
+import com.camelot.kuka.model.enums.DeleteEnum;
+import com.camelot.kuka.model.enums.PrincipalEnum;
+import com.camelot.kuka.model.enums.application.AppStatusEnum;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -26,19 +46,300 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Resource
     private ApplicationDao applicationDao;
+    @Resource
+    private CodeGenerateUtil codeGenerateUtil;
+    @Resource
+    private ApplicationImgDao applicationImgDao;
+    @Resource
+    private ApplicationCurrencyDao applicationCurrencyDao;
+    @Resource
+    private CommentService commentService;
+    @Resource
+    private ApplicationProbleDao applicationProbleDao;
 
     @Override
     public List<Application> queryList(AppPageReq req) {
+        req.setDelState(DeleteEnum.NO);
+        req.setQueryTypeCode(null != req.getQueryType() ? req.getQueryType().getCode() : null);
         List<Application> list = applicationDao.queryList(req);
-
+        // 封面图
+        setAppImg(list);
         return list;
     }
 
-    @Override
-    public Result addApplication(ApplicationAddReq req, String loginUserName) {
-        // 处理应用信息
-        // 处理适用产品
-        // 处理常常见问题
-        return null;
+    /**
+     * 获取封面图的第一张
+     * @param list
+     */
+    private void setAppImg(List<Application> list){
+        // 获取封面图片
+        Long[] appIds = list.stream().map(Application::getId).toArray(Long[]::new);
+        List<ApplicationImg> appImgs = applicationImgDao.selectList(appIds);
+        for (Application application : list) {
+            for (ApplicationImg appImg : appImgs) {
+                if (application.getId() == appImg.getAppId()) {
+                    application.setCoverUrl(appImg.getUrl());
+                    break;
+                }
+            }
+        }
     }
+
+    @Override
+    public Result addApplication(ApplicationEditReq req, String loginUserName) {
+        // 非空校验
+        Result result = checkAdd(req);
+        if (!result.isSuccess()) {
+            return result;
+        }
+        Long appId = codeGenerateUtil.generateId(PrincipalEnum.MANAGE_APPLICATION);
+        req.setId(appId);
+        // 处理应用信息
+        Result appHan = HandleAppSave(req, loginUserName);
+        if (!appHan.isSuccess()) {
+            return appHan;
+        }
+        // 保存封面图片
+        Result appImgHan = HandleAppImgSave(req, loginUserName);
+        if (!appImgHan.isSuccess()) {
+            return appImgHan;
+        }
+        return Result.success(appId);
+    }
+
+    @Override
+    public Result<QyeryUpdateResp> qyeryUpdateById(CommonReq req) {
+        if (null == req || null == req.getId()) {
+            return Result.error("主键不能为空");
+        }
+        Application qeury = new Application();
+        qeury.setId(req.getId());
+        qeury.setDelState(DeleteEnum.NO);
+        Application app =  applicationDao.selectById(qeury);
+        if (null == app) {
+            return Result.error("数据获取失败, 刷新后重试");
+        }
+        QyeryUpdateResp resp = BeanUtil.copyBean(app, QyeryUpdateResp.class);
+
+
+        // 获取封面图片
+        Long[] appids = new Long[]{app.getId()};
+        List<ApplicationImg> appImgs = applicationImgDao.selectList(appids);
+        if (!appImgs.isEmpty()) {
+            String[] imgUrl = appImgs.stream().map(ApplicationImg::getUrl).toArray(String[]::new);
+            resp.setCoverUrls(imgUrl);
+        }
+
+
+        // 获取评论信息
+        List<Comment> comments = commentService.queryByAppId(app.getId());
+        if (!comments.isEmpty()) {
+            List<CommentResp> commentResps = BeanUtil.copyBeanList(comments, CommentResp.class);
+            resp.setCommentList(commentResps);
+        }
+
+
+        // 获取适用产品
+        List<Application> appList = applicationDao.queryCurrencyList(app.getId());
+        if (!appList.isEmpty()) {
+            // 封面图
+            setAppImg(appList);
+            List<ApplicationResp> appResps = BeanUtil.copyBeanList(appList, ApplicationResp.class);
+            resp.setCurrencyList(appResps);
+        }
+
+
+        // 获取常见问题
+        List<ApplicationProblem> applicationProblems = applicationProbleDao.queryListByAppId(app.getId());
+        if (!appList.isEmpty()) {
+            List<ApplicationProblemResp> problemResp = BeanUtil.copyBeanList(applicationProblems, ApplicationProblemResp.class);
+            resp.setProblemList(problemResp);
+        }
+
+        return Result.success(resp);
+    }
+
+    @Override
+    public Result updateApplication(ApplicationEditReq req, String loginUserName) {
+        // 非空校验
+        if (null == req || req.getId() == null) {
+            return Result.error("主键不能为空");
+        }
+        // 处理应用信息
+        Result appHan = HandleAppUpdate(req, loginUserName);
+        if (!appHan.isSuccess()) {
+            return appHan;
+        }
+        // 保存封面图片
+        Result appImgHan = HandleAppImgSave(req, loginUserName);
+        if (!appImgHan.isSuccess()) {
+            return appImgHan;
+        }
+        return Result.success();
+    }
+
+    @Override
+    public Result addCurrency(ApplicationProblemReq req) {
+        // 没有通用的不处理
+        if (StringUtils.isBlank(req.getCurrencyAppIds())) {
+            return Result.success();
+        }
+        List<ApplicationCurrency> addAppCurrencyList = new ArrayList<>();
+        for (String appIds : req.getCurrencyAppIds().split(",")) {
+            ApplicationCurrency crrency = new ApplicationCurrency();
+            crrency.setAppId(req.getAppId());
+            crrency.setCurrencyId(Long.valueOf(appIds));
+            Long id = codeGenerateUtil.generateId(PrincipalEnum.MANAGE_APPLICATION_CURRENCY);
+            crrency.setId(id);
+            addAppCurrencyList.add(crrency);
+        }
+        try {
+            // 删除原有数据
+            applicationCurrencyDao.deleteByAppId(req.getAppId());
+            // 新增新的数据
+            int cont = applicationCurrencyDao.insertBatch(addAppCurrencyList);
+            if (cont == 0) {
+                return Result.error("新增适用产品失败, 联系管理员");
+            }
+        } catch (Exception e) {
+            log.error("\n 新增适用产品失败, 参数:{}, \n 错误信息:{}", JSON.toJSON(addAppCurrencyList), e);
+            return Result.error("新增适用产品失败, 联系管理员");
+        }
+        return Result.success();
+    }
+
+    @Override
+    public Result updateAppStatus(ApplicationEditReq req, String loginUserName) {
+        Application application = new Application();
+        application.setId(req.getId());
+        application.setAppStatus(req.getAppStatus());
+        application.setUpdateBy(loginUserName);
+        application.setUpdateTime(new Date());
+        try {
+            int cont = applicationDao.update(application);
+            if (cont == 0) {
+                return Result.error("修改状态失败, 联系管理员");
+            }
+        } catch (Exception e) {
+            log.error("\n 修改状态失败, 参数:{}, \n 错误信息:{}", JSON.toJSON(req), e);
+            return Result.error("修改状态失败, 联系管理员");
+        }
+        return Result.success();
+    }
+
+    /**
+     * 校验非空字段
+     * @param req
+     * @return Result
+     */
+    private Result checkAdd(ApplicationEditReq req) {
+        if (null == req) {
+            return Result.error("参数不能为空");
+        }
+        // TODO 等待上次服务器
+//        if (null == req.getCoverUrl() || req.getCoverUrl().length == 0) {
+//            return Result.error("封面图集不能为空");
+//        }
+        if (null == req.getClassType()) {
+            return Result.error("分类不能为空");
+        }
+        if (StringUtils.isBlank(req.getAppName())) {
+            return Result.error("名称不能为空");
+        }
+        if (null == req.getTradeCount()) {
+            return Result.error("交易数不能为空");
+        }
+        if (null == req.getFileSum()) {
+            return Result.error("文件大小不能为空");
+        }
+        if (StringUtils.isBlank(req.getAppRange())) {
+            return Result.error("适用范围不能为空");
+        }
+        if (StringUtils.isBlank(req.getIndustry())) {
+            return Result.error("适用行业不能为空");
+        }
+        return Result.success();
+    }
+
+    /**
+     * 新增应用
+     * @param req
+     * @param loginUserName
+     * @return
+     */
+    private Result HandleAppSave(ApplicationEditReq req, String loginUserName) {
+        Application application = BeanUtil.copyBean(req, Application.class);
+        application.setCreateBy(loginUserName);
+        application.setCreateTime(new Date());
+        application.setDelState(DeleteEnum.NO);
+        application.setAppStatus(AppStatusEnum.OPEN);
+        try {
+            int cont = applicationDao.insertBatch(Arrays.asList(application));
+            if (cont == 0) {
+                return Result.error("新增产品失败, 联系管理员");
+            }
+        } catch (Exception e) {
+            log.error("\n 新增产品失败, 参数:{}, \n 错误信息:{}", JSON.toJSON(req), e);
+            return Result.error("新增产品失败, 联系管理员");
+        }
+        return Result.success();
+    }
+
+    /**
+     * 修改应用
+     * @param req
+     * @param loginUserName
+     * @return
+     */
+    private Result HandleAppUpdate(ApplicationEditReq req, String loginUserName) {
+        Application application = BeanUtil.copyBean(req, Application.class);
+        application.setUpdateBy(loginUserName);
+        application.setUpdateTime(new Date());
+        try {
+            int cont = applicationDao.update(application);
+            if (cont == 0) {
+                return Result.error("修改产品失败, 联系管理员");
+            }
+        } catch (Exception e) {
+            log.error("\n 修改产品失败, 参数:{}, \n 错误信息:{}", JSON.toJSON(req), e);
+            return Result.error("修改产品失败, 联系管理员");
+        }
+        return Result.success();
+    }
+
+    /**
+     * 新增封面图册
+     * @param req
+     * @param loginUserName
+     * @return
+     */
+    private Result HandleAppImgSave(ApplicationEditReq req, String loginUserName) {
+        // TODO 等待上次服务器后注释
+        if (null == req.getCoverUrl() || req.getCoverUrl().length == 0) {
+            return Result.success();
+        }
+        List<ApplicationImg> addAppImgList = new ArrayList<>();
+        for (String coverUrl : req.getCoverUrl()) {
+            ApplicationImg img = new ApplicationImg();
+            Long id = codeGenerateUtil.generateId(PrincipalEnum.MANAGE_APPLICATION_IMG);
+            img.setId(id);
+            img.setAppId(req.getId());
+            img.setUrl(coverUrl);
+            addAppImgList.add(img);
+        }
+        try {
+            // 删除原有数据
+            applicationImgDao.deleteByAppId(req.getId());
+            // 新增新的数据
+            int cont = applicationImgDao.insertBatch(addAppImgList);
+            if (cont == 0) {
+                return Result.error("新增产品封面图册失败, 联系管理员");
+            }
+        } catch (Exception e) {
+            log.error("\n 新增产品封面图册失败, 参数:{}, \n 错误信息:{}", JSON.toJSON(req), e);
+            return Result.error("新增产品封面图册失败, 联系管理员");
+        }
+        return Result.success();
+    }
+
 }

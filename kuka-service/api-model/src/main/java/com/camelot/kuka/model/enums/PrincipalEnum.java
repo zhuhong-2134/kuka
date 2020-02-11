@@ -13,7 +13,15 @@ public enum PrincipalEnum {
 
     USER_USER("user_t_user", "用户中心"),
     
-    MANAGE_SUPPLIER("manage_t_supplier", "集成商");
+    MANAGE_SUPPLIER("manage_t_supplier", "集成商"),
+
+    MANAGE_APPLICATION("manage_t_application", "应用"),
+
+    MANAGE_APPLICATION_IMG("manage_t_application_img", "应用图片"),
+
+    MANAGE_APPLICATION_CURRENCY("manage_t_application_currency", "通用产品"),
+
+    MANAGE_APPLICATION_PROBLEM("manage_t_application_problem", "应用常见问题");
 
     private String key;
     private String description;

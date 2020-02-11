@@ -1,11 +1,13 @@
 package com.camelot.kuka.model.backend.application.req;
 
+import com.camelot.kuka.model.enums.application.AppStatusEnum;
+import com.camelot.kuka.model.enums.application.AppTypeEnum;
 import lombok.Data;
 
 import java.io.Serializable;
 
 /**
- * <p>Description: [应用常见问题]</p>
+ * <p>Description: [新增适用产品实体]</p>
  * Created on 2020/1/20
  *
  * @author <a href="mailto: xienan@camelotchina.com">谢楠</a>
@@ -15,21 +17,17 @@ import java.io.Serializable;
 @Data
 public class ApplicationProblemReq implements Serializable {
 
-    private static final long serialVersionUID = -1686481381692620226L;
+
+    private static final long serialVersionUID = -152320728199169004L;
+
 
     /**
-     * 应用主键
+     * 主键
      */
     private Long appId;
 
     /**
-     * 标题
+     * 产品通用主键
      */
-    private String title;
-
-    /**
-     * 回答
-     */
-    private String answer;
-
+    private String currencyAppIds;
 }

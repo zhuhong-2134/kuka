@@ -5,15 +5,18 @@ import com.camelot.kuka.backend.service.ApplicationService;
 import com.camelot.kuka.common.controller.BaseController;
 import com.camelot.kuka.common.utils.AppUserUtil;
 import com.camelot.kuka.model.backend.application.req.AppPageReq;
-import com.camelot.kuka.model.backend.application.req.ApplicationAddReq;
+import com.camelot.kuka.model.backend.application.req.ApplicationEditReq;
+import com.camelot.kuka.model.backend.application.req.ApplicationProblemReq;
 import com.camelot.kuka.model.backend.application.resp.ApplicationResp;
-import com.camelot.kuka.model.backend.supplier.req.SupplierReq;
+import com.camelot.kuka.model.backend.application.resp.QyeryUpdateResp;
+import com.camelot.kuka.model.common.CommonReq;
 import com.camelot.kuka.model.common.EnumVal;
 import com.camelot.kuka.model.common.PageResult;
 import com.camelot.kuka.model.common.Result;
 import com.camelot.kuka.model.enums.DeleteEnum;
 import com.camelot.kuka.model.enums.application.AppStatusEnum;
 import com.camelot.kuka.model.enums.application.AppTypeEnum;
+import com.camelot.kuka.model.enums.backend.ApplicationPageEnum;
 import com.camelot.kuka.model.enums.backend.IndustryTypeEnum;
 import com.camelot.kuka.model.enums.backend.SkilledAppEnum;
 import io.swagger.annotations.Api;
@@ -55,6 +58,7 @@ public class ApplicationController extends BaseController {
         page.putEnumVal("industryEnum", EnumVal.getEnumList(IndustryTypeEnum.class));
         page.putEnumVal("appStatusEnum", EnumVal.getEnumList(AppStatusEnum.class));
         page.putEnumVal("delStateEnum", EnumVal.getEnumList(DeleteEnum.class));
+        page.putEnumVal("queryTypeEnum", EnumVal.getEnumList(ApplicationPageEnum.class));
         return page;
     }
 
@@ -77,19 +81,70 @@ public class ApplicationController extends BaseController {
         page.putEnumVal("industryEnum", EnumVal.getEnumList(IndustryTypeEnum.class));
         page.putEnumVal("appStatusEnum", EnumVal.getEnumList(AppStatusEnum.class));
         page.putEnumVal("delStateEnum", EnumVal.getEnumList(DeleteEnum.class));
+        page.putEnumVal("queryTypeEnum", EnumVal.getEnumList(ApplicationPageEnum.class));
         return page;
     }
 
     /***
-     * <p>Description:[新增]</p>
+     * <p>Description:[新增产品信息]</p>
      * Created on 2020/2/4
      * @param req
      * @return com.camelot.kuka.model.common.Result
      * @author 谢楠
      */
     @PostMapping("/application/add")
-    public Result addApplication(ApplicationAddReq req){
+    public Result addApplication(ApplicationEditReq req){
         String loginUserName = AppUserUtil.getLoginUserName();
         return applicationService.addApplication(req, loginUserName);
+    }
+
+    /***
+     * <p>Description:[新增适用产品信息]</p>
+     * Created on 2020/2/4
+     * @param req
+     * @return com.camelot.kuka.model.common.Result
+     * @author 谢楠
+     */
+    @PostMapping("/application/addCurrency")
+    public Result addCurrency(ApplicationProblemReq req){
+        return applicationService.addCurrency(req);
+    }
+
+    /***
+     * <p>Description:[通过ID获取]</p>
+     * Created on 2020/2/4
+     * @param req
+     * @return com.camelot.kuka.model.common.Result
+     * @author 谢楠
+     */
+    @PostMapping("/application/qyeryUpdateById")
+    public Result<QyeryUpdateResp> qyeryUpdateById(CommonReq req){
+        return applicationService.qyeryUpdateById(req);
+    }
+
+    /***
+     * <p>Description:[修改]</p>
+     * Created on 2020/2/4
+     * @param req
+     * @return com.camelot.kuka.model.common.Result
+     * @author 谢楠
+     */
+    @PostMapping("/application/update")
+    public Result updateApplication(ApplicationEditReq req){
+        String loginUserName = AppUserUtil.getLoginUserName();
+        return applicationService.updateApplication(req, loginUserName);
+    }
+
+    /***
+     * <p>Description:[修改上线下线]</p>
+     * Created on 2020/2/4
+     * @param req
+     * @return com.camelot.kuka.model.common.Result
+     * @author 谢楠
+     */
+    @PostMapping("/application/updateAppStatus")
+    public Result updateAppStatus(ApplicationEditReq req){
+        String loginUserName = AppUserUtil.getLoginUserName();
+        return applicationService.updateAppStatus(req, loginUserName);
     }
 }

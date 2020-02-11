@@ -10,10 +10,43 @@
 	</resultMap>
 
 	<sql id="Base_Column_List">
-                id,
-                app_id,
-                url
+			id,
+			app_id,
+			url
     </sql>
 
+	<delete id="deleteByAppId">
+		DELETE FROM
+			t_application_img
+		WHERE
+			app_id = #{appId}
+	</delete>
 
+	<insert id="insertBatch">
+		INSERT INTO t_application_img(
+			id,
+			app_id,
+			url
+		)
+		VALUES
+		<foreach collection="list" item="item" index="index" separator=",">
+			(
+			#{item.id},
+			#{item.appId},
+			#{item.url}
+			)
+		</foreach>
+	</insert>
+
+	<select id="selectList" resultMap="BaseResultMap">
+		SELECT
+			<include refid="Base_Column_List" />
+		FROM
+			t_application_img
+		WHERE
+			app_id in
+		<foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
 </mapper>

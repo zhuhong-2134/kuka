@@ -6,12 +6,35 @@
 	<resultMap id="BaseResultMap" type="com.camelot.kuka.backend.model.ApplicationCurrency" >
 		<result column="id" property="id" />
 		<result column="app_id" property="appId" />
+		<result column="currency_id" property="currencyId" />
 	</resultMap>
 
 	<sql id="Base_Column_List">
-                id,
-                app_id
+			id,
+			app_id,
+			currency_id
     </sql>
 
+	<delete id="deleteByAppId">
+		DELETE FROM
+			t_application_currency
+		WHERE
+			app_id = #{appId}
+	</delete>
 
+	<insert id="insertBatch">
+		INSERT INTO t_application_currency(
+			id,
+			app_id,
+			currency_id
+		)
+		VALUES
+		<foreach collection="list" item="item" index="index" separator=",">
+			(
+			#{item.id},
+			#{item.appId},
+			#{item.currencyId}
+			)
+		</foreach>
+	</insert>
 </mapper>

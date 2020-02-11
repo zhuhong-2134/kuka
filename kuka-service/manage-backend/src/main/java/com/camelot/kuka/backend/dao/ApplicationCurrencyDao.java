@@ -1,6 +1,10 @@
 package com.camelot.kuka.backend.dao;
 
+import com.camelot.kuka.backend.model.ApplicationCurrency;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * <p>Description: [通用产品DAO]</p>
@@ -12,4 +16,23 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface ApplicationCurrencyDao {
+
+
+    /***
+     * <p>Description:[根据应用ID删除]</p>
+     * Created on 2020/2/5
+     * @param appId
+     * @return int
+     * @author 谢楠
+     */
+    void deleteByAppId(@Param("appId")Long appId);
+
+    /***
+     * <p>Description:[批量新增]</p>
+     * Created on 2020/2/5
+     * @param addAppCurrencyList
+     * @return int
+     * @author 谢楠
+     */
+    int insertBatch(@Param("list") List<ApplicationCurrency> addAppCurrencyList);
 }

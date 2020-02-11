@@ -2,8 +2,10 @@ package com.camelot.kuka.backend.service;
 
 import com.camelot.kuka.backend.model.Application;
 import com.camelot.kuka.model.backend.application.req.AppPageReq;
-import com.camelot.kuka.model.backend.application.req.ApplicationAddReq;
-import com.camelot.kuka.model.backend.supplier.req.SupplierReq;
+import com.camelot.kuka.model.backend.application.req.ApplicationEditReq;
+import com.camelot.kuka.model.backend.application.req.ApplicationProblemReq;
+import com.camelot.kuka.model.backend.application.resp.QyeryUpdateResp;
+import com.camelot.kuka.model.common.CommonReq;
 import com.camelot.kuka.model.common.Result;
 
 import java.util.List;
@@ -34,5 +36,41 @@ public interface ApplicationService {
      * @return List<Supplier>
      * @author 谢楠
      */
-    Result addApplication(ApplicationAddReq req, String loginUserName);
+    Result addApplication(ApplicationEditReq req, String loginUserName);
+
+    /***
+     * <p>Description:[通过ID获取修改的产品信息]</p>
+     * Created on 2020/2/5
+     * @param req
+     * @return List<Supplier>
+     * @author 谢楠
+     */
+    Result<QyeryUpdateResp> qyeryUpdateById(CommonReq req);
+
+    /***
+     * <p>Description:[修改产品信息]</p>
+     * Created on 2020/2/5
+     * @param req
+     * @return List<Supplier>
+     * @author 谢楠
+     */
+    Result updateApplication(ApplicationEditReq req, String loginUserName);
+
+    /***
+     * <p>Description:[新增适用产品信息]</p>
+     * Created on 2020/2/5
+     * @param req
+     * @return List<Supplier>
+     * @author 谢楠
+     */
+    Result addCurrency(ApplicationProblemReq req);
+
+    /***
+     * <p>Description:[修改应用状态]</p>
+     * Created on 2020/2/5
+     * @param req
+     * @return List<Supplier>
+     * @author 谢楠
+     */
+    Result updateAppStatus(ApplicationEditReq req, String loginUserName);
 }

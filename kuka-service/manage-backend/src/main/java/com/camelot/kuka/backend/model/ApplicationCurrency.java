@@ -19,5 +19,10 @@ public class ApplicationCurrency implements Serializable {
     /**
      * 应用主键
      */
-    private String appId;
+    private Long appId;
+
+    /**
+     * 适用主键
+     */
+    private Long currencyId;
 }

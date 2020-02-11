@@ -1,25 +1,28 @@
-package com.camelot.kuka.backend.model;
+package com.camelot.kuka.model.backend.application.resp;
 
+import com.camelot.kuka.model.backend.comment.resp.CommentResp;
 import com.camelot.kuka.model.enums.DeleteEnum;
 import com.camelot.kuka.model.enums.application.AppStatusEnum;
 import com.camelot.kuka.model.enums.application.AppTypeEnum;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
- * <p>Description: [产品实体]</p>
- * Created on 2020/1/20
+ * <p>Description: [修改获取的参数]</p>
+ * Created on 2020/2/5
  *
  * @author <a href="mailto: xienan@camelotchina.com">谢楠</a>
  * @version 1.0
  * Copyright (c) 2020 北京柯莱特科技有限公司
  */
 @Data
-public class Application implements Serializable {
+public class QyeryUpdateResp implements Serializable {
 
-    private static final long serialVersionUID = -4759516597998839763L;
+    private static final long serialVersionUID = -1357959815800291674L;
     /**
      * 主键
      */
@@ -120,6 +123,7 @@ public class Application implements Serializable {
     /**
      * 创建时间
      */
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
     /**
@@ -130,6 +134,7 @@ public class Application implements Serializable {
     /**
      * 修改时间
      */
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
 
     /**
@@ -137,12 +142,23 @@ public class Application implements Serializable {
      */
     private String updateBy;
 
-    /**********************************/
-    /*****以下字段,不是数据库字段******/
-    /**********************************/
-
     /**
      * 封面图片
      */
-    private String coverUrl;
+    private String[] coverUrls;
+
+    /**
+     * 评论信息
+     */
+    private List<CommentResp> commentList;
+
+    /**
+     * 适用产品
+     */
+    private List<ApplicationResp> currencyList;
+
+    /**
+     * 产品的常见问题
+     */
+    private List<ApplicationProblemResp> problemList;
 }
