@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.camelot.kuka.backend.dao.OrderDao">
+
+	<resultMap id="BaseResultMap" type="com.camelot.kuka.backend.model.Order" >
+		<result column="id" property="id" />
+		<result column="order_no" property="orderNo" />
+		<result column="contact_by" property="contactBy" />
+		<result column="contact_phone" property="contactPhone" />
+		<result column="contact_mail" property="contactMail" />
+		<result column="sun_price" property="sunPrice" />
+		<result column="status" property="status" typeHandler="com.camelot.kuka.common.mybatis.handler.EnumTypeHandler"/>
+		<result column="remarks" property="remarks" />
+		<result column="del_state" property="delState" typeHandler="com.camelot.kuka.common.mybatis.handler.EnumTypeHandler"/>
+		<result column="create_time" property="createTime" />
+		<result column="create_by" property="createBy" />
+		<result column="update_time" property="updateTime" />
+		<result column="update_by" property="updateBy" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+                id,
+                order_no,
+                contact_by,
+                contact_phone,
+                contact_mail,
+                sun_price,
+                status,
+                remarks,
+                del_state,
+                create_time,
+                create_by,
+                update_time,
+                update_by
+    </sql>
+
+	<select id="pageList" resultMap="BaseResultMap">
+		SELECT
+			<include refid="Base_Column_List" />
+		FROM
+			t_order
+		<where>
+			<if test ='null != entity.delState'>
+				del_state = #{entity.delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}
+			</if>
+			<if test ='null != entity.status'>
+				and status = #{entity.status, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}
+			</if>
+			<if test ='null != entity.createTimeSta'>
+				and create_time &gt;= #{entity.createTimeSta}
+			</if>
+			<if test ='null != entity.createTimeEnd'>
+				and create_time &lt;= #{entity.createTimeEnd}
+			</if>
+			<if test ='null != entity.queryName and entity.queryName != ""'>
+				<!--  全部 1 产品名称 2 订单编号-->
+				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 2'>
+					and order_no = #{entity.queryName}
+				</if>
+				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 1'>
+					and id in
+						(select order_id from t_order_detailed where app_name = #{entity.queryName})
+				</if>
+				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 0'>
+					and (
+						order_no = #{entity.queryName}
+					or id in
+						(select order_id from t_order_detailed where app_name = #{entity.queryName})
+					)
+				</if>
+			</if>
+		</where>
+	</select>
+
+	<select id="queryById" resultMap="BaseResultMap">
+		SELECT
+			<include refid="Base_Column_List" />
+		FROM
+			t_order
+		<where>
+			<if test ='null != entity.id'>
+				id = #{entity.id}
+			</if>
+			<if test ='null != entity.delState'>
+				and del_state = #{entity.delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}
+			</if>
+		</where>
+	</select>
+
+	<update id="update">
+		UPDATE t_order
+		<set>
+			<if test ='null != orderNo'>
+				order_no = #{orderNo},
+			</if>
+			<if test ='null != contactBy'>
+				contact_by = #{contactBy},
+			</if>
+			<if test ='null != contactPhone'>
+				contact_phone = #{contactPhone},
+			</if>
+			<if test ='null != contactMail'>
+				contact_mail = #{contactMail},
+			</if>
+			<if test ='null != sunPrice'>
+				sun_price = #{sunPrice},
+			</if>
+			<if test ='null != status'>
+				status = #{status, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
+			</if>
+			<if test ='null != remarks'>
+				remarks = #{remarks},
+			</if>
+			<if test ='null != delState'>
+				del_state = #{delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
+			</if>
+			<if test ='null != createTime'>
+				create_time = #{createTime},
+			</if>
+			<if test ='null != createBy'>
+				create_by = #{createBy},
+			</if>
+			<if test ='null != updateTime'>
+				update_time = #{updateTime},
+			</if>
+			<if test ='null != updateBy'>
+				update_by = #{updateBy}
+			</if>
+		</set>
+		WHERE id = #{id}
+	</update>
+</mapper>

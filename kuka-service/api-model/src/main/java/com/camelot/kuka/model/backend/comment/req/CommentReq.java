@@ -27,7 +27,7 @@ public class CommentReq implements Serializable {
     /**
      * 订单id
      */
-    private Long 订单id;
+    private Long orderId;
 
     /**
      * 订单编号

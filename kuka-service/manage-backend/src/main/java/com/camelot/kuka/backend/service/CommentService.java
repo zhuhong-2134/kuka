@@ -1,6 +1,8 @@
 package com.camelot.kuka.backend.service;
 
 import com.camelot.kuka.backend.model.Comment;
+import com.camelot.kuka.model.common.CommonReq;
+import com.camelot.kuka.model.common.Result;
 
 import java.util.List;
 
@@ -22,4 +24,22 @@ public interface CommentService {
      * @author 谢楠
      */
     List<Comment> queryByAppId(Long appId);
+
+    /***
+     * <p>Description:[通过订单ID获取评论信息]</p>
+     * Created on 2020/2/5
+     * @param appId
+     * @return List<Supplier>
+     * @author 谢楠
+     */
+    List<Comment> queryByOrderIds(Long[] appId);
+
+    /***
+     * <p>Description:[删除]</p>
+     * Created on 2020/2/5
+     * @param req
+     * @return List<Supplier>
+     * @author 谢楠
+     */
+    Result delSupplier(CommonReq req, String loginUserName);
 }

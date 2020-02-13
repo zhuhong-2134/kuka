@@ -60,4 +60,9 @@ public class ApplicationProblemResp implements Serializable {
      * 修改人
      */
     private String updateBy;
+
+    /**
+     * 前端需要的默认字段
+     */
+    private Boolean isEditStatus = false;
 }

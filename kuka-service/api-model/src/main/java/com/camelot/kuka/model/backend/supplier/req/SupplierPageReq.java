@@ -7,7 +7,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
- * <p>Description: [用户所有字段请求实体]</p>
+ * <p>Description: [集成商所有字段请求实体]</p>
  * Created on 2020/1/19
  *
  * @author <a href="mailto: xienan@camelotchina.com">谢楠</a>

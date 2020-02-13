@@ -1,5 +1,6 @@
 package com.camelot.kuka.backend.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.camelot.kuka.backend.model.Supplier;
 import com.camelot.kuka.backend.service.SupplierService;
 import com.camelot.kuka.common.controller.BaseController;
@@ -67,19 +68,24 @@ public class SupplierController extends BaseController {
      */
     @PostMapping("/supplier/pageList")
     public PageResult<List<SupplierResp>> pageList(SupplierPageReq req){
-        // 开启分页
-        startPage();
-        // 返回分页
-        List<Supplier> suppliers = supplierService.pageList(req);
-        PageResult<List<SupplierResp>> page = getPage(suppliers, SupplierResp.class);
-        page.putEnumVal("typeEnum", EnumVal.getEnumList(SupplierTypeEnum.class));
-        page.putEnumVal("industryEnum", EnumVal.getEnumList(IndustryTypeEnum.class));
-        page.putEnumVal("appTypeEnum", EnumVal.getEnumList(SkilledAppEnum.class));
-        page.putEnumVal("patternTypeEnum", EnumVal.getEnumList(PatternTypeEnum.class));
-        page.putEnumVal("delStateEnum", EnumVal.getEnumList(DeleteEnum.class));
-        page.putEnumVal("queryTypeEnum", EnumVal.getEnumList(SuppliePageEnum.class));
-        page.putEnumVal("sourceEnum", EnumVal.getEnumList(CreateSourceEnum.class));
-        return page;
+        try {
+            // 开启分页
+            startPage();
+            // 返回分页
+            List<Supplier> suppliers = supplierService.pageList(req);
+            PageResult<List<SupplierResp>> page = getPage(suppliers, SupplierResp.class);
+            page.putEnumVal("typeEnum", EnumVal.getEnumList(SupplierTypeEnum.class));
+            page.putEnumVal("industryEnum", EnumVal.getEnumList(IndustryTypeEnum.class));
+            page.putEnumVal("appTypeEnum", EnumVal.getEnumList(SkilledAppEnum.class));
+            page.putEnumVal("patternTypeEnum", EnumVal.getEnumList(PatternTypeEnum.class));
+            page.putEnumVal("delStateEnum", EnumVal.getEnumList(DeleteEnum.class));
+            page.putEnumVal("queryTypeEnum", EnumVal.getEnumList(SuppliePageEnum.class));
+            page.putEnumVal("sourceEnum", EnumVal.getEnumList(CreateSourceEnum.class));
+            return page;
+        } catch (Exception e) {
+            log.error("\n 集成商模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "queryList", JSON.toJSONString(req), e);
+            return PageResult.error("网络异常, 请稍后再试");
+        }
     }
 
     /***
@@ -91,7 +97,12 @@ public class SupplierController extends BaseController {
      */
     @PostMapping("/supplier/list")
     public Result<List<SupplierResp>> queryList(SupplierPageReq req){
-        return supplierService.queryList(req);
+        try {
+            return supplierService.queryList(req);
+        } catch (Exception e) {
+            log.error("\n 集成商模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "queryList", JSON.toJSONString(req), e);
+            return Result.error("网络异常, 请稍后再试");
+        }
     }
 
     /***
@@ -103,8 +114,13 @@ public class SupplierController extends BaseController {
      */
     @PostMapping("/supplier/add")
     public Result addSupplier(SupplierReq req){
-        String loginUserName = AppUserUtil.getLoginUserName();
-        return supplierService.addSupplier(req, loginUserName);
+        try {
+            String loginUserName = AppUserUtil.getLoginUserName();
+            return supplierService.addSupplier(req, loginUserName);
+        } catch (Exception e) {
+            log.error("\n 集成商模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "addSupplier", JSON.toJSONString(req), e);
+            return Result.error("网络异常, 请稍后再试");
+        }
     }
 
     /***
@@ -116,7 +132,12 @@ public class SupplierController extends BaseController {
      */
     @PostMapping("/supplier/queryById")
     public Result<SupplierResp> queryById(CommonReq req){
-        return supplierService.queryById(req);
+        try {
+            return supplierService.queryById(req);
+        } catch (Exception e) {
+            log.error("\n 集成商模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "queryById", JSON.toJSONString(req), e);
+            return Result.error("网络异常, 请稍后再试");
+        }
     }
 
     /***
@@ -128,8 +149,13 @@ public class SupplierController extends BaseController {
      */
     @PostMapping("/supplier/update")
     public Result updateSupplier(SupplierReq req){
-        String loginUserName = AppUserUtil.getLoginUserName();
-        return supplierService.updateSupplier(req, loginUserName);
+        try {
+            String loginUserName = AppUserUtil.getLoginUserName();
+            return supplierService.updateSupplier(req, loginUserName);
+        } catch (Exception e) {
+            log.error("\n 集成商模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "delSupplier", JSON.toJSONString(req), e);
+            return Result.error("网络异常, 请稍后再试");
+        }
     }
 
     /***
@@ -141,7 +167,12 @@ public class SupplierController extends BaseController {
      */
     @PostMapping("/supplier/del")
     public Result delSupplier(CommonReq req){
-        String loginUserName = AppUserUtil.getLoginUserName();
-        return supplierService.delSupplier(req, loginUserName);
+        try {
+            String loginUserName = AppUserUtil.getLoginUserName();
+            return supplierService.delSupplier(req, loginUserName);
+        } catch (Exception e) {
+            log.error("\n 集成商模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "delSupplier", JSON.toJSONString(req), e);
+            return Result.error("网络异常, 请稍后再试");
+        }
     }
 }

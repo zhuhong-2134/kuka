@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.camelot.kuka.backend.dao.OrderDetailedDao">
+
+	<resultMap id="BaseResultMap" type="com.camelot.kuka.backend.model.OrderDetailed" >
+		<result column="id" property="id" />
+		<result column="order_id" property="orderId" />
+		<result column="supplier_id" property="supplierId" />
+		<result column="app_id" property="appId" />
+		<result column="app_url" property="appUrl" />
+		<result column="app_name" property="appName" />
+		<result column="price" property="price" />
+		<result column="num" property="num" />
+		<result column="sum_price" property="sumPrice" />
+		<result column="del_state" property="delState" typeHandler="com.camelot.kuka.common.mybatis.handler.EnumTypeHandler"/>
+		<result column="create_time" property="createTime" />
+		<result column="create_by" property="createBy" />
+		<result column="update_time" property="updateTime" />
+		<result column="update_by" property="updateBy" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+                id,
+                order_id,
+                supplier_id,
+                app_id,
+                app_url,
+                app_name,
+                price,
+                num,
+                sum_price,
+                del_state,
+                create_time,
+                create_by,
+                update_time,
+                update_by
+    </sql>
+
+	<select id="selectByOrderIds" resultMap="BaseResultMap">
+		SELECT
+			<include refid="Base_Column_List" />
+		FROM
+			t_order_detailed
+		WHERE
+			del_state = 0
+		AND
+			order_id in
+			<foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+	</select>
+</mapper>

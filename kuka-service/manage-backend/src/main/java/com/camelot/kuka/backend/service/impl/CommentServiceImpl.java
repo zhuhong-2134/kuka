@@ -1,11 +1,15 @@
 package com.camelot.kuka.backend.service.impl;
 
+import com.camelot.kuka.backend.dao.CommentDao;
 import com.camelot.kuka.backend.model.Comment;
 import com.camelot.kuka.backend.service.CommentService;
+import com.camelot.kuka.model.common.CommonReq;
+import com.camelot.kuka.model.common.Result;
 import com.camelot.kuka.model.enums.DeleteEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -22,6 +26,8 @@ import java.util.List;
 @Service("commentService")
 public class CommentServiceImpl implements CommentService {
 
+    @Resource
+    private CommentDao commentDao;
 
     @Override
     public List<Comment> queryByAppId(Long appId) {
@@ -48,5 +54,25 @@ public class CommentServiceImpl implements CommentService {
         c2.setPhotoUrl("https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg");
         List<Comment> comments = Arrays.asList(c1, c2);
         return comments;
+    }
+
+    @Override
+    public List<Comment> queryByOrderIds(Long[] appId) {
+        return this.queryByAppId(1L);
+    }
+
+    @Override
+    public Result delSupplier(CommonReq req, String loginUserName) {
+        if (null == req || null == req.getId()) {
+            return Result.error("主键不能为空");
+        }
+        Comment com = new Comment();
+        com.setId(req.getId());
+        com.setDelState(DeleteEnum.YES);
+        int con = commentDao.update(com);
+        if (con == 0) {
+            Result.error("删除失败, 请联系管理员");
+        }
+        return Result.success();
     }
 }

@@ -1,4 +1,4 @@
-package com.camelot.kuka.model.backend.comment.resp;
+package com.camelot.kuka.backend.model;
 
 import com.camelot.kuka.model.enums.DeleteEnum;
 import lombok.Data;
@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * <p>Description: [评论实体]</p>
+ * <p>Description: [订单明细实体]</p>
  * Created on 2020/1/20
  *
  * @author <a href="mailto: xienan@camelotchina.com">谢楠</a>
@@ -15,10 +15,10 @@ import java.util.Date;
  * Copyright (c) 2020 北京柯莱特科技有限公司
  */
 @Data
-public class CommentResp implements Serializable {
+public class OrderDetailed implements Serializable {
 
+    private static final long serialVersionUID = 8537214948021797575L;
 
-    private static final long serialVersionUID = 6343667047050727189L;
     /**
      * 主键
      */
@@ -30,9 +30,9 @@ public class CommentResp implements Serializable {
     private Long orderId;
 
     /**
-     * 订单编号
+     * 集成商id
      */
-    private String orderNo;
+    private Long supplierId;
 
     /**
      * 产品id
@@ -40,29 +40,29 @@ public class CommentResp implements Serializable {
     private Long appId;
 
     /**
-     * 评论说明
+     * 产品图片
      */
-    private String commentDesc;
+    private String appUrl;
 
     /**
-     * 评论图片
+     * 产品名称
      */
-    private String commentUrl;
+    private String appName;
 
     /**
-     * 评论分类--待定
+     * 单价
      */
-    private Integer commentType;
+    private Double price;
 
     /**
-     * 审核状态:0:待审核;1:审核通过;2:审核不通过
+     * 数量
      */
-    private Integer status;
+    private Integer num;
 
     /**
-     * 审核时间
+     * 订单总额
      */
-    private DeleteEnum adoptTime;
+    private Double sumPrice;
 
     /**
      * 删除标识0:未删除;1已删除
@@ -88,14 +88,4 @@ public class CommentResp implements Serializable {
      * 修改人
      */
     private String updateBy;
-
-    /**
-     * 评论图片数组
-     */
-    private String[] commentUrls;
-
-    /**
-     * 头像地址
-     */
-    private String photoUrl;
 }

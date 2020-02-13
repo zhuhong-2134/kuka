@@ -166,7 +166,7 @@
 			t_supplier
 		<where>
 			<if test ='null != entity.delState'>
-				del_state = #{entity.delState}
+				del_state = #{entity.delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}
 			</if>
 			<if test ='null != entity.id'>
 				and id = #{entity.id}

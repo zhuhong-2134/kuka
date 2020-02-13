@@ -186,18 +186,37 @@ public class ApplicationServiceImpl implements ApplicationService {
         if (StringUtils.isBlank(req.getCurrencyAppIds())) {
             return Result.success();
         }
+        // 新增的数据
         List<ApplicationCurrency> addAppCurrencyList = new ArrayList<>();
+
+        // 过滤已经存在的适用产品
+        List<ApplicationCurrency> oidList = applicationCurrencyDao.selectByAppId(req.getAppId());
         for (String appIds : req.getCurrencyAppIds().split(",")) {
-            ApplicationCurrency crrency = new ApplicationCurrency();
-            crrency.setAppId(req.getAppId());
-            crrency.setCurrencyId(Long.valueOf(appIds));
-            Long id = codeGenerateUtil.generateId(PrincipalEnum.MANAGE_APPLICATION_CURRENCY);
-            crrency.setId(id);
-            addAppCurrencyList.add(crrency);
+            boolean status = true;
+            for (ApplicationCurrency applicationCurrency : oidList) {
+                // 对比数据库数据 如果存在本次不新增
+                if (Long.valueOf(appIds) == applicationCurrency.getCurrencyId()) {
+                    status = false;
+                    break;
+                }
+            }
+            // 不存在的新增
+            if (status) {
+                ApplicationCurrency crrency = new ApplicationCurrency();
+                crrency.setAppId(req.getAppId());
+                crrency.setCurrencyId(Long.valueOf(appIds));
+                Long id = codeGenerateUtil.generateId(PrincipalEnum.MANAGE_APPLICATION_CURRENCY);
+                crrency.setId(id);
+                addAppCurrencyList.add(crrency);
+            }
         }
+
+        if (addAppCurrencyList.isEmpty()) {
+            // 新增的数据, 数据库有, 不代表新增失败
+            return Result.success();
+        }
+
         try {
-            // 删除原有数据
-            applicationCurrencyDao.deleteByAppId(req.getAppId());
             // 新增新的数据
             int cont = applicationCurrencyDao.insertBatch(addAppCurrencyList);
             if (cont == 0) {

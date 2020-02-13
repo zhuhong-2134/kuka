@@ -1,5 +1,6 @@
 package com.camelot.kuka.backend.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.camelot.kuka.backend.service.ApplicationProbleService;
 import com.camelot.kuka.common.controller.BaseController;
 import com.camelot.kuka.common.utils.AppUserUtil;
@@ -40,8 +41,13 @@ public class AppProbleController extends BaseController {
      */
     @PostMapping("/app/proble/add")
     public Result addProbleApplication(ApplicationProblemReq req){
-        String loginUserName = AppUserUtil.getLoginUserName();
-        return applicationProbleService.addProbleApplication(req, loginUserName);
+        try {
+            String loginUserName = AppUserUtil.getLoginUserName();
+            return applicationProbleService.addProbleApplication(req, loginUserName);
+        } catch (Exception e) {
+            log.error("\n 应用常见问模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "addProbleApplication", JSON.toJSONString(req), e);
+            return Result.error("网络异常, 请稍后再试");
+        }
     }
 
 
@@ -54,7 +60,12 @@ public class AppProbleController extends BaseController {
      */
     @PostMapping("/app/proble/update")
     public Result updateProbleApplication(ApplicationProblemReq req){
-        String loginUserName = AppUserUtil.getLoginUserName();
-        return applicationProbleService.updateProbleApplication(req, loginUserName);
+        try {
+            String loginUserName = AppUserUtil.getLoginUserName();
+            return applicationProbleService.updateProbleApplication(req, loginUserName);
+        } catch (Exception e) {
+            log.error("\n 应用常见问模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "updateProbleApplication", JSON.toJSONString(req), e);
+            return Result.error("网络异常, 请稍后再试");
+        }
     }
 }

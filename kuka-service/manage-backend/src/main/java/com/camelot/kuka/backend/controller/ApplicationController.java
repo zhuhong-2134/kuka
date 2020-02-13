@@ -1,5 +1,6 @@
 package com.camelot.kuka.backend.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.camelot.kuka.backend.model.Application;
 import com.camelot.kuka.backend.service.ApplicationService;
 import com.camelot.kuka.common.controller.BaseController;
@@ -7,7 +8,6 @@ import com.camelot.kuka.common.utils.AppUserUtil;
 import com.camelot.kuka.model.backend.application.req.AppPageReq;
 import com.camelot.kuka.model.backend.application.req.ApplicationCurrencyReq;
 import com.camelot.kuka.model.backend.application.req.ApplicationEditReq;
-import com.camelot.kuka.model.backend.application.req.ApplicationProblemReq;
 import com.camelot.kuka.model.backend.application.resp.ApplicationResp;
 import com.camelot.kuka.model.backend.application.resp.QyeryUpdateResp;
 import com.camelot.kuka.model.common.CommonReq;
@@ -72,18 +72,23 @@ public class ApplicationController extends BaseController {
      */
     @PostMapping("/application/pageList")
     public PageResult<List<ApplicationResp>> pageList(AppPageReq req){
-        // 开启分页
-        startPage();
-        // 返回分页
-        List<Application> application = applicationService.queryList(req);
-        PageResult<List<ApplicationResp>> page = getPage(application, ApplicationResp.class);
-        page.putEnumVal("classTypeEnum", EnumVal.getEnumList(AppTypeEnum.class));
-        page.putEnumVal("appRangeEnum", EnumVal.getEnumList(SkilledAppEnum.class));
-        page.putEnumVal("industryEnum", EnumVal.getEnumList(IndustryTypeEnum.class));
-        page.putEnumVal("appStatusEnum", EnumVal.getEnumList(AppStatusEnum.class));
-        page.putEnumVal("delStateEnum", EnumVal.getEnumList(DeleteEnum.class));
-        page.putEnumVal("queryTypeEnum", EnumVal.getEnumList(ApplicationPageEnum.class));
-        return page;
+        try {
+            // 开启分页
+            startPage();
+            // 返回分页
+            List<Application> application = applicationService.queryList(req);
+            PageResult<List<ApplicationResp>> page = getPage(application, ApplicationResp.class);
+            page.putEnumVal("classTypeEnum", EnumVal.getEnumList(AppTypeEnum.class));
+            page.putEnumVal("appRangeEnum", EnumVal.getEnumList(SkilledAppEnum.class));
+            page.putEnumVal("industryEnum", EnumVal.getEnumList(IndustryTypeEnum.class));
+            page.putEnumVal("appStatusEnum", EnumVal.getEnumList(AppStatusEnum.class));
+            page.putEnumVal("delStateEnum", EnumVal.getEnumList(DeleteEnum.class));
+            page.putEnumVal("queryTypeEnum", EnumVal.getEnumList(ApplicationPageEnum.class));
+            return page;
+        } catch (Exception e) {
+            log.error("\n 产品模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "pageList", JSON.toJSONString(req), e);
+            return PageResult.error("网络异常, 请稍后再试");
+        }
     }
 
     /***
@@ -95,8 +100,13 @@ public class ApplicationController extends BaseController {
      */
     @PostMapping("/application/add")
     public Result addApplication(ApplicationEditReq req){
-        String loginUserName = AppUserUtil.getLoginUserName();
-        return applicationService.addApplication(req, loginUserName);
+        try {
+            String loginUserName = AppUserUtil.getLoginUserName();
+            return applicationService.addApplication(req, loginUserName);
+        } catch (Exception e) {
+            log.error("\n 产品模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "addApplication", JSON.toJSONString(req), e);
+            return Result.error("网络异常, 请稍后再试");
+        }
     }
 
     /***
@@ -108,7 +118,12 @@ public class ApplicationController extends BaseController {
      */
     @PostMapping("/application/addCurrency")
     public Result addCurrency(ApplicationCurrencyReq req){
-        return applicationService.addCurrency(req);
+        try {
+            return applicationService.addCurrency(req);
+        } catch (Exception e) {
+            log.error("\n 产品模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "addCurrency", JSON.toJSONString(req), e);
+            return Result.error("网络异常, 请稍后再试");
+        }
     }
 
     /***
@@ -120,7 +135,12 @@ public class ApplicationController extends BaseController {
      */
     @PostMapping("/application/qyeryUpdateById")
     public Result<QyeryUpdateResp> qyeryUpdateById(CommonReq req){
-        return applicationService.qyeryUpdateById(req);
+        try {
+            return applicationService.qyeryUpdateById(req);
+        } catch (Exception e) {
+            log.error("\n 产品模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "qyeryUpdateById", JSON.toJSONString(req), e);
+            return Result.error("网络异常, 请稍后再试");
+        }
     }
 
     /***
@@ -132,8 +152,13 @@ public class ApplicationController extends BaseController {
      */
     @PostMapping("/application/update")
     public Result updateApplication(ApplicationEditReq req){
-        String loginUserName = AppUserUtil.getLoginUserName();
-        return applicationService.updateApplication(req, loginUserName);
+        try {
+            String loginUserName = AppUserUtil.getLoginUserName();
+            return applicationService.updateApplication(req, loginUserName);
+        } catch (Exception e) {
+            log.error("\n 产品模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "updateApplication", JSON.toJSONString(req), e);
+            return Result.error("网络异常, 请稍后再试");
+        }
     }
 
     /***
@@ -145,7 +170,12 @@ public class ApplicationController extends BaseController {
      */
     @PostMapping("/application/updateAppStatus")
     public Result updateAppStatus(ApplicationEditReq req){
-        String loginUserName = AppUserUtil.getLoginUserName();
-        return applicationService.updateAppStatus(req, loginUserName);
+        try {
+            String loginUserName = AppUserUtil.getLoginUserName();
+            return applicationService.updateAppStatus(req, loginUserName);
+        } catch (Exception e) {
+            log.error("\n 产品模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "updateAppStatus", JSON.toJSONString(req), e);
+            return Result.error("网络异常, 请稍后再试");
+        }
     }
 }

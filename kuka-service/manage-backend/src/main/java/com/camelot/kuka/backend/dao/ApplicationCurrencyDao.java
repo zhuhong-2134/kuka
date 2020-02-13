@@ -35,4 +35,13 @@ public interface ApplicationCurrencyDao {
      * @author 谢楠
      */
     int insertBatch(@Param("list") List<ApplicationCurrency> addAppCurrencyList);
+
+    /***
+     * <p>Description:[根据appId获取]</p>
+     * Created on 2020/2/5
+     * @param appId
+     * @return List<ApplicationCurrency>
+     * @author 谢楠
+     */
+    List<ApplicationCurrency> selectByAppId(@Param("appId") Long appId);
 }

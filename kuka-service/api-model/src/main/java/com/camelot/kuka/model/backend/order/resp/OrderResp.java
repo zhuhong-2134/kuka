@@ -1,13 +1,16 @@
-package com.camelot.kuka.model.backend.comment.resp;
+package com.camelot.kuka.model.backend.order.resp;
 
+import com.camelot.kuka.model.backend.comment.resp.CommentResp;
 import com.camelot.kuka.model.enums.DeleteEnum;
+import com.camelot.kuka.model.enums.order.OrderStatusEnum;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
- * <p>Description: [评论实体]</p>
+ * <p>Description: [订单返回实体]</p>
  * Created on 2020/1/20
  *
  * @author <a href="mailto: xienan@camelotchina.com">谢楠</a>
@@ -15,19 +18,16 @@ import java.util.Date;
  * Copyright (c) 2020 北京柯莱特科技有限公司
  */
 @Data
-public class CommentResp implements Serializable {
+public class OrderResp implements Serializable {
 
 
-    private static final long serialVersionUID = 6343667047050727189L;
+    private static final long serialVersionUID = 1736245550183514160L;
+
+
     /**
      * 主键
      */
     private Long id;
-
-    /**
-     * 订单id
-     */
-    private Long orderId;
 
     /**
      * 订单编号
@@ -35,34 +35,34 @@ public class CommentResp implements Serializable {
     private String orderNo;
 
     /**
-     * 产品id
+     * 应用联系人
      */
-    private Long appId;
+    private String contactBy;
 
     /**
-     * 评论说明
+     * 应用联系人电话
      */
-    private String commentDesc;
+    private String contactPhone;
 
     /**
-     * 评论图片
+     * 应用联系邮箱
      */
-    private String commentUrl;
+    private String contactMail;
 
     /**
-     * 评论分类--待定
+     * 总额
      */
-    private Integer commentType;
+    private Double sunPrice;
 
     /**
-     * 审核状态:0:待审核;1:审核通过;2:审核不通过
+     * 订单状态;0:待支付;1已完成
      */
-    private Integer status;
+    private OrderStatusEnum status;
 
     /**
-     * 审核时间
+     * 留言
      */
-    private DeleteEnum adoptTime;
+    private String remarks;
 
     /**
      * 删除标识0:未删除;1已删除
@@ -89,13 +89,15 @@ public class CommentResp implements Serializable {
      */
     private String updateBy;
 
-    /**
-     * 评论图片数组
-     */
-    private String[] commentUrls;
 
     /**
-     * 头像地址
+     * 订单明细
      */
-    private String photoUrl;
+    private List<OrderDetailedResp> detaileList;
+
+
+    /**
+     * 评论信息
+     */
+    private List<CommentResp> commentList;
 }
