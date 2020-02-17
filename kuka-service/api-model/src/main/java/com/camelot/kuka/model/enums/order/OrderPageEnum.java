@@ -3,7 +3,7 @@ package com.camelot.kuka.model.enums.order;
 import com.camelot.kuka.model.enums.BaseEnum;
 
 /**
- * <p>Description: [集成商查询枚举]</p>
+ * <p>Description: [订单查询枚举]</p>
  * Created on 2020年2月5日
  * @author <a href="mailto: hexiaobo@camelotchina.com">谢楠</a>
  * @version 1.0

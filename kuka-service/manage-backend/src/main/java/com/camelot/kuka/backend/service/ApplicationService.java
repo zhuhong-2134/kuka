@@ -74,4 +74,13 @@ public interface ApplicationService {
      * @author 谢楠
      */
     Result updateAppStatus(ApplicationEditReq req, String loginUserName);
+
+    /***
+     * <p>Description:[删除应用]</p>
+     * Created on 2020/2/5
+     * @param req
+     * @return List<Supplier>
+     * @author 谢楠
+     */
+    Result deleteApplication(CommonReq req, String loginUserName);
 }

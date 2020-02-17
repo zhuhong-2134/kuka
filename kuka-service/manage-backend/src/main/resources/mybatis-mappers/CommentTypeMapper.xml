@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.camelot.kuka.backend.dao.CommentTypeDao">
+
+	<resultMap id="BaseResultMap" type="com.camelot.kuka.backend.model.CommentType" >
+		<result column="id" property="id" />
+		<result column="code" property="code" />
+		<result column="name" property="name" />
+		<result column="des" property="des" />
+		<result column="app_id" property="appId" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+                id,
+                code,
+                name,
+                des,
+                app_id
+    </sql>
+
+	<select id="queryList" resultMap="BaseResultMap">
+		SELECT
+			<include refid="Base_Column_List" />
+		FROM
+			t_comment_type
+	</select>
+
+	<select id="queryMaxCode" resultType="java.lang.Integer">
+		SELECT MAX(code) FROM t_comment_type
+	</select>
+
+	<delete id="deleteCommentType" >
+        DELETE FROM
+        	t_comment_type
+        WHERE id = #{id}
+    </delete>
+
+	<insert id="insertBatch">
+		INSERT INTO
+		t_comment_type(
+				id,
+                code,
+                name,
+                des,
+                app_id
+		)
+		VALUES
+		<foreach collection="list" item="item" index="index" separator=",">
+			(
+			#{item.id},
+			#{item.code},
+			#{item.name},
+			#{item.des},
+			#{item.appId}
+			)
+		</foreach>
+	</insert>
+</mapper>

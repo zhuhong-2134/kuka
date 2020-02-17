@@ -1,25 +1,24 @@
-package com.camelot.kuka.model.enums.application;
+package com.camelot.kuka.model.enums.comment;
 
 import com.camelot.kuka.model.enums.BaseEnum;
 
 /**
- * <p>Description: [应用审核状态枚举]</p>
+ * <p>Description: [评论审核枚举]</p>
  * Created on 2020年2月5日
  * @author <a href="mailto: hexiaobo@camelotchina.com">谢楠</a>
  * @version 1.0
  * Copyright (c) 2019 北京柯莱特科技有限公司
  */
-public enum AppStatusEnum implements BaseEnum {
+public enum CommentStatusEnum implements BaseEnum {
 
-    NEW(0, "新建"),
-    WAIT(1, "待审核"),
-    YES(2, "审核通过"),
-    NO(3, "审核不通过");
+    WAIT(0, "待审核"),
+    NO(1, "审核不通过"),
+    YES(2, "审核通过");
 
     private Integer code;
     private String description;
 
-    private AppStatusEnum(Integer code, String description) {
+    private CommentStatusEnum(Integer code, String description) {
         this.code = code;
         this.description = description;
     }
@@ -32,11 +31,11 @@ public enum AppStatusEnum implements BaseEnum {
      * @version 1.0
      * Copyright (c) 2019 北京柯莱特科技有限公司
      **/
-    public static AppStatusEnum get(Integer code) {
+    public static CommentStatusEnum get(Integer code) {
         if (code == null) {
             return null;
         }
-        for (AppStatusEnum e : AppStatusEnum.values()) {
+        for (CommentStatusEnum e : CommentStatusEnum.values()) {
             if (code.equals(e.getCode())) {
                 return e;
             }
@@ -52,11 +51,11 @@ public enum AppStatusEnum implements BaseEnum {
      * @version 1.0
      * Copyright (c) 2019 北京柯莱特科技有限公司
      **/
-    public static AppStatusEnum get(String description) {
+    public static CommentStatusEnum get(String description) {
         if (description == null || description.trim().length() == 0) {
             return null;
         }
-        for (AppStatusEnum e : AppStatusEnum.values()) {
+        for (CommentStatusEnum e : CommentStatusEnum.values()) {
             if (e.getDescription().equals(description)) {
                 return e;
             }

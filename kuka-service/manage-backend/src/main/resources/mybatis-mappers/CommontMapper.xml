@@ -11,8 +11,10 @@
 		<result column="comment_desc" property="commentDesc" />
 		<result column="comment_url" property="commentUrl" />
 		<result column="comment_type" property="commentType" />
-		<result column="status" property="status" />
+		<result column="status" property="status" typeHandler="com.camelot.kuka.common.mybatis.handler.EnumTypeHandler"/>
 		<result column="adopt_time" property="adoptTime" />
+		<result column="user_id" property="userId" />
+		<result column="photo_url" property="photoUrl" />
 		<result column="del_state" property="delState" typeHandler="com.camelot.kuka.common.mybatis.handler.EnumTypeHandler"/>
 		<result column="create_time" property="createTime" />
 		<result column="create_by" property="createBy" />
@@ -30,12 +32,59 @@
                 comment_type,
                 status,
                 adopt_time,
+                user_id,
+                photo_url,
                 del_state,
                 create_time,
                 create_by,
                 update_time,
                 update_by
     </sql>
+
+	<select id="pageList" resultMap="BaseResultMap">
+		SELECT
+			<include refid="Base_Column_List" />
+		FROM
+			t_comment
+		<where>
+			<if test ='null != entity.delState'>
+				del_state = #{entity.delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}
+			</if>
+			<if test ='null != entity.status'>
+				and status = #{entity.status, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}
+			</if>
+			<if test ='null != entity.adoptTimeSta'>
+				and adopt_time &gt;= #{entity.adoptTimeSta}
+			</if>
+			<if test ='null != entity.adoptTimeEnd'>
+				and adopt_time &lt;= #{entity.adoptTimeEnd}
+			</if>
+			<if test ='null != entity.commentType'>
+				and comment_type = #{entity.commentType}
+			</if>
+			<if test ='null != entity.queryName and entity.queryName != ""'>
+				<!--  0 全部 1 产品名称 2 订单编号 3 ID-->
+				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 3'>
+					and id = #{entity.queryName}
+				</if>
+				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 2'>
+					and order_no = #{entity.queryName}
+				</if>
+				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 1'>
+					and id in
+					(select order_id from t_order_detailed where app_name = #{entity.queryName})
+				</if>
+				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 0'>
+					and (
+					id = #{entity.queryName}
+					or order_no = #{entity.queryName}
+					or id in
+					(select order_id from t_order_detailed where app_name = #{entity.queryName})
+					)
+				</if>
+			</if>
+		</where>
+	</select>
 
 	<select id="queryByOrderIds" resultMap="BaseResultMap">
 		SELECT
@@ -83,10 +132,16 @@
 				comment_type = #{commentType},
 			</if>
 			<if test ='null != status'>
-				status = #{status},
+				status = #{status, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
 			</if>
 			<if test ='null != adoptTime'>
 				adopt_time = #{adoptTime},
+			</if>
+			<if test ='null != userId'>
+				user_id = #{userId},
+			</if>
+			<if test ='null != photoUrl'>
+				photo_url = #{photoUrl},
 			</if>
 			<if test ='null != delState'>
 				del_state = #{delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
@@ -106,4 +161,25 @@
 		</set>
 		WHERE id = #{id}
 	</update>
+
+	<select id="queryInfo" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM
+		t_comment
+		<where>
+			<if test ='null != entity.delState'>
+				del_state = #{entity.delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}
+			</if>
+			<if test ='null != entity.id'>
+				and id = #{entity.id}
+			</if>
+			<if test ='null != entity.status'>
+				and status = #{entity.status, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}
+			</if>
+			<if test ='null != entity.commentType'>
+				and comment_type = #{entity.commentType}
+			</if>
+		</where>
+	</select>
 </mapper>

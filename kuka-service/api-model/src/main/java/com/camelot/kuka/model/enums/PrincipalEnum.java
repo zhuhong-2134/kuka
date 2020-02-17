@@ -21,6 +21,10 @@ public enum PrincipalEnum {
 
     MANAGE_APPLICATION_CURRENCY("manage_t_application_currency", "通用产品"),
 
+    MANAGE_COMMENT("manage_t_comment", "评论"),
+
+    MANAGE_COMMENT_TYPE("manage_t_comment_type", "评论分类"),
+
     MANAGE_APPLICATION_PROBLEM("manage_t_application_problem", "应用常见问题");
 
     private String key;

@@ -113,9 +113,14 @@ public class ApplicationResp implements Serializable {
     private Integer requestCount;
 
     /**
-     * 应用状态
+     * 审核状态
      */
     private AppStatusEnum appStatus;
+
+    /**
+     * 审核意见
+     */
+    private String opinion;
 
     /**
      * 删除标识0:未删除;1已删除

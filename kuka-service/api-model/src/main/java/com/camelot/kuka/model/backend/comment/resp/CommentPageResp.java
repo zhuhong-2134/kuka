@@ -19,7 +19,7 @@ import java.util.List;
  * Copyright (c) 2020 北京柯莱特科技有限公司
  */
 @Data
-public class CommentResp implements Serializable {
+public class CommentPageResp implements Serializable {
 
 
     private static final long serialVersionUID = 6343667047050727189L;

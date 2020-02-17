@@ -1,6 +1,7 @@
 package com.camelot.kuka.model.backend.application.req;
 
 import com.camelot.kuka.model.enums.DeleteEnum;
+import com.camelot.kuka.model.enums.application.AppStatusEnum;
 import com.camelot.kuka.model.enums.application.AppTypeEnum;
 import com.camelot.kuka.model.enums.backend.ApplicationPageEnum;
 import lombok.Data;
@@ -25,6 +26,11 @@ public class AppPageReq implements Serializable {
 	 * 分类
 	 */
 	private AppTypeEnum classType;
+
+	/**
+	 * 审核状态
+	 */
+	private AppStatusEnum appStatus;
 
 	/**
 	 * 0 名称 1 ID 2 交易数

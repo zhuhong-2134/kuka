@@ -2,7 +2,7 @@ package com.camelot.kuka.backend.dao;
 
 
 import com.camelot.kuka.backend.model.Comment;
-import com.camelot.kuka.model.common.CommonReq;
+import com.camelot.kuka.model.backend.comment.req.CommentPageReq;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -45,4 +45,22 @@ public interface CommentDao {
      * @author 谢楠
      */
     int update(Comment comment);
+
+    /***
+     * <p>Description:[分页列表]</p>
+     * Created on 2020/2/5
+     * @param req
+     * @return int
+     * @author 谢楠
+     */
+    List<Comment> pageList(@Param("entity") CommentPageReq req);
+
+    /***
+     * <p>Description:[但条件查询]</p>
+     * Created on 2020/2/5
+     * @param query
+     * @return int
+     * @author 谢楠
+     */
+    Comment queryInfo(@Param("entity")Comment query);
 }

@@ -1,6 +1,7 @@
 package com.camelot.kuka.model.backend.comment.req;
 
 import com.camelot.kuka.model.enums.DeleteEnum;
+import com.camelot.kuka.model.enums.comment.CommentStatusEnum;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -55,9 +56,19 @@ public class CommentReq implements Serializable {
     private Integer commentType;
 
     /**
+     * 用户id
+     */
+    private Long userId;
+
+    /**
+     * 头像
+     */
+    private String photoUrl;
+
+    /**
      * 审核状态:0:待审核;1:审核通过;2:审核不通过
      */
-    private Integer status;
+    private CommentStatusEnum status;
 
     /**
      * 审核时间

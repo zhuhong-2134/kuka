@@ -1,6 +1,9 @@
 package com.camelot.kuka.backend.service;
 
 import com.camelot.kuka.backend.model.Comment;
+import com.camelot.kuka.model.backend.comment.req.CommentPageReq;
+import com.camelot.kuka.model.backend.comment.req.CommentReq;
+import com.camelot.kuka.model.backend.comment.resp.CommentResp;
 import com.camelot.kuka.model.common.CommonReq;
 import com.camelot.kuka.model.common.Result;
 
@@ -17,10 +20,19 @@ import java.util.List;
 public interface CommentService {
 
     /***
+     * <p>Description:[分页获取信息]</p>
+     * Created on 2020/2/5
+     * @param req
+     * @return List<Comment>
+     * @author 谢楠
+     */
+    List<Comment> pageList(CommentPageReq req);
+
+    /***
      * <p>Description:[通过产品ID获取评论信息]</p>
      * Created on 2020/2/5
      * @param appId
-     * @return List<Supplier>
+     * @return List<Comment>
      * @author 谢楠
      */
     List<Comment> queryByAppId(Long appId);
@@ -42,4 +54,22 @@ public interface CommentService {
      * @author 谢楠
      */
     Result delSupplier(CommonReq req, String loginUserName);
+
+    /***
+     * <p>Description:[审核]</p>
+     * Created on 2020/2/5
+     * @param req
+     * @return List<Supplier>
+     * @author 谢楠
+     */
+    Result toExamine(CommentReq req, String loginUserName);
+
+    /***
+     * <p>Description:[通过ID获取数据]</p>
+     * Created on 2020/2/5
+     * @param req
+     * @return List<Supplier>
+     * @author 谢楠
+     */
+    Result<CommentResp> queryById(CommonReq req);
 }

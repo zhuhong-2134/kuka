@@ -21,7 +21,6 @@ import com.camelot.kuka.model.common.CommonReq;
 import com.camelot.kuka.model.common.Result;
 import com.camelot.kuka.model.enums.DeleteEnum;
 import com.camelot.kuka.model.enums.PrincipalEnum;
-import com.camelot.kuka.model.enums.application.AppStatusEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -248,6 +247,25 @@ public class ApplicationServiceImpl implements ApplicationService {
         return Result.success();
     }
 
+    @Override
+    public Result deleteApplication(CommonReq req, String loginUserName) {
+        Application application = new Application();
+        application.setId(req.getId());
+        application.setDelState(DeleteEnum.YES);
+        application.setUpdateBy(loginUserName);
+        application.setUpdateTime(new Date());
+        try {
+            int cont = applicationDao.update(application);
+            if (cont == 0) {
+                return Result.error("删除应用失败, 联系管理员");
+            }
+        } catch (Exception e) {
+            log.error("\n 删除应用失败, 参数:{}, \n 错误信息:{}", JSON.toJSON(req), e);
+            return Result.error("删除应用失败, 联系管理员");
+        }
+        return Result.success();
+    }
+
     /**
      * 校验非空字段
      * @param req
@@ -293,7 +311,6 @@ public class ApplicationServiceImpl implements ApplicationService {
         application.setCreateBy(loginUserName);
         application.setCreateTime(new Date());
         application.setDelState(DeleteEnum.NO);
-        application.setAppStatus(AppStatusEnum.OPEN);
         try {
             int cont = applicationDao.insertBatch(Arrays.asList(application));
             if (cont == 0) {

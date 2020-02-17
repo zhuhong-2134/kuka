@@ -23,6 +23,7 @@
 		<result column="supplier_id" property="supplierId" />
 		<result column="request_count" property="requestCount" />
 		<result column="app_status" property="appStatus" typeHandler="com.camelot.kuka.common.mybatis.handler.EnumTypeHandler"/>
+		<result column="opinion" property="opinion"/>
 		<result column="del_state" property="delState" typeHandler="com.camelot.kuka.common.mybatis.handler.EnumTypeHandler"/>
 		<result column="create_time" property="createTime" />
 		<result column="create_by" property="createBy" />
@@ -50,6 +51,7 @@
                 supplier_id,
                 request_count,
                 app_status,
+                opinion,
                 del_state,
                 create_time,
                 create_by,
@@ -68,6 +70,9 @@
 			</if>
 			<if test ='null != entity.classType'>
 				and class_type = #{entity.classType, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}
+			</if>
+			<if test ='null != entity.appStatus'>
+				and app_status = #{entity.appStatus, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}
 			</if>
 			<if test ='null != entity.createTimeSta'>
 				and create_time &gt;= #{entity.createTimeSta}
@@ -111,6 +116,7 @@
                 supplier_id,
                 request_count,
                 app_status,
+				opinion,
                 del_state,
                 create_time,
                 create_by,
@@ -139,6 +145,7 @@
 				#{item.supplierId},
 				#{item.requestCount},
 				#{item.appStatus, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
+				#{item.opinion},
 				#{item.delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
 				#{item.createTime},
 				#{item.createBy},
@@ -238,6 +245,9 @@
 			</if>
 			<if test ='null != appStatus'>
 				app_status = #{appStatus, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
+			</if>
+			<if test ='null != opinion'>
+				opinion = #{opinion},
 			</if>
 			<if test ='null != delState'>
 				del_state = #{delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},

@@ -1,10 +1,13 @@
 package com.camelot.kuka.backend.model;
 
+import com.camelot.kuka.model.backend.order.resp.OrderDetailedResp;
 import com.camelot.kuka.model.enums.DeleteEnum;
+import com.camelot.kuka.model.enums.comment.CommentStatusEnum;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * <p>Description: [评论实体]</p>
@@ -56,12 +59,22 @@ public class Comment implements Serializable {
     /**
      * 审核状态:0:待审核;1:审核通过;2:审核不通过
      */
-    private Integer status;
+    private CommentStatusEnum status;
 
     /**
      * 审核时间
      */
-    private DeleteEnum adoptTime;
+    private Date adoptTime;
+
+    /**
+     * 用户id
+     */
+    private Long userId;
+
+    /**
+     * 头像
+     */
+    private String photoUrl;
 
     /**
      * 删除标识0:未删除;1已删除
@@ -98,7 +111,12 @@ public class Comment implements Serializable {
     private String[] commentUrls;
 
     /**
-     * 头像地址
+     * 订单明细
      */
-    private String photoUrl;
+    private List<OrderDetailedResp> detaileList;
+
+    /**
+     * 总额
+     */
+    private Double sunPrice;
 }

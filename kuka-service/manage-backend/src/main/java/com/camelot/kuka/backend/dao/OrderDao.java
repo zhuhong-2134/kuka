@@ -44,4 +44,13 @@ public interface OrderDao {
      * @author 谢楠
      */
     int update(Order order);
+
+    /***
+     * <p>Description:[通过ID获取]</p>
+     * Created on 2020/2/5
+     * @param ids
+     * @return List
+     * @author 谢楠
+     */
+    List<Order> queryByIds(@Param("array")Long[] ids);
 }
