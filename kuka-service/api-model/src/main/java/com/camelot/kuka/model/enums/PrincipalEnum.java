@@ -12,7 +12,10 @@ import java.util.EnumSet;
 public enum PrincipalEnum {
 
     USER_USER("user_t_user", "用户中心"),
-    
+    USER_ROLE("user_t_role", "角色管理"),
+    USER_ROLE_MENU("user_t_role_menu", "角色菜单中间表"),
+    USER_MENU("user_t_menu", "菜单表"),
+
     MANAGE_SUPPLIER("manage_t_supplier", "集成商"),
 
     MANAGE_APPLICATION("manage_t_application", "应用"),

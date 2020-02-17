@@ -3,6 +3,7 @@ package com.camelot.kuka.model.user.resp;
 import com.camelot.kuka.model.enums.DeleteEnum;
 import com.camelot.kuka.model.enums.SexEnum;
 import com.camelot.kuka.model.enums.user.CreateSourceEnum;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -123,6 +124,7 @@ public class UserResp implements Serializable {
 	/**
 	 * 创建时间
 	 */
+	@JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date createTime;
 
 	/**
@@ -133,6 +135,7 @@ public class UserResp implements Serializable {
 	/**
 	 * 修改时间
 	 */
+	@JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date updateTime;
 
 	/**

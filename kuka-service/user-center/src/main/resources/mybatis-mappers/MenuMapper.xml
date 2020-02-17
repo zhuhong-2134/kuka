@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.camelot.kuka.user.dao.MenuDao">
+
+	<resultMap id="BaseResultMap" type="com.camelot.kuka.user.model.Menu" >
+		<result column="id" property="id" />
+		<result column="menu_name" property="menuName" />
+		<result column="p_id" property="pId" />
+		<result column="href_url" property="hrefUrl" />
+		<result column="create_time" property="createTime" />
+		<result column="create_by" property="createBy" />
+		<result column="update_time" property="updateTime" />
+		<result column="update_by" property="updateBy" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+                id,
+                menu_name,
+                p_id,
+                href_url,
+                create_time,
+                create_by,
+                update_time,
+                update_by
+    </sql>
+
+	<select id="pageList" resultMap="BaseResultMap">
+		SELECT
+			<include refid="Base_Column_List" />
+		FROM
+			t_menu
+	</select>
+
+	<select id="queryList" resultMap="BaseResultMap">
+		SELECT
+			<include refid="Base_Column_List" />
+		FROM
+			t_menu
+	</select>
+	
+	<insert id="addBatch" >
+		INSERT INTO t_menu(
+			id,
+			menu_name,
+			p_id,
+			href_url,
+			create_time,
+			create_by,
+			update_time,
+			update_by
+		)
+		VALUES
+		<foreach collection="list" item="item" index="index" separator=",">
+			(
+				#{item.id},
+				#{item.menuName},
+				#{item.pId},
+				#{item.hrefUrl},
+				#{item.createTime},
+				#{item.createBy},
+				#{item.updateTime},
+			)
+		</foreach>
+	</insert>
+
+	<update id="update">
+		UPDATE t_menu
+		<set>
+			<if test ='null != menuName'>
+				menu_name = #{menuName},
+			</if>
+			<if test ='null != pId'>
+				p_id = #{pId},
+			</if>
+			<if test ='null != hrefUrl'>
+				href_url = #{hrefUrl},
+			</if>
+			<if test ='null != createTime'>
+				create_time = #{createTime},
+			</if>
+			<if test ='null != createBy'>
+				create_by = #{createBy},
+			</if>
+			<if test ='null != updateTime'>
+				update_time = #{updateTime},
+			</if>
+			<if test ='null != updateBy'>
+				update_by = #{updateBy}
+			</if>
+		</set>
+		WHERE id = #{id}
+	</update>
+
+</mapper>
