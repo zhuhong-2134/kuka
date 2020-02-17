@@ -28,7 +28,12 @@ public enum PrincipalEnum {
 
     MANAGE_COMMENT_TYPE("manage_t_comment_type", "评论分类"),
 
-    MANAGE_APPLICATION_PROBLEM("manage_t_application_problem", "应用常见问题");
+    MANAGE_APPLICATION_PROBLEM("manage_t_application_problem", "应用常见问题"),
+
+    MANAGE_MAIL_MOULD("tableIncr:manage:mail:mould","消息模板表"),
+
+
+    ;
 
     private String key;
     private String description;
