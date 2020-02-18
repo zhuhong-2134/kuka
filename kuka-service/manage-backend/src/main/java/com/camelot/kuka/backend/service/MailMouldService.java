@@ -1,6 +1,11 @@
 package com.camelot.kuka.backend.service;
 
 import com.camelot.kuka.backend.model.MailMould;
+import com.camelot.kuka.model.backend.mailmould.req.MailMouldPageReq;
+import com.camelot.kuka.model.backend.mailmould.req.MailMouldReq;
+import com.camelot.kuka.model.backend.mailmould.resp.MailMouldResp;
+import com.camelot.kuka.model.common.CommonReq;
+import com.camelot.kuka.model.common.Result;
 
 import java.util.List;
 
@@ -12,28 +17,31 @@ import java.util.List;
 public interface MailMouldService {
 
     /**
-     * 新增
+     * 分页查询
+     * @param req
+     * @return list
      */
-    public Integer insert(MailMould mailMould);
+    List<MailMould> pageList(MailMouldPageReq req);
 
     /**
-     * 删除
+     * 新增
      */
-    public Integer delete(int id);
+    Result addMailMould(MailMouldReq req, String loginUserName);
+
+    /**
+     * 根据主键查询
+     * @param req
+     * @return
+     */
+    Result<MailMouldResp> queryById(CommonReq req);
 
     /**
      * 更新
      */
-    public Integer update(MailMould mailMould);
+    Result updateMailMould(MailMouldReq req, String loginUserName);
 
     /**
-     * 根据主键 id 查询
+     * 删除
      */
-    public MailMould findById(int id);
-
-    /**
-     * 列表查询
-     */
-    public List<MailMould> findAllList(int type);
-
+    Result delMailMould(MailMouldReq req, String loginUserName);
 }

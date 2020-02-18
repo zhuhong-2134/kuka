@@ -120,6 +120,9 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public Result<List<RoleMenuResp>> roleMenu(CommonReq req) {
+        if (null == req || null == req.getId()) {
+            return Result.error("角色ID不能为空");
+        }
         // 获取菜单列表
         List<Menu> menus = menuDao.queryList();
         // 获取角色已经关联的数据

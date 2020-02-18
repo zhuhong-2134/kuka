@@ -108,8 +108,8 @@ public class RoleController extends BaseController {
      * @return com.camelot.kuka.model.common.Result
      * @author 谢楠
      */
-    @PostMapping("/role/qeuryById")
-    public Result<RoleResp> qeuryById(CommonReq req){
+    @PostMapping("/role/queryById")
+    public Result<RoleResp> queryById(CommonReq req){
         try {
             return roleService.qeuryById(req );
         } catch (Exception e) {

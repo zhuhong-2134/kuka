@@ -1,5 +1,7 @@
 package com.camelot.kuka.model.backend.mailmould.resp;
 
+import com.camelot.kuka.model.enums.DeleteEnum;
+import com.camelot.kuka.model.enums.mailmould.MailTypeEnum;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -32,7 +34,7 @@ public class MailMouldResp implements Serializable {
     /**
      * 发送方式1:邮件;2站内信 3,都发送
      */
-    private Integer type;
+    private MailTypeEnum type;
 
     /**
      * 消息内容
@@ -42,7 +44,7 @@ public class MailMouldResp implements Serializable {
     /**
      * 删除标识0:未删除;1已删除
      */
-    private Long delState;
+    private DeleteEnum delState;
 
     /**
      * 创建时间

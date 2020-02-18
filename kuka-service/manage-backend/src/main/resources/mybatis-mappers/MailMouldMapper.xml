@@ -4,128 +4,127 @@
 <mapper namespace="com.camelot.kuka.backend.dao.MailMouldDao">
 
     <resultMap id="BaseResultMap" type="com.camelot.kuka.backend.model.MailMould" >
-        <result column="id" property="id" />
-        <result column="mould_name" property="mouldName" />
-        <result column="mould_code" property="mouldCode" />
-        <result column="type" property="type" />
-        <result column="message" property="message" />
-        <result column="del_state" property="delState" />
-        <result column="create_time" property="createTime" />
-        <result column="create_by" property="createBy" />
-        <result column="update_time" property="updateTime" />
-        <result column="update_by" property="updateBy" />
+            <result column="id" property="id" />
+            <result column="mould_name" property="mouldName" />
+            <result column="mould_code" property="mouldCode" />
+            <result column="type" property="type" typeHandler="com.camelot.kuka.common.mybatis.handler.EnumTypeHandler"/>
+            <result column="message" property="message" />
+            <result column="del_state" property="delState" typeHandler="com.camelot.kuka.common.mybatis.handler.EnumTypeHandler"/>
+            <result column="create_time" property="createTime" />
+            <result column="create_by" property="createBy" />
+            <result column="update_time" property="updateTime" />
+            <result column="update_by" property="updateBy" />
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,
-        mould_name,
-        mould_code,
-        type,
-        message,
-        del_state,
-        create_time,
-        create_by,
-        update_time,
-        update_by
+            id,
+            mould_name,
+            mould_code,
+            type,
+            message,
+            del_state,
+            create_time,
+            create_by,
+            update_time,
+            update_by
     </sql>
 
-    <insert id="insert"  parameterType="com.camelot.kuka.backend.model.MailMould">
-        INSERT INTO t_mail_mould
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test ='null != mouldName'>
+    <select id="pageList" resultMap="BaseResultMap">
+        SELECT
+            <include refid="Base_Column_List" />
+        FROM
+            t_mail_mould
+        <where>
+            <if test ='null != entity.delState'>
+                del_state = #{entity.delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}
+            </if>
+            <if test ='null != entity.type'>
+                and type = #{entity.type, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}
+            </if>
+        </where>
+    </select>
+
+    <select id="findInfo" resultMap="BaseResultMap">
+        SELECT
+            <include refid="Base_Column_List" />
+        FROM
+            t_mail_mould
+        <where>
+            <if test ='null != entity.delState'>
+                del_state = #{entity.delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}
+            </if>
+            <if test ='null != entity.type'>
+                and type = #{entity.type, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}
+            </if>
+            <if test ='null != entity.id'>
+                and id = #{entity.id}
+            </if>
+        </where>
+    </select>
+
+    <insert id="addBatch">
+        INSERT INTO
+        t_mail_mould(
+                id,
                 mould_name,
-            </if>
-            <if test ='null != mouldCode'>
                 mould_code,
-            </if>
-            <if test ='null != type'>
                 type,
-            </if>
-            <if test ='null != message'>
                 message,
-            </if>
-            <if test ='null != delState'>
                 del_state,
-            </if>
-            <if test ='null != createTime'>
                 create_time,
-            </if>
-            <if test ='null != createBy'>
                 create_by,
-            </if>
-            <if test ='null != updateTime'>
                 update_time,
-            </if>
-            <if test ='null != updateBy'>
                 update_by
-            </if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test ='null != mouldName'>
-                #{mouldName},
-            </if>
-            <if test ='null != mouldCode'>
-                #{mouldCode},
-            </if>
-            <if test ='null != type'>
-                #{type},
-            </if>
-            <if test ='null != message'>
-                #{message},
-            </if>
-            <if test ='null != delState'>
-                #{delState},
-            </if>
-            <if test ='null != createTime'>
-                #{createTime},
-            </if>
-            <if test ='null != createBy'>
-                #{createBy},
-            </if>
-            <if test ='null != updateTime'>
-                #{updateTime},
-            </if>
-            <if test ='null != updateBy'>
-                #{updateBy}
-            </if>
-        </trim>
+        )
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+                #{item.id},
+                #{item.mouldName},
+                #{item.mouldCode},
+                #{item.type, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
+                #{item.message},
+                #{item.delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
+                #{item.createTime},
+                #{item.createBy},
+                #{item.updateTime},
+                #{item.updateBy}
+            )
+        </foreach>
     </insert>
 
-    <delete id="delete" >
-        DELETE FROM t_mail_mould
-        WHERE id = #{id}
-    </delete>
-
-    <update id="update" parameterType="com.camelot.kuka.backend.model.MailMould">
+    <update id="update">
         UPDATE t_mail_mould
         <set>
-            <if test ='null != mouldName'>mould_name = #{mouldName},</if>
-            <if test ='null != mouldCode'>mould_code = #{mouldCode},</if>
-            <if test ='null != type'>type = #{type},</if>
-            <if test ='null != message'>message = #{message},</if>
-            <if test ='null != delState'>del_state = #{delState},</if>
-            <if test ='null != createTime'>create_time = #{createTime},</if>
-            <if test ='null != createBy'>create_by = #{createBy},</if>
-            <if test ='null != updateTime'>update_time = #{updateTime},</if>
-            <if test ='null != updateBy'>update_by = #{updateBy}</if>
+            <if test ='null != mouldName'>
+                mould_name = #{mouldName},
+            </if>
+            <if test ='null != mouldCode'>
+                mould_code = #{mouldCode},
+            </if>
+            <if test ='null != type'>
+                type = #{type, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
+            </if>
+            <if test ='null != message'>
+                message = #{message},
+            </if>
+            <if test ='null != delState'>
+                del_state = #{delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
+            </if>
+            <if test ='null != createTime'>
+                create_time = #{createTime},
+            </if>
+            <if test ='null != createBy'>
+                create_by = #{createBy},
+            </if>
+            <if test ='null != updateTime'>
+                update_time = #{updateTime},
+            </if>
+            <if test ='null != updateBy'>
+                update_by = #{updateBy}
+            </if>
         </set>
         WHERE id = #{id}
     </update>
-
-
-    <select id="findById" resultMap="BaseResultMap">
-        SELECT <include refid="Base_Column_List" />
-        FROM t_mail_mould
-        WHERE id = #{id}
-    </select>
-
-    <select id="findAllList" resultMap="BaseResultMap">
-        SELECT <include refid="Base_Column_List" />
-        FROM t_mail_mould
-        <if test="type != 0">
-            where type = #{type} or type = 3
-        </if>
-    </select>
-
 
 </mapper>
