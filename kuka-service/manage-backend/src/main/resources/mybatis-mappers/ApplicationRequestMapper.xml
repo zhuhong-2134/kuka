@@ -6,17 +6,24 @@
 	<resultMap id="BaseResultMap" type="com.camelot.kuka.backend.model.ApplicationRequest" >
 		<result column="id" property="id" />
 		<result column="app_url" property="appUrl" />
+		<result column="app_id" property="appId" />
 		<result column="app_name" property="appName" />
 		<result column="class_type" property="classType" typeHandler="com.camelot.kuka.common.mybatis.handler.EnumTypeHandler"/>
-		<result column="supplierl_name" property="supplierlName" />
-		<result column="user_man" property="userMan" />
-		<result column="user_id" property="userId" />
-		<result column="user_phone" property="userPhone" />
-		<result column="app_man" property="appMan" />
+		<result column="supplier_id" property="supplierId" />
+		<result column="supplier_name" property="supplierName" />
+		<result column="duty_name" property="dutyName" />
+		<result column="duty_id" property="dutyId" />
+		<result column="duty__phone" property="dutyPhone" />
+		<result column="app_contact_name" property="appContactName" />
 		<result column="app_phone" property="appPhone" />
 		<result column="mail" property="mail" />
 		<result column="address" property="address" />
 		<result column="status" property="status" typeHandler="com.camelot.kuka.common.mybatis.handler.EnumTypeHandler"/>
+		<result column="user_id" property="userId" />
+		<result column="user_name" property="userName" />
+		<result column="user_photo_url" property="userPhotoUrl" />
+		<result column="user_phone" property="userPhone" />
+		<result column="user_mail" property="userMail" />
 		<result column="del_state" property="delState" typeHandler="com.camelot.kuka.common.mybatis.handler.EnumTypeHandler"/>
 		<result column="create_time" property="createTime" />
 		<result column="create_by" property="createBy" />
@@ -27,17 +34,24 @@
 	<sql id="Base_Column_List">
                 id,
                 app_url,
+                app_id,
                 app_name,
                 class_type,
-                supplierl_name,
-                user_man,
-                user_id,
-                user_phone,
-                app_man,
+                supplier_id,
+                supplier_name,
+                duty_name,
+                duty_id,
+                duty__phone,
+                app_contact_name,
                 app_phone,
                 mail,
                 address,
                 status,
+                user_id,
+                user_name,
+                user_photo_url,
+                user_phone,
+                user_mail,
                 del_state,
                 create_time,
                 create_by,
@@ -55,18 +69,22 @@
 				del_state = #{entity.delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}
 			</if>
 			<if test ='null != entity.queryName and entity.queryName != ""'>
-				<!-- 0 全部 1 ID 2 名称 -->
+				<!-- 0 全部 1 用户名 2 ID 3 应用名称 -->
 				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 1'>
-					and id = #{entity.queryName}
+					and user_name = #{entity.queryName}
 				</if>
 				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 2'>
+					and id = #{entity.queryName}
+				</if>
+				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 3'>
 					and app_name = #{entity.queryName}
 				</if>
 				<!-- 综合查询 -->
 				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 0'>
 					and (
-					app_name = #{entity.queryName}
+					user_name = #{entity.queryName}
 					or id = #{entity.queryName}
+					or app_name = #{entity.queryName}
 					)
 				</if>
 			</if>
@@ -93,17 +111,24 @@
 		t_application_request(
 				id,
 				app_url,
+				app_id,
 				app_name,
 				class_type,
-				supplierl_name,
-				user_man,
-				user_id,
-				user_phone,
-				app_man,
+				supplier_id,
+				supplier_name,
+				duty_name,
+				duty_id,
+				duty__phone,
+				app_contact_name,
 				app_phone,
 				mail,
 				address,
 				status,
+				user_id,
+				user_name,
+				user_photo_url,
+				user_phone,
+				user_mail,
 				del_state,
 				create_time,
 				create_by,
@@ -115,17 +140,24 @@
 			(
 				#{item.id},
 				#{item.appUrl},
+				#{item.appId},
 				#{item.appName},
 				#{item.classType, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
-				#{item.supplierlName},
-				#{item.userMan},
-				#{item.userId},
-				#{item.userPhone},
-				#{item.appMan},
+				#{item.supplierId},
+				#{item.supplierName},
+				#{item.dutyName},
+				#{item.dutyId},
+				#{item.dutyPhone},
+				#{item.appContactName},
 				#{item.appPhone},
 				#{item.mail},
 				#{item.address},
 				#{item.status, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
+				#{item.userId},
+				#{item.userName},
+				#{item.userPhotoUrl},
+				#{item.userPhone},
+				#{item.userMail},
 				#{item.delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
 				#{item.createTime},
 				#{item.createBy},
@@ -141,26 +173,32 @@
 			<if test ='null != appUrl'>
 				app_url = #{appUrl},
 			</if>
+			<if test ='null != appId'>
+				app_id = #{appId},
+			</if>
 			<if test ='null != appName'>
 				app_name = #{appName},
 			</if>
 			<if test ='null != classType'>
 				class_type = #{classType, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
 			</if>
-			<if test ='null != supplierlName'>
-				supplierl_name = #{supplierlName},
+			<if test ='null != supplierId'>
+				supplier_id = #{supplierId},
 			</if>
-			<if test ='null != userMan'>
-				user_man = #{userMan},
+			<if test ='null != supplierName'>
+				supplier_name = #{supplierName},
 			</if>
-			<if test ='null != userId'>
-				user_id = #{userId},
+			<if test ='null != dutyName'>
+				duty_name = #{dutyName},
 			</if>
-			<if test ='null != userPhone'>
-				user_phone = #{userPhone},
+			<if test ='null != dutyId'>
+				duty_id = #{dutyId},
 			</if>
-			<if test ='null != appMan'>
-				app_man = #{appMan},
+			<if test ='null != dutyPhone'>
+				duty__phone = #{dutyPhone},
+			</if>
+			<if test ='null != appContactName'>
+				app_contact_name = #{appContactName},
 			</if>
 			<if test ='null != appPhone'>
 				app_phone = #{appPhone},
@@ -173,6 +211,21 @@
 			</if>
 			<if test ='null != status'>
 				status = #{status, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
+			</if>
+			<if test ='null != userId'>
+				user_id = #{userId},
+			</if>
+			<if test ='null != userName'>
+				user_name = #{userName},
+			</if>
+			<if test ='null != userPhotoUrl'>
+				user_photo_url = #{userPhotoUrl},
+			</if>
+			<if test ='null != userPhone'>
+				user_phone = #{userPhone},
+			</if>
+			<if test ='null != userMail'>
+				user_mail = #{userMail},
 			</if>
 			<if test ='null != delState'>
 				del_state = #{delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},

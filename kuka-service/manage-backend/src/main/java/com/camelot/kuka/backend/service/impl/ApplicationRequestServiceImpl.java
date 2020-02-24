@@ -5,6 +5,7 @@ import com.camelot.kuka.backend.model.ApplicationRequest;
 import com.camelot.kuka.backend.service.ApplicationRequestService;
 import com.camelot.kuka.common.utils.BeanUtil;
 import com.camelot.kuka.model.backend.applicationrequest.req.AppRequestPageReq;
+import com.camelot.kuka.model.backend.applicationrequest.req.ApplicationRequestReq;
 import com.camelot.kuka.model.backend.applicationrequest.resp.ApplicationRequestResp;
 import com.camelot.kuka.model.common.CommonReq;
 import com.camelot.kuka.model.common.Result;
@@ -13,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -51,5 +53,23 @@ public class ApplicationRequestServiceImpl implements ApplicationRequestService 
             return Result.error("获取失败, 刷新后重试");
         }
         return Result.success(BeanUtil.copyBean(applicationRequest, ApplicationRequestResp.class));
+    }
+
+    @Override
+    public Result updateStatus(ApplicationRequestReq req, String loginUserName) {
+        if (null == req || req.getId() == null) {
+            return Result.error("ID不能为空");
+        }
+        if (null == req.getStatus()) {
+            return Result.error("状态不能为空");
+        }
+        ApplicationRequest applicationRequest = BeanUtil.copyBean(req, ApplicationRequest.class);
+        applicationRequest.setUpdateBy(loginUserName);
+        applicationRequest.setUpdateTime(new Date());
+        int update = applicationRequestDao.update(applicationRequest);
+        if (0 == update) {
+            return Result.error("修改失败, 请联系管理员");
+        }
+        return Result.success();
     }
 }

@@ -27,6 +27,11 @@ public class ApplicationRequest implements Serializable {
     private String appUrl;
 
     /**
+     * 应用id
+     */
+    private Long appId;
+
+    /**
      * 应用名称
      */
     private String appName;
@@ -37,29 +42,34 @@ public class ApplicationRequest implements Serializable {
     private AppTypeEnum classType;
 
     /**
+     * 集成商id
+     */
+    private Long supplierId;
+
+    /**
      * 供应商名称
      */
-    private String supplierlName;
+    private String supplierName;
 
     /**
      * 总负责人
      */
-    private String userMan;
+    private String dutyName;
 
     /**
      * 负责人id
      */
-    private Long userId;
+    private Long dutyId;
 
     /**
      * 负责人联系方式
      */
-    private String userPhone;
+    private String dutyPhone;
 
     /**
      * 应用联系人
      */
-    private String appMan;
+    private String appContactName;
 
     /**
      * 应用联系方式
@@ -80,6 +90,31 @@ public class ApplicationRequest implements Serializable {
      * 状态;0待沟通;1已沟通
      */
     private CommunicateEnum status;
+
+    /**
+     * 用户id
+     */
+    private Long userId;
+
+    /**
+     * 用户名
+     */
+    private String userName;
+
+    /**
+     * 用户头像
+     */
+    private String userPhotoUrl;
+
+    /**
+     * 用户手机号
+     */
+    private String userPhone;
+
+    /**
+     * 用户邮箱
+     */
+    private String userMail;
 
     /**
      * 删除标识0:未删除;1已删除

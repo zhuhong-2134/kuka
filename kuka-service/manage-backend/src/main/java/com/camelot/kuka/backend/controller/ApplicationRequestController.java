@@ -4,7 +4,9 @@ import com.alibaba.fastjson.JSON;
 import com.camelot.kuka.backend.model.ApplicationRequest;
 import com.camelot.kuka.backend.service.ApplicationRequestService;
 import com.camelot.kuka.common.controller.BaseController;
+import com.camelot.kuka.common.utils.AppUserUtil;
 import com.camelot.kuka.model.backend.applicationrequest.req.AppRequestPageReq;
+import com.camelot.kuka.model.backend.applicationrequest.req.ApplicationRequestReq;
 import com.camelot.kuka.model.backend.applicationrequest.resp.ApplicationRequestResp;
 import com.camelot.kuka.model.common.CommonReq;
 import com.camelot.kuka.model.common.EnumVal;
@@ -95,6 +97,24 @@ public class ApplicationRequestController extends BaseController {
             return applicationRequestService.queryById(req);
         } catch (Exception e) {
             log.error("\n 应用请求模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "qyeryUpdateById", JSON.toJSONString(req), e);
+            return Result.error("网络异常, 请稍后再试");
+        }
+    }
+
+    /***
+     * <p>Description:[修改状态]</p>
+     * Created on 2020/2/4
+     * @param req
+     * @return com.camelot.kuka.model.common.Result
+     * @author 谢楠
+     */
+    @PostMapping("/apprequest/updateStatus")
+    public Result updateStatus(ApplicationRequestReq req){
+        try {
+            String loginUserName = AppUserUtil.getLoginUserName();
+            return applicationRequestService.updateStatus(req, loginUserName);
+        } catch (Exception e) {
+            log.error("\n 应用请求模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "updateStatus", JSON.toJSONString(req), e);
             return Result.error("网络异常, 请稍后再试");
         }
     }

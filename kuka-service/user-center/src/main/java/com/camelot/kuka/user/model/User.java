@@ -3,6 +3,7 @@ package com.camelot.kuka.user.model;
 import com.camelot.kuka.model.enums.DeleteEnum;
 import com.camelot.kuka.model.enums.SexEnum;
 import com.camelot.kuka.model.enums.user.CreateSourceEnum;
+import com.camelot.kuka.model.enums.user.UserTypeEnum;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -106,9 +107,9 @@ public class User implements Serializable {
 	private String company;
 
 	/**
-	 * 待确定
+	 * 待确定,来访者,集成商,kuka用户
 	 */
-	private Long type;
+	private UserTypeEnum type;
 
 	/**
 	 * 删除标识0:未删除;1已删除

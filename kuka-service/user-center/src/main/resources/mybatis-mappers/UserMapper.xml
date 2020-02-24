@@ -21,7 +21,7 @@
 		<result column="district_code" property="districtCode" />
 		<result column="address" property="address" />
 		<result column="company" property="company" />
-		<result column="type" property="type" />
+		<result column="type" property="type" typeHandler="com.camelot.kuka.common.mybatis.handler.EnumTypeHandler"/>
 		<result column="del_state" property="delState" typeHandler="com.camelot.kuka.common.mybatis.handler.EnumTypeHandler"/>
 		<result column="create_time" property="createTime" />
 		<result column="create_by" property="createBy" />
@@ -142,7 +142,7 @@
 			#{item.districtCode},
 			#{item.address},
 			#{item.company},
-			#{item.type},
+			#{item.type, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
 			#{item.delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
 			#{item.createTime},
 			#{item.createBy},
@@ -204,7 +204,7 @@
 				company = #{company},
 			</if>
 			<if test ='null != type'>
-				type = #{type},
+				type = #{type, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
 			</if>
 			<if test ='null != delState'>
 				del_state = #{delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},

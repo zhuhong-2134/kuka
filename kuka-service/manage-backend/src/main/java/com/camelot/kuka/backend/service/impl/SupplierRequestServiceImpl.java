@@ -5,6 +5,7 @@ import com.camelot.kuka.backend.model.SupplierRequest;
 import com.camelot.kuka.backend.service.SupplierRequestService;
 import com.camelot.kuka.common.utils.BeanUtil;
 import com.camelot.kuka.model.backend.supplierrequest.req.SupplierRequestPageReq;
+import com.camelot.kuka.model.backend.supplierrequest.req.SupplierRequestReq;
 import com.camelot.kuka.model.backend.supplierrequest.resp.SupplierRequestResp;
 import com.camelot.kuka.model.common.CommonReq;
 import com.camelot.kuka.model.common.Result;
@@ -13,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -51,5 +53,23 @@ public class SupplierRequestServiceImpl implements SupplierRequestService {
             return Result.error("获取失败, 刷新后重试");
         }
         return Result.success(BeanUtil.copyBean(supplierRequest, SupplierRequestResp.class));
+    }
+
+    @Override
+    public Result updateStatus(SupplierRequestReq req, String loginUserName) {
+        if (null == req || req.getId() == null) {
+            return Result.error("ID不能为空");
+        }
+        if (null == req.getStatus()) {
+            return Result.error("状态不能为空");
+        }
+        SupplierRequest supplierRequest = BeanUtil.copyBean(req, SupplierRequest.class);
+        supplierRequest.setUpdateBy(loginUserName);
+        supplierRequest.setUpdateTime(new Date());
+        int update = supplierRequestDao.update(supplierRequest);
+        if (0 == update) {
+            return Result.error("修改失败, 请联系管理员");
+        }
+        return Result.success();
     }
 }

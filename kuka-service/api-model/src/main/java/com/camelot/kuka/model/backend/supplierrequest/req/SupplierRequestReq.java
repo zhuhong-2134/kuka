@@ -1,4 +1,4 @@
-package com.camelot.kuka.backend.model;
+package com.camelot.kuka.model.backend.supplierrequest.req;
 
 import com.camelot.kuka.model.enums.CommunicateEnum;
 import com.camelot.kuka.model.enums.DeleteEnum;
@@ -12,10 +12,9 @@ import java.util.Date;
  * @author xienan 2020-02-19
  */
 @Data
-public class SupplierRequest implements Serializable {
+public class SupplierRequestReq implements Serializable {
 
-    private static final long serialVersionUID = -3470243369614689092L;
-
+    private static final long serialVersionUID = 4253882155201225722L;
 
     /**
      * 主键
@@ -121,6 +120,4 @@ public class SupplierRequest implements Serializable {
      * 修改人
      */
     private String updateBy;
-
-
 }

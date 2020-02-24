@@ -11,9 +11,12 @@ import com.camelot.kuka.model.enums.BaseEnum;
  */
 public enum AppRequestPageEnum implements BaseEnum {
 
+    // 0 全部 1 用户名 2 ID 3 应用名称
+
     ALL(0, "全部"),
-    ID(1, "ID"),
-    NAME(2, "应用名称");
+    USERNAME(1, "用户名"),
+    ID(2, "ID"),
+    APPNAME(3, "应用名称");
 
     private Integer code;
     private String description;

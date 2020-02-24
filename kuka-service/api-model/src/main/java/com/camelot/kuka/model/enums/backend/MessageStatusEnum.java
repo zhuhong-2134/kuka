@@ -3,24 +3,21 @@ package com.camelot.kuka.model.enums.backend;
 import com.camelot.kuka.model.enums.BaseEnum;
 
 /**
- * <p>Description: [集成商请求查询枚举]</p>
+ * <p>Description: [消息状态枚举]</p>
  * Created on 2020年2月5日
  * @author <a href="mailto: hexiaobo@camelotchina.com">谢楠</a>
  * @version 1.0
  * Copyright (c) 2019 北京柯莱特科技有限公司
  */
-public enum SupplierRequestPageEnum implements BaseEnum {
+public enum MessageStatusEnum implements BaseEnum {
 
-    // 0 全部 1 用户名 2 ID 3 集成商名称
-    ALL(0, "全部"),
-    USERNAME(1, "用户名"),
-    ID(2, "ID"),
-    SUPPLIERNAME(3, "集成商名称");
+    READ(0, "已读"),
+    UNREAD(1, "未读");
 
     private Integer code;
     private String description;
 
-    private SupplierRequestPageEnum(Integer code, String description) {
+    private MessageStatusEnum(Integer code, String description) {
         this.code = code;
         this.description = description;
     }
@@ -33,11 +30,11 @@ public enum SupplierRequestPageEnum implements BaseEnum {
      * @version 1.0
      * Copyright (c) 2019 北京柯莱特科技有限公司
      **/
-    public static SupplierRequestPageEnum get(Integer code) {
+    public static MessageStatusEnum get(Integer code) {
         if (code == null) {
             return null;
         }
-        for (SupplierRequestPageEnum e : SupplierRequestPageEnum.values()) {
+        for (MessageStatusEnum e : MessageStatusEnum.values()) {
             if (code.equals(e.getCode())) {
                 return e;
             }
@@ -53,11 +50,11 @@ public enum SupplierRequestPageEnum implements BaseEnum {
      * @version 1.0
      * Copyright (c) 2019 北京柯莱特科技有限公司
      **/
-    public static SupplierRequestPageEnum get(String description) {
+    public static MessageStatusEnum get(String description) {
         if (description == null || description.trim().length() == 0) {
             return null;
         }
-        for (SupplierRequestPageEnum e : SupplierRequestPageEnum.values()) {
+        for (MessageStatusEnum e : MessageStatusEnum.values()) {
             if (e.getDescription().equals(description)) {
                 return e;
             }

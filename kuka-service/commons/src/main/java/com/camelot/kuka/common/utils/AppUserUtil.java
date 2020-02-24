@@ -50,6 +50,19 @@ public class AppUserUtil {
     }
 
     /**
+     * 获取登陆的 LoginAppUser
+     *
+     * @return
+     */
+    @SuppressWarnings("rawtypes")
+    public static LoginAppUser getLoginUser() {
+        LoginAppUser user = new LoginAppUser();
+//        user.setUsername("admin");
+//        user.setHeadImgUrl();
+        return user;
+    }
+
+    /**
      * 获取登录用户名
      * @return
      */

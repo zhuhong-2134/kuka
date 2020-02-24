@@ -3,6 +3,7 @@ package com.camelot.kuka.model.backend.order.resp;
 import com.camelot.kuka.model.backend.comment.resp.CommentResp;
 import com.camelot.kuka.model.enums.DeleteEnum;
 import com.camelot.kuka.model.enums.order.OrderStatusEnum;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -72,6 +73,7 @@ public class OrderResp implements Serializable {
     /**
      * 创建时间
      */
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
     /**
@@ -82,6 +84,7 @@ public class OrderResp implements Serializable {
     /**
      * 修改时间
      */
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
 
     /**

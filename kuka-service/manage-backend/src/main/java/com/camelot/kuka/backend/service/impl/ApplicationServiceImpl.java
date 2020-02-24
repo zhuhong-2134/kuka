@@ -1,10 +1,7 @@
 package com.camelot.kuka.backend.service.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.camelot.kuka.backend.dao.ApplicationCurrencyDao;
-import com.camelot.kuka.backend.dao.ApplicationDao;
-import com.camelot.kuka.backend.dao.ApplicationImgDao;
-import com.camelot.kuka.backend.dao.ApplicationProbleDao;
+import com.camelot.kuka.backend.dao.*;
 import com.camelot.kuka.backend.model.*;
 import com.camelot.kuka.backend.service.ApplicationService;
 import com.camelot.kuka.backend.service.CommentService;
@@ -17,6 +14,7 @@ import com.camelot.kuka.model.backend.application.resp.ApplicationProblemResp;
 import com.camelot.kuka.model.backend.application.resp.ApplicationResp;
 import com.camelot.kuka.model.backend.application.resp.QyeryUpdateResp;
 import com.camelot.kuka.model.backend.comment.resp.CommentResp;
+import com.camelot.kuka.model.backend.supplier.resp.SupplierResp;
 import com.camelot.kuka.model.common.CommonReq;
 import com.camelot.kuka.model.common.Result;
 import com.camelot.kuka.model.enums.DeleteEnum;
@@ -55,6 +53,8 @@ public class ApplicationServiceImpl implements ApplicationService {
     private CommentService commentService;
     @Resource
     private ApplicationProbleDao applicationProbleDao;
+    @Resource
+    private SupplierDao supplierDao;
 
     @Override
     public List<Application> queryList(AppPageReq req) {
@@ -155,6 +155,14 @@ public class ApplicationServiceImpl implements ApplicationService {
         if (!appList.isEmpty()) {
             List<ApplicationProblemResp> problemResp = BeanUtil.copyBeanList(applicationProblems, ApplicationProblemResp.class);
             resp.setProblemList(problemResp);
+        }
+
+        // 获取集成商详情
+        if (!appList.isEmpty()) {
+            Supplier query = new Supplier();
+            query.setId(resp.getSupplierId());
+            Supplier supplier = supplierDao.queryById(query);
+            resp.setSupplier(BeanUtil.copyBean(supplier, SupplierResp.class));
         }
 
         return Result.success(resp);

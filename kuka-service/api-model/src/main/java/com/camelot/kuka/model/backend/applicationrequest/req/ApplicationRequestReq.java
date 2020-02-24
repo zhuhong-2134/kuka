@@ -1,20 +1,21 @@
-package com.camelot.kuka.backend.model;
+package com.camelot.kuka.model.backend.applicationrequest.req;
 
 import com.camelot.kuka.model.enums.CommunicateEnum;
 import com.camelot.kuka.model.enums.DeleteEnum;
+import com.camelot.kuka.model.enums.application.AppTypeEnum;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
 
 /**
- *  集成商请求管理
+ *  应用请求管理
  * @author xienan 2020-02-19
  */
 @Data
-public class SupplierRequest implements Serializable {
+public class ApplicationRequestReq implements Serializable {
 
-    private static final long serialVersionUID = -3470243369614689092L;
+    private static final long serialVersionUID = 5160936187681622384L;
 
 
     /**
@@ -23,9 +24,24 @@ public class SupplierRequest implements Serializable {
     private Long id;
 
     /**
-     * 集成商封面图
+     * 应用封面图
      */
-    private String supplierUrl;
+    private String appUrl;
+
+    /**
+     * 应用id
+     */
+    private Long appId;
+
+    /**
+     * 应用名称
+     */
+    private String appName;
+
+    /**
+     * 应用分类
+     */
+    private AppTypeEnum classType;
 
     /**
      * 集成商id
@@ -33,14 +49,9 @@ public class SupplierRequest implements Serializable {
     private Long supplierId;
 
     /**
-     * 集成商名称
+     * 供应商名称
      */
     private String supplierName;
-
-    /**
-     * 所在地
-     */
-    private String location;
 
     /**
      * 总负责人
@@ -56,6 +67,16 @@ public class SupplierRequest implements Serializable {
      * 负责人联系方式
      */
     private String dutyPhone;
+
+    /**
+     * 应用联系人
+     */
+    private String appContactName;
+
+    /**
+     * 应用联系方式
+     */
+    private String appPhone;
 
     /**
      * 联系邮箱

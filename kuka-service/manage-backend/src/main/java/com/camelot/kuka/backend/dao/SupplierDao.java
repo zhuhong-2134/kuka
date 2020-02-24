@@ -43,7 +43,7 @@ public interface SupplierDao {
      * @return int
      * @author 谢楠
      */
-    Supplier queryById(@Param("entity")Supplier user);
+    Supplier queryById(@Param("entity")Supplier supplier);
 
     /***
      * <p>Description:[修改]</p>

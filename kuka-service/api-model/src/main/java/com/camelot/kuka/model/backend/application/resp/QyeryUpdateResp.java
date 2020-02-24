@@ -1,6 +1,7 @@
 package com.camelot.kuka.model.backend.application.resp;
 
 import com.camelot.kuka.model.backend.comment.resp.CommentResp;
+import com.camelot.kuka.model.backend.supplier.resp.SupplierResp;
 import com.camelot.kuka.model.enums.DeleteEnum;
 import com.camelot.kuka.model.enums.application.AppStatusEnum;
 import com.camelot.kuka.model.enums.application.AppTypeEnum;
@@ -166,4 +167,9 @@ public class QyeryUpdateResp implements Serializable {
      * 产品的常见问题
      */
     private List<ApplicationProblemResp> problemList;
+
+    /**
+     * 集成商详情
+     */
+    private SupplierResp supplier;
 }

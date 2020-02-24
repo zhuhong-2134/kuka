@@ -2,6 +2,7 @@ package com.camelot.kuka.backend.service;
 
 import com.camelot.kuka.backend.model.ApplicationRequest;
 import com.camelot.kuka.model.backend.applicationrequest.req.AppRequestPageReq;
+import com.camelot.kuka.model.backend.applicationrequest.req.ApplicationRequestReq;
 import com.camelot.kuka.model.backend.applicationrequest.resp.ApplicationRequestResp;
 import com.camelot.kuka.model.common.CommonReq;
 import com.camelot.kuka.model.common.Result;
@@ -35,4 +36,13 @@ public interface ApplicationRequestService {
      * @author 谢楠
      */
     Result<ApplicationRequestResp> queryById(CommonReq req);
+
+    /***
+     * <p>Description:[修改状态]</p>
+     * Created on 2020/1/20
+     * @param req
+     * @return resultr
+     * @author 谢楠
+     */
+    Result updateStatus(ApplicationRequestReq req, String loginUserName);
 }

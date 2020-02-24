@@ -19,7 +19,7 @@ public class AppRequestPageReq implements Serializable {
 
 	private static final long serialVersionUID = 6225342464205309139L;
 	/**
-	 * 0 全部 1 ID 2 名称
+	 * 0 全部 1 用户名 2 ID 3 应用名称
 	 */
 	private AppRequestPageEnum queryType;
 	private Integer queryTypeCode;

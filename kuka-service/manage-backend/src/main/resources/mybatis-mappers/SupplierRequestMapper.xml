@@ -4,34 +4,47 @@
 <mapper namespace="com.camelot.kuka.backend.dao.SupplierRequestDao">
 
 	<resultMap id="BaseResultMap" type="com.camelot.kuka.backend.model.SupplierRequest" >
+
 		<result column="id" property="id" />
-		<result column="supplierl_url" property="supplierlUrl" />
-		<result column="supplierl_name" property="supplierlName" />
+		<result column="supplier_url" property="supplierUrl" />
+		<result column="supplier_id" property="supplierId" />
+		<result column="supplier_name" property="supplierName" />
 		<result column="location" property="location" />
-		<result column="user_man" property="userMan" />
-		<result column="user_id" property="userId" />
-		<result column="user_phone" property="userPhone" />
+		<result column="duty_name" property="dutyName" />
+		<result column="duty_id" property="dutyId" />
+		<result column="duty_phone" property="dutyPhone" />
 		<result column="mail" property="mail" />
 		<result column="address" property="address" />
 		<result column="status" property="status" typeHandler="com.camelot.kuka.common.mybatis.handler.EnumTypeHandler"/>
+		<result column="user_id" property="userId" />
+		<result column="user_name" property="userName" />
+		<result column="user_photo_url" property="userPhotoUrl" />
+		<result column="user_phone" property="userPhone" />
+		<result column="user_mail" property="userMail" />
 		<result column="del_state" property="delState" typeHandler="com.camelot.kuka.common.mybatis.handler.EnumTypeHandler"/>
-		<result column="create_time" property="createTime" />
+		<result column="create_time" property="createTime"/>
 		<result column="create_by" property="createBy" />
-		<result column="update_time" property="updateTime" />
+		<result column="update_time" property="updateTime"/>
 		<result column="update_by" property="updateBy" />
 	</resultMap>
 
 	<sql id="Base_Column_List">
                 id,
-                supplierl_url,
-                supplierl_name,
+                supplier_url,
+                supplier_id,
+                supplier_name,
                 location,
-                user_man,
-                user_id,
-                user_phone,
+                duty_name,
+                duty_id,
+                duty_phone,
                 mail,
                 address,
                 status,
+                user_id,
+                user_name,
+                user_photo_url,
+                user_phone,
+                user_mail,
                 del_state,
                 create_time,
                 create_by,
@@ -49,18 +62,22 @@
 				del_state = #{entity.delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}
 			</if>
 			<if test ='null != entity.queryName and entity.queryName != ""'>
-				<!-- 0 全部 1 ID 2 名称 -->
+				<!-- 0 全部 1 用户名 2 ID 3 集成商名称 -->
 				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 1'>
-					and id = #{entity.queryName}
+					and user_name = #{entity.queryName}
 				</if>
 				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 2'>
-					and supplierl_name = #{entity.queryName}
+					and id = #{entity.queryName}
+				</if>
+				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 3'>
+					and supplier_name = #{entity.queryName}
 				</if>
 				<!-- 综合查询 -->
 				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 0'>
 					and (
-					supplierl_name = #{entity.queryName}
+					user_name = #{entity.queryName}
 					or id = #{entity.queryName}
+					or supplier_name = #{entity.queryName}
 					)
 				</if>
 			</if>
@@ -86,15 +103,21 @@
 		INSERT INTO
 		t_supplier_request(
 				id,
-				supplierl_url,
-				supplierl_name,
+				supplier_url,
+				supplier_id,
+				supplier_name,
 				location,
-				user_man,
-				user_id,
-				user_phone,
+				duty_name,
+				duty_id,
+				duty_phone,
 				mail,
 				address,
 				status,
+				user_id,
+				user_name,
+				user_photo_url,
+				user_phone,
+				user_mail,
 				del_state,
 				create_time,
 				create_by,
@@ -105,15 +128,21 @@
 		<foreach collection="list" item="item" index="index" separator=",">
 			(
 				#{item.id},
-				#{item.supplierlUrl},
-				#{item.supplierlName},
+				#{item.supplierUrl},
+				#{item.supplierId},
+				#{item.supplierName},
 				#{item.location},
-				#{item.userMan},
-				#{item.userId},
-				#{item.userPhone},
+				#{item.dutyName},
+				#{item.dutyId},
+				#{item.dutyPhone},
 				#{item.mail},
 				#{item.address},
 				#{item.status, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
+				#{item.userId},
+				#{item.userName},
+				#{item.userPhotoUrl},
+				#{item.userPhone},
+				#{item.userMail},
 				#{item.delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
 				#{item.createTime},
 				#{item.createBy},
@@ -126,21 +155,26 @@
 	<update id="update">
 		UPDATE t_supplier_request
 		<set>
-			<if test ='null != supplierlUrl'>
-				supplierl_url = #{supplierlUrl},
+			<if test ='null != supplierUrl'>
+				supplier_url = #{supplierUrl},
 			</if>
-			<if test ='null != supplierlName'>
-				supplierl_name = #{supplierlName},
+			<if test ='null != supplierId'>
+				supplier_id = #{supplierId},
+			</if>
+			<if test ='null != supplierName'>
+				supplier_name = #{supplierName},
 			</if>
 			<if test ='null != location'>
 				location = #{location},
 			</if>
-			<if test ='null != userMan'>
-				user_man = #{userMan},</if>
-			<if test ='null != userId'>user_id = #{userId}
-				,</if>
-			<if test ='null != userPhone'>
-				user_phone = #{userPhone},
+			<if test ='null != dutyName'>
+				duty_name = #{dutyName},
+			</if>
+			<if test ='null != dutyId'>
+				duty_id = #{dutyId},
+			</if>
+			<if test ='null != dutyPhone'>
+				duty_phone = #{dutyPhone},
 			</if>
 			<if test ='null != mail'>
 				mail = #{mail},
@@ -150,6 +184,21 @@
 			</if>
 			<if test ='null != status'>
 				status = #{status, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
+			</if>
+			<if test ='null != userId'>
+				user_id = #{userId},
+			</if>
+			<if test ='null != userName'>
+				user_name = #{userName},
+			</if>
+			<if test ='null != userPhotoUrl'>
+				user_photo_url = #{userPhotoUrl},
+			</if>
+			<if test ='null != userPhone'>
+				user_phone = #{userPhone},
+			</if>
+			<if test ='null != userMail'>
+				user_mail = #{userMail},
 			</if>
 			<if test ='null != delState'>
 				del_state = #{delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},

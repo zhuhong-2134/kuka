@@ -17,6 +17,8 @@ import java.util.Date;
 public class ApplicationRequestResp implements Serializable {
 
     private static final long serialVersionUID = 5160936187681622384L;
+
+
     /**
      * 主键
      */
@@ -26,6 +28,11 @@ public class ApplicationRequestResp implements Serializable {
      * 应用封面图
      */
     private String appUrl;
+
+    /**
+     * 应用id
+     */
+    private Long appId;
 
     /**
      * 应用名称
@@ -38,29 +45,34 @@ public class ApplicationRequestResp implements Serializable {
     private AppTypeEnum classType;
 
     /**
+     * 集成商id
+     */
+    private Long supplierId;
+
+    /**
      * 供应商名称
      */
-    private String supplierlName;
+    private String supplierName;
 
     /**
      * 总负责人
      */
-    private String userMan;
+    private String dutyName;
 
     /**
      * 负责人id
      */
-    private Long userId;
+    private Long dutyId;
 
     /**
      * 负责人联系方式
      */
-    private String userPhone;
+    private String dutyPhone;
 
     /**
      * 应用联系人
      */
-    private String appMan;
+    private String appContactName;
 
     /**
      * 应用联系方式
@@ -81,6 +93,31 @@ public class ApplicationRequestResp implements Serializable {
      * 状态;0待沟通;1已沟通
      */
     private CommunicateEnum status;
+
+    /**
+     * 用户id
+     */
+    private Long userId;
+
+    /**
+     * 用户名
+     */
+    private String userName;
+
+    /**
+     * 用户头像
+     */
+    private String userPhotoUrl;
+
+    /**
+     * 用户手机号
+     */
+    private String userPhone;
+
+    /**
+     * 用户邮箱
+     */
+    private String userMail;
 
     /**
      * 删除标识0:未删除;1已删除
@@ -108,4 +145,6 @@ public class ApplicationRequestResp implements Serializable {
      * 修改人
      */
     private String updateBy;
+
+
 }

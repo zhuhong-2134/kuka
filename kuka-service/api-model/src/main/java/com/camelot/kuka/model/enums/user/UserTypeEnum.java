@@ -1,26 +1,24 @@
-package com.camelot.kuka.model.enums.backend;
+package com.camelot.kuka.model.enums.user;
 
 import com.camelot.kuka.model.enums.BaseEnum;
 
 /**
- * <p>Description: [集成商请求查询枚举]</p>
+ * <p>Description: [用户类型]</p>
  * Created on 2020年2月5日
  * @author <a href="mailto: hexiaobo@camelotchina.com">谢楠</a>
  * @version 1.0
  * Copyright (c) 2019 北京柯莱特科技有限公司
  */
-public enum SupplierRequestPageEnum implements BaseEnum {
+public enum UserTypeEnum implements BaseEnum {
 
-    // 0 全部 1 用户名 2 ID 3 集成商名称
-    ALL(0, "全部"),
-    USERNAME(1, "用户名"),
-    ID(2, "ID"),
-    SUPPLIERNAME(3, "集成商名称");
+    VISITORS(0, "来访者"),
+    SUPPILER(1, "集成商"),
+    KUKA(2, "KUKA用户");
 
     private Integer code;
     private String description;
 
-    private SupplierRequestPageEnum(Integer code, String description) {
+    private UserTypeEnum(Integer code, String description) {
         this.code = code;
         this.description = description;
     }
@@ -33,11 +31,11 @@ public enum SupplierRequestPageEnum implements BaseEnum {
      * @version 1.0
      * Copyright (c) 2019 北京柯莱特科技有限公司
      **/
-    public static SupplierRequestPageEnum get(Integer code) {
+    public static UserTypeEnum get(Integer code) {
         if (code == null) {
             return null;
         }
-        for (SupplierRequestPageEnum e : SupplierRequestPageEnum.values()) {
+        for (UserTypeEnum e : UserTypeEnum.values()) {
             if (code.equals(e.getCode())) {
                 return e;
             }
@@ -53,11 +51,11 @@ public enum SupplierRequestPageEnum implements BaseEnum {
      * @version 1.0
      * Copyright (c) 2019 北京柯莱特科技有限公司
      **/
-    public static SupplierRequestPageEnum get(String description) {
+    public static UserTypeEnum get(String description) {
         if (description == null || description.trim().length() == 0) {
             return null;
         }
-        for (SupplierRequestPageEnum e : SupplierRequestPageEnum.values()) {
+        for (UserTypeEnum e : UserTypeEnum.values()) {
             if (e.getDescription().equals(description)) {
                 return e;
             }

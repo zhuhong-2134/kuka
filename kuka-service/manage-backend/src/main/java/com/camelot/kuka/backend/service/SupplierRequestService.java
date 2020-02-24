@@ -3,6 +3,7 @@ package com.camelot.kuka.backend.service;
 import com.camelot.kuka.backend.dao.SupplierRequestDao;
 import com.camelot.kuka.backend.model.SupplierRequest;
 import com.camelot.kuka.model.backend.supplierrequest.req.SupplierRequestPageReq;
+import com.camelot.kuka.model.backend.supplierrequest.req.SupplierRequestReq;
 import com.camelot.kuka.model.backend.supplierrequest.resp.SupplierRequestResp;
 import com.camelot.kuka.model.common.CommonReq;
 import com.camelot.kuka.model.common.Result;
@@ -37,4 +38,13 @@ public interface SupplierRequestService {
      * @author 谢楠
      */
     Result<SupplierRequestResp> queryById(CommonReq req);
+
+    /***
+     * <p>Description:[修改状态获取数据]</p>
+     * Created on 2020/1/20
+     * @param req
+     * @return Result
+     * @author 谢楠
+     */
+    Result updateStatus(SupplierRequestReq req, String loginUserName);
 }
