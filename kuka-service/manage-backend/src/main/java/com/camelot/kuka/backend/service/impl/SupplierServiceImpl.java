@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.camelot.kuka.backend.dao.SupplierDao;
 import com.camelot.kuka.backend.feign.user.UserClient;
+import com.camelot.kuka.backend.model.Order;
 import com.camelot.kuka.backend.model.Supplier;
 import com.camelot.kuka.backend.service.SupplierService;
 import com.camelot.kuka.common.utils.BeanUtil;
@@ -48,7 +49,31 @@ public class SupplierServiceImpl implements SupplierService {
     public List<Supplier> pageList(SupplierPageReq req) {
         req.setDelState(DeleteEnum.NO);
         req.setQueryTypeCode(null != req.getQueryType() ? req.getQueryType().getCode() : null);
-        List<Supplier> list = supplierDao.queryList(req);
+        List<Supplier> list = supplierDao.pageList(req);
+        list.forEach(suppliers -> {
+            JSONObject addressJson = formatAddress(suppliers);
+            suppliers.setAddressJson(addressJson.toJSONString());
+        });
+        return list;
+    }
+
+    @Override
+    public List<Supplier> supplierPageList(SupplierPageReq req) {
+        req.setDelState(DeleteEnum.NO);
+        req.setQueryTypeCode(null != req.getQueryType() ? req.getQueryType().getCode() : null);
+        List<Supplier> list = supplierDao.supplierPageList(req);
+        list.forEach(suppliers -> {
+            JSONObject addressJson = formatAddress(suppliers);
+            suppliers.setAddressJson(addressJson.toJSONString());
+        });
+        return list;
+    }
+
+    @Override
+    public List<Supplier> visitorPageList(SupplierPageReq req) {
+        req.setDelState(DeleteEnum.NO);
+        req.setQueryTypeCode(null != req.getQueryType() ? req.getQueryType().getCode() : null);
+        List<Supplier> list = supplierDao.visitorPageList(req);
         list.forEach(suppliers -> {
             JSONObject addressJson = formatAddress(suppliers);
             suppliers.setAddressJson(addressJson.toJSONString());
@@ -58,7 +83,7 @@ public class SupplierServiceImpl implements SupplierService {
 
     @Override
     public Result<List<SupplierResp>> queryList(SupplierPageReq req) {
-        List<Supplier> list = supplierDao.queryList(req);
+        List<Supplier> list = supplierDao.pageList(req);
         list.forEach(suppliers -> {
             JSONObject addressJson = formatAddress(suppliers);
             suppliers.setAddressJson(addressJson.toJSONString());
@@ -205,6 +230,20 @@ public class SupplierServiceImpl implements SupplierService {
             log.error("\n 删除供应商失败, 参数:{}, \n 错误信息:{}", JSON.toJSON(req), e);
         }
         return Result.error("删除失败");
+    }
+
+    @Override
+    public Long[] queryLoginSupplierIds(String loginUserName) {
+        Supplier supplier = new Supplier();
+        supplier.setDelState(DeleteEnum.NO);
+        supplier.setUpdateBy(loginUserName);
+        List<Supplier> list = supplierDao.findList(supplier);
+        if (list.isEmpty()) {
+            // 返回 -1 代表没有自己的集成商
+            return new Long[]{-1L};
+        }
+        Long[] ids = list.stream().map(Supplier::getId).toArray(Long[]::new);
+        return ids;
     }
 
     /**

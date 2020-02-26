@@ -171,6 +171,12 @@ public class RoleServiceImpl implements RoleService {
         return Result.success();
     }
 
+    @Override
+    public Result<List<RoleResp>> findList(RoleReq req) {
+        List<Role> list = roleDao.findList(BeanUtil.copyBean(req, Role.class));
+        return Result.success(BeanUtil.copyBeanList(list, RoleResp.class));
+    }
+
     /**
      * 数据处理
      * 尽可能减少循环次数

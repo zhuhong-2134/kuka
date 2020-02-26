@@ -60,7 +60,7 @@ public class SupplierController extends BaseController {
     }
 
     /***
-     * <p>Description:[分页查询]</p>
+     * <p>Description:[kuka后台-分页查询]</p>
      * Created on 2020/1/20
      * @param req
      * @return com.camelot.kuka.model.common.PageResult
@@ -84,6 +84,69 @@ public class SupplierController extends BaseController {
             return page;
         } catch (Exception e) {
             log.error("\n 集成商模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "queryList", JSON.toJSONString(req), e);
+            return PageResult.error("网络异常, 请稍后再试");
+        }
+    }
+
+    /***
+     * <p>Description:[集成商-分页查询]</p>
+     * Created on 2020/1/20
+     * @param req
+     * @return com.camelot.kuka.model.common.PageResult
+     * @author 谢楠
+     */
+    @PostMapping("/supplier/supplier/pageList")
+    public PageResult<List<SupplierResp>> supplierPageList(SupplierPageReq req){
+        try {
+            // 开启分页
+            startPage();
+            String loginUserName = AppUserUtil.getLoginUserName();
+            req.setLoginName(loginUserName);
+            // 返回分页
+            List<Supplier> suppliers = supplierService.supplierPageList(req);
+            PageResult<List<SupplierResp>> page = getPage(suppliers, SupplierResp.class);
+            page.putEnumVal("typeEnum", EnumVal.getEnumList(SupplierTypeEnum.class));
+            page.putEnumVal("industryEnum", EnumVal.getEnumList(IndustryTypeEnum.class));
+            page.putEnumVal("appTypeEnum", EnumVal.getEnumList(SkilledAppEnum.class));
+            page.putEnumVal("patternTypeEnum", EnumVal.getEnumList(PatternTypeEnum.class));
+            page.putEnumVal("delStateEnum", EnumVal.getEnumList(DeleteEnum.class));
+            page.putEnumVal("queryTypeEnum", EnumVal.getEnumList(SuppliePageEnum.class));
+            page.putEnumVal("sourceEnum", EnumVal.getEnumList(CreateSourceEnum.class));
+            return page;
+        } catch (Exception e) {
+            log.error("\n 集成商模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "supplierPageList", JSON.toJSONString(req), e);
+            return PageResult.error("网络异常, 请稍后再试");
+        }
+    }
+
+    /***
+     * <p>Description:[来访者-分页查询]</p>
+     * Created on 2020/1/20
+     * @param req
+     * @return com.camelot.kuka.model.common.PageResult
+     * @author 谢楠
+     */
+    @PostMapping("/supplier/visitor/pageList")
+    public PageResult<List<SupplierResp>> visitorPageList(SupplierPageReq req){
+        try {
+            // 开启分页
+            startPage();
+
+            String loginUserName = AppUserUtil.getLoginUserName();
+            req.setLoginName(loginUserName);
+            // 返回分页
+            List<Supplier> suppliers = supplierService.visitorPageList(req);
+            PageResult<List<SupplierResp>> page = getPage(suppliers, SupplierResp.class);
+            page.putEnumVal("typeEnum", EnumVal.getEnumList(SupplierTypeEnum.class));
+            page.putEnumVal("industryEnum", EnumVal.getEnumList(IndustryTypeEnum.class));
+            page.putEnumVal("appTypeEnum", EnumVal.getEnumList(SkilledAppEnum.class));
+            page.putEnumVal("patternTypeEnum", EnumVal.getEnumList(PatternTypeEnum.class));
+            page.putEnumVal("delStateEnum", EnumVal.getEnumList(DeleteEnum.class));
+            page.putEnumVal("queryTypeEnum", EnumVal.getEnumList(SuppliePageEnum.class));
+            page.putEnumVal("sourceEnum", EnumVal.getEnumList(CreateSourceEnum.class));
+            return page;
+        } catch (Exception e) {
+            log.error("\n 集成商模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "visitorPageList", JSON.toJSONString(req), e);
             return PageResult.error("网络异常, 请稍后再试");
         }
     }

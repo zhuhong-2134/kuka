@@ -84,6 +84,23 @@ public class RoleController extends BaseController {
     }
 
     /***
+     * <p>Description:[列表查询]</p>
+     * Created on 2020/1/20
+     * @param req
+     * @return com.camelot.kuka.model.common.PageResult
+     * @author 谢楠
+     */
+    @PostMapping("/role/findList")
+    public Result<List<RoleResp>> findList(RoleReq req){
+        try {
+            return roleService.findList(req);
+        } catch (Exception e) {
+            log.error("\n 角色模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "findList", JSON.toJSONString(req), e);
+            return PageResult.error("网络异常, 请稍后再试");
+        }
+    }
+
+    /***
      * <p>Description:[新增角色信息]</p>
      * Created on 2020/2/4
      * @param req

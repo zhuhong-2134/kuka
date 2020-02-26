@@ -2,7 +2,6 @@ package com.camelot.kuka.user.controller;
 
 import com.camelot.kuka.common.controller.BaseController;
 import com.camelot.kuka.common.utils.AppUserUtil;
-import com.camelot.kuka.common.utils.EnumUtil;
 import com.camelot.kuka.model.common.CommonReq;
 import com.camelot.kuka.model.common.EnumVal;
 import com.camelot.kuka.model.common.PageResult;
@@ -11,6 +10,8 @@ import com.camelot.kuka.model.enums.DeleteEnum;
 import com.camelot.kuka.model.enums.SexEnum;
 import com.camelot.kuka.model.enums.user.CreateSourceEnum;
 import com.camelot.kuka.model.enums.user.UserPageEnum;
+import com.camelot.kuka.model.enums.user.UserStatusEnum;
+import com.camelot.kuka.model.enums.user.UserTypeEnum;
 import com.camelot.kuka.model.user.LoginAppUser;
 import com.camelot.kuka.model.user.req.UserPageReq;
 import com.camelot.kuka.model.user.req.UserReq;
@@ -55,6 +56,25 @@ public class UserController extends BaseController {
     }
 
     /***
+     * <p>Description:[枚举查询]</p>
+     * Created on 2020/1/20
+     * @param
+     * @return com.camelot.kuka.model.common.PageResult
+     * @author 谢楠
+     */
+    @PostMapping("/users/queryEnum")
+    public PageResult queryEnum(){
+        PageResult page = new PageResult();
+        page.putEnumVal("sexEnum", EnumVal.getEnumList(SexEnum.class));
+        page.putEnumVal("sourceEnum", EnumVal.getEnumList(CreateSourceEnum.class));
+        page.putEnumVal("delStateEnum", EnumVal.getEnumList(DeleteEnum.class));
+        page.putEnumVal("queryTypeEnum", EnumVal.getEnumList(UserPageEnum.class));
+        page.putEnumVal("typeEnum", EnumVal.getEnumList(UserTypeEnum.class));
+        page.putEnumVal("statusEnum", EnumVal.getEnumList(UserStatusEnum.class));
+        return page;
+    }
+
+    /***
      * <p>Description:[分页查询]</p>
      * Created on 2020/1/20
      * @param req
@@ -71,6 +91,31 @@ public class UserController extends BaseController {
         page.putEnumVal("sourceEnum", EnumVal.getEnumList(CreateSourceEnum.class));
         page.putEnumVal("delStateEnum", EnumVal.getEnumList(DeleteEnum.class));
         page.putEnumVal("queryTypeEnum", EnumVal.getEnumList(UserPageEnum.class));
+        page.putEnumVal("typeEnum", EnumVal.getEnumList(UserTypeEnum.class));
+        page.putEnumVal("statusEnum", EnumVal.getEnumList(UserStatusEnum.class));
+        return page;
+    }
+
+    /***
+     * <p>Description:[kuka用户-分页查询]</p>
+     * Created on 2020/1/20
+     * @param req
+     * @return com.camelot.kuka.model.common.PageResult
+     * @author 谢楠
+     */
+    @PostMapping("/users/kuka/pageList")
+    public PageResult<List<UserResp>> kukaPageList(UserPageReq req){
+        // 开启分页
+        startPage();
+
+        req.setType(UserTypeEnum.KUKA);
+        // 返回分页
+        PageResult<List<UserResp>> page = getPage(userService.kukaPageList(req), UserResp.class);
+        page.putEnumVal("sexEnum", EnumVal.getEnumList(SexEnum.class));
+        page.putEnumVal("sourceEnum", EnumVal.getEnumList(CreateSourceEnum.class));
+        page.putEnumVal("delStateEnum", EnumVal.getEnumList(DeleteEnum.class));
+        page.putEnumVal("queryTypeEnum", EnumVal.getEnumList(UserPageEnum.class));
+        page.putEnumVal("statusEnum", EnumVal.getEnumList(UserTypeEnum.class));
         return page;
     }
 
@@ -85,6 +130,20 @@ public class UserController extends BaseController {
     public Result addUser(UserReq req){
         String loginUserName = AppUserUtil.getLoginUserName();
         return userService.addUser(req, loginUserName);
+    }
+
+    /***
+     * <p>Description:[新增]</p>
+     * Created on 2020/2/4
+     * @param req
+     * @return com.camelot.kuka.model.common.PageResult
+     * @author 谢楠
+     */
+    @PostMapping("/users/kuka/add")
+    public Result kukaAddUser(UserReq req){
+        String loginUserName = AppUserUtil.getLoginUserName();
+        req.setType(UserTypeEnum.KUKA);
+        return userService.kukaAddUser(req, loginUserName);
     }
 
     /***
@@ -125,4 +184,16 @@ public class UserController extends BaseController {
         return userService.delUser(req, loginUserName);
     }
 
+    /***
+     * <p>Description:[修改上线下载状态]</p>
+     * Created on 2020/2/4
+     * @param req
+     * @return com.camelot.kuka.model.common.PageResult
+     * @author 谢楠
+     */
+    @PostMapping("/users/updateStatus")
+    public Result updateStatus(UserReq req){
+        String loginUserName = AppUserUtil.getLoginUserName();
+        return userService.updateUser(req, loginUserName);
+    }
 }

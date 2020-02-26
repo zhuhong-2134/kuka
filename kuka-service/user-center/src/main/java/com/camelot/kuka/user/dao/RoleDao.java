@@ -28,6 +28,15 @@ public interface RoleDao {
     List<Role> pageList(@Param("entity") RolePageReq req);
 
     /***
+     * <p>Description:[获取角色列表]</p>
+     * Created on 2020/1/19
+     * @param query
+     * @return List<Role>
+     * @author 谢楠
+     */
+    List<Role> findList(@Param("entity") Role query);
+
+    /***
      * <p>Description:[新增]</p>
      * Created on 2020/1/19
      * @param list
@@ -53,4 +62,13 @@ public interface RoleDao {
      * @author 谢楠
      */
     Role qeuryById(@Param("id") Long id);
+
+    /***
+     * <p>Description:[通过ID获取]</p>
+     * Created on 2020/1/19
+     * @param id
+     * @return int
+     * @author 谢楠
+     */
+    List<Role> qeuryByIds(@Param("array") Long[] ids);
 }

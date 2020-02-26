@@ -22,13 +22,31 @@ import java.util.List;
 public interface ApplicationService {
 
     /***
-     * <p>Description:[查询产品信息集合]</p>
+     * <p>Description:[库卡后台-分页查询]</p>
      * Created on 2020/2/5
      * @param req
      * @return List<Supplier>
      * @author 谢楠
      */
     List<Application> queryList(AppPageReq req);
+
+    /***
+     * <p>Description:[集成商-分页查询]</p>
+     * Created on 2020/2/5
+     * @param req
+     * @return List<Supplier>
+     * @author 谢楠
+     */
+    List<Application> supplierPageList(AppPageReq req);
+
+    /***
+     * <p>Description:[来访者-分页查询]</p>
+     * Created on 2020/2/5
+     * @param req
+     * @return List<Supplier>
+     * @author 谢楠
+     */
+    List<Application> visitorPageList(AppPageReq req);
 
     /***
      * <p>Description:[新增产品信息]</p>
@@ -83,4 +101,5 @@ public interface ApplicationService {
      * @author 谢楠
      */
     Result deleteApplication(CommonReq req, String loginUserName);
+
 }

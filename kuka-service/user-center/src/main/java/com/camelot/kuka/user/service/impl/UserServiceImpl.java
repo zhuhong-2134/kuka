@@ -12,7 +12,9 @@ import com.camelot.kuka.model.user.LoginAppUser;
 import com.camelot.kuka.model.user.req.UserPageReq;
 import com.camelot.kuka.model.user.req.UserReq;
 import com.camelot.kuka.model.user.resp.UserResp;
+import com.camelot.kuka.user.dao.RoleDao;
 import com.camelot.kuka.user.dao.UserDao;
+import com.camelot.kuka.user.model.Role;
 import com.camelot.kuka.user.model.User;
 import com.camelot.kuka.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -40,12 +42,30 @@ public class UserServiceImpl implements UserService {
 	private UserDao userDao;
     @Resource
     private CodeGenerateUtil codeGenerateUtil;
+    @Resource
+    private RoleDao roleDao;
 
 	@Override public LoginAppUser findByUsername(String username) {
 		return null;
 	}
 
-	@Override public List<User> pageList(UserPageReq req) {
+    @Override
+    public List<User> kukaPageList(UserPageReq req) {
+        req.setDelState(DeleteEnum.NO);
+        req.setQueryTypeCode(null != req.getQueryType() ? req.getQueryType().getCode() : null);
+        List<User> list = userDao.kukaPageList(req);
+        list.forEach(user -> {
+            JSONObject addressJson = formatAddress(user);
+            user.setAddressJson(addressJson.toJSONString());
+        });
+        // 放入角色名称
+        setRoleName(list);
+        return list;
+    }
+
+
+
+    @Override public List<User> pageList(UserPageReq req) {
         req.setDelState(DeleteEnum.NO);
         req.setQueryTypeCode(null != req.getQueryType() ? req.getQueryType().getCode() : null);
         List<User> list = userDao.findList(req);
@@ -68,10 +88,47 @@ public class UserServiceImpl implements UserService {
 			return Result.error("性别不能为空");
 		}
 		if (StringUtils.isBlank(req.getPhone())) {
-			return Result.error("姓名不能为空");
+			return Result.error("手机号不能为空");
 		}
 		if (StringUtils.isBlank(req.getMail())) {
 			return Result.error("邮箱不能为空");
+		}
+		User user = BeanUtil.copyBean(req, User.class);
+        Long id = codeGenerateUtil.generateId(PrincipalEnum.USER_USER);
+        user.setId(id);
+        // 固定参数
+        user.setCreateBy(loginUserName);
+        user.setCreateTime(new Date());
+        user.setDelState(DeleteEnum.NO);
+        try {
+            int con = userDao.addUser(Arrays.asList(user));
+            if (con == 0) {
+                return Result.error("新增失败");
+            }
+            return Result.success();
+        } catch (Exception e) {
+            log.error("\n 新增用户失败, 参数:{}, \n 错误信息:{}", JSON.toJSON(req), e);
+        }
+        return Result.error("新增失败");
+	}
+
+
+	@Override
+	public Result kukaAddUser(UserReq req, String loginUserName) {
+		if (null == req) {
+			return Result.error("参数不能为空");
+		}
+		if (StringUtils.isBlank(req.getUserName())) {
+			return Result.error("用户名称不能为空");
+		}
+        if (StringUtils.isBlank(req.getPassword())) {
+            return Result.error("密码不能为空");
+        }
+        if (StringUtils.isBlank(req.getPhone())) {
+            return Result.error("手机号不能为空");
+        }
+		if (null == req.getRoleId()) {
+			return Result.error("角色不能为空");
 		}
 		User user = BeanUtil.copyBean(req, User.class);
         Long id = codeGenerateUtil.generateId(PrincipalEnum.USER_USER);
@@ -182,5 +239,25 @@ public class UserServiceImpl implements UserService {
         JSONObject zong = new JSONObject();
         zong.put("options", shen);
         return  zong;
+    }
+
+    /**
+     * 放入角色名称
+     * @param list
+     */
+    private void setRoleName(List<User> list) {
+        // 获取角色
+        List<Role> roleList = roleDao.findList(new Role());
+        for (User user : list) {
+            if (null == user.getRoleId()) {
+                continue;
+            }
+            for (Role role : roleList) {
+                if (role.getId().compareTo(user.getRoleId()) == 0) {
+                    user.setRoleName(role.getRoleName());
+                    break;
+                }
+            }
+        }
     }
 }

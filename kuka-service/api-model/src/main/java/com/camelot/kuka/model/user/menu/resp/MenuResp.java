@@ -1,4 +1,4 @@
-package com.camelot.kuka.user.model;
+package com.camelot.kuka.model.user.menu.resp;
 
 import com.camelot.kuka.model.enums.user.UserTypeEnum;
 import lombok.Data;
@@ -11,11 +11,10 @@ import java.util.Date;
  * @author xienan 2020-02-17
  */
 @Data
-public class Menu implements Serializable {
+public class MenuResp implements Serializable {
 
 
-    private static final long serialVersionUID = -7719721735451980421L;
-
+    private static final long serialVersionUID = 5256870081109171915L;
     /**
      * 菜单主键
      */

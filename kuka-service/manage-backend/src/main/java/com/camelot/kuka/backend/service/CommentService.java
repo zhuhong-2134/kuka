@@ -6,6 +6,7 @@ import com.camelot.kuka.model.backend.comment.req.CommentReq;
 import com.camelot.kuka.model.backend.comment.resp.CommentResp;
 import com.camelot.kuka.model.common.CommonReq;
 import com.camelot.kuka.model.common.Result;
+import com.camelot.kuka.model.user.LoginAppUser;
 
 import java.util.List;
 
@@ -53,7 +54,7 @@ public interface CommentService {
      * @return List<Supplier>
      * @author 谢楠
      */
-    Result delSupplier(CommonReq req, String loginUserName);
+    Result delComment(CommonReq req, String loginUserName);
 
     /***
      * <p>Description:[审核]</p>
@@ -72,4 +73,13 @@ public interface CommentService {
      * @author 谢楠
      */
     Result<CommentResp> queryById(CommonReq req);
+
+    /***
+     * <p>Description:[新增评论信息]</p>
+     * Created on 2020/2/5
+     * @param req
+     * @return List<Supplier>
+     * @author 谢楠
+     */
+    Result addComment(CommentReq req, LoginAppUser loginUser);
 }

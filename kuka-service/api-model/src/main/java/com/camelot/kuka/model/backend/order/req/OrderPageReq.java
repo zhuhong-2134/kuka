@@ -52,4 +52,14 @@ public class OrderPageReq implements Serializable {
 	 * 删除标识0:未删除;1已删除
 	 */
 	private DeleteEnum delState;
+
+	/**
+	 * 当前登录人标识
+	 */
+	private String loginName;
+
+	/**
+	 * 登录人拥有的集成商ID
+	 */
+	private Long[] supplierIds;
 }

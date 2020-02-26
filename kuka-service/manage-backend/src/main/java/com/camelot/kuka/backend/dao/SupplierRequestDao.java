@@ -54,4 +54,6 @@ public interface SupplierRequestDao {
      * @author 谢楠
      */
     int update(SupplierRequest supplierRequest);
+
+
 }

@@ -5,6 +5,7 @@ import com.camelot.kuka.backend.dao.*;
 import com.camelot.kuka.backend.model.*;
 import com.camelot.kuka.backend.service.ApplicationService;
 import com.camelot.kuka.backend.service.CommentService;
+import com.camelot.kuka.backend.service.SupplierService;
 import com.camelot.kuka.common.utils.BeanUtil;
 import com.camelot.kuka.common.utils.CodeGenerateUtil;
 import com.camelot.kuka.model.backend.application.req.AppPageReq;
@@ -55,12 +56,42 @@ public class ApplicationServiceImpl implements ApplicationService {
     private ApplicationProbleDao applicationProbleDao;
     @Resource
     private SupplierDao supplierDao;
+    @Resource
+    private SupplierService supplierService;
 
     @Override
     public List<Application> queryList(AppPageReq req) {
         req.setDelState(DeleteEnum.NO);
         req.setQueryTypeCode(null != req.getQueryType() ? req.getQueryType().getCode() : null);
         List<Application> list = applicationDao.queryList(req);
+        if (!list.isEmpty()) {
+            // 封面图
+            setAppImg(list);
+        }
+        return list;
+    }
+
+    @Override
+    public List<Application> supplierPageList(AppPageReq req) {
+        // 获取当前用户拥有的集成商
+        Long[] supplierIds = supplierService.queryLoginSupplierIds(req.getLoginName());
+        req.setSupplierIds(supplierIds);
+        // 删除标识
+        req.setDelState(DeleteEnum.NO);
+        req.setQueryTypeCode(null != req.getQueryType() ? req.getQueryType().getCode() : null);
+        List<Application> list = applicationDao.supplierPageList(req);
+        if (!list.isEmpty()) {
+            // 封面图
+            setAppImg(list);
+        }
+        return list;
+    }
+
+    @Override
+    public List<Application> visitorPageList(AppPageReq req) {
+        req.setDelState(DeleteEnum.NO);
+        req.setQueryTypeCode(null != req.getQueryType() ? req.getQueryType().getCode() : null);
+        List<Application> list = applicationDao.visitorPageList(req);
         if (!list.isEmpty()) {
             // 封面图
             setAppImg(list);

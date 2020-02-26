@@ -30,6 +30,15 @@ public interface UserService {
 	LoginAppUser findByUsername(String username);
 
 	/***
+	 * <p>Description:[库卡用户分页查询]</p>
+	 * Created on 2020/1/19
+	 * @param req
+	 * @return com.camelot.kuka.model.user.LoginAppUser
+	 * @author req
+	 */
+	List<User> kukaPageList(UserPageReq req);
+
+	/***
 	 * <p>Description:[分页查询]</p>
 	 * Created on 2020/2/4
 	 * @param req
@@ -46,6 +55,15 @@ public interface UserService {
 	 * @author 谢楠
 	 */
 	Result addUser(UserReq req, String loginUserName);
+
+	/***
+	 * <p>Description:[kuka后台-新增用户]</p>
+	 * Created on 2020/2/4
+	 * @param req
+	 * @return Result
+	 * @author 谢楠
+	 */
+	Result kukaAddUser(UserReq req, String loginUserName);
 
 	/**
 	 * 获取单条数据
@@ -71,4 +89,6 @@ public interface UserService {
 	 * @author 谢楠
 	 */
 	Result delUser(CommonReq req, String loginUserName);
+
+
 }

@@ -1,5 +1,6 @@
 package com.camelot.kuka.model.common;
 
+import com.camelot.kuka.model.enums.user.WhetherEnum;
 import lombok.Data;
 
 /**
@@ -22,4 +23,9 @@ public class CommonReq {
      * 名称
      */
     private String queryName;
+
+    /**
+     * 是否标识
+     */
+    private WhetherEnum status;
 }

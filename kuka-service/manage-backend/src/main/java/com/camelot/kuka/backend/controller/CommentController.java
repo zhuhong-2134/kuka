@@ -15,6 +15,7 @@ import com.camelot.kuka.model.common.Result;
 import com.camelot.kuka.model.enums.DeleteEnum;
 import com.camelot.kuka.model.enums.comment.CommentPageEnum;
 import com.camelot.kuka.model.enums.comment.CommentStatusEnum;
+import com.camelot.kuka.model.user.LoginAppUser;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -81,6 +82,27 @@ public class CommentController extends BaseController {
     }
 
     /***
+     * <p>Description:[新增评论信息]</p>
+     * Created on 2020/2/4
+     * @param req
+     * @return com.camelot.kuka.model.common.Result
+     * @author 谢楠
+     */
+    @PostMapping("/comment/add")
+    public Result addComment(CommentReq req){
+        try {
+            LoginAppUser loginUser = AppUserUtil.getLoginUser();
+            if (null == loginUser) {
+                return Result.error("未获取到登录用户");
+            }
+            return commentService.addComment(req, loginUser);
+        } catch (Exception e) {
+            log.error("\n 评论模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "addComment", JSON.toJSONString(req), e);
+            return Result.error("网络异常, 请稍后再试");
+        }
+    }
+
+    /***
      * <p>Description:[删除]</p>
      * Created on 2020/2/4
      * @param req
@@ -88,10 +110,10 @@ public class CommentController extends BaseController {
      * @author 谢楠
      */
     @PostMapping("/comment/del")
-    public Result delSupplier(CommonReq req){
+    public Result delComment(CommonReq req){
         try {
             String loginUserName = AppUserUtil.getLoginUserName();
-            return commentService.delSupplier(req, loginUserName);
+            return commentService.delComment(req, loginUserName);
         } catch (Exception e) {
             log.error("\n 评论模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "delSupplier", JSON.toJSONString(req), e);
             return Result.error("网络异常, 请稍后再试");

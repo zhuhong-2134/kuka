@@ -64,7 +64,7 @@ public class ApplicationController extends BaseController {
     }
 
     /***
-     * <p>Description:[分页查询]</p>
+     * <p>Description:[库卡后台-分页查询]</p>
      * Created on 2020/1/20
      * @param req
      * @return com.camelot.kuka.model.common.PageResult
@@ -87,6 +87,68 @@ public class ApplicationController extends BaseController {
             return page;
         } catch (Exception e) {
             log.error("\n 产品模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "pageList", JSON.toJSONString(req), e);
+            return PageResult.error("网络异常, 请稍后再试");
+        }
+    }
+
+    /***
+     * <p>Description:[集成商-分页查询]</p>
+     * Created on 2020/1/20
+     * @param req
+     * @return com.camelot.kuka.model.common.PageResult
+     * @author 谢楠
+     */
+    @PostMapping("/application/supplier/pageList")
+    public PageResult<List<ApplicationResp>> supplierPageList(AppPageReq req){
+        try {
+            // 开启分页
+            startPage();
+
+            String loginUserName = AppUserUtil.getLoginUserName();
+            req.setLoginName(loginUserName);
+            // 返回分页
+            List<Application> application = applicationService.supplierPageList(req);
+            PageResult<List<ApplicationResp>> page = getPage(application, ApplicationResp.class);
+            page.putEnumVal("classTypeEnum", EnumVal.getEnumList(AppTypeEnum.class));
+            page.putEnumVal("appRangeEnum", EnumVal.getEnumList(SkilledAppEnum.class));
+            page.putEnumVal("industryEnum", EnumVal.getEnumList(IndustryTypeEnum.class));
+            page.putEnumVal("appStatusEnum", EnumVal.getEnumList(AppStatusEnum.class));
+            page.putEnumVal("delStateEnum", EnumVal.getEnumList(DeleteEnum.class));
+            page.putEnumVal("queryTypeEnum", EnumVal.getEnumList(ApplicationPageEnum.class));
+            return page;
+        } catch (Exception e) {
+            log.error("\n 产品模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "supplierPageList", JSON.toJSONString(req), e);
+            return PageResult.error("网络异常, 请稍后再试");
+        }
+    }
+
+    /***
+     * <p>Description:[来访者-分页查询]</p>
+     * Created on 2020/1/20
+     * @param req
+     * @return com.camelot.kuka.model.common.PageResult
+     * @author 谢楠
+     */
+    @PostMapping("/application/visitor/pageList")
+    public PageResult<List<ApplicationResp>> visitorPageList(AppPageReq req){
+        try {
+            // 开启分页
+            startPage();
+
+            String loginUserName = AppUserUtil.getLoginUserName();
+            req.setLoginName(loginUserName);
+            // 返回分页
+            List<Application> application = applicationService.visitorPageList(req);
+            PageResult<List<ApplicationResp>> page = getPage(application, ApplicationResp.class);
+            page.putEnumVal("classTypeEnum", EnumVal.getEnumList(AppTypeEnum.class));
+            page.putEnumVal("appRangeEnum", EnumVal.getEnumList(SkilledAppEnum.class));
+            page.putEnumVal("industryEnum", EnumVal.getEnumList(IndustryTypeEnum.class));
+            page.putEnumVal("appStatusEnum", EnumVal.getEnumList(AppStatusEnum.class));
+            page.putEnumVal("delStateEnum", EnumVal.getEnumList(DeleteEnum.class));
+            page.putEnumVal("queryTypeEnum", EnumVal.getEnumList(ApplicationPageEnum.class));
+            return page;
+        } catch (Exception e) {
+            log.error("\n 产品模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "visitorPageList", JSON.toJSONString(req), e);
             return PageResult.error("网络异常, 请稍后再试");
         }
     }

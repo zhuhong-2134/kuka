@@ -3,6 +3,7 @@ package com.camelot.kuka.model.user.req;
 import com.camelot.kuka.model.enums.DeleteEnum;
 import com.camelot.kuka.model.enums.user.CreateSourceEnum;
 import com.camelot.kuka.model.enums.user.UserPageEnum;
+import com.camelot.kuka.model.enums.user.UserTypeEnum;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -32,7 +33,6 @@ public class UserPageReq implements Serializable {
 	 */
 	private UserPageEnum queryType;
 
-
 	/**
 	 * 0 全部 1 手机号 2 姓名 3 ID
 	 */
@@ -57,4 +57,14 @@ public class UserPageReq implements Serializable {
 	 * 删除标识0:未删除;1已删除
 	 */
 	private DeleteEnum delState;
+
+	/**
+	 * 来访者,集成商,kuka用户
+	 */
+	private UserTypeEnum type;
+
+	/**
+	 * 角色ID
+	 */
+	private Long roleId;
 }

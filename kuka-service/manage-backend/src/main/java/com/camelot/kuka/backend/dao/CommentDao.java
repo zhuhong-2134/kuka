@@ -63,4 +63,13 @@ public interface CommentDao {
      * @author 谢楠
      */
     Comment queryInfo(@Param("entity")Comment query);
+
+    /***
+     * <p>Description:[批量新增]</p>
+     * Created on 2020/2/5
+     * @param list
+     * @return int
+     * @author 谢楠
+     */
+    int addBatch(@Param("list") List<Comment> list);
 }

@@ -164,9 +164,9 @@
 
 	<select id="queryInfo" resultMap="BaseResultMap">
 		SELECT
-		<include refid="Base_Column_List" />
+			<include refid="Base_Column_List" />
 		FROM
-		t_comment
+			t_comment
 		<where>
 			<if test ='null != entity.delState'>
 				del_state = #{entity.delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}
@@ -182,4 +182,46 @@
 			</if>
 		</where>
 	</select>
+
+	<insert id="addBatch">
+		INSERT INTO t_comment(
+				id,
+				order_id,
+				order_no,
+				app_id,
+				comment_desc,
+				comment_url,
+				comment_type,
+				status,
+				adopt_time,
+				user_id,
+				photo_url,
+				del_state,
+				create_time,
+				create_by,
+				update_time,
+				update_by
+		)
+		VALUES
+		<foreach collection="list" item="item" index="index" separator=",">
+			(
+				#{item.id},
+				#{item.orderId},
+				#{item.orderNo},
+				#{item.appId},
+				#{item.commentDesc},
+				#{item.commentUrl},
+				#{item.commentType},
+				#{item.status, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
+				#{item.adoptTime},
+				#{item.userId},
+				#{item.photoUrl},
+				#{item.delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
+				#{item.createTime},
+				#{item.createBy},
+				#{item.updateTime},
+				#{item.updateBy}
+			)
+		</foreach>
+	</insert>
 </mapper>

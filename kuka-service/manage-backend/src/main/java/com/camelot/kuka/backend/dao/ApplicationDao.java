@@ -28,6 +28,24 @@ public interface ApplicationDao {
     List<Application> queryList(@Param("entity") AppPageReq req);
 
     /***
+     * <p>Description:[集成商-分页]</p>
+     * Created on 2020/2/5
+     * @param req
+     * @return List<Supplier>
+     * @author 谢楠
+     */
+    List<Application> supplierPageList(@Param("entity") AppPageReq req);
+
+    /***
+     * <p>Description:[来访者-分页]</p>
+     * Created on 2020/2/5
+     * @param req
+     * @return List<Supplier>
+     * @author 谢楠
+     */
+    List<Application> visitorPageList(@Param("entity") AppPageReq req);
+
+    /***
      * <p>Description:[批量新增]</p>
      * Created on 2020/2/5
      * @param applications
@@ -62,4 +80,5 @@ public interface ApplicationDao {
      * @author 谢楠
      */
     int update(Application application);
+
 }

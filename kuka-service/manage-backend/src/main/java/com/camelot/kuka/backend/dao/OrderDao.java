@@ -19,13 +19,31 @@ import java.util.List;
 public interface OrderDao {
 
     /***
-     * <p>Description:[分页查询]</p>
+     * <p>Description:[kuka后台-分页查询]</p>
      * Created on 2020/2/5
      * @param req
      * @return List
      * @author 谢楠
      */
     List<Order> pageList(@Param("entity") OrderPageReq req);
+
+    /***
+     * <p>Description:[集成商-分页查询]</p>
+     * Created on 2020/2/5
+     * @param req
+     * @return List
+     * @author 谢楠
+     */
+    List<Order> supplierPageList(@Param("entity")OrderPageReq req);
+
+    /***
+     * <p>Description:[来访者-分页查询]</p>
+     * Created on 2020/2/5
+     * @param req
+     * @return List
+     * @author 谢楠
+     */
+    List<Order> visitorPageList(@Param("entity")OrderPageReq req);
 
     /***
      * <p>Description:[通过ID获取]</p>

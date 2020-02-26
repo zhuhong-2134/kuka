@@ -8,6 +8,7 @@
 		<result column="menu_name" property="menuName" />
 		<result column="p_id" property="pId" />
 		<result column="href_url" property="hrefUrl" />
+		<result column="type" property="type" typeHandler="com.camelot.kuka.common.mybatis.handler.EnumTypeHandler"/>
 		<result column="create_time" property="createTime" />
 		<result column="create_by" property="createBy" />
 		<result column="update_time" property="updateTime" />
@@ -19,6 +20,7 @@
                 menu_name,
                 p_id,
                 href_url,
+                type,
                 create_time,
                 create_by,
                 update_time,
@@ -45,6 +47,7 @@
 			menu_name,
 			p_id,
 			href_url,
+			type,
 			create_time,
 			create_by,
 			update_time,
@@ -57,9 +60,11 @@
 				#{item.menuName},
 				#{item.pId},
 				#{item.hrefUrl},
+				#{item.type, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
 				#{item.createTime},
 				#{item.createBy},
 				#{item.updateTime},
+				#{item.updateBy}
 			)
 		</foreach>
 	</insert>
@@ -75,6 +80,9 @@
 			</if>
 			<if test ='null != hrefUrl'>
 				href_url = #{hrefUrl},
+			</if>
+			<if test ='null != type'>
+				type = #{type, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
 			</if>
 			<if test ='null != createTime'>
 				create_time = #{createTime},

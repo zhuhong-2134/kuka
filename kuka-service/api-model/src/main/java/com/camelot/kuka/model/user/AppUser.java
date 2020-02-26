@@ -17,6 +17,15 @@ public class AppUser implements Serializable {
 	private String headImgUrl;
 	private String phone;
 	private Integer sex;
+
+	/**
+	 * 角色ID
+	 */
+	private Long roleId;
+	/**
+	 * 头像地址
+	 */
+	private String photoUrl;
 	/**
 	 * 状态
 	 */

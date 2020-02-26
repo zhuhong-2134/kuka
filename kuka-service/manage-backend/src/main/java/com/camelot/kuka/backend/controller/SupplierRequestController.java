@@ -14,7 +14,8 @@ import com.camelot.kuka.model.common.PageResult;
 import com.camelot.kuka.model.common.Result;
 import com.camelot.kuka.model.enums.CommunicateEnum;
 import com.camelot.kuka.model.enums.DeleteEnum;
-import com.camelot.kuka.model.enums.backend.ApplicationPageEnum;
+import com.camelot.kuka.model.enums.backend.SupplierRequestPageEnum;
+import com.camelot.kuka.model.enums.user.WhetherEnum;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -52,7 +53,8 @@ public class SupplierRequestController extends BaseController {
         PageResult page = new PageResult();
         page.putEnumVal("statusEnum", EnumVal.getEnumList(CommunicateEnum.class));
         page.putEnumVal("delStateEnum", EnumVal.getEnumList(DeleteEnum.class));
-        page.putEnumVal("queryTypeEnum", EnumVal.getEnumList(ApplicationPageEnum.class));
+        page.putEnumVal("queryTypeEnum", EnumVal.getEnumList(SupplierRequestPageEnum.class));
+        page.putEnumVal("whetherEnum", EnumVal.getEnumList(WhetherEnum.class));
         return page;
     }
 
@@ -73,7 +75,8 @@ public class SupplierRequestController extends BaseController {
             PageResult<List<SupplierRequestResp>> page = getPage(application, SupplierRequestResp.class);
             page.putEnumVal("statusEnum", EnumVal.getEnumList(CommunicateEnum.class));
             page.putEnumVal("delStateEnum", EnumVal.getEnumList(DeleteEnum.class));
-            page.putEnumVal("queryTypeEnum", EnumVal.getEnumList(ApplicationPageEnum.class));
+            page.putEnumVal("queryTypeEnum", EnumVal.getEnumList(SupplierRequestPageEnum.class));
+            page.putEnumVal("whetherEnum", EnumVal.getEnumList(WhetherEnum.class));
             return page;
         } catch (Exception e) {
             log.error("\n 集成商请求模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "pageList", JSON.toJSONString(req), e);
@@ -114,5 +117,17 @@ public class SupplierRequestController extends BaseController {
             log.error("\n 集成商请求模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "updateStatus", JSON.toJSONString(req), e);
             return Result.error("网络异常, 请稍后再试");
         }
+    }
+
+    /***
+     * <p>Description:[发送邮件]</p>
+     * Created on 2020/2/4
+     * @param req
+     * @return com.camelot.kuka.model.common.Result
+     * @author 谢楠
+     */
+    @PostMapping("/supplierequest/sendMail")
+    public Result sendMail(CommonReq req){
+        return Result.success();
     }
 }

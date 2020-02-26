@@ -3,6 +3,7 @@ package com.camelot.kuka.model.user.req;
 import com.camelot.kuka.model.enums.DeleteEnum;
 import com.camelot.kuka.model.enums.SexEnum;
 import com.camelot.kuka.model.enums.user.CreateSourceEnum;
+import com.camelot.kuka.model.enums.user.UserStatusEnum;
 import com.camelot.kuka.model.enums.user.UserTypeEnum;
 import lombok.Data;
 
@@ -35,6 +36,11 @@ public class UserReq implements Serializable {
 	 * 密码
 	 */
 	private String password;
+
+	/**
+	 * 角色id
+	 */
+	private Long roleId;
 
 	/**
 	 * 头像地址
@@ -110,6 +116,11 @@ public class UserReq implements Serializable {
 	 * 来访者,集成商,kuka用户
 	 */
 	private UserTypeEnum type;
+
+	/**
+	 * 上线下线状态
+	 */
+	private UserStatusEnum status;
 
 	/**
 	 * 删除标识0:未删除;1已删除

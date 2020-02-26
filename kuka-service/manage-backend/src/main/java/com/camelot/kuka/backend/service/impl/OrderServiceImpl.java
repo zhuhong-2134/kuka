@@ -2,11 +2,13 @@ package com.camelot.kuka.backend.service.impl;
 
 import com.camelot.kuka.backend.dao.OrderDao;
 import com.camelot.kuka.backend.dao.OrderDetailedDao;
+import com.camelot.kuka.backend.dao.SupplierDao;
 import com.camelot.kuka.backend.model.Comment;
 import com.camelot.kuka.backend.model.Order;
 import com.camelot.kuka.backend.model.OrderDetailed;
 import com.camelot.kuka.backend.service.CommentService;
 import com.camelot.kuka.backend.service.OrderService;
+import com.camelot.kuka.backend.service.SupplierService;
 import com.camelot.kuka.common.utils.BeanUtil;
 import com.camelot.kuka.model.backend.comment.resp.CommentResp;
 import com.camelot.kuka.model.backend.order.req.OrderPageReq;
@@ -42,6 +44,8 @@ public class OrderServiceImpl implements OrderService {
     private OrderDetailedDao orderDetailedDao;
     @Resource
     private CommentService commentService;
+    @Resource
+    private SupplierService supplierService;
 
 
     @Override
@@ -49,6 +53,29 @@ public class OrderServiceImpl implements OrderService {
         req.setDelState(DeleteEnum.NO);
         req.setQueryTypeCode(null != req.getQueryType() ? req.getQueryType().getCode() : null);
         List<Order> orders = orderDao.pageList(req);
+        // 放入订单明细
+        getOrderDetaileList(orders);
+        return orders;
+    }
+
+    @Override
+    public List<Order> supplierPageList(OrderPageReq req) {
+        // 获取当前用户拥有的集成商
+        Long[] supplierIds = supplierService.queryLoginSupplierIds(req.getLoginName());
+        req.setSupplierIds(supplierIds);
+        req.setDelState(DeleteEnum.NO);
+        req.setQueryTypeCode(null != req.getQueryType() ? req.getQueryType().getCode() : null);
+        List<Order> orders = orderDao.supplierPageList(req);
+        // 放入订单明细
+        getOrderDetaileList(orders);
+        return orders;
+    }
+
+    @Override
+    public List<Order> visitorPageList(OrderPageReq req) {
+        req.setDelState(DeleteEnum.NO);
+        req.setQueryTypeCode(null != req.getQueryType() ? req.getQueryType().getCode() : null);
+        List<Order> orders = orderDao.visitorPageList(req);
         // 放入订单明细
         getOrderDetaileList(orders);
         return orders;

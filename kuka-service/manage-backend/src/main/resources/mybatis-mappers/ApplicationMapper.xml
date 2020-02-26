@@ -95,6 +95,91 @@
 		</where>
 	</select>
 
+	<select id="supplierPageList" resultMap="BaseResultMap">
+		SELECT
+			<include refid="Base_Column_List" />
+		FROM
+			t_application
+		<where>
+			<if test ='null != entity.delState'>
+				del_state = #{entity.delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}
+			</if>
+			<if test ='null != entity.classType'>
+				and class_type = #{entity.classType, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}
+			</if>
+			<if test ='null != entity.appStatus'>
+				and app_status = #{entity.appStatus, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}
+			</if>
+			<if test ='null != entity.createTimeSta'>
+				and create_time &gt;= #{entity.createTimeSta}
+			</if>
+			<if test ='null != entity.createTimeEnd'>
+				and create_time &lt;= #{entity.createTimeEnd}
+			</if>
+			<if test ='null != entity.queryName and entity.queryName != ""'>
+				<!-- 0 名称 1 ID 2 交易数 -->
+				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 0'>
+					and app_name = #{entity.queryName}
+				</if>
+				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 1'>
+					and id = #{entity.queryName}
+				</if>
+				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 2'>
+					and trade_count = #{entity.queryName}
+				</if>
+			</if>
+
+			<!-- 权限查询 -->
+			<if test ='null != entity.supplierIds'>
+				and supplier_id in
+				<foreach collection="entity.supplierIds" index="index" item="item" open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+		</where>
+	</select>
+
+	<select id="visitorPageList" resultMap="BaseResultMap">
+		SELECT
+			<include refid="Base_Column_List" />
+		FROM
+			t_application
+		<where>
+			<if test ='null != entity.delState'>
+				del_state = #{entity.delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}
+			</if>
+			<if test ='null != entity.classType'>
+				and class_type = #{entity.classType, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}
+			</if>
+			<if test ='null != entity.appStatus'>
+				and app_status = #{entity.appStatus, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}
+			</if>
+			<if test ='null != entity.createTimeSta'>
+				and create_time &gt;= #{entity.createTimeSta}
+			</if>
+			<if test ='null != entity.createTimeEnd'>
+				and create_time &lt;= #{entity.createTimeEnd}
+			</if>
+			<if test ='null != entity.queryName and entity.queryName != ""'>
+				<!-- 0 名称 1 ID 2 交易数 -->
+				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 0'>
+					and app_name = #{entity.queryName}
+				</if>
+				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 1'>
+					and id = #{entity.queryName}
+				</if>
+				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 2'>
+					and trade_count = #{entity.queryName}
+				</if>
+			</if>
+
+			<!-- 权限查询 -->
+			<if test ='null != entity.loginName'>
+				and create_by = #{entity.loginName}
+			</if>
+		</where>
+	</select>
+
 	<insert id="insertBatch">
 		INSERT INTO t_application(
 				id,

@@ -83,4 +83,13 @@ public interface RoleService {
      * @author 谢楠
      */
     Result updateRoleMenu(RoleMenuReq req);
+
+    /***
+     * <p>Description:[列表查询]</p>
+     * Created on 2020/2/4
+     * @param req
+     * @return Result
+     * @author 谢楠
+     */
+    Result<List<RoleResp>> findList(RoleReq req);
 }

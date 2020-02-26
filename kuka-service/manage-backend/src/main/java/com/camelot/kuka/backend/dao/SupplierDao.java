@@ -19,13 +19,41 @@ import java.util.List;
 public interface SupplierDao {
 
     /***
+     * <p>Description:[kuka后台分页查询]</p>
+     * Created on 2020/2/5
+     * @param req
+     * @return List<Supplier>
+     * @author 谢楠
+     */
+    List<Supplier> pageList(@Param("entity") SupplierPageReq req);
+
+    /***
+     * <p>Description:[集成商后台分页查询]</p>
+     * Created on 2020/2/5
+     * @param req
+     * @return List<Supplier>
+     * @author 谢楠
+     */
+    List<Supplier> supplierPageList(@Param("entity") SupplierPageReq req);
+
+    /***
+     * <p>Description:[来访者后台分页查询]</p>
+     * Created on 2020/2/5
+     * @param req
+     * @return List<Supplier>
+     * @author 谢楠
+     */
+    List<Supplier> visitorPageList(@Param("entity")SupplierPageReq req);
+
+
+    /***
      * <p>Description:[查询集合]</p>
      * Created on 2020/2/5
      * @param req
      * @return List<Supplier>
      * @author 谢楠
      */
-    List<Supplier> queryList(@Param("entity") SupplierPageReq req);
+    List<Supplier> findList(@Param("entity") Supplier req);
 
     /***
      * <p>Description:[新增]</p>
@@ -62,4 +90,5 @@ public interface SupplierDao {
      * @author 谢楠
      */
     int delSupplier(Supplier supplier);
+
 }

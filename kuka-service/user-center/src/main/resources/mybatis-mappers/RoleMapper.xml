@@ -56,6 +56,15 @@
 		</where>
 	</select>
 
+
+
+	<select id="findList" resultMap="BaseResultMap">
+		SELECT
+			<include refid="Base_Column_List" />
+		FROM
+			t_role
+	</select>
+
 	<select id="qeuryById" resultMap="BaseResultMap">
 		SELECT
 			<include refid="Base_Column_List" />
@@ -119,4 +128,15 @@
 		WHERE id = #{id}
 	</update>
 
+	<select id="qeuryByIds" resultMap="BaseResultMap">
+		SELECT
+			<include refid="Base_Column_List" />
+		FROM
+			t_role
+		WHERE
+			id in
+		<foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
 </mapper>

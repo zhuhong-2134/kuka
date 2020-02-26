@@ -65,7 +65,7 @@
 		update_by
     </sql>
 
-	<select id="queryList" resultMap="BaseResultMap">
+	<select id="pageList" resultMap="BaseResultMap">
 		SELECT
 			<include refid="Base_Column_List" />
 		FROM
@@ -89,6 +89,88 @@
 					or id = #{entity.queryName}
 					)
 				</if>
+			</if>
+		</where>
+	</select>
+
+	<select id="supplierPageList" resultMap="BaseResultMap">
+		SELECT
+			<include refid="Base_Column_List" />
+		FROM
+			t_supplier
+		<where>
+			<if test ='null != entity.delState'>
+				del_state = #{entity.delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}
+			</if>
+			<if test ='null != entity.queryName and entity.queryName != ""'>
+				<!-- 0 全部 1 供应商  2 id -->
+				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 1'>
+					and supplierl_name = #{entity.queryName}
+				</if>
+				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 2'>
+					and id = #{entity.queryName}
+				</if>
+				<!-- 综合查询 -->
+				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 0'>
+					and (
+					supplierl_name = #{entity.queryName}
+					or id = #{entity.queryName}
+					)
+				</if>
+			</if>
+
+			<!-- 权限查询 -->
+			<if test ='null != entity.loginName'>
+				and create_by = #{entity.loginName}
+			</if>
+		</where>
+	</select>
+
+	<select id="visitorPageList" resultMap="BaseResultMap">
+		SELECT
+			<include refid="Base_Column_List" />
+		FROM
+			t_supplier
+		<where>
+			<if test ='null != entity.delState'>
+				del_state = #{entity.delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}
+			</if>
+			<if test ='null != entity.queryName and entity.queryName != ""'>
+				<!-- 0 全部 1 供应商  2 id -->
+				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 1'>
+					and supplierl_name = #{entity.queryName}
+				</if>
+				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 2'>
+					and id = #{entity.queryName}
+				</if>
+				<!-- 综合查询 -->
+				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 0'>
+					and (
+					supplierl_name = #{entity.queryName}
+					or id = #{entity.queryName}
+					)
+				</if>
+			</if>
+
+			<!-- 权限查询 -->
+			<if test ='null != entity.loginName'>
+				and create_by = #{entity.loginName}
+			</if>
+		</where>
+	</select>
+
+	<select id="findList" resultMap="BaseResultMap">
+		SELECT
+			<include refid="Base_Column_List" />
+		FROM
+			t_supplier
+		<where>
+			<if test ='null != entity.delState'>
+				del_state = #{entity.delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}
+			</if>
+			<!-- 0 全部 1 供应商  2 id -->
+			<if test ='null != entity.createBy and entity.createBy != ""'>
+				and create_by = #{entity.createBy}
 			</if>
 		</where>
 	</select>

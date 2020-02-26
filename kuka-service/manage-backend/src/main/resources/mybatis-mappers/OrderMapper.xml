@@ -73,6 +73,100 @@
 		</where>
 	</select>
 
+	<select id="supplierPageList" resultMap="BaseResultMap">
+		SELECT
+			<include refid="Base_Column_List" />
+		FROM
+			t_order
+		<where>
+			<if test ='null != entity.delState'>
+				del_state = #{entity.delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}
+			</if>
+			<if test ='null != entity.status'>
+				and status = #{entity.status, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}
+			</if>
+			<if test ='null != entity.createTimeSta'>
+				and create_time &gt;= #{entity.createTimeSta}
+			</if>
+			<if test ='null != entity.createTimeEnd'>
+				and create_time &lt;= #{entity.createTimeEnd}
+			</if>
+			<if test ='null != entity.queryName and entity.queryName != ""'>
+				<!--  全部 1 产品名称 2 订单编号-->
+				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 2'>
+					and order_no = #{entity.queryName}
+				</if>
+				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 1'>
+					and id in
+					(select order_id from t_order_detailed where app_name = #{entity.queryName})
+				</if>
+				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 0'>
+					and (
+					order_no = #{entity.queryName}
+					or id in
+					(select order_id from t_order_detailed where app_name = #{entity.queryName})
+					)
+				</if>
+			</if>
+
+			<!-- 权限查询 -->
+			<if test ='null != entity.supplierIds'>
+				and id in
+				(
+					select order_id
+					from t_order_detailed
+					where supplier_id in
+					<foreach collection="entity.supplierIds" index="index" item="item" open="(" separator="," close=")">
+						#{item}
+					</foreach>
+				)
+			</if>
+		</where>
+	</select>
+
+	<select id="visitorPageList" resultMap="BaseResultMap">
+		SELECT
+			<include refid="Base_Column_List" />
+		FROM
+			t_order
+		<where>
+			<if test ='null != entity.delState'>
+				del_state = #{entity.delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}
+			</if>
+			<if test ='null != entity.status'>
+				and status = #{entity.status, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}
+			</if>
+			<if test ='null != entity.createTimeSta'>
+				and create_time &gt;= #{entity.createTimeSta}
+			</if>
+			<if test ='null != entity.createTimeEnd'>
+				and create_time &lt;= #{entity.createTimeEnd}
+			</if>
+			<if test ='null != entity.queryName and entity.queryName != ""'>
+				<!--  全部 1 产品名称 2 订单编号-->
+				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 2'>
+					and order_no = #{entity.queryName}
+				</if>
+				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 1'>
+					and id in
+					(select order_id from t_order_detailed where app_name = #{entity.queryName})
+				</if>
+				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 0'>
+					and (
+					order_no = #{entity.queryName}
+					or id in
+					(select order_id from t_order_detailed where app_name = #{entity.queryName})
+					)
+				</if>
+			</if>
+
+			<!-- 权限查询 -->
+			<if test ='null != entity.loginName'>
+				and create_by = #{entity.loginName}
+			</if>
+		</where>
+	</select>
+
 	<select id="queryById" resultMap="BaseResultMap">
 		SELECT
 			<include refid="Base_Column_List" />

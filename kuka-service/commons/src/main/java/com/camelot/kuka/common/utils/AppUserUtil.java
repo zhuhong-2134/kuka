@@ -2,7 +2,6 @@ package com.camelot.kuka.common.utils;
 
 import com.alibaba.fastjson.JSONObject;
 import com.camelot.kuka.model.user.LoginAppUser;
-import com.google.common.collect.Sets;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -57,8 +56,10 @@ public class AppUserUtil {
     @SuppressWarnings("rawtypes")
     public static LoginAppUser getLoginUser() {
         LoginAppUser user = new LoginAppUser();
-//        user.setUsername("admin");
-//        user.setHeadImgUrl();
+        user.setId(1010101L);
+        user.setUsername("admin");
+        user.setRoleId(10003L);
+        user.setPhotoUrl("https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg");
         return user;
     }
 

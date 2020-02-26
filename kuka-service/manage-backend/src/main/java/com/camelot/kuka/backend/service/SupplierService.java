@@ -20,13 +20,31 @@ import java.util.List;
 public interface SupplierService {
 
     /***
-     * <p>Description:[分页查询]</p>
+     * <p>Description:[kuka-分页查询]</p>
      * Created on 2020/2/5
      * @param req
      * @return List
      * @author 谢楠
      */
     List<Supplier> pageList(SupplierPageReq req);
+
+    /***
+     * <p>Description:[集成商-分页查询]</p>
+     * Created on 2020/2/5
+     * @param req
+     * @return List
+     * @author 谢楠
+     */
+    List<Supplier> supplierPageList(SupplierPageReq req);
+
+    /***
+     * <p>Description:[来访者-分页查询]</p>
+     * Created on 2020/2/5
+     * @param req
+     * @return List
+     * @author 谢楠
+     */
+    List<Supplier> visitorPageList(SupplierPageReq req);
 
     /***
      * <p>Description:[列表查询]</p>
@@ -72,6 +90,15 @@ public interface SupplierService {
      * @author 谢楠
      */
     Result delSupplier(CommonReq req, String loginUserName);
+
+    /***
+     * <p>Description:[获取当前登录用户拥有的集成商ID]</p>
+     * Created on 2020/1/20
+     * @param loginUserName
+     * @return Result
+     * @author 谢楠
+     */
+    Long[] queryLoginSupplierIds(String loginUserName);
 
 
 }

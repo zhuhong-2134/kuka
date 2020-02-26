@@ -31,6 +31,15 @@ public interface UserDao {
 	List<User> findList(@Param("entity")UserPageReq user);
 
 	/***
+	 * <p>Description:[kuka用户分页查询]</p>
+	 * Created on 2020/1/19
+	 * @param req
+	 * @return List<User>
+	 * @author 谢楠
+	 */
+	List<User> kukaPageList(@Param("entity") UserPageReq req);
+
+	/***
 	 * <p>Description:[新增用户]</p>
 	 * Created on 2020/2/4
 	 * @param user
@@ -65,4 +74,6 @@ public interface UserDao {
 	 * @author 谢楠
 	 */
 	User queryById(@Param("entity") User user);
+
+
 }

@@ -7,6 +7,7 @@
 		<result column="id" property="id" />
 		<result column="account" property="account" />
 		<result column="password" property="password" />
+		<result column="role_id" property="roleId" />
 		<result column="photo_url" property="photoUrl" />
 		<result column="user_name" property="userName" />
 		<result column="sex" property="sex" typeHandler="com.camelot.kuka.common.mybatis.handler.EnumTypeHandler"/>
@@ -22,6 +23,7 @@
 		<result column="address" property="address" />
 		<result column="company" property="company" />
 		<result column="type" property="type" typeHandler="com.camelot.kuka.common.mybatis.handler.EnumTypeHandler"/>
+		<result column="status" property="status" typeHandler="com.camelot.kuka.common.mybatis.handler.EnumTypeHandler"/>
 		<result column="del_state" property="delState" typeHandler="com.camelot.kuka.common.mybatis.handler.EnumTypeHandler"/>
 		<result column="create_time" property="createTime" />
 		<result column="create_by" property="createBy" />
@@ -33,6 +35,7 @@
                 id,
                 account,
                 password,
+                role_id,
                 photo_url,
                 user_name,
                 sex,
@@ -48,6 +51,7 @@
                 address,
                 company,
                 type,
+                status,
                 del_state,
                 create_time,
                 create_by,
@@ -95,12 +99,60 @@
 			</if>
 		</where>
 	</select>
+
+	<select id="kukaPageList" resultMap="BaseResultMap">
+		SELECT
+			<include refid="Base_Column_List" />
+		FROM
+			t_user
+		<where>
+			<if test ='null != entity.delState'>
+				del_state = #{entity.delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}
+			</if>
+			<if test ='null != entity.roleId'>
+				and role_id = #{roleId}
+			</if>
+			<if test ='null != entity.source'>
+				and source = #{entity.source, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}
+			</if>
+			<if test ='null != entity.type'>
+				and type = #{entity.type, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}
+			</if>
+			<if test ='null != entity.createTimeSta'>
+				and create_time &gt;= #{entity.createTimeSta}
+			</if>
+			<if test ='null != entity.createTimeEnd'>
+				and create_time &lt;= #{entity.createTimeEnd}
+			</if>
+			<if test ='null != entity.queryName and entity.queryName != ""'>
+				<!-- 0 全部 1 手机号 2 姓名 3 ID -->
+				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 1'>
+					and phone = #{entity.queryName}
+				</if>
+				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 2'>
+					and user_name = #{entity.queryName}
+				</if>
+				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 3'>
+					and id = #{entity.queryName}
+				</if>
+				<!-- 综合查询 -->
+				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 0'>
+					and (
+					phone = #{entity.queryName}
+					or user_name = #{entity.queryName}
+					or id = #{entity.queryName}
+					)
+				</if>
+			</if>
+		</where>
+	</select>
 	
 	<insert id="addUser" >
 		INSERT INTO t_user(
 				id,
                 account,
                 password,
+                role_id,
                 photo_url,
                 user_name,
                 sex,
@@ -116,6 +168,7 @@
                 address,
                 company,
                 type,
+				status,
                 del_state,
                 create_time,
                 create_by,
@@ -128,6 +181,7 @@
 			#{item.id},
 			#{item.account},
 			#{item.password},
+			#{item.roleId},
 			#{item.photoUrl},
 			#{item.userName},
 			#{item.sex, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
@@ -143,6 +197,7 @@
 			#{item.address},
 			#{item.company},
 			#{item.type, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
+			#{item.status, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
 			#{item.delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
 			#{item.createTime},
 			#{item.createBy},
@@ -160,6 +215,9 @@
 			</if>
 			<if test ='null != password'>
 				password = #{password},
+			</if>
+			<if test ='null != roleId'>
+				role_id = #{roleId},
 			</if>
 			<if test ='null != photoUrl'>
 				photo_url = #{photoUrl},
@@ -205,6 +263,9 @@
 			</if>
 			<if test ='null != type'>
 				type = #{type, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
+			</if>
+			<if test ='null != status'>
+				status = #{status, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
 			</if>
 			<if test ='null != delState'>
 				del_state = #{delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},

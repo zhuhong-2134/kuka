@@ -3,6 +3,7 @@ package com.camelot.kuka.model.user.resp;
 import com.camelot.kuka.model.enums.DeleteEnum;
 import com.camelot.kuka.model.enums.SexEnum;
 import com.camelot.kuka.model.enums.user.CreateSourceEnum;
+import com.camelot.kuka.model.enums.user.UserStatusEnum;
 import com.camelot.kuka.model.enums.user.UserTypeEnum;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
@@ -36,6 +37,11 @@ public class UserResp implements Serializable {
 	 * 密码
 	 */
 	private String password;
+
+    /**
+     * 角色id
+     */
+    private Long roleId;
 
 	/**
 	 * 头像地址
@@ -143,4 +149,14 @@ public class UserResp implements Serializable {
 	 * 修改人
 	 */
 	private String updateBy;
+
+	/**
+	 * 上线下线状态
+	 */
+	private UserStatusEnum status;
+
+    /**
+     * 角色名称
+     */
+    private String roleName;
 }
