@@ -2,6 +2,7 @@ package com.camelot.kuka.backend.dao;
 
 import com.camelot.kuka.backend.model.Application;
 import com.camelot.kuka.model.backend.application.req.AppPageReq;
+import com.camelot.kuka.model.backend.home.req.HomeAppPageReq;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -81,4 +82,22 @@ public interface ApplicationDao {
      */
     int update(Application application);
 
+
+    /***
+     * <p>Description:[首页获取]</p>
+     * Created on 2020/2/5
+     * @param application
+     * @return int
+     * @author 谢楠
+     */
+    List<Application> homeAppList(@Param("entity") Application application);
+
+    /***
+     * <p>Description:[首页分页获取]</p>
+     * Created on 2020/2/5
+     * @param req
+     * @return int
+     * @author 谢楠
+     */
+    List<Application> homePageList(@Param("entity") HomeAppPageReq req);
 }

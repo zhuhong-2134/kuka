@@ -116,6 +116,7 @@ public class UserController extends BaseController {
         page.putEnumVal("delStateEnum", EnumVal.getEnumList(DeleteEnum.class));
         page.putEnumVal("queryTypeEnum", EnumVal.getEnumList(UserPageEnum.class));
         page.putEnumVal("statusEnum", EnumVal.getEnumList(UserTypeEnum.class));
+        page.putEnumVal("statusEnum", EnumVal.getEnumList(UserStatusEnum.class));
         return page;
     }
 

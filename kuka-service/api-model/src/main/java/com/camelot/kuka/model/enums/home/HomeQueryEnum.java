@@ -1,29 +1,27 @@
-package com.camelot.kuka.model.enums.backend;
+package com.camelot.kuka.model.enums.home;
 
 import com.camelot.kuka.model.enums.BaseEnum;
 
 /**
- * <p>Description: [所属行业枚举]</p>
+ * <p>Description: [首页查询枚举]</p>
  * Created on 2020年2月5日
  * @author <a href="mailto: hexiaobo@camelotchina.com">谢楠</a>
  * @version 1.0
  * Copyright (c) 2019 北京柯莱特科技有限公司
  */
-public enum IndustryTypeEnum implements BaseEnum {
+public enum HomeQueryEnum implements BaseEnum {
 
-    CAR(0, "汽车行业"),
-    ELECTRONICS(1, "电子商务和零售物流"),
-    DIANZI(2, "电子行业"),
-    NENGYUAN(3, "能源行业"),
-    BAOJIAN(4, "保健"),
-    XIAOFEIPIN(5, "消费品行业"),
-    JINSHU(6, "金属行业"),
-    QITA(7, "其他");
+    SOFTWARE(1, "软件"),
+    READYTOUSE(2, "Ready to use"),
+    JQRFJ(3, "机器人附件"),
+    GZHGZ(4, "客制化工站"),
+    ZXFG(5, "整线方案"),
+    SUPPLIER(6, "集成商");
 
     private Integer code;
     private String description;
 
-    private IndustryTypeEnum(Integer code, String description) {
+    private HomeQueryEnum(Integer code, String description) {
         this.code = code;
         this.description = description;
     }
@@ -36,11 +34,11 @@ public enum IndustryTypeEnum implements BaseEnum {
      * @version 1.0
      * Copyright (c) 2019 北京柯莱特科技有限公司
      **/
-    public static IndustryTypeEnum get(Integer code) {
+    public static HomeQueryEnum get(Integer code) {
         if (code == null) {
             return null;
         }
-        for (IndustryTypeEnum e : IndustryTypeEnum.values()) {
+        for (HomeQueryEnum e : HomeQueryEnum.values()) {
             if (code.equals(e.getCode())) {
                 return e;
             }
@@ -56,11 +54,11 @@ public enum IndustryTypeEnum implements BaseEnum {
      * @version 1.0
      * Copyright (c) 2019 北京柯莱特科技有限公司
      **/
-    public static IndustryTypeEnum get(String description) {
+    public static HomeQueryEnum get(String description) {
         if (description == null || description.trim().length() == 0) {
             return null;
         }
-        for (IndustryTypeEnum e : IndustryTypeEnum.values()) {
+        for (HomeQueryEnum e : HomeQueryEnum.values()) {
             if (e.getDescription().equals(description)) {
                 return e;
             }

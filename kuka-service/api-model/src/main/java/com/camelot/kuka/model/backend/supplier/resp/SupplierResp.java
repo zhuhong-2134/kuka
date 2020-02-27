@@ -1,5 +1,6 @@
 package com.camelot.kuka.model.backend.supplier.resp;
 
+import com.camelot.kuka.model.backend.application.resp.ApplicationResp;
 import com.camelot.kuka.model.enums.DeleteEnum;
 import com.camelot.kuka.model.enums.user.CreateSourceEnum;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -7,6 +8,7 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * <p>Description: [供应商实体]</p>
@@ -177,5 +179,10 @@ public class SupplierResp implements Serializable {
      * 修改人
      */
     private String updateBy;
+
+    /**
+     * 应用详情
+     */
+    private List<ApplicationResp> appList;
 
 }

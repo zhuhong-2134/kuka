@@ -362,4 +362,62 @@
 		WHERE
 			id = #{id}
 	</update>
+
+	<select id="homeSupplierList" resultMap="BaseResultMap">
+		SELECT
+			<include refid="Base_Column_List" />
+		FROM
+			t_supplier
+		<where>
+			<if test ='null != entity.delState'>
+				del_state = #{entity.delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}
+			</if>
+
+
+			<!--放在最后面的-->
+			<if test ='null != entity.size'>
+				LIMIT #{entity.size}
+			</if>
+		</where>
+	</select>
+
+	<select id="homeSupplierPageList" resultMap="BaseResultMap">
+		SELECT
+			<include refid="Base_Column_List" />
+		FROM
+			t_supplier
+		<where>
+			<if test ='null != entity.delState'>
+				del_state = #{entity.delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}
+			</if>
+			<if test ='null != entity.provinceCode'>
+				and province_code = #{entity.provinceCode}
+			</if>
+			<if test ='null != entity.cityCode'>
+				and city_code = #{entity.cityCode}
+			</if>
+			<if test ='null != entity.districtCode'>
+				and district_code = #{entity.districtCode}
+			</if>
+			<if test ='null != entity.industryCode'>
+				and industry like CONCAT('%',#{entity.industryCode},'%')
+			</if>
+			<if test ='null != entity.appTypeCode'>
+				and app_type like CONCAT('%',#{entity.appTypeCode},'%')
+			</if>
+			<!-- 6的时候是集成商查询-->
+			<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 6'>
+				and supplierl_name = #{entity.queryName}
+			</if>
+
+			<!-- 其余都是应用查询查询-->
+			<if test ='null != entity.queryTypeCode and entity.queryTypeCode != 6'>
+				and supplierl_name = #{entity.queryName}
+				and id in
+				(
+					select supplier_id from t_application where class_type = #{entity.queryType, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}
+				)
+			</if>
+		</where>
+	</select>
 </mapper>

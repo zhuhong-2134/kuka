@@ -1,10 +1,12 @@
 package com.camelot.kuka.model.backend.order.resp;
 
+import com.camelot.kuka.model.backend.comment.resp.CommentResp;
 import com.camelot.kuka.model.enums.DeleteEnum;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * <p>Description: [订单明细实体]</p>
@@ -88,4 +90,9 @@ public class OrderDetailedResp implements Serializable {
      * 修改人
      */
     private String updateBy;
+
+    /**
+     * 评论信息
+     */
+    private CommentResp comment;
 }

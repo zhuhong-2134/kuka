@@ -155,4 +155,9 @@ public class Application implements Serializable {
      * 封面图片
      */
     private String coverUrl;
+
+    /**
+     * 首页展示的条数
+     */
+    private Integer size;
 }

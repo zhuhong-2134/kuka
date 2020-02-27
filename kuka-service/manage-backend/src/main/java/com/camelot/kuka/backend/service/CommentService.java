@@ -7,6 +7,7 @@ import com.camelot.kuka.model.backend.comment.resp.CommentResp;
 import com.camelot.kuka.model.common.CommonReq;
 import com.camelot.kuka.model.common.Result;
 import com.camelot.kuka.model.user.LoginAppUser;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -45,7 +46,7 @@ public interface CommentService {
      * @return List<Supplier>
      * @author 谢楠
      */
-    List<Comment> queryByOrderIds(Long[] appId);
+    List<Comment> queryByOrderIds(@Param("array") Long[] appId);
 
     /***
      * <p>Description:[删除]</p>

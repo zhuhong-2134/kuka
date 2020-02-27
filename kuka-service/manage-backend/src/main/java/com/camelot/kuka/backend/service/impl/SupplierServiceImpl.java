@@ -2,13 +2,15 @@ package com.camelot.kuka.backend.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.camelot.kuka.backend.dao.ApplicationDao;
 import com.camelot.kuka.backend.dao.SupplierDao;
 import com.camelot.kuka.backend.feign.user.UserClient;
-import com.camelot.kuka.backend.model.Order;
+import com.camelot.kuka.backend.model.Application;
 import com.camelot.kuka.backend.model.Supplier;
 import com.camelot.kuka.backend.service.SupplierService;
 import com.camelot.kuka.common.utils.BeanUtil;
 import com.camelot.kuka.common.utils.CodeGenerateUtil;
+import com.camelot.kuka.model.backend.application.resp.ApplicationResp;
 import com.camelot.kuka.model.backend.supplier.req.SupplierPageReq;
 import com.camelot.kuka.model.backend.supplier.req.SupplierReq;
 import com.camelot.kuka.model.backend.supplier.resp.SupplierResp;
@@ -44,6 +46,8 @@ public class SupplierServiceImpl implements SupplierService {
     private UserClient userClient;
     @Resource
     private CodeGenerateUtil codeGenerateUtil;
+    @Resource
+    private ApplicationDao applicationDao;
 
     @Override
     public List<Supplier> pageList(SupplierPageReq req) {
@@ -244,6 +248,32 @@ public class SupplierServiceImpl implements SupplierService {
         }
         Long[] ids = list.stream().map(Supplier::getId).toArray(Long[]::new);
         return ids;
+    }
+
+    @Override
+    public Result<SupplierResp> querySuppAndAppById(CommonReq req) {
+        if (null == req || null == req.getId()) {
+            return Result.error("主键不能为空");
+        }
+        Supplier supplier = BeanUtil.copyBean(req, Supplier.class);
+        supplier.setDelState(DeleteEnum.NO);
+        Supplier info = supplierDao.queryById(supplier);
+        if (null == info) {
+            return Result.error("数据获取失败,刷新后重试");
+        }
+        JSONObject address = formatAddress(info);
+        info.setAddressJson(address.toJSONString());
+        SupplierResp resp = BeanUtil.copyBean(info, SupplierResp.class);
+
+
+        // 放入应用信息
+        Application query = new Application();
+        query.setSupplierId(info.getId());
+        query.setDelState(DeleteEnum.NO);
+        List<Application> appList = applicationDao.homeAppList(query);
+        resp.setAppList(BeanUtil.copyList(appList, ApplicationResp.class));
+
+        return Result.success(resp);
     }
 
     /**

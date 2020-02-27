@@ -131,7 +131,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public List<Comment> queryByOrderIds(Long[] appId) {
-        return this.queryByAppId(1L);
+        return commentDao.queryByOrderIds(appId);
     }
 
     @Override

@@ -100,5 +100,12 @@ public interface SupplierService {
      */
     Long[] queryLoginSupplierIds(String loginUserName);
 
-
+    /***
+     * <p>Description:[包含应用的集成商]</p>
+     * Created on 2020/2/5
+     * @param req
+     * @return Result
+     * @author 谢楠
+     */
+    Result<SupplierResp> querySuppAndAppById(CommonReq req);
 }

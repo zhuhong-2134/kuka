@@ -1,6 +1,5 @@
 package com.camelot.kuka.model.backend.order.resp;
 
-import com.camelot.kuka.model.backend.comment.resp.CommentResp;
 import com.camelot.kuka.model.enums.DeleteEnum;
 import com.camelot.kuka.model.enums.order.OrderStatusEnum;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -92,15 +91,9 @@ public class OrderResp implements Serializable {
      */
     private String updateBy;
 
-
     /**
      * 订单明细
      */
     private List<OrderDetailedResp> detaileList;
 
-
-    /**
-     * 评论信息
-     */
-    private List<CommentResp> commentList;
 }

@@ -2,7 +2,6 @@ package com.camelot.kuka.backend.service.impl;
 
 import com.camelot.kuka.backend.dao.OrderDao;
 import com.camelot.kuka.backend.dao.OrderDetailedDao;
-import com.camelot.kuka.backend.dao.SupplierDao;
 import com.camelot.kuka.backend.model.Comment;
 import com.camelot.kuka.backend.model.Order;
 import com.camelot.kuka.backend.model.OrderDetailed;
@@ -94,17 +93,28 @@ public class OrderServiceImpl implements OrderService {
             return Result.error("数据获取失败, 刷新后重试");
         }
         OrderResp orderResp = BeanUtil.copyBean(order, OrderResp.class);
+
         // 放入明细
         Long[] orderIds = new Long[]{req.getId()};
         List<OrderDetailed> deailList = orderDetailedDao.selectByOrderIds(orderIds);
         orderResp.setDetaileList(BeanUtil.copyList(deailList, OrderDetailedResp.class ));
 
-        // 放入评论信息
+
+        // 获取评论信息
         List<Comment> comments = commentService.queryByOrderIds(orderIds);
-        orderResp.setCommentList(BeanUtil.copyList(comments, CommentResp.class ));
+        // 放入明细
+        for (OrderDetailedResp orderDetailed : orderResp.getDetaileList()) {
+            for (Comment comment : comments) {
+                if (comment.getAppId().compareTo(orderDetailed.getAppId()) == 0) {
+                    orderDetailed.setComment(BeanUtil.copyBean(comment, CommentResp.class));
+                    break;
+                }
+            }
+        }
 
         return Result.success(orderResp);
     }
+
 
     @Override
     public Result updateOrder(OrderReq req, String loginUserName) {

@@ -1,6 +1,7 @@
 package com.camelot.kuka.backend.dao;
 
 import com.camelot.kuka.backend.model.Supplier;
+import com.camelot.kuka.model.backend.home.req.HomeSupplierPageReq;
 import com.camelot.kuka.model.backend.supplier.req.SupplierPageReq;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -91,4 +92,21 @@ public interface SupplierDao {
      */
     int delSupplier(Supplier supplier);
 
+    /***
+     * <p>Description:[首页查询]</p>
+     * Created on 2020/2/5
+     * @param
+     * @return List
+     * @author 谢楠
+     */
+    List<Supplier> homeSupplierList(@Param("entity") Supplier query);
+
+    /***
+     * <p>Description:[首页分页查询]</p>
+     * Created on 2020/2/5
+     * @param
+     * @return List
+     * @author 谢楠
+     */
+    List<Supplier> homeSupplierPageList(@Param("entity")HomeSupplierPageReq req);
 }

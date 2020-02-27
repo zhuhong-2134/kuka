@@ -180,4 +180,9 @@ public class Supplier implements Serializable {
      * 所在地
      */
     private String supplierAddress;
+
+    /**
+     * 首页展示的条数
+     */
+    private Integer size;
 }

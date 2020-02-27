@@ -110,7 +110,7 @@
 				del_state = #{entity.delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}
 			</if>
 			<if test ='null != entity.roleId'>
-				and role_id = #{roleId}
+				and role_id = #{entity.roleId}
 			</if>
 			<if test ='null != entity.source'>
 				and source = #{entity.source, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}

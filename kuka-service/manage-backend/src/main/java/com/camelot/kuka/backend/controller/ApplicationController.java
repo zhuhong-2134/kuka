@@ -23,6 +23,7 @@ import com.camelot.kuka.model.enums.backend.SkilledAppEnum;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -153,6 +154,7 @@ public class ApplicationController extends BaseController {
         }
     }
 
+
     /***
      * <p>Description:[新增产品信息]</p>
      * Created on 2020/2/4
@@ -258,4 +260,7 @@ public class ApplicationController extends BaseController {
             return Result.error("网络异常, 请稍后再试");
         }
     }
+
+
+
 }
