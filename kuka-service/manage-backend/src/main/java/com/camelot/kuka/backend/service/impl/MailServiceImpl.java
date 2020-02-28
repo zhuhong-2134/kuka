@@ -9,6 +9,7 @@ import com.camelot.kuka.model.common.Page;
 import com.camelot.kuka.model.mail.Mail;
 import com.camelot.kuka.model.mail.constants.MailStatus;
 import com.camelot.kuka.model.user.AppUser;
+import com.camelot.kuka.model.user.resp.UserResp;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,10 +40,10 @@ public class MailServiceImpl implements MailService {
     @Override
     public void saveMail(Mail mail) {
         if (mail.getUserId() == null || StringUtils.isBlank(mail.getUsername())) {
-            AppUser appUser = AppUserUtil.getLoginAppUser();
+            UserResp appUser = AppUserUtil.getLoginAppUser();
             if (appUser != null) {
                 mail.setUserId(appUser.getId());
-                mail.setUsername(appUser.getUsername());
+                mail.setUsername(appUser.getUserName());
             }
         }
         if (mail.getUserId() == null) {

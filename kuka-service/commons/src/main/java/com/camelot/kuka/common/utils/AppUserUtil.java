@@ -57,7 +57,7 @@ public class AppUserUtil {
     public static LoginAppUser getLoginUser() {
         LoginAppUser user = new LoginAppUser();
         user.setId(1010101L);
-        user.setUsername("admin");
+        user.setUserName("admin");
         user.setRoleId(10003L);
         user.setPhotoUrl("https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg");
         return user;

@@ -21,5 +21,5 @@ spring:
 security:
   oauth2:
     resource:
-      user-info-uri: http://localhost:8080/api-o/user-me
+      user-info-uri: http://localhost:8080/api/api-o/user-me
       prefer-token-info: false

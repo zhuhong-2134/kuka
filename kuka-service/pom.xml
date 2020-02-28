@@ -98,32 +98,4 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-    <repositories>
-        <repository>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-            <id>releases</id>
-            <name>libs-release</name>
-            <url>http://114.67.104.46:9527/nexus/content/repositories/releases</url>
-        </repository>
-        <repository>
-            <snapshots/>
-            <id>snapshots</id>
-            <name>libs-snapshot</name>
-            <url>http://114.67.104.46:9527/nexus/content/repositories/snapshots</url>
-        </repository>
-    </repositories>
-    <distributionManagement>
-        <repository>
-            <id>releases</id>
-            <name>Team nexus Release Repository</name>
-            <url>http://114.67.104.46:9527/nexus/content/repositories/releases</url>
-        </repository>
-        <snapshotRepository>
-            <id>snapshots</id>
-            <name>Team nexus Snapshot Repository</name>
-            <url>http://114.67.104.46:9527/nexus/content/repositories/snapshots</url>
-        </snapshotRepository>
-    </distributionManagement>
 </project>

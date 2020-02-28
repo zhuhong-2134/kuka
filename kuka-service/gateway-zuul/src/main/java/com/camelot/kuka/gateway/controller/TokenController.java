@@ -37,23 +37,23 @@ public class TokenController {
      * 根据用户名登录<br>
      * 采用oauth2密码模式获取access_token和refresh_token
      *
-     * @param username
+     * @param userName
      * @param password
      * @return
      */
     @PostMapping("/sys/login")
-    public Map<String, Object> login(String username, String password) {
+    public Map<String, Object> login(String userName, String password) {
         Map<String, String> parameters = new HashMap<>();
         parameters.put(OAuth2Utils.GRANT_TYPE, "password");
         parameters.put(OAuth2Utils.CLIENT_ID, SystemClientInfo.CLIENT_ID);
         parameters.put("client_secret", SystemClientInfo.CLIENT_SECRET);
         parameters.put(OAuth2Utils.SCOPE, SystemClientInfo.CLIENT_SCOPE);
         // 为了支持多类型登录，这里在username后拼装上登录类型
-        parameters.put("username", username + "|" + CredentialType.USERNAME.name());
+        parameters.put("username", userName + "|" + CredentialType.USERNAME.name());
         parameters.put("password", password);
 
         Map<String, Object> tokenInfo = oauth2Client.postAccessToken(parameters);
-        saveLoginLog(username, "用户名密码登陆");
+        saveLoginLog(userName, "用户名密码登陆");
 
         return tokenInfo;
     }

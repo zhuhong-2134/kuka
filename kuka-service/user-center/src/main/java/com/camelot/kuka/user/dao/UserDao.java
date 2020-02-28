@@ -75,5 +75,12 @@ public interface UserDao {
 	 */
 	User queryById(@Param("entity") User user);
 
-
+	/***
+	 * <p>Description:[获取登录对象]</p>
+	 * Created on 2020/2/4
+	 * @param userName
+	 * @return User
+	 * @author 谢楠
+	 */
+	User queryLongUser(@Param("userName") String userName);
 }

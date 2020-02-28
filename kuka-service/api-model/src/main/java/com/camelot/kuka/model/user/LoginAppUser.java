@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.camelot.kuka.model.user.resp.UserResp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,7 +20,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class LoginAppUser extends AppUser implements UserDetails {
+public class LoginAppUser extends UserResp implements UserDetails {
 
 	private static final long serialVersionUID = 1753977564987556640L;
 
@@ -51,6 +52,11 @@ public class LoginAppUser extends AppUser implements UserDetails {
 	}
 
 	@Override
+	public String getUsername() {
+		return getUserName();
+	}
+
+	@Override
 	public boolean isAccountNonExpired() {
 		return true;
 	}
@@ -67,6 +73,6 @@ public class LoginAppUser extends AppUser implements UserDetails {
 
 	@Override
 	public boolean isEnabled() {
-		return getEnabled();
+		return true;
 	}
 }

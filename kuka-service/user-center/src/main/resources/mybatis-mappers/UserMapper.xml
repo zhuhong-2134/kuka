@@ -311,14 +311,24 @@
 		t_user
 		<where>
 			<if test ='null != entity.delState'>
-				del_state = #{entity.delState}
+				del_state = #{entity.delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}
 			</if>
 			<if test ='null != entity.id'>
 				and id = #{entity.id}
 			</if>
 			<if test ='null != entity.source'>
-				and source = #{entity.source}
+				and source = #{entity.source, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}
 			</if>
 		</where>
+	</select>
+
+	<select id="queryLongUser" resultMap="BaseResultMap">
+		SELECT
+			<include refid="Base_Column_List" />
+		FROM
+			t_user
+		WHERE
+			phone = #{userName}
+			or mail = #{userName}
 	</select>
 </mapper>

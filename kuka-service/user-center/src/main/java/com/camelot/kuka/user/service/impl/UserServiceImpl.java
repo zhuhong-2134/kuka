@@ -19,6 +19,7 @@ import com.camelot.kuka.user.model.User;
 import com.camelot.kuka.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -46,7 +47,9 @@ public class UserServiceImpl implements UserService {
     private RoleDao roleDao;
 
 	@Override public LoginAppUser findByUsername(String username) {
-		return null;
+        User user = userDao.queryLongUser(username);
+        LoginAppUser loginAppUser = BeanUtil.copyBean(user, LoginAppUser.class);
+        return loginAppUser;
 	}
 
     @Override
@@ -260,4 +263,5 @@ public class UserServiceImpl implements UserService {
             }
         }
     }
+
 }
