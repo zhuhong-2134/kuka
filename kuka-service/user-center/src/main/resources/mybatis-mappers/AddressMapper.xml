@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.camelot.kuka.user.dao.AddressDao">
+
+	<resultMap id="BaseResultMap" type="com.camelot.kuka.user.model.Address" >
+		<result column="areaid" property="areaid" />
+		<result column="areacode" property="areacode" />
+		<result column="areaname" property="areaname" />
+		<result column="level" property="level" />
+		<result column="citycode" property="citycode" />
+		<result column="center" property="center" />
+		<result column="parentid" property="parentid" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+                areaid,
+                areacode,
+                areaname,
+                level,
+                citycode,
+                center,
+                parentid
+    </sql>
+
+
+	<select id="selectAll" resultMap="BaseResultMap">
+		SELECT
+			<include refid="Base_Column_List" />
+		FROM
+			t_address
+	</select>
+
+</mapper>

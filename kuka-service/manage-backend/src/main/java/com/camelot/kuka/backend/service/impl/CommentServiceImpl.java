@@ -208,6 +208,7 @@ public class CommentServiceImpl implements CommentService {
         Long id = codeGenerateUtil.generateId(PrincipalEnum.MANAGE_COMMENT);
         comment.setId(id);
         comment.setStatus(CommentStatusEnum.WAIT);
+        comment.setDelState(DeleteEnum.NO);
         comment.setCreateBy(loginUser.getUsername());
         comment.setCreateTime(new Date());
         comment.setUserId(loginUser.getId());
