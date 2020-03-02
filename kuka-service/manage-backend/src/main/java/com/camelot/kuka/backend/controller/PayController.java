@@ -1,5 +1,6 @@
 package com.camelot.kuka.backend.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
@@ -145,6 +146,7 @@ public class PayController extends BaseController {
                     log.info("* 支付宝交易号: {}", trade_no);
                     log.info("* 实付金额: {}", total_amount);
                     log.info("***************************************************************");
+                    log.info("所有请求参数：{}", JSON.toJSONString(params));
                 }
                 log.info("支付成功...");
 
