@@ -65,6 +65,15 @@ public interface UserService {
 	 */
 	Result kukaAddUser(UserReq req, String loginUserName);
 
+	/***
+	 * <p>Description:[注册-用户]</p>
+	 * Created on 2020/2/4
+	 * @param req
+	 * @return Result
+	 * @author 谢楠
+	 */
+	Result visitorAddUser(UserReq req);
+
 	/**
 	 * 获取单条数据
 	 * @param req
@@ -90,5 +99,12 @@ public interface UserService {
 	 */
 	Result delUser(CommonReq req, String loginUserName);
 
-
+	/***
+	 * <p>Description:[修改密码]</p>
+	 * Created on 2020/2/4
+	 * @param req
+	 * @return Result
+	 * @author 谢楠
+	 */
+	Result updatePassWord(UserReq req, String loginUserName);
 }

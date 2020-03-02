@@ -38,6 +38,11 @@ public class UserReq implements Serializable {
 	private String password;
 
 	/**
+	 * 旧密码
+	 */
+	private String oldPassword;
+
+	/**
 	 * 角色id
 	 */
 	private Long roleId;

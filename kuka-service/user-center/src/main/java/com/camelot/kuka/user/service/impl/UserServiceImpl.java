@@ -8,6 +8,7 @@ import com.camelot.kuka.model.common.CommonReq;
 import com.camelot.kuka.model.common.Result;
 import com.camelot.kuka.model.enums.DeleteEnum;
 import com.camelot.kuka.model.enums.PrincipalEnum;
+import com.camelot.kuka.model.enums.user.UserTypeEnum;
 import com.camelot.kuka.model.user.LoginAppUser;
 import com.camelot.kuka.model.user.req.UserPageReq;
 import com.camelot.kuka.model.user.req.UserReq;
@@ -19,8 +20,10 @@ import com.camelot.kuka.user.model.User;
 import com.camelot.kuka.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import sun.applet.Main;
 
 import javax.annotation.Resource;
 import java.util.Arrays;
@@ -45,6 +48,8 @@ public class UserServiceImpl implements UserService {
     private CodeGenerateUtil codeGenerateUtil;
     @Resource
     private RoleDao roleDao;
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
 	@Override public LoginAppUser findByUsername(String username) {
         User user = userDao.queryLongUser(username);
@@ -103,6 +108,10 @@ public class UserServiceImpl implements UserService {
         user.setCreateBy(loginUserName);
         user.setCreateTime(new Date());
         user.setDelState(DeleteEnum.NO);
+        // 密码加密
+        if (StringUtils.isNoneBlank(user.getPassword())) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
         try {
             int con = userDao.addUser(Arrays.asList(user));
             if (con == 0) {
@@ -140,6 +149,10 @@ public class UserServiceImpl implements UserService {
         user.setCreateBy(loginUserName);
         user.setCreateTime(new Date());
         user.setDelState(DeleteEnum.NO);
+        // 密码加密
+        if (StringUtils.isNoneBlank(user.getPassword())) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
         try {
             int con = userDao.addUser(Arrays.asList(user));
             if (con == 0) {
@@ -151,6 +164,39 @@ public class UserServiceImpl implements UserService {
         }
         return Result.error("新增失败");
 	}
+
+    @Override
+    public Result visitorAddUser(UserReq req) {
+        if (StringUtils.isBlank(req.getMail())) {
+            return Result.error("邮箱不能为空");
+        }
+        if (StringUtils.isBlank(req.getPassword())) {
+            return Result.error("密码不能为空");
+        }
+        User user = BeanUtil.copyBean(req, User.class);
+        Long id = codeGenerateUtil.generateId(PrincipalEnum.USER_USER);
+        user.setId(id);
+        // 固定参数
+        user.setCreateBy(req.getUserName());
+        user.setCreateTime(new Date());
+        user.setDelState(DeleteEnum.NO);
+        user.setType(UserTypeEnum.VISITORS);
+        user.setUserName(req.getUserName());
+        // 密码加密
+        if (StringUtils.isNoneBlank(user.getPassword())) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
+        try {
+            int con = userDao.addUser(Arrays.asList(user));
+            if (con == 0) {
+                return Result.error("新增失败");
+            }
+            return Result.success();
+        } catch (Exception e) {
+            log.error("\n 新增用户失败, 参数:{}, \n 错误信息:{}", JSON.toJSON(req), e);
+        }
+        return Result.error("新增失败");
+    }
 
     @Override
     public Result<UserResp> queryById(CommonReq req) {
@@ -216,6 +262,34 @@ public class UserServiceImpl implements UserService {
             log.error("\n 删除用户失败, 参数:{}, \n 错误信息:{}", JSON.toJSON(req), e);
         }
         return Result.error("删除失败");
+    }
+
+    @Override
+    public Result updatePassWord(UserReq req, String loginUserName) {
+	    // 获取原有数据
+        User user = BeanUtil.copyBean(req, User.class);
+        user.setDelState(DeleteEnum.NO);
+        user.setUserName(loginUserName);
+        User info = userDao.queryById(user);
+        if (null == info) {
+            return Result.error("获取用户信息失败");
+        }
+        // 对比原始密码是否相同
+        if (!passwordEncoder.matches(req.getOldPassword(), info.getPassword())) {
+            return Result.error("旧密码错误");
+        }
+        // 新密码加密
+        String encode = passwordEncoder.encode(req.getPassword());
+        User update = new User();
+        update.setId(info.getId());
+        update.setPassword(encode);
+        update.setUpdateTime(new Date());
+        update.setUpdateBy(loginUserName);
+        int con = userDao.updateUser(update);
+        if (0 == con) {
+            return Result.error("修改失败");
+        }
+        return Result.success();
     }
 
     /**

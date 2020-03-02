@@ -28,4 +28,9 @@ public class CommonReq {
      * 是否标识
      */
     private WhetherEnum status;
+
+    /**
+     * 主键s
+     */
+    private Long[] ids;
 }

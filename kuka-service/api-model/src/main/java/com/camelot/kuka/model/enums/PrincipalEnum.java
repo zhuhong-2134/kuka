@@ -20,6 +20,8 @@ public enum PrincipalEnum {
 
     MANAGE_APPLICATION("manage_t_application", "应用"),
 
+    MANAGE_SHOP_CART("tableIncr:manage:shopCart:shopCartId", "购物车"),
+
     MANAGE_APPLICATION_IMG("manage_t_application_img", "应用图片"),
 
     MANAGE_APPLICATION_CURRENCY("manage_t_application_currency", "通用产品"),

@@ -2,6 +2,7 @@ package com.camelot.kuka.gateway.controller;
 
 import com.camelot.kuka.gateway.feign.LogClient;
 import com.camelot.kuka.gateway.feign.Oauth2Client;
+import com.camelot.kuka.model.common.Result;
 import com.camelot.kuka.model.log.Log;
 import com.camelot.kuka.model.oauth.SystemClientInfo;
 import com.camelot.kuka.model.user.constants.CredentialType;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -29,8 +31,10 @@ import java.util.concurrent.CompletableFuture;
 @RestController
 public class TokenController {
 
-    @Autowired
+    @Resource
     private Oauth2Client oauth2Client;
+    @Resource
+    private LogClient logClient;
 
     /**
      * 系统登陆<br>
@@ -42,7 +46,7 @@ public class TokenController {
      * @return
      */
     @PostMapping("/sys/login")
-    public Map<String, Object> login(String userName, String password) {
+    public Result<Map<String, Object>> login(String userName, String password) {
         Map<String, String> parameters = new HashMap<>();
         parameters.put(OAuth2Utils.GRANT_TYPE, "password");
         parameters.put(OAuth2Utils.CLIENT_ID, SystemClientInfo.CLIENT_ID);
@@ -52,14 +56,19 @@ public class TokenController {
         parameters.put("username", userName + "|" + CredentialType.USERNAME.name());
         parameters.put("password", password);
 
-        Map<String, Object> tokenInfo = oauth2Client.postAccessToken(parameters);
+        Map<String, Object> tokenInfo = null;
+        try {
+            tokenInfo = oauth2Client.postAccessToken(parameters);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Result.error("账号或密码错误");
+        }
         saveLoginLog(userName, "用户名密码登陆");
 
-        return tokenInfo;
+        return Result.success(tokenInfo);
     }
 
-    @Autowired
-    private LogClient logClient;
+
 
     /**
      * 登陆日志

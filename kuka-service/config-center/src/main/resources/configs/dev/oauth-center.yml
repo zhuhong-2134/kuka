@@ -2,7 +2,7 @@ spring:
   redis:
     host: 123.57.69.18
     port: 6379
-    password:
+    password: A5B4w1u5
     timeout: 10s
     lettuce:
       pool:

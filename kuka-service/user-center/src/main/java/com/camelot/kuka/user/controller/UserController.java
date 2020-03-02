@@ -134,7 +134,7 @@ public class UserController extends BaseController {
     }
 
     /***
-     * <p>Description:[新增]</p>
+     * <p>Description:[新增kuka用户]</p>
      * Created on 2020/2/4
      * @param req
      * @return com.camelot.kuka.model.common.PageResult
