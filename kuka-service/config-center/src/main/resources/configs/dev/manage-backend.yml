@@ -27,11 +27,11 @@ spring:
     connectionPropertie:  druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
   mail:
     default-encoding: UTF-8
-    host: smtp.126.com
-    username: winnie0619@126.com
-    password: CuiChunSong1988
+    host: smtp.office365.com
+    username: Dummy.RDtest@kuka.com
+    password: ccjdvvjqnscbhhyt
     protocol: smtp
-    port: 25
+    port: 587
     test-connection: false
     properties:
       mail:
