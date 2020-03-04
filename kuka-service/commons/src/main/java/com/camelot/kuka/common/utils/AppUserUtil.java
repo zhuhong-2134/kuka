@@ -60,6 +60,8 @@ public class AppUserUtil {
         user.setUserName("admin");
         user.setRoleId(10003L);
         user.setPhotoUrl("https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg");
+        user.setPhone("13988889999");
+        user.setMail("admin@kuka.com");
         return user;
     }
 

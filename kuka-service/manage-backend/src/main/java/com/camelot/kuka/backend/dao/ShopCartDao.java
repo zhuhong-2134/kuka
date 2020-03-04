@@ -27,6 +27,15 @@ public interface ShopCartDao {
     List<ShopCart> queryList(@Param("entity") ShopCart query);
 
     /***
+     * <p>Description:[查询单个]</p>
+     * Created on 2020/2/4
+     * @param query
+     * @return list
+     * @author 谢楠
+     */
+    ShopCart queryInfo(@Param("entity") ShopCart query);
+
+    /***
      * <p>Description:[批量新增]</p>
      * Created on 2020/2/4
      * @param list
@@ -52,4 +61,13 @@ public interface ShopCartDao {
      * @author 谢楠
      */
     int updateDel(@Param("entity") ShopCart shopCart);
+
+    /***
+     * <p>Description:[批量获取]</p>
+     * Created on 2020/2/4
+     * @param ids
+     * @return List
+     * @author 谢楠
+     */
+    List<ShopCart> selectIds(@Param("array") Long[] ids);
 }

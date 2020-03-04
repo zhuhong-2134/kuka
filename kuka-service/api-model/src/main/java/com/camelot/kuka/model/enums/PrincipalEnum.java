@@ -22,6 +22,14 @@ public enum PrincipalEnum {
 
     MANAGE_SHOP_CART("tableIncr:manage:shopCart:shopCartId", "购物车"),
 
+    MANAGE_ORDER("tableIncr:manage:order:orderId", "订单"),
+
+    MANAGE_ORDERDETAILED("tableIncr:manage:orderDetailed:orderId", "订单明细"),
+
+    MANAGE_APPLICATION_REQUEST("tableIncr:manage:applicationRequest:requestId", "应用请求"),
+
+    MANAGE_SUPPLIER_REQUEST("tableIncr:manage:supplierRequest:requestId", "集成商请求"),
+
     MANAGE_APPLICATION_IMG("manage_t_application_img", "应用图片"),
 
     MANAGE_APPLICATION_CURRENCY("manage_t_application_currency", "通用产品"),

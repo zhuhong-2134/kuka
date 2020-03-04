@@ -390,19 +390,19 @@
 			<if test ='null != entity.delState'>
 				del_state = #{entity.delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}
 			</if>
-			<if test ='null != entity.provinceCode'>
+			<if test ='null != entity.provinceCode and entity.provinceCode != ""'>
 				and province_code = #{entity.provinceCode}
 			</if>
-			<if test ='null != entity.cityCode'>
+			<if test ='null != entity.cityCode and entity.cityCode != ""'>
 				and city_code = #{entity.cityCode}
 			</if>
-			<if test ='null != entity.districtCode'>
+			<if test ='null != entity.districtCode and entity.districtCode != ""'>
 				and district_code = #{entity.districtCode}
 			</if>
-			<if test ='null != entity.industryCode'>
+			<if test ='null != entity.industryCode and entity.industryCode != ""'>
 				and industry like CONCAT('%',#{entity.industryCode},'%')
 			</if>
-			<if test ='null != entity.appTypeCode'>
+			<if test ='null != entity.appTypeCode and entity.industryCode != ""'>
 				and app_type like CONCAT('%',#{entity.appTypeCode},'%')
 			</if>
 			<!-- 6的时候是集成商查询-->

@@ -66,6 +66,29 @@ public class ShopCartServiceImpl implements ShopCartService {
         if (null == application) {
             return Result.error("没有应用信息");
         }
+        // 查找是否已经新增
+        ShopCart query = new ShopCart();
+        query.setAppId(req.getAppId());
+        query.setCreateBy(loginUserName);
+        query.setDelState(DeleteEnum.NO);
+        ShopCart oldShopCart = shopCartDao.queryInfo(query);
+
+        // 修改数量总价
+        if (null != oldShopCart) {
+            Integer newNum = req.getNum() + oldShopCart.getNum();
+            // 总价
+            oldShopCart.setSunPrice(application.getPrice() * newNum);
+            oldShopCart.setNum(newNum);
+            oldShopCart.setUpdateBy(loginUserName);
+            oldShopCart.setUpdateTime(new Date());
+            int con = shopCartDao.update(oldShopCart);
+            if (con == 0) {
+                return Result.error("新增购物车失败");
+            }
+            return Result.success();
+        }
+
+        // 新增
         ShopCart shopCart = BeanUtil.copyBean(req, ShopCart.class);
         Long id = codeGenerateUtil.generateId(PrincipalEnum.MANAGE_SHOP_CART);
         shopCart.setId(id);

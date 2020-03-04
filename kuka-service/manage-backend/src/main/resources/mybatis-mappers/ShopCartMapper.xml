@@ -50,6 +50,24 @@
 		</where>
 	</select>
 
+	<select id="queryInfo" resultMap="BaseResultMap">
+		SELECT
+			<include refid="Base_Column_List" />
+		FROM
+			t_shop_cart
+		<where>
+			<if test ='null != entity.delState'>
+				del_state = #{entity.delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}
+			</if>
+			<if test ='null != entity.createBy'>
+				and create_by = #{entity.createBy}
+			</if>
+			<if test ='null != entity.appId'>
+				and app_id = #{entity.appId}
+			</if>
+		</where>
+	</select>
+
 
 	<insert id="insertBatch">
 		INSERT INTO
@@ -152,4 +170,16 @@
 				#{item}
 			</foreach>
 	</update>
+
+	<select id="selectIds" resultMap="BaseResultMap">
+		SELECT
+			<include refid="Base_Column_List" />
+		FROM
+			t_shop_cart
+		WHERE
+			id in
+		<foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
 </mapper>

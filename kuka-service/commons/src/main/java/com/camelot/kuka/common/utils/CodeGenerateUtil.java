@@ -5,6 +5,10 @@ import com.camelot.kuka.model.enums.PrincipalEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * <p>Description: [编码生成工具类]</p>
  * Created on 2020年02月07日
@@ -33,6 +37,25 @@ public class CodeGenerateUtil {
             return null;
         }
         return redisStringUtils.incr(pre.getKey());
+    }
+
+    /**
+     * <p>Description:[生成单据编号]</p>
+     * Created on
+     * @param
+     * @return 新的单号
+     * @author 崔春松
+     */
+    public String generateNumber(){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        Date date = new Date();
+        String formatDate = sdf.format(date);
+        String redisKye = "TX" + formatDate + ":" + "SYS:CODE:YMD:REDIS:KEY";
+        Long no = redisStringUtils.incr(redisKye);
+        redisStringUtils.expire(redisKye, 24 * 60 * 60);
+        DecimalFormat df = new DecimalFormat("00000");
+        String cNo = df.format(no);
+        return "TX" + formatDate + cNo;
     }
 
 }

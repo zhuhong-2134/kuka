@@ -5,6 +5,7 @@ import com.camelot.kuka.model.backend.mailmould.req.MailMouldPageReq;
 import com.camelot.kuka.model.backend.mailmould.req.MailMouldReq;
 import com.camelot.kuka.model.backend.mailmould.resp.MailMouldResp;
 import com.camelot.kuka.model.common.CommonReq;
+import com.camelot.kuka.model.common.MailReq;
 import com.camelot.kuka.model.common.Result;
 
 import java.util.List;
@@ -44,4 +45,9 @@ public interface MailMouldService {
      * 删除
      */
     Result delMailMould(MailMouldReq req, String loginUserName);
+
+    /**
+     * 发送邮件
+     */
+    Result sendMail(MailReq req);
 }

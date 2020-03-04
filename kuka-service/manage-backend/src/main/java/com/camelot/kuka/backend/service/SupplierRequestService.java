@@ -7,6 +7,7 @@ import com.camelot.kuka.model.backend.supplierrequest.req.SupplierRequestReq;
 import com.camelot.kuka.model.backend.supplierrequest.resp.SupplierRequestResp;
 import com.camelot.kuka.model.common.CommonReq;
 import com.camelot.kuka.model.common.Result;
+import com.camelot.kuka.model.user.LoginAppUser;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -47,4 +48,13 @@ public interface SupplierRequestService {
      * @author 谢楠
      */
     Result updateStatus(SupplierRequestReq req, String loginUserName);
+
+    /***
+     * <p>Description:[新增集成商请求]</p>
+     * Created on 2020/1/20
+     * @param req
+     * @return Result
+     * @author 谢楠
+     */
+    Result addSupplierequest(CommonReq req, LoginAppUser loginAppUser);
 }

@@ -6,6 +6,7 @@ import com.camelot.kuka.model.backend.applicationrequest.req.ApplicationRequestR
 import com.camelot.kuka.model.backend.applicationrequest.resp.ApplicationRequestResp;
 import com.camelot.kuka.model.common.CommonReq;
 import com.camelot.kuka.model.common.Result;
+import com.camelot.kuka.model.user.LoginAppUser;
 
 import java.util.List;
 
@@ -45,4 +46,13 @@ public interface ApplicationRequestService {
      * @author 谢楠
      */
     Result updateStatus(ApplicationRequestReq req, String loginUserName);
+
+    /***
+     * <p>Description:[新增应用请求]</p>
+     * Created on 2020/1/20
+     * @param req
+     * @return resultr
+     * @author 谢楠
+     */
+    Result addApprequest(CommonReq req, LoginAppUser loginAppUser);
 }

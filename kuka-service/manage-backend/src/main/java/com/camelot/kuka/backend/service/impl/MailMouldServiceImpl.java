@@ -3,12 +3,14 @@ package com.camelot.kuka.backend.service.impl;
 import com.camelot.kuka.backend.dao.MailMouldDao;
 import com.camelot.kuka.backend.model.MailMould;
 import com.camelot.kuka.backend.service.MailMouldService;
+import com.camelot.kuka.backend.service.SendMailService;
 import com.camelot.kuka.common.utils.BeanUtil;
 import com.camelot.kuka.common.utils.CodeGenerateUtil;
 import com.camelot.kuka.model.backend.mailmould.req.MailMouldPageReq;
 import com.camelot.kuka.model.backend.mailmould.req.MailMouldReq;
 import com.camelot.kuka.model.backend.mailmould.resp.MailMouldResp;
 import com.camelot.kuka.model.common.CommonReq;
+import com.camelot.kuka.model.common.MailReq;
 import com.camelot.kuka.model.common.Result;
 import com.camelot.kuka.model.enums.DeleteEnum;
 import com.camelot.kuka.model.enums.PrincipalEnum;
@@ -116,6 +118,27 @@ public class MailMouldServiceImpl implements MailMouldService {
             return Result.error("删除失败, 联系管理员");
         }
         return Result.success();
+    }
+
+    @Resource
+    private SendMailService sendMailService;
+
+    @Override
+    public Result sendMail(MailReq req) {
+        if (null == req || StringUtils.isBlank(req.getMail())) {
+            return Result.error("邮箱不能为空");
+        }
+        if (StringUtils.isBlank(req.getTitle())) {
+            return Result.error("标题不能为空");
+        }
+        if (StringUtils.isBlank(req.getMessage())) {
+            return Result.error("消息不能为空");
+        }
+        boolean status = sendMailService.sendMail(req.getMail(), req.getTitle(), req.getMessage());
+        if (status) {
+            return Result.success();
+        }
+        return Result.error("发送邮件失败");
     }
 
 }

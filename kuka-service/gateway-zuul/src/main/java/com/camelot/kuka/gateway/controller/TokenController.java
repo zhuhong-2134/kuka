@@ -45,7 +45,7 @@ public class TokenController {
      * @param password
      * @return
      */
-    @PostMapping("/sys/login")
+    @PostMapping("/api/sys/login")
     public Result<Map<String, Object>> login(String userName, String password) {
         Map<String, String> parameters = new HashMap<>();
         parameters.put(OAuth2Utils.GRANT_TYPE, "password");
@@ -96,7 +96,7 @@ public class TokenController {
      * @param refresh_token
      * @return
      */
-    @PostMapping("/sys/refresh_token")
+    @PostMapping("/api/sys/refresh_token")
     public Map<String, Object> refresh_token(String refresh_token) {
         Map<String, String> parameters = new HashMap<>();
         parameters.put(OAuth2Utils.GRANT_TYPE, "refresh_token");
@@ -112,7 +112,7 @@ public class TokenController {
      *
      * @param access_token
      */
-    @GetMapping("/sys/logout")
+    @GetMapping("/api/sys/logout")
     public void logout(String access_token, @RequestHeader(required = false, value = "Authorization") String token) {
         if (StringUtils.isBlank(access_token)) {
             if (StringUtils.isNoneBlank(token)) {

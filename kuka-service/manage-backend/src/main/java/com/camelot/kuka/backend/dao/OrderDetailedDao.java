@@ -25,4 +25,13 @@ public interface OrderDetailedDao {
      * @author 谢楠
      */
     List<OrderDetailed> selectByOrderIds(@Param("array") Long[] orderIds);
+
+    /***
+     * <p>Description:[批量新增数据]</p>
+     * Created on 2020/2/5
+     * @param orderDetaileds
+     * @return List
+     * @author 谢楠
+     */
+    int addBatch(@Param("list") List<OrderDetailed> orderDetaileds);
 }

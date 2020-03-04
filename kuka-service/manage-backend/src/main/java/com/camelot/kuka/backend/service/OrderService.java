@@ -7,6 +7,7 @@ import com.camelot.kuka.model.backend.order.req.OrderReq;
 import com.camelot.kuka.model.backend.order.resp.OrderResp;
 import com.camelot.kuka.model.common.CommonReq;
 import com.camelot.kuka.model.common.Result;
+import com.camelot.kuka.model.user.LoginAppUser;
 
 import java.util.List;
 
@@ -65,5 +66,12 @@ public interface OrderService {
      */
     Result updateOrder(OrderReq req, String loginUserName);
 
-
+    /***
+     * <p>Description:[创建订单的基本信息]</p>
+     * Created on 2020/2/5
+     * @param req
+     * @return List
+     * @author 谢楠
+     */
+    Result<OrderResp> createOrder(CommonReq req, LoginAppUser loginAppUser);
 }

@@ -71,4 +71,13 @@ public interface OrderDao {
      * @author 谢楠
      */
     List<Order> queryByIds(@Param("array")Long[] ids);
+
+    /***
+     * <p>Description:[批量新增]</p>
+     * Created on 2020/2/5
+     * @param list
+     * @return List
+     * @author 谢楠
+     */
+    int addBatch(@Param("list") List<Order> list);
 }

@@ -8,10 +8,7 @@ import com.camelot.kuka.common.utils.AppUserUtil;
 import com.camelot.kuka.model.backend.mailmould.req.MailMouldPageReq;
 import com.camelot.kuka.model.backend.mailmould.req.MailMouldReq;
 import com.camelot.kuka.model.backend.mailmould.resp.MailMouldResp;
-import com.camelot.kuka.model.common.CommonReq;
-import com.camelot.kuka.model.common.EnumVal;
-import com.camelot.kuka.model.common.PageResult;
-import com.camelot.kuka.model.common.Result;
+import com.camelot.kuka.model.common.*;
 import com.camelot.kuka.model.enums.DeleteEnum;
 import com.camelot.kuka.model.enums.mailmould.MailTypeEnum;
 import io.swagger.annotations.Api;
@@ -141,4 +138,20 @@ public class MailMouldController extends BaseController {
         }
     }
 
+
+    /**
+     * 发送邮件
+     * @param req
+     * @return
+     */
+    @ApiOperation(value = "发送邮件")
+    @PostMapping("/mailMould/sendMail")
+    public Result sendMail(MailReq req){
+        try {
+            return mailMouldService.sendMail(req);
+        } catch (Exception e) {
+            log.error("\n 邮件模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "sendMail", JSON.toJSONString(req), e);
+            return Result.error("网络异常, 请稍后再试");
+        }
+    }
 }

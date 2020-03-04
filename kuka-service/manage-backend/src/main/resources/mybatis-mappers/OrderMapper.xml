@@ -12,6 +12,10 @@
 		<result column="sun_price" property="sunPrice" />
 		<result column="status" property="status" typeHandler="com.camelot.kuka.common.mybatis.handler.EnumTypeHandler"/>
 		<result column="remarks" property="remarks" />
+		<result column="order_phone" property="orderPhone" />
+		<result column="order_mail" property="orderMail" />
+		<result column="pay_type" property="payType" />
+		<result column="serial_number" property="serialNumber" typeHandler="com.camelot.kuka.common.mybatis.handler.EnumTypeHandler"/>
 		<result column="del_state" property="delState" typeHandler="com.camelot.kuka.common.mybatis.handler.EnumTypeHandler"/>
 		<result column="create_time" property="createTime" />
 		<result column="create_by" property="createBy" />
@@ -28,6 +32,10 @@
                 sun_price,
                 status,
                 remarks,
+                order_phone,
+                order_mail,
+                pay_type,
+                serial_number,
                 del_state,
                 create_time,
                 create_by,
@@ -203,8 +211,20 @@
 			<if test ='null != status'>
 				status = #{status, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
 			</if>
+			<if test ='null != orderPhone'>
+				order_phone = #{orderPhone},
+			</if>
+			<if test ='null != orderMail'>
+				order_mail = #{orderMail},
+			</if>
 			<if test ='null != remarks'>
 				remarks = #{remarks},
+			</if>
+			<if test ='null != payType'>
+				pay_type = #{payType, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
+			</if>
+			<if test ='null != serialNumber'>
+				serial_number = #{serialNumber},
 			</if>
 			<if test ='null != delState'>
 				del_state = #{delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
@@ -236,4 +256,48 @@
 			#{item}
 		</foreach>
 	</select>
+
+	<insert id="addBatch">
+		INSERT INTO t_order(
+				id,
+				order_no,
+				contact_by,
+				contact_phone,
+				contact_mail,
+				sun_price,
+				status,
+				remarks,
+				order_phone,
+				order_mail,
+				pay_type,
+				serial_number,
+				del_state,
+				create_time,
+				create_by,
+				update_time,
+				update_by
+		)
+		VALUES
+		<foreach collection="list" item="item" index="index" separator=",">
+			(
+				#{item.id},
+				#{item.orderNo},
+				#{item.contactBy},
+				#{item.contactPhone},
+				#{item.contactMail},
+				#{item.sunPrice},
+				#{item.status, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
+				#{item.remarks},
+				#{item.orderPhone},
+				#{item.orderMail},
+				#{item.payType, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
+				#{item.serialNumber},
+				#{item.delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
+				#{item.createTime},
+				#{item.createBy},
+				#{item.updateTime},
+				#{item.updateBy}
+			)
+		</foreach>
+	</insert>
 </mapper>

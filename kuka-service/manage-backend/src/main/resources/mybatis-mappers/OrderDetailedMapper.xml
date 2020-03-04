@@ -50,4 +50,42 @@
 				#{item}
 			</foreach>
 	</select>
+
+	<insert id="addBatch">
+		INSERT INTO t_order_detailed(
+			id,
+			order_id,
+			supplier_id,
+			app_id,
+			app_url,
+			app_name,
+			price,
+			num,
+			sum_price,
+			del_state,
+			create_time,
+			create_by,
+			update_time,
+			update_by
+		)
+		VALUES
+		<foreach collection="list" item="item" index="index" separator=",">
+			(
+			#{item.id},
+			#{item.orderId},
+			#{item.supplierId},
+			#{item.appId},
+			#{item.appUrl},
+			#{item.appName},
+			#{item.price},
+			#{item.num},
+			#{item.sumPrice},
+			#{item.delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
+			#{item.createTime},
+			#{item.createBy},
+			#{item.updateTime},
+			#{item.updateBy}
+			)
+		</foreach>
+	</insert>
 </mapper>

@@ -15,6 +15,8 @@ import com.camelot.kuka.model.common.Result;
 import com.camelot.kuka.model.enums.DeleteEnum;
 import com.camelot.kuka.model.enums.order.OrderPageEnum;
 import com.camelot.kuka.model.enums.order.OrderStatusEnum;
+import com.camelot.kuka.model.enums.order.PayTypeEnum;
+import com.camelot.kuka.model.user.LoginAppUser;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -52,6 +54,7 @@ public class OrderController extends BaseController {
         page.putEnumVal("statusEnum", EnumVal.getEnumList(OrderStatusEnum.class));
         page.putEnumVal("queryTypeEnum", EnumVal.getEnumList(OrderPageEnum.class));
         page.putEnumVal("delStateEnum", EnumVal.getEnumList(DeleteEnum.class));
+        page.putEnumVal("payTypeEnum", EnumVal.getEnumList(PayTypeEnum.class));
         return page;
     }
 
@@ -73,6 +76,7 @@ public class OrderController extends BaseController {
             page.putEnumVal("statusEnum", EnumVal.getEnumList(OrderStatusEnum.class));
             page.putEnumVal("queryTypeEnum", EnumVal.getEnumList(OrderPageEnum.class));
             page.putEnumVal("delStateEnum", EnumVal.getEnumList(DeleteEnum.class));
+            page.putEnumVal("payTypeEnum", EnumVal.getEnumList(PayTypeEnum.class));
             return page;
         } catch (Exception e) {
             log.error("\n 订单模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "pageList", JSON.toJSONString(req), e);
@@ -102,6 +106,7 @@ public class OrderController extends BaseController {
             page.putEnumVal("statusEnum", EnumVal.getEnumList(OrderStatusEnum.class));
             page.putEnumVal("queryTypeEnum", EnumVal.getEnumList(OrderPageEnum.class));
             page.putEnumVal("delStateEnum", EnumVal.getEnumList(DeleteEnum.class));
+            page.putEnumVal("payTypeEnum", EnumVal.getEnumList(PayTypeEnum.class));
             return page;
         } catch (Exception e) {
             log.error("\n 订单模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "pageList", JSON.toJSONString(req), e);
@@ -130,6 +135,7 @@ public class OrderController extends BaseController {
             page.putEnumVal("statusEnum", EnumVal.getEnumList(OrderStatusEnum.class));
             page.putEnumVal("queryTypeEnum", EnumVal.getEnumList(OrderPageEnum.class));
             page.putEnumVal("delStateEnum", EnumVal.getEnumList(DeleteEnum.class));
+            page.putEnumVal("payTypeEnum", EnumVal.getEnumList(PayTypeEnum.class));
             return page;
         } catch (Exception e) {
             log.error("\n 订单模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "pageList", JSON.toJSONString(req), e);
@@ -172,4 +178,28 @@ public class OrderController extends BaseController {
             return Result.error("网络异常, 请稍后再试");
         }
     }
+
+    /***
+     * <p>Description:[创建订单]</p>
+     * Created on 2020/1/20
+     * @param req
+     * @return com.camelot.kuka.model.common.PageResult
+     * @author 谢楠
+     */
+    @PostMapping("/order/createOrder")
+    public Result<OrderResp> createOrder(CommonReq req){
+        try {
+            LoginAppUser loginAppUser = AppUserUtil.getLoginUser();
+            if (null == loginAppUser) {
+                return Result.error("用户未登录");
+            }
+            Result<OrderResp> order = orderService.createOrder(req, loginAppUser);
+            order.putEnumVal("payTypeEnum", EnumVal.getEnumList(PayTypeEnum.class));
+            return order;
+        } catch (Exception e) {
+            log.error("\n 订单模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "createOrder", JSON.toJSONString(req), e);
+            return Result.error("网络异常, 请稍后再试");
+        }
+    }
+
 }

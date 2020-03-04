@@ -67,5 +67,4 @@ public class MailController {
         return mail;
     }
 
-
 }

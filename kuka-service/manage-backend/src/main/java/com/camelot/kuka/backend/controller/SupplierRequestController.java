@@ -16,6 +16,7 @@ import com.camelot.kuka.model.enums.CommunicateEnum;
 import com.camelot.kuka.model.enums.DeleteEnum;
 import com.camelot.kuka.model.enums.backend.SupplierRequestPageEnum;
 import com.camelot.kuka.model.enums.user.WhetherEnum;
+import com.camelot.kuka.model.user.LoginAppUser;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -115,6 +116,27 @@ public class SupplierRequestController extends BaseController {
             return supplierRequestService.updateStatus(req, loginUserName);
         } catch (Exception e) {
             log.error("\n 集成商请求模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "updateStatus", JSON.toJSONString(req), e);
+            return Result.error("网络异常, 请稍后再试");
+        }
+    }
+
+    /***
+     * <p>Description:[新增请求]</p>
+     * Created on 2020/2/4
+     * @param req
+     * @return com.camelot.kuka.model.common.Result
+     * @author 谢楠
+     */
+    @PostMapping("/supplierequest/add")
+    public Result addSupplierequest(CommonReq req){
+        try {
+            LoginAppUser loginAppUser = AppUserUtil.getLoginUser();
+            if (null == loginAppUser) {
+                return Result.error("用户未登录");
+            }
+            return supplierRequestService.addSupplierequest(req, loginAppUser);
+        } catch (Exception e) {
+            log.error("\n 集成商请求模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "addSupplierequest", JSON.toJSONString(req), e);
             return Result.error("网络异常, 请稍后再试");
         }
     }

@@ -2,6 +2,7 @@ package com.camelot.kuka.model.backend.order.resp;
 
 import com.camelot.kuka.model.enums.DeleteEnum;
 import com.camelot.kuka.model.enums.order.OrderStatusEnum;
+import com.camelot.kuka.model.enums.order.PayTypeEnum;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
@@ -63,6 +64,26 @@ public class OrderResp implements Serializable {
      * 留言
      */
     private String remarks;
+
+    /**
+     * 订单联电话
+     */
+    private String orderPhone;
+
+    /**
+     * 订单联邮箱
+     */
+    private String orderMail;
+
+    /**
+     * 支付方式
+     */
+    private PayTypeEnum payType;
+
+    /**
+     * 流水号
+     */
+    private String serialNumber;
 
     /**
      * 删除标识0:未删除;1已删除
