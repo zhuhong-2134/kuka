@@ -152,4 +152,13 @@ public class UserReq implements Serializable {
 	 */
 	private String updateBy;
 
+	/**
+	 * 验证码UUID
+	 */
+	private String uuid;
+
+	/**
+	 * 验证码
+	 */
+	private String code;
 }

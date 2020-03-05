@@ -2,10 +2,12 @@ package com.camelot.kuka.gateway.controller;
 
 import com.camelot.kuka.gateway.feign.LogClient;
 import com.camelot.kuka.gateway.feign.Oauth2Client;
+import com.camelot.kuka.gateway.feign.UserLoginClient;
 import com.camelot.kuka.model.common.Result;
 import com.camelot.kuka.model.log.Log;
 import com.camelot.kuka.model.oauth.SystemClientInfo;
 import com.camelot.kuka.model.user.constants.CredentialType;
+import com.camelot.kuka.model.user.req.UserReq;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +37,8 @@ public class TokenController {
     private Oauth2Client oauth2Client;
     @Resource
     private LogClient logClient;
+    @Resource
+    private UserLoginClient userLoginClient;
 
     /**
      * 系统登陆<br>
@@ -46,7 +50,15 @@ public class TokenController {
      * @return
      */
     @PostMapping("/api/sys/login")
-    public Result<Map<String, Object>> login(String userName, String password) {
+    public Result<Map<String, Object>> login(String userName, String password, String uuid, String code) {
+        // 校验验证码
+        UserReq userReq = new UserReq();
+        userReq.setCode(code);
+        userReq.setUuid(uuid);
+        Result<Boolean> booleanResult = userLoginClient.checkCode(userReq);
+        if (!booleanResult.isSuccess()) {
+            return Result.error(booleanResult.getMsg());
+        }
         Map<String, String> parameters = new HashMap<>();
         parameters.put(OAuth2Utils.GRANT_TYPE, "password");
         parameters.put(OAuth2Utils.CLIENT_ID, SystemClientInfo.CLIENT_ID);

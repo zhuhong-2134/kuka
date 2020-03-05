@@ -15,6 +15,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -146,7 +147,7 @@ public class MailMouldController extends BaseController {
      */
     @ApiOperation(value = "发送邮件")
     @PostMapping("/mailMould/sendMail")
-    public Result sendMail(MailReq req){
+    public Result sendMail(@RequestBody MailReq req){
         try {
             return mailMouldService.sendMail(req);
         } catch (Exception e) {

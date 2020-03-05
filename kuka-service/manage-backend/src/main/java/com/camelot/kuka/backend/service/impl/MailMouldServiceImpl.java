@@ -14,6 +14,7 @@ import com.camelot.kuka.model.common.MailReq;
 import com.camelot.kuka.model.common.Result;
 import com.camelot.kuka.model.enums.DeleteEnum;
 import com.camelot.kuka.model.enums.PrincipalEnum;
+import com.camelot.kuka.model.log.Log;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,7 @@ import javax.annotation.Resource;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * <p>Description: [消息模板]</p>
@@ -134,11 +136,14 @@ public class MailMouldServiceImpl implements MailMouldService {
         if (StringUtils.isBlank(req.getMessage())) {
             return Result.error("消息不能为空");
         }
-        boolean status = sendMailService.sendMail(req.getMail(), req.getTitle(), req.getMessage());
-        if (status) {
-            return Result.success();
-        }
-        return Result.error("发送邮件失败");
+        // 异步
+        CompletableFuture.runAsync(() -> {
+            try {
+                boolean status = sendMailService.sendMail(req.getMail(), req.getTitle(), req.getMessage());
+            } catch (Exception e) {
+            }
+        });
+        return Result.success();
     }
 
 }

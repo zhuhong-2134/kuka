@@ -24,10 +24,8 @@ import com.camelot.kuka.user.model.User;
 import com.camelot.kuka.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import sun.applet.Main;
 
 import javax.annotation.Resource;
 import java.util.Arrays;
@@ -324,6 +322,44 @@ public class UserServiceImpl implements UserService {
         redisStringUtils.set("login:mail:code:" + req.getMail(), code, 60 * 5 );
 
         return mailMouldClient.sendMail(mailReq);
+    }
+
+    @Override
+    public Result passwordByMail(UserReq req) {
+        String code = req.getCode();
+        // 校验验证码是否正确
+        if (StringUtils.isBlank(code)) {
+            return Result.error("验证码不能为空");
+        }
+        code = code.toUpperCase();
+        if (StringUtils.isBlank(req.getMail())) {
+            return Result.error("邮箱不能为空");
+        }
+        if (StringUtils.isBlank(req.getPassword())) {
+            return Result.error("密码不能为空");
+        }
+        // 获取缓存中的验证码
+        String redisCode = redisStringUtils.get("login:mail:code:" + req.getMail());
+        if (StringUtils.isBlank(redisCode)) {
+            return Result.error("验证码过期");
+        }
+        if (!code.equals(redisCode)) {
+            return Result.error("验证码错误");
+        }
+        // 邮箱是否注册
+        User user = BeanUtil.copyBean(req, User.class);
+        user.setDelState(DeleteEnum.NO);
+        user.setMail(req.getMail());
+        User info = userDao.queryById(user);
+        if (null == info) {
+            return Result.error("邮箱未注册");
+        }
+        info.setPassword(passwordEncoder.encode(req.getPassword()));
+        int con = userDao.updateUser(info);
+        if (0 == con) {
+            return Result.error("修改失败");
+        }
+        return Result.success();
     }
 
     /**

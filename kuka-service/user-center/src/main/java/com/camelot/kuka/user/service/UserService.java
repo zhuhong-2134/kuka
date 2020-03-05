@@ -116,4 +116,13 @@ public interface UserService {
 	 * @author 谢楠
 	 */
     Result sendMail(UserReq req);
+
+	/***
+	 * <p>Description:[修改密码]</p>
+	 * Created on 2020/2/4
+	 * @param req
+	 * @return com.camelot.kuka.model.common.PageResult
+	 * @author 谢楠
+	 */
+    Result passwordByMail(UserReq req);
 }
