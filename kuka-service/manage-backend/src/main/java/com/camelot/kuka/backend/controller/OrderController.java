@@ -16,6 +16,7 @@ import com.camelot.kuka.model.enums.DeleteEnum;
 import com.camelot.kuka.model.enums.order.OrderPageEnum;
 import com.camelot.kuka.model.enums.order.OrderStatusEnum;
 import com.camelot.kuka.model.enums.order.PayTypeEnum;
+import com.camelot.kuka.model.shopcart.req.ShopCartReq;
 import com.camelot.kuka.model.user.LoginAppUser;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
@@ -202,4 +203,26 @@ public class OrderController extends BaseController {
         }
     }
 
+    /***
+     * <p>Description:[直接创建订单]</p>
+     * Created on 2020/1/20
+     * @param req
+     * @return com.camelot.kuka.model.common.PageResult
+     * @author 谢楠
+     */
+    @PostMapping("/order/createInstantly")
+    public Result<OrderResp> createInstantly(ShopCartReq req){
+        try {
+            LoginAppUser loginAppUser = AppUserUtil.getLoginUser();
+            if (null == loginAppUser) {
+                return Result.error("用户未登录");
+            }
+            Result<OrderResp> order = orderService.createInstantly(req, loginAppUser);
+            order.putEnumVal("payTypeEnum", EnumVal.getEnumList(PayTypeEnum.class));
+            return order;
+        } catch (Exception e) {
+            log.error("\n 订单模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "createInstantly", JSON.toJSONString(req), e);
+            return Result.error("网络异常, 请稍后再试");
+        }
+    }
 }

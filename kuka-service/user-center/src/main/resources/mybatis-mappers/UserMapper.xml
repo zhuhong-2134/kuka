@@ -306,9 +306,9 @@
 
 	<select id="queryById" resultMap="BaseResultMap">
 		SELECT
-		<include refid="Base_Column_List" />
+			<include refid="Base_Column_List" />
 		FROM
-		t_user
+			t_user
 		<where>
 			<if test ='null != entity.delState'>
 				del_state = #{entity.delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}

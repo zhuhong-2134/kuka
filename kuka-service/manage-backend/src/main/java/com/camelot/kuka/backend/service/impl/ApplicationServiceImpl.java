@@ -17,9 +17,13 @@ import com.camelot.kuka.model.backend.application.resp.QyeryUpdateResp;
 import com.camelot.kuka.model.backend.comment.resp.CommentResp;
 import com.camelot.kuka.model.backend.supplier.resp.SupplierResp;
 import com.camelot.kuka.model.common.CommonReq;
+import com.camelot.kuka.model.common.EnumVal;
 import com.camelot.kuka.model.common.Result;
 import com.camelot.kuka.model.enums.DeleteEnum;
 import com.camelot.kuka.model.enums.PrincipalEnum;
+import com.camelot.kuka.model.enums.backend.IndustryTypeEnum;
+import com.camelot.kuka.model.enums.backend.SkilledAppEnum;
+import com.camelot.kuka.model.enums.order.OrderPageEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -196,8 +200,41 @@ public class ApplicationServiceImpl implements ApplicationService {
             resp.setSupplier(BeanUtil.copyBean(supplier, SupplierResp.class));
         }
 
+        // 转换枚举
+        if (StringUtils.isNoneBlank(resp.getAppRange())) {
+            String appRangeStr = "";
+            String[] codes = resp.getAppRange().split(",");
+            for (String code : codes) {
+                List<EnumVal> enumList = EnumVal.getEnumList(SkilledAppEnum.class);
+                for (EnumVal enumVal : enumList) {
+                    if (enumVal.getName().equals(code) ) {
+                        appRangeStr += enumVal.getDes() + "、";
+                        break;
+                    }
+                }
+            }
+            resp.setAppRangeStr(appRangeStr.substring(0, appRangeStr.length()-1));
+        }
+        if (StringUtils.isNoneBlank(resp.getIndustry())) {
+            String industryStr = "";
+            String[] codes = resp.getIndustry().split(",");
+            for (String code : codes) {
+                List<EnumVal> enumList = EnumVal.getEnumList(IndustryTypeEnum.class);
+                for (EnumVal enumVal : enumList) {
+                    if (enumVal.getName().equals(code) ) {
+                        industryStr += enumVal.getDes() + "、";
+                        break;
+                    }
+                }
+            }
+            resp.setIndustryStr(industryStr.substring(0, industryStr.length()-1));
+        }
+
+
         return Result.success(resp);
     }
+
+
 
     @Override
     public Result updateApplication(ApplicationEditReq req, String loginUserName) {

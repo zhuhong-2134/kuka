@@ -9,6 +9,7 @@ import com.camelot.kuka.backend.model.OrderDetailed;
 import com.camelot.kuka.backend.model.ShopCart;
 import com.camelot.kuka.backend.service.CommentService;
 import com.camelot.kuka.backend.service.OrderService;
+import com.camelot.kuka.backend.service.ShopCartService;
 import com.camelot.kuka.backend.service.SupplierService;
 import com.camelot.kuka.common.utils.BeanUtil;
 import com.camelot.kuka.common.utils.CodeGenerateUtil;
@@ -22,6 +23,7 @@ import com.camelot.kuka.model.common.Result;
 import com.camelot.kuka.model.enums.DeleteEnum;
 import com.camelot.kuka.model.enums.PrincipalEnum;
 import com.camelot.kuka.model.enums.order.OrderStatusEnum;
+import com.camelot.kuka.model.shopcart.req.ShopCartReq;
 import com.camelot.kuka.model.user.LoginAppUser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -56,6 +58,8 @@ public class OrderServiceImpl implements OrderService {
     private ShopCartDao shopCartDao;
     @Resource
     private CodeGenerateUtil codeGenerateUtil;
+    @Resource
+    private ShopCartService shopCartService;
 
 
     @Override
@@ -178,6 +182,20 @@ public class OrderServiceImpl implements OrderService {
         }
         order.setDetaileList(BeanUtil.copyList(orderDetaileds, OrderDetailedResp.class));
         return Result.success(BeanUtil.copyBean(order, OrderResp.class));
+    }
+
+    @Override
+    public Result<OrderResp> createInstantly(ShopCartReq req, LoginAppUser loginAppUser) {
+        // 创建购物车
+        Result result = shopCartService.addShopCart(req, loginAppUser.getUserName());
+        if (!result.isSuccess()) {
+            return Result.error(result.getMsg());
+        }
+        // 新增订单信息
+        CommonReq com = new CommonReq();
+        Long[] ids = new Long[]{(Long)result.getData()};
+        com.setIds(ids);
+        return this.createOrder(com, loginAppUser);
     }
 
     /**

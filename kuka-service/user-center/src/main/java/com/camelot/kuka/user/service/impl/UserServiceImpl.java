@@ -4,7 +4,10 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.camelot.kuka.common.utils.BeanUtil;
 import com.camelot.kuka.common.utils.CodeGenerateUtil;
+import com.camelot.kuka.common.utils.RandomNumberUtils;
+import com.camelot.kuka.common.utils.RedisStringUtils;
 import com.camelot.kuka.model.common.CommonReq;
+import com.camelot.kuka.model.common.MailReq;
 import com.camelot.kuka.model.common.Result;
 import com.camelot.kuka.model.enums.DeleteEnum;
 import com.camelot.kuka.model.enums.PrincipalEnum;
@@ -15,6 +18,7 @@ import com.camelot.kuka.model.user.req.UserReq;
 import com.camelot.kuka.model.user.resp.UserResp;
 import com.camelot.kuka.user.dao.RoleDao;
 import com.camelot.kuka.user.dao.UserDao;
+import com.camelot.kuka.user.feign.MailMouldClient;
 import com.camelot.kuka.user.model.Role;
 import com.camelot.kuka.user.model.User;
 import com.camelot.kuka.user.service.UserService;
@@ -48,8 +52,12 @@ public class UserServiceImpl implements UserService {
     private CodeGenerateUtil codeGenerateUtil;
     @Resource
     private RoleDao roleDao;
-    @Autowired
+    @Resource
     private BCryptPasswordEncoder passwordEncoder;
+    @Resource
+    private MailMouldClient mailMouldClient;
+    @Resource
+    private RedisStringUtils redisStringUtils;
 
 	@Override public LoginAppUser findByUsername(String username) {
         User user = userDao.queryLongUser(username);
@@ -290,6 +298,32 @@ public class UserServiceImpl implements UserService {
             return Result.error("修改失败");
         }
         return Result.success();
+    }
+
+    @Override
+    public Result sendMail(UserReq req) {
+	    if (null == req || StringUtils.isBlank(req.getMail())) {
+            return Result.error("邮箱不能为空");
+        }
+        // 邮箱是否注册
+        User user = BeanUtil.copyBean(req, User.class);
+        user.setDelState(DeleteEnum.NO);
+        user.setMail(req.getMail());
+        User info = userDao.queryById(user);
+        if (null == info) {
+            return Result.error("邮箱未注册");
+        }
+        MailReq mailReq = new MailReq();
+        mailReq.setMail(req.getMail());
+        mailReq.setTitle("kuka验证码");
+
+        String code = RandomNumberUtils.randomSixCode();
+        mailReq.setMessage("您的验证码是：" + code + "  （请勿将验证码告知他人）");
+
+        // 放入缓存
+        redisStringUtils.set("login:mail:code:" + req.getMail(), code, 60 * 5 );
+
+        return mailMouldClient.sendMail(mailReq);
     }
 
     /**

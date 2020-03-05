@@ -14,8 +14,8 @@
 		<result column="remarks" property="remarks" />
 		<result column="order_phone" property="orderPhone" />
 		<result column="order_mail" property="orderMail" />
-		<result column="pay_type" property="payType" />
-		<result column="serial_number" property="serialNumber" typeHandler="com.camelot.kuka.common.mybatis.handler.EnumTypeHandler"/>
+		<result column="pay_type" property="payType" typeHandler="com.camelot.kuka.common.mybatis.handler.EnumTypeHandler"/>
+		<result column="serial_number" property="serialNumber"/>
 		<result column="del_state" property="delState" typeHandler="com.camelot.kuka.common.mybatis.handler.EnumTypeHandler"/>
 		<result column="create_time" property="createTime" />
 		<result column="create_by" property="createBy" />

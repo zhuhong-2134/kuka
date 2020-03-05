@@ -153,6 +153,15 @@ public class ShopCartServiceImpl implements ShopCartService {
         return Result.success();
     }
 
+    @Override
+    public Result queryCount(String loginUserName) {
+        ShopCart query = new ShopCart();
+        query.setDelState(DeleteEnum.NO);
+        query.setCreateBy(loginUserName);
+        List<ShopCart> shopCarts = shopCartDao.queryList(query);
+        return Result.success(shopCarts.size());
+    }
+
 
     /**
      * 获取应用信息

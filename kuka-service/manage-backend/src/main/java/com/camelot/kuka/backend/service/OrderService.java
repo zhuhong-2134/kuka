@@ -7,6 +7,7 @@ import com.camelot.kuka.model.backend.order.req.OrderReq;
 import com.camelot.kuka.model.backend.order.resp.OrderResp;
 import com.camelot.kuka.model.common.CommonReq;
 import com.camelot.kuka.model.common.Result;
+import com.camelot.kuka.model.shopcart.req.ShopCartReq;
 import com.camelot.kuka.model.user.LoginAppUser;
 
 import java.util.List;
@@ -74,4 +75,13 @@ public interface OrderService {
      * @author 谢楠
      */
     Result<OrderResp> createOrder(CommonReq req, LoginAppUser loginAppUser);
+
+    /***
+     * <p>Description:[直接创建订单]</p>
+     * Created on 2020/1/20
+     * @param req
+     * @return com.camelot.kuka.model.common.PageResult
+     * @author 谢楠
+     */
+    Result<OrderResp> createInstantly(ShopCartReq req, LoginAppUser loginAppUser);
 }

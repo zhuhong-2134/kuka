@@ -104,4 +104,22 @@ public class ShopCartController extends BaseController {
             return Result.error("网络异常, 请稍后再试");
         }
     }
+
+    /***
+     * <p>Description:[获取当前登录人的购物车]</p>
+     * Created on 2020/1/20
+     * @param
+     * @return com.camelot.kuka.model.common.PageResult
+     * @author 谢楠
+     */
+    @GetMapping("/shopCart/queryCount")
+    public Result queryCount(){
+        try {
+            String loginUserName = AppUserUtil.getLoginUserName();
+            return shopCartService.queryCount(loginUserName);
+        } catch (Exception e) {
+            log.error("\n \"购物车模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "queryCount", JSON.toJSONString(null), e);
+            return Result.error("网络异常, 请稍后再试");
+        }
+    }
 }

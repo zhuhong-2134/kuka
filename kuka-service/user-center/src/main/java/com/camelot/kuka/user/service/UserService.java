@@ -107,4 +107,13 @@ public interface UserService {
 	 * @author 谢楠
 	 */
 	Result updatePassWord(UserReq req, String loginUserName);
+
+	/***
+	 * <p>Description:[发送验证码]</p>
+	 * Created on 2020/2/4
+	 * @param req
+	 * @return com.camelot.kuka.model.common.PageResult
+	 * @author 谢楠
+	 */
+    Result sendMail(UserReq req);
 }

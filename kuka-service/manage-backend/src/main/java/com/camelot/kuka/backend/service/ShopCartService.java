@@ -53,4 +53,10 @@ public interface ShopCartService {
      */
     Result delShopCart(CommonReq req, String loginUserName);
 
+    /**
+     * 获取当前购物车数量
+     * @param loginUserName
+     * @return
+     */
+    Result queryCount(String loginUserName);
 }

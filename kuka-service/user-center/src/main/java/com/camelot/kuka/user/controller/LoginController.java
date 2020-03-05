@@ -52,4 +52,16 @@ public class LoginController extends BaseController {
         String loginUserName = AppUserUtil.getLoginUserName();
         return userService.updatePassWord(req, loginUserName);
     }
+
+    /***
+     * <p>Description:[发送验证码]</p>
+     * Created on 2020/2/4
+     * @param req
+     * @return com.camelot.kuka.model.common.PageResult
+     * @author 谢楠
+     */
+    @PostMapping("/login/sendMail")
+    public Result sendMail(UserReq req){
+        return userService.sendMail(req);
+    }
 }
