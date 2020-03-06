@@ -10,7 +10,6 @@ import com.camelot.kuka.model.user.constants.CredentialType;
 import com.camelot.kuka.model.user.req.UserReq;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.util.OAuth2Utils;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -125,12 +124,17 @@ public class TokenController {
      * @param access_token
      */
     @GetMapping("/api/sys/logout")
-    public void logout(String access_token, @RequestHeader(required = false, value = "Authorization") String token) {
+    public Result logout(String access_token, @RequestHeader(required = false, value = "Authorization") String token) {
         if (StringUtils.isBlank(access_token)) {
             if (StringUtils.isNoneBlank(token)) {
                 access_token = token.substring(OAuth2AccessToken.BEARER_TYPE.length() + 1);
             }
         }
-        oauth2Client.removeToken(access_token);
+        try {
+            oauth2Client.removeToken(access_token);
+        } catch (Exception e) {
+            // do nothing
+        }
+        return Result.success();
     }
 }
