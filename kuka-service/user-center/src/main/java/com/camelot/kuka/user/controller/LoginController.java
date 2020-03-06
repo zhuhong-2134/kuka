@@ -11,9 +11,7 @@ import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.imageio.ImageIO;
@@ -73,9 +71,9 @@ public class LoginController extends BaseController {
      * Created on 2019年08月26日
      * Copyright (c) 2019 北京柯莱特科技有限公司
      **/
-    @PostMapping("/login/code")
-    protected void verificationCode(UserReq req, HttpServletResponse resp) throws IOException {
-        if (null == req || StringUtils.isBlank(req.getUuid())) {
+    @GetMapping("/login/code")
+    protected void verificationCode(@RequestParam String uuid, HttpServletResponse resp) throws IOException {
+        if (null == uuid) {
             return;
         }
         // 调用工具类生成的验证码和验证码图片
@@ -83,7 +81,7 @@ public class LoginController extends BaseController {
         // 生成的验证码和验证码图片
         StringBuffer code = (StringBuffer) codeMap.get("code");
 
-        redisStringUtils.set("login:code:" + req.getUuid(), code.toString(), 60 * 3);
+        redisStringUtils.set("login:code:" + uuid, code.toString(), 60 * 3);
 
         // 禁止图像缓存。
         resp.setHeader("Pragma", "no-cache");

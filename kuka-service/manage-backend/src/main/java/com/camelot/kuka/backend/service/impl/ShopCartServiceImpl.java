@@ -85,7 +85,7 @@ public class ShopCartServiceImpl implements ShopCartService {
             if (con == 0) {
                 return Result.error("新增购物车失败");
             }
-            return Result.success();
+            return Result.success(oldShopCart.getId());
         }
 
         // 新增
