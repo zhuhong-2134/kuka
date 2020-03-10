@@ -45,7 +45,11 @@ public class AppUserUtil {
      * @return
      */
     public static String getLoginUserName() {
-        return "admin";
+        LoginAppUser loginAppUser = AppUserUtil.getLoginAppUser();
+        if (null == loginAppUser) {
+            return null;
+        }
+        return loginAppUser.getUserName();
     }
 
     /**
@@ -55,14 +59,7 @@ public class AppUserUtil {
      */
     @SuppressWarnings("rawtypes")
     public static LoginAppUser getLoginUser() {
-        LoginAppUser user = new LoginAppUser();
-        user.setId(1010101L);
-        user.setUserName("admin");
-        user.setRoleId(10003L);
-        user.setPhotoUrl("https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg");
-        user.setPhone("13988889999");
-        user.setMail("admin@kuka.com");
-        return user;
+        return AppUserUtil.getLoginAppUser();
     }
 
     /**

@@ -2,10 +2,12 @@ package com.camelot.kuka.file.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.camelot.kuka.common.controller.BaseController;
+import com.camelot.kuka.common.utils.DateUtils;
 import com.camelot.kuka.common.utils.ServletUtils;
 import com.camelot.kuka.model.common.Result;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,6 +37,10 @@ public class UploadController extends BaseController {
     // 设置上传文件夹
     File uploadPath = null;
 
+    // IP
+    @Value("${files.ip}")
+    private String fileIp;
+
     // 单文件上传
     @PostMapping("/file/upload")
     public Result<JSONObject> upload(@RequestParam(value = "file", required = false) MultipartFile file, HttpServletRequest request) throws Exception{
@@ -49,10 +55,13 @@ public class UploadController extends BaseController {
 
         //判断上传文件类型并设置前置路径
         File uploadPath = null;
-        String basePath = "D:\\images\\";                  // win 基础文件上传路径
-        // String basePath = "/data/img";                  // linux 基础文件上传路径
-        String inspection = "/imgs";              //巡检文件夹路径
-        String maintenance = "/file";            //维保文件夹路径
+        // String basePath = "D:\\images\\";                  // win 基础文件上传路径
+        String basePath = "/data/file";                  // linux 基础文件上传路径
+        String yyyyMMdd = DateUtils.dateToStr(new Date(), "yyyyMMdd");
+        // 图片
+        String inspection = "/imgs/" + yyyyMMdd;
+        //其他文件
+        String maintenance = "/files/" + yyyyMMdd;
 
         switch (upload_type){
             case "1":
@@ -81,7 +90,12 @@ public class UploadController extends BaseController {
                 out.flush();
                 out.close();
                 //返回上传文件的访问路径   getAbsolutePath()返回文件上传的绝对路径
-                returnData.put("message", fil.getName());
+                if (upload_type.equals("1")) {
+                    returnData.put("message", fileIp + basePath + inspection + "/" + fil.getName());
+                }
+                if (upload_type.equals("2")) {
+                    returnData.put("message", fileIp + basePath + maintenance + "/" + fil.getName());
+                }
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
                 returnData.put("message", "文件上传失败:" + e.getMessage());
@@ -98,7 +112,7 @@ public class UploadController extends BaseController {
         return Result.success(returnData);
     }
 
-    //多文件上传
+    // 多文件上传
     @PostMapping("/file/batchUpload")
     public Result<JSONObject> handleFileUpload(HttpServletRequest request) throws Exception{
         //定义返回客户端json对象
@@ -118,10 +132,11 @@ public class UploadController extends BaseController {
 
         //判断上传文件类型并设置前置路径
         File uploadPath = null;
-        String basePath = "D:\\images\\";                  // win 基础文件上传路径
-        // String basePath = "/data/img";                  // linux 基础文件上传路径
-        String inspection = "/imgs";              //巡检文件夹路径
-        String maintenance = "/file";            //维保文件夹路径
+        // String basePath = "D:\\images\\";                  // win 基础文件上传路径
+        String basePath = "/data/file";                  // linux 基础文件上传路径
+        String yyyyMMdd = DateUtils.dateToStr(new Date(), "yyyyMMdd");
+        String inspection = "/imgs/" + yyyyMMdd;              // 图片
+        String maintenance = "/files/ + yyyyMMdd";            // 文件
 
         switch (upload_type){
             case "1":
@@ -155,22 +170,22 @@ public class UploadController extends BaseController {
                 //每成功上传一个文件,将上传文件名作为key,服务器保存路径作为value存入returnfileMap中
                 switch (upload_type){
                     case "1":
-                        returnfileMap.put(file.getOriginalFilename(),inspection + "/" + fil.getName());
+                        returnfileMap.put(file.getOriginalFilename(), fileIp + basePath + inspection + "/" +  fil.getName());
                         break;
                     case "2":
-                        returnfileMap.put(file.getOriginalFilename(),maintenance+ "/" + fil.getName());
+                        returnfileMap.put(file.getOriginalFilename(), fileIp + basePath + maintenance + "/" + fil.getName());
                         break;
                 }
             } catch (Exception e) {
                 stream = null;
                 //保存上传失败的文件信息,将上传文件名作为key,value值为"fail",存入returnfileMap中
                 returnfileMap.put(file.getOriginalFilename(), "fail");
-            }finally {
+            } finally {
                 //关闭处理流
                 if(stream!=null){stream.close();}
             }
         }
-        //返回returnfileMap集合到客户端
+        // 返回returnfileMap集合到客户端
         returnData.put("message",returnfileMap);
         return Result.success(returnData);
     }

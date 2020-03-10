@@ -48,20 +48,6 @@ public class MenuController {
         try {
             LoginAppUser loginAppUser = AppUserUtil.getLoginUser();
 
-
-            // 该代码无用, 仅为前端使用
-            if (StringUtils.isNoneBlank(type)) {
-                if (type.equals("0")) {
-                    loginAppUser.setRoleId(3l);
-                }
-                if (type.equals("1")) {
-                    loginAppUser.setRoleId(2l);
-                }
-                if (type.equals("2")) {
-                    loginAppUser.setRoleId(1l);
-                }
-            }
-
             if (null == loginAppUser) {
                 return Result.error("用户未登陆");
             }

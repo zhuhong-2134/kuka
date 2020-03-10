@@ -6,6 +6,8 @@ import com.camelot.kuka.model.enums.backend.IndustryTypeEnum;
 import com.camelot.kuka.model.enums.backend.SkilledAppEnum;
 import com.camelot.kuka.model.enums.backend.SuppliePageEnum;
 import com.camelot.kuka.model.enums.home.HomeQueryEnum;
+import com.camelot.kuka.model.enums.home.IndustryTypeALLEnum;
+import com.camelot.kuka.model.enums.home.SkilledAppALLEnum;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -37,14 +39,14 @@ public class HomeSupplierPageReq implements Serializable {
 	/**
 	 * 行业
 	 */
-	private IndustryTypeEnum industry;
-	private Integer industryCode;
+	private IndustryTypeALLEnum industry;
+	private String industryCode;
 
 	/**
 	 * 应用
 	 */
-	private SkilledAppEnum appType;
-	private Integer appTypeCode;
+	private SkilledAppALLEnum appType;
+	private String appTypeCode;
 
 	/**
 	 * 省编码

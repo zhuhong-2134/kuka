@@ -1,7 +1,7 @@
 package com.camelot.kuka.user.service.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.camelot.kuka.model.user.menu.resp.MenuTreeResp;
+import com.camelot.kuka.model.common.Result;
 import com.camelot.kuka.model.user.resp.AddressTreeResp;
 import com.camelot.kuka.user.dao.AddressDao;
 import com.camelot.kuka.user.model.Address;
@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service("addressService")
@@ -18,6 +20,7 @@ public class AddressServiceImpl implements AddressService {
 
     @Resource
     private AddressDao addressDao;
+
 
     @Override
     public void queryAddress() {
@@ -33,6 +36,16 @@ public class AddressServiceImpl implements AddressService {
         }
         List<AddressTreeResp> orgTree = getOrgTree(resps, -1L);
         System.out.println(JSON.toJSONString(orgTree));
+    }
+
+    @Override
+    public Result<Map<String, String>> queryAddressMap(List<String> codes) {
+        List<Address> addresses = addressDao.qeuryListByCodes(codes);
+        Map<String, String> map = new HashMap<>();
+        for (Address address : addresses) {
+            map.put(address.getAreacode(), address.getAreaname());
+        }
+        return Result.success(map);
     }
 
 

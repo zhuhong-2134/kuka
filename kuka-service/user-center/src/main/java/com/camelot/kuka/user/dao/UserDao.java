@@ -83,4 +83,14 @@ public interface UserDao {
 	 * @author 谢楠
 	 */
 	User queryLongUser(@Param("userName") String userName);
+
+
+	/***
+	 * <p>Description:[判断用户是否存在]</p>
+	 * Created on 2020/2/4
+	 * @param user
+	 * @return List<User>
+	 * @author 谢楠
+	 */
+	int checkUser(@Param("entity") User user);
 }

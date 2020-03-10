@@ -114,6 +114,13 @@ public class UserServiceImpl implements UserService {
         user.setCreateBy(loginUserName);
         user.setCreateTime(new Date());
         user.setDelState(DeleteEnum.NO);
+
+        // 查看用户是否已经存在
+        int check = userDao.checkUser(user);
+        if (check > 0) {
+            return Result.error("邮箱或手机号以被绑定");
+        }
+
         // 密码加密
         if (StringUtils.isNoneBlank(user.getPassword())) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -155,6 +162,13 @@ public class UserServiceImpl implements UserService {
         user.setCreateBy(loginUserName);
         user.setCreateTime(new Date());
         user.setDelState(DeleteEnum.NO);
+
+        // 查看用户是否已经存在
+        int check = userDao.checkUser(user);
+        if (check > 0) {
+            return Result.error("手机号以被绑定");
+        }
+
         // 密码加密
         if (StringUtils.isNoneBlank(user.getPassword())) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -188,6 +202,13 @@ public class UserServiceImpl implements UserService {
         user.setDelState(DeleteEnum.NO);
         user.setType(UserTypeEnum.VISITORS);
         user.setUserName(req.getUserName());
+
+        // 查看用户是否已经存在
+        int check = userDao.checkUser(user);
+        if (check > 0) {
+            return Result.error("邮箱被绑定");
+        }
+
         // 密码加密
         if (StringUtils.isNoneBlank(user.getPassword())) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));

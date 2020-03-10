@@ -80,10 +80,10 @@
 			<if test ='null != entity.queryName and entity.queryName != ""'>
 				<!-- 0 全部 1 手机号 2 姓名 3 ID -->
 				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 1'>
-					and phone = #{entity.queryName}
+					and phone like CONCAT('%',#{entity.queryName},'%')
 				</if>
 				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 2'>
-					and user_name = #{entity.queryName}
+					and user_name like CONCAT('%',#{entity.queryName},'%')
 				</if>
 				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 3'>
 					and id = #{entity.queryName}
@@ -91,8 +91,8 @@
 				<!-- 综合查询 -->
 				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 0'>
 					and (
-						phone = #{entity.queryName}
-						or user_name = #{entity.queryName}
+						phone like CONCAT('%',#{entity.queryName},'%')
+						or user_name like CONCAT('%',#{entity.queryName},'%')
 						or id = #{entity.queryName}
 					)
 				</if>
@@ -334,7 +334,35 @@
 		FROM
 			t_user
 		WHERE
-			phone = #{userName}
-			or mail = #{userName}
+			del_state = 0
+			and (
+				phone = #{userName}
+			or
+				mail = #{userName}
+			)
+
+	</select>
+
+	<select id="checkUser" resultType="java.lang.Integer">
+		SELECT
+			count(*)
+		FROM
+			t_user
+		<where>
+			<if test ='null != entity.delState'>
+				del_state = #{entity.delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}
+			</if>
+			AND (
+				<if test ='null != entity.mail'>
+					mail = #{entity.mail}
+				</if>
+				<if test ='null != entity.phone and null != entity.mail'>
+					or phone = #{entity.phone}
+				</if>
+				<if test ='null != entity.phone and null == entity.mail'>
+					phone = #{entity.phone}
+				</if>
+			)
+		</where>
 	</select>
 </mapper>

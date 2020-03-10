@@ -5,6 +5,10 @@ import com.camelot.kuka.model.common.Result;
 import com.camelot.kuka.model.user.resp.UserResp;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>Description: [用户信息feign]</p>
@@ -27,4 +31,13 @@ public interface UserClient {
     @PostMapping("/users/queryById")
     Result<UserResp> queryById(CommonReq req);
 
+    /***
+     * <p>Description:[根据地址编码返回名称]</p>
+     * Created on 2020/2/4
+     * @param codes
+     * @return key code value 名称
+     * @author 谢楠
+     */
+    @PostMapping("/address/queryAddressMap")
+    public Result<Map<String, String>> queryAddressMap(@RequestBody List<String> codes);
 }

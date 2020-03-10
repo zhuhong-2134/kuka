@@ -64,17 +64,17 @@
 			<if test ='null != entity.queryName and entity.queryName != ""'>
 				<!--  全部 1 产品名称 2 订单编号-->
 				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 2'>
-					and order_no = #{entity.queryName}
+					and order_no like CONCAT('%',#{entity.queryName},'%')
 				</if>
 				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 1'>
 					and id in
-						(select order_id from t_order_detailed where app_name = #{entity.queryName})
+						(select order_id from t_order_detailed where like CONCAT('%',#{entity.queryName},'%'))
 				</if>
 				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 0'>
 					and (
-						order_no = #{entity.queryName}
+						order_no like CONCAT('%',#{entity.queryName},'%')
 					or id in
-						(select order_id from t_order_detailed where app_name = #{entity.queryName})
+						(select order_id from t_order_detailed  where app_name like CONCAT('%',#{entity.queryName},'%'))
 					)
 				</if>
 			</if>
@@ -102,17 +102,17 @@
 			<if test ='null != entity.queryName and entity.queryName != ""'>
 				<!--  全部 1 产品名称 2 订单编号-->
 				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 2'>
-					and order_no = #{entity.queryName}
+					and order_no like CONCAT('%',#{entity.queryName},'%')
 				</if>
 				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 1'>
 					and id in
-					(select order_id from t_order_detailed where app_name = #{entity.queryName})
+					(select order_id from t_order_detailed where app_name like CONCAT('%',#{entity.queryName},'%'))
 				</if>
 				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 0'>
 					and (
-					order_no = #{entity.queryName}
+					order_no like CONCAT('%',#{entity.queryName},'%')
 					or id in
-					(select order_id from t_order_detailed where app_name = #{entity.queryName})
+					(select order_id from t_order_detailed where app_name like CONCAT('%',#{entity.queryName},'%'))
 					)
 				</if>
 			</if>
@@ -153,17 +153,17 @@
 			<if test ='null != entity.queryName and entity.queryName != ""'>
 				<!--  全部 1 产品名称 2 订单编号-->
 				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 2'>
-					and order_no = #{entity.queryName}
+					and order_no like CONCAT('%',#{entity.queryName},'%')
 				</if>
 				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 1'>
 					and id in
-					(select order_id from t_order_detailed where app_name = #{entity.queryName})
+					(select order_id from t_order_detailed where app_name like CONCAT('%',#{entity.queryName},'%'))
 				</if>
 				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 0'>
 					and (
-					order_no = #{entity.queryName}
+					order_no like CONCAT('%',#{entity.queryName},'%')
 					or id in
-					(select order_id from t_order_detailed where app_name = #{entity.queryName})
+					(select order_id from t_order_detailed where app_name like CONCAT('%',#{entity.queryName},'%'))
 					)
 				</if>
 			</if>

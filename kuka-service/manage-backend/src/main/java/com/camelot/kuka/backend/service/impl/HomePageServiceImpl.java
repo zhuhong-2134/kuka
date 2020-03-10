@@ -8,7 +8,6 @@ import com.camelot.kuka.backend.model.ApplicationImg;
 import com.camelot.kuka.backend.model.Supplier;
 import com.camelot.kuka.backend.service.HomePageService;
 import com.camelot.kuka.common.utils.BeanUtil;
-import com.camelot.kuka.model.backend.application.req.ApplicationReq;
 import com.camelot.kuka.model.backend.application.resp.ApplicationResp;
 import com.camelot.kuka.model.backend.home.req.HomeAppPageReq;
 import com.camelot.kuka.model.backend.home.req.HomeSupplierPageReq;
@@ -17,6 +16,8 @@ import com.camelot.kuka.model.common.Result;
 import com.camelot.kuka.model.enums.DeleteEnum;
 import com.camelot.kuka.model.enums.application.AppStatusEnum;
 import com.camelot.kuka.model.enums.application.AppTypeEnum;
+import com.camelot.kuka.model.enums.home.IndustryTypeALLEnum;
+import com.camelot.kuka.model.enums.home.SkilledAppALLEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -82,10 +83,19 @@ public class HomePageServiceImpl implements HomePageService {
 
     @Override
     public List<Supplier> supplierPageList(HomeSupplierPageReq req) {
+        if (null != req && req.getIndustry() == IndustryTypeALLEnum.ALL) {
+            req.setIndustry(null);
+        }
+        if (null != req && req.getAppType() == SkilledAppALLEnum.ALL) {
+            req.setAppType(null);
+        }
+        req.setIndustryCode(null != req.getIndustry() ? req.getIndustry().toString() : null);
+        req.setAppTypeCode(null != req.getAppType() ? req.getAppType().toString() : null);
         req.setDelState(DeleteEnum.NO);
         req.setQueryTypeCode(null != req.getQueryType() ? req.getQueryType().getCode() : null);
         return supplierDao.homeSupplierPageList(req);
     }
+
 
     /**
      * 获取封面图的第一张

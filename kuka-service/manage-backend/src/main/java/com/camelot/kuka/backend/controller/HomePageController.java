@@ -23,6 +23,8 @@ import com.camelot.kuka.model.enums.backend.PatternTypeEnum;
 import com.camelot.kuka.model.enums.backend.SkilledAppEnum;
 import com.camelot.kuka.model.enums.backend.SupplierTypeEnum;
 import com.camelot.kuka.model.enums.home.HomeQueryEnum;
+import com.camelot.kuka.model.enums.home.IndustryTypeALLEnum;
+import com.camelot.kuka.model.enums.home.SkilledAppALLEnum;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -164,8 +166,8 @@ public class HomePageController extends BaseController {
     public PageResult supplierEnum(HomeAppPageReq req){
         try {
             PageResult page = new PageResult();
-            page.putEnumVal("industryEnum", EnumVal.getEnumList(IndustryTypeEnum.class));
-            page.putEnumVal("appTypeEnum", EnumVal.getEnumList(SkilledAppEnum.class));
+            page.putEnumVal("industryEnum", EnumVal.getEnumList(IndustryTypeALLEnum.class));
+            page.putEnumVal("appTypeEnum", EnumVal.getEnumList(SkilledAppALLEnum.class));
             page.putEnumVal("queryTypeEnum", EnumVal.getEnumList(HomeQueryEnum.class));
             return page;
         } catch (Exception e) {
@@ -189,8 +191,8 @@ public class HomePageController extends BaseController {
             // 返回分页
             List<Supplier> suppliers = homePageService.supplierPageList(req);
             PageResult<List<SupplierResp>> page = getPage(suppliers, SupplierResp.class);
-            page.putEnumVal("industryEnum", EnumVal.getEnumList(IndustryTypeEnum.class));
-            page.putEnumVal("appTypeEnum", EnumVal.getEnumList(SkilledAppEnum.class));
+            page.putEnumVal("industryEnum", EnumVal.getEnumList(IndustryTypeALLEnum.class));
+            page.putEnumVal("appTypeEnum", EnumVal.getEnumList(SkilledAppALLEnum.class));
             page.putEnumVal("queryTypeEnum", EnumVal.getEnumList(HomeQueryEnum.class));
             return page;
         } catch (Exception e) {
@@ -211,8 +213,8 @@ public class HomePageController extends BaseController {
         try {
             Result<SupplierResp> resp = supplierService.querySuppAndAppById(req);
             resp.putEnumVal("typeEnum", EnumVal.getEnumList(SupplierTypeEnum.class));
-            resp.putEnumVal("industryEnum", EnumVal.getEnumList(IndustryTypeEnum.class));
-            resp.putEnumVal("appTypeEnum", EnumVal.getEnumList(SkilledAppEnum.class));
+            resp.putEnumVal("industryEnum", EnumVal.getEnumList(IndustryTypeALLEnum.class));
+            resp.putEnumVal("appTypeEnum", EnumVal.getEnumList(SkilledAppALLEnum.class));
             resp.putEnumVal("patternTypeEnum", EnumVal.getEnumList(PatternTypeEnum.class));
             return resp;
         } catch (Exception e) {

@@ -44,6 +44,9 @@ public class ShopCartController extends BaseController {
     public Result<List<ShopCartResp>> queryList(){
         try {
             String loginUserName = AppUserUtil.getLoginUserName();
+            if (null == loginUserName) {
+                return Result.error("用户未登录");
+            }
             return shopCartService.queryList(loginUserName);
         } catch (Exception e) {
             log.error("\n \"购物车模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "queryList", JSON.toJSONString(null), e);
@@ -62,6 +65,9 @@ public class ShopCartController extends BaseController {
     public Result addShopCart(ShopCartReq req){
         try {
             String loginUserName = AppUserUtil.getLoginUserName();
+            if (null == loginUserName) {
+                return Result.error("用户未登录");
+            }
             return shopCartService.addShopCart(req, loginUserName);
         } catch (Exception e) {
             log.error("\n \"购物车模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "addShopCart", JSON.toJSONString(req), e);
@@ -80,6 +86,9 @@ public class ShopCartController extends BaseController {
     public Result updateShopCart(ShopCartReq req){
         try {
             String loginUserName = AppUserUtil.getLoginUserName();
+            if (null == loginUserName) {
+                return Result.error("用户未登录");
+            }
             return shopCartService.updateShopCart(req, loginUserName);
         } catch (Exception e) {
             log.error("\n \"购物车模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "updateShopCart", JSON.toJSONString(req), e);
@@ -98,6 +107,9 @@ public class ShopCartController extends BaseController {
     public Result delShopCart(CommonReq req){
         try {
             String loginUserName = AppUserUtil.getLoginUserName();
+            if (null == loginUserName) {
+                return Result.error("用户未登录");
+            }
             return shopCartService.delShopCart(req, loginUserName);
         } catch (Exception e) {
             log.error("\n \"购物车模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "delShopCart", JSON.toJSONString(req), e);
@@ -116,6 +128,9 @@ public class ShopCartController extends BaseController {
     public Result queryCount(){
         try {
             String loginUserName = AppUserUtil.getLoginUserName();
+            if (null == loginUserName) {
+                return Result.error("用户未登录");
+            }
             return shopCartService.queryCount(loginUserName);
         } catch (Exception e) {
             log.error("\n \"购物车模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "queryCount", JSON.toJSONString(null), e);

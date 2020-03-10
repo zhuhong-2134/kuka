@@ -46,8 +46,8 @@ public class UserController extends BaseController {
      * 当前登录用户 LoginAppUser
      */
     @GetMapping("/users/current")
-    public LoginAppUser getLoginAppUser() {
-        return AppUserUtil.getLoginAppUser();
+    public Result<LoginAppUser> getLoginAppUser() {
+        return Result.success(AppUserUtil.getLoginAppUser());
     }
 
     @GetMapping(value = "/users-anon/internal", params = "username")
@@ -115,7 +115,7 @@ public class UserController extends BaseController {
         page.putEnumVal("sourceEnum", EnumVal.getEnumList(CreateSourceEnum.class));
         page.putEnumVal("delStateEnum", EnumVal.getEnumList(DeleteEnum.class));
         page.putEnumVal("queryTypeEnum", EnumVal.getEnumList(UserPageEnum.class));
-        page.putEnumVal("statusEnum", EnumVal.getEnumList(UserTypeEnum.class));
+        page.putEnumVal("typeEnum", EnumVal.getEnumList(UserTypeEnum.class));
         page.putEnumVal("statusEnum", EnumVal.getEnumList(UserStatusEnum.class));
         return page;
     }

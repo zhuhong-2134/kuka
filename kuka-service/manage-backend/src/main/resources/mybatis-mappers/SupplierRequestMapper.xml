@@ -64,20 +64,20 @@
 			<if test ='null != entity.queryName and entity.queryName != ""'>
 				<!-- 0 全部 1 用户名 2 ID 3 集成商名称 -->
 				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 1'>
-					and user_name = #{entity.queryName}
+					and user_name like CONCAT('%',#{entity.queryName},'%')
 				</if>
 				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 2'>
 					and id = #{entity.queryName}
 				</if>
 				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 3'>
-					and supplier_name = #{entity.queryName}
+					and supplier_name like CONCAT('%',#{entity.queryName},'%')
 				</if>
 				<!-- 综合查询 -->
 				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 0'>
 					and (
-					user_name = #{entity.queryName}
+					user_name like CONCAT('%',#{entity.queryName},'%')
 					or id = #{entity.queryName}
-					or supplier_name = #{entity.queryName}
+					or supplier_name like CONCAT('%',#{entity.queryName},'%')
 					)
 				</if>
 			</if>

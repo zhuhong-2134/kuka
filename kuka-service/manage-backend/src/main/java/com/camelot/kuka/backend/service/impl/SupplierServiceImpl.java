@@ -24,9 +24,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * <p>Description: [用户信息]</p>
@@ -132,6 +130,8 @@ public class SupplierServiceImpl implements SupplierService {
         supplier.setCreateBy(loginUserName);
         supplier.setCreateTime(new Date());
         supplier.setDelState(DeleteEnum.NO);
+        // 获取省市区线名称
+        setAddressName(supplier);
         try {
             int con = supplierDao.addSupplier(Arrays.asList(supplier));
             if (con == 0) {
@@ -199,6 +199,8 @@ public class SupplierServiceImpl implements SupplierService {
         }
         try {
             Supplier supplier = BeanUtil.copyBean(req, Supplier.class);
+            // 获取省市区线名称
+            setAddressName(supplier);
             // 固定参数
             supplier.setUpdateBy(loginUserName);
             supplier.setUpdateTime(new Date());
@@ -313,4 +315,34 @@ public class SupplierServiceImpl implements SupplierService {
         supplier.setSupplierAddress(stringBuffer.toString());
         return  zong;
     }
+
+    /**
+     * 通过地址编码获取地址名称
+     * @param supplier
+     */
+    private void setAddressName(Supplier supplier) {
+        List<String> codes = new ArrayList<>();
+        if (StringUtils.isNoneBlank(supplier.getProvinceCode())) {
+            codes.add(supplier.getProvinceCode());
+        }
+        if (StringUtils.isNoneBlank(supplier.getCityCode())) {
+            codes.add(supplier.getCityCode());
+        }
+        if (StringUtils.isNoneBlank(supplier.getDistrictCode())) {
+            codes.add(supplier.getDistrictCode());
+        }
+        if (codes.isEmpty()) {
+            return;
+        }
+        Result<Map<String, String>> mapResult = userClient.queryAddressMap(codes);
+        if (!mapResult.isSuccess()) {
+            log.error("/n 通过地址编码转换地址名称失败， 参数：{}", JSON.toJSONString(codes));
+            return;
+        }
+        Map<String, String> map = mapResult.getData();
+        supplier.setProvinceName(map.get(supplier.getProvinceCode()));
+        supplier.setCityName(map.get(supplier.getCityCode()));
+        supplier.setDistrictName(map.get(supplier.getDistrictCode()));
+    }
+
 }

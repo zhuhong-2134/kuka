@@ -31,4 +31,16 @@
 			t_address
 	</select>
 
+	<select id="qeuryListByCodes" resultMap="BaseResultMap">
+		SELECT
+			<include refid="Base_Column_List" />
+		FROM
+			t_address
+		WHERE
+			areacode
+		in
+		<foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
 </mapper>
