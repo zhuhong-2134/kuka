@@ -9,11 +9,17 @@ import com.alipay.api.request.AlipayTradePagePayRequest;
 import com.camelot.kuka.backend.service.OrderService;
 import com.camelot.kuka.common.controller.BaseController;
 import com.camelot.kuka.common.payconfig.AlipayConfig;
+import com.camelot.kuka.model.backend.order.req.OrderReq;
 import com.camelot.kuka.model.backend.order.resp.OrderDetailedResp;
 import com.camelot.kuka.model.backend.order.resp.OrderResp;
 import com.camelot.kuka.model.common.CommonReq;
+import com.camelot.kuka.model.common.Result;
+import com.camelot.kuka.model.enums.order.OrderStatusEnum;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -140,6 +146,14 @@ public class PayController extends BaseController {
                     //付款完成后，支付宝系统发送该交易状态通知
 
                     // 修改订单状态，改为 支付成功，已付款; 同时新增支付流水
+                    OrderReq req = new OrderReq();
+                    req.setOrderNo(out_trade_no);
+                    req.setStatus(OrderStatusEnum.END);
+                    req.setSerialNumber(trade_no);
+                    Result result = orderService.updateOrder(req, "admin");
+                    if (!result.isSuccess()) {
+                        log.info("********************** 支付后修改订单异常 **********************");
+                    }
 
                     log.info("********************** 支付成功(支付宝异步通知) **********************");
                     log.info("* 订单号: {}", out_trade_no);

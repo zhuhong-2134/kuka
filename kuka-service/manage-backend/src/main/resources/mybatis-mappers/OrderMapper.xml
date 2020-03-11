@@ -242,7 +242,14 @@
 				update_by = #{updateBy}
 			</if>
 		</set>
-		WHERE id = #{id}
+		<where>
+			<if test ='null != id'>
+				id = #{id}
+			</if>
+			<if test ='null != orderNo'>
+				and order_no = #{orderNo}
+			</if>
+		</where>
 	</update>
 
 	<select id="queryByIds" resultMap="BaseResultMap">

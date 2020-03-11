@@ -3,7 +3,7 @@ package com.camelot.kuka.backend.controller;
 import com.alibaba.fastjson.JSON;
 import com.camelot.kuka.backend.service.MessageService;
 import com.camelot.kuka.common.controller.BaseController;
-import com.camelot.kuka.model.backend.application.req.AppPageReq;
+import com.camelot.kuka.common.utils.AppUserUtil;
 import com.camelot.kuka.model.backend.message.req.MessageReq;
 import com.camelot.kuka.model.backend.message.resp.MessageResp;
 import com.camelot.kuka.model.common.EnumVal;
@@ -69,6 +69,28 @@ public class MessageController extends BaseController {
             return resp;
         } catch (Exception e) {
             log.error("\n 消息模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "findList", JSON.toJSONString(req), e);
+            return PageResult.error("网络异常, 请稍后再试");
+        }
+    }
+
+    /***
+     * <p>Description:[修改]</p>
+     * Created on 2020/1/20
+     * @param req
+     * @return com.camelot.kuka.model.common.PageResult
+     * @author 谢楠
+     */
+    @PostMapping("/message/update")
+    public Result updateMessage(MessageReq req){
+        try {
+            String loginUserName = AppUserUtil.getLoginUserName();
+            if (null == loginUserName) {
+                return Result.error("用户未登录");
+            }
+            Result resp  = messageService.updateMessage(req, loginUserName);
+            return resp;
+        } catch (Exception e) {
+            log.error("\n 消息模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "updateMessage", JSON.toJSONString(req), e);
             return PageResult.error("网络异常, 请稍后再试");
         }
     }

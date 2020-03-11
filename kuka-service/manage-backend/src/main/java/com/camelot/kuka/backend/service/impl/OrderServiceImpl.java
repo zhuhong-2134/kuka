@@ -26,6 +26,7 @@ import com.camelot.kuka.model.enums.order.OrderStatusEnum;
 import com.camelot.kuka.model.shopcart.req.ShopCartReq;
 import com.camelot.kuka.model.user.LoginAppUser;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -133,7 +134,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Result updateOrder(OrderReq req, String loginUserName) {
-        if (null == req || null == req.getId()) {
+        if (null == req || null == req.getId() || StringUtils.isBlank(req.getOrderNo())) {
             return Result.error("参数错误");
         }
         Order order = BeanUtil.copyBean(req, Order.class);

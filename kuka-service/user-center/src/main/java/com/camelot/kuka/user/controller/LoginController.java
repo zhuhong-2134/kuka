@@ -81,7 +81,7 @@ public class LoginController extends BaseController {
         // 生成的验证码和验证码图片
         StringBuffer code = (StringBuffer) codeMap.get("code");
 
-        redisStringUtils.set("login:code:" + uuid, code.toString(), 60 * 3);
+        redisStringUtils.set("login:code:" + uuid, code.toString(), 60 * 10);
 
         // 禁止图像缓存。
         resp.setHeader("Pragma", "no-cache");

@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -34,5 +35,20 @@ public class MessageServiceImpl implements MessageService {
         Message qeru = BeanUtil.copyBean(req, Message.class);
         List<Message> list = messageDao.findList(qeru);
         return Result.success(BeanUtil.copyBeanList(list, MessageResp.class));
+    }
+
+    @Override
+    public Result updateMessage(MessageReq req, String loginUserName) {
+        if (null == req || null == req.getId()) {
+            return Result.error("主键不能为空");
+        }
+        Message message = BeanUtil.copyBean(req, Message.class);
+        message.setUpdateBy(loginUserName);
+        message.setCreateTime(new Date());
+        int con = messageDao.update(message);
+        if (con == 0) {
+            return Result.error("修改失败");
+        }
+        return Result.success();
     }
 }

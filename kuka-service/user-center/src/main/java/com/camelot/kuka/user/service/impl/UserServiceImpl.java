@@ -11,6 +11,7 @@ import com.camelot.kuka.model.common.MailReq;
 import com.camelot.kuka.model.common.Result;
 import com.camelot.kuka.model.enums.DeleteEnum;
 import com.camelot.kuka.model.enums.PrincipalEnum;
+import com.camelot.kuka.model.enums.user.CreateSourceEnum;
 import com.camelot.kuka.model.enums.user.UserTypeEnum;
 import com.camelot.kuka.model.user.LoginAppUser;
 import com.camelot.kuka.model.user.req.UserPageReq;
@@ -193,6 +194,23 @@ public class UserServiceImpl implements UserService {
         if (StringUtils.isBlank(req.getPassword())) {
             return Result.error("密码不能为空");
         }
+        if (StringUtils.isBlank(req.getUuid())) {
+            return Result.error("uuid不能为空");
+        }
+        if (StringUtils.isBlank(req.getCode())) {
+            return Result.error("验证码不能为空");
+        }
+        // 校验验证码
+        String redisCode = redisStringUtils.get("login:code:" + req.getUuid());
+        if (StringUtils.isBlank(redisCode)) {
+            return Result.error("验证码过期");
+        }
+        if (!req.getCode().toUpperCase().equals(redisCode)) {
+            return Result.error("验证码错误");
+        }
+        if (null == req.getType()) {
+            return Result.error("注册类型不能为空");
+        }
         User user = BeanUtil.copyBean(req, User.class);
         Long id = codeGenerateUtil.generateId(PrincipalEnum.USER_USER);
         user.setId(id);
@@ -200,8 +218,19 @@ public class UserServiceImpl implements UserService {
         user.setCreateBy(req.getUserName());
         user.setCreateTime(new Date());
         user.setDelState(DeleteEnum.NO);
-        user.setType(UserTypeEnum.VISITORS);
+        user.setType(req.getType());
         user.setUserName(req.getUserName());
+        user.setSource(CreateSourceEnum.REGISTER);
+        // 根据来源分配角色
+        if (req.getType() == UserTypeEnum.VISITORS) {
+            user.setRoleId(3L);
+        }
+        if (req.getType() == UserTypeEnum.KUKA) {
+            user.setRoleId(1L);
+        }
+        if (req.getType() == UserTypeEnum.SUPPILER) {
+            user.setRoleId(2L);
+        }
 
         // 查看用户是否已经存在
         int check = userDao.checkUser(user);

@@ -35,4 +35,12 @@ public interface MessageDao {
      */
     int addBatch(@Param("list") List<Message> list);
 
+    /***
+     * <p>Description:[批量新增]</p>
+     * Created on 2020/2/4
+     * @param message
+     * @return int
+     * @author 谢楠
+     */
+    int update(Message message);
 }

@@ -1,6 +1,5 @@
 package com.camelot.kuka.backend.service;
 
-import com.camelot.kuka.model.backend.application.req.AppPageReq;
 import com.camelot.kuka.model.backend.message.req.MessageReq;
 import com.camelot.kuka.model.backend.message.resp.MessageResp;
 import com.camelot.kuka.model.common.Result;
@@ -25,4 +24,14 @@ public interface MessageService {
      * @author 谢楠
      */
     Result<List<MessageResp>> findList(MessageReq req);
+
+    /***
+     * <p>Description:[修改]</p>
+     * Created on 2020/1/20
+     * @param req
+     * @param loginUserName
+     * @return com.camelot.kuka.model.common.PageResult
+     * @author 谢楠
+     */
+    Result updateMessage(MessageReq req, String loginUserName);
 }
