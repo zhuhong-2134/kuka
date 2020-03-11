@@ -593,15 +593,20 @@ public class DateUtils {
 	 *
 	 * @param addDateNum - 增加天数
 	 **/
-	public static Date addDate(Date date, Integer addDateNum) {
+	public static Date addDate(Date date, Integer addDateNum,Integer addHourNum) {
 		Calendar calendar = new GregorianCalendar();
 		calendar.setTime(date);
 		if (addDateNum == null) {
-			addDateNum = 1;
+			addDateNum = 0;
+		}
+		if(addHourNum == null){
+			addHourNum = 0;
 		}
 		calendar.add(Calendar.DATE, addDateNum);
+		calendar.add(Calendar.HOUR, addHourNum);
 		return calendar.getTime();
 	}
+
 	
 	/**
       * 查询某日期是周几
