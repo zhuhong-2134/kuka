@@ -394,6 +394,9 @@
 		<if test ='null != entity.classType'>
 			and class_type = #{entity.classType, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}
 		</if>
+		<if test ='null != entity.supplierId'>
+			and supplier_id = #{entity.supplierId}
+		</if>
 		<if test ='null != entity.queryName and entity.queryName != ""'>
 
 

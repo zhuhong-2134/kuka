@@ -21,6 +21,7 @@ import com.camelot.kuka.model.common.EnumVal;
 import com.camelot.kuka.model.common.Result;
 import com.camelot.kuka.model.enums.DeleteEnum;
 import com.camelot.kuka.model.enums.PrincipalEnum;
+import com.camelot.kuka.model.enums.application.AppTypeEnum;
 import com.camelot.kuka.model.enums.backend.IndustryTypeEnum;
 import com.camelot.kuka.model.enums.backend.SkilledAppEnum;
 import com.camelot.kuka.model.enums.order.OrderPageEnum;
@@ -66,6 +67,9 @@ public class ApplicationServiceImpl implements ApplicationService {
     @Override
     public List<Application> queryList(AppPageReq req) {
         req.setDelState(DeleteEnum.NO);
+        if (null != req.getClassType() && req.getClassType() == AppTypeEnum.ALL) {
+            req.setClassType(null);
+        }
         req.setQueryTypeCode(null != req.getQueryType() ? req.getQueryType().getCode() : null);
         List<Application> list = applicationDao.queryList(req);
         if (!list.isEmpty()) {
@@ -77,6 +81,9 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Override
     public List<Application> supplierPageList(AppPageReq req) {
+        if (null != req.getClassType() && req.getClassType() == AppTypeEnum.ALL) {
+            req.setClassType(null);
+        }
         // 获取当前用户拥有的集成商
         Long[] supplierIds = supplierService.queryLoginSupplierIds(req.getLoginName());
         req.setSupplierIds(supplierIds);
@@ -94,6 +101,9 @@ public class ApplicationServiceImpl implements ApplicationService {
     @Override
     public List<Application> visitorPageList(AppPageReq req) {
         req.setDelState(DeleteEnum.NO);
+        if (null != req.getClassType() && req.getClassType() == AppTypeEnum.ALL) {
+            req.setClassType(null);
+        }
         req.setQueryTypeCode(null != req.getQueryType() ? req.getQueryType().getCode() : null);
         List<Application> list = applicationDao.visitorPageList(req);
         if (!list.isEmpty()) {
@@ -208,7 +218,7 @@ public class ApplicationServiceImpl implements ApplicationService {
                 List<EnumVal> enumList = EnumVal.getEnumList(SkilledAppEnum.class);
                 for (EnumVal enumVal : enumList) {
                     if (enumVal.getName().equals(code) ) {
-                        appRangeStr += enumVal.getDes() + "、";
+                        appRangeStr += enumVal.getDes() + ",";
                         break;
                     }
                 }
@@ -222,7 +232,7 @@ public class ApplicationServiceImpl implements ApplicationService {
                 List<EnumVal> enumList = EnumVal.getEnumList(IndustryTypeEnum.class);
                 for (EnumVal enumVal : enumList) {
                     if (enumVal.getName().equals(code) ) {
-                        industryStr += enumVal.getDes() + "、";
+                        industryStr += enumVal.getDes() + ",";
                         break;
                     }
                 }

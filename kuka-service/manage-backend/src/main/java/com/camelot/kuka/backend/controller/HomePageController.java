@@ -117,7 +117,7 @@ public class HomePageController extends BaseController {
      * @author 谢楠
      */
     @PostMapping("/home/appPageList")
-    public PageResult<List<ApplicationResp>> appPageList(HomeAppPageReq req){
+    public PageResult<List<ApplicationResp>> appPageList(HomeAppPageReq req) {
         try {
             // 开启分页
             startPage();
@@ -141,7 +141,7 @@ public class HomePageController extends BaseController {
      * @author 谢楠
      */
     @PostMapping("/home/appById")
-    public Result<QyeryUpdateResp> appById(CommonReq req){
+    public Result<QyeryUpdateResp> appById(CommonReq req) {
         try {
             Result<QyeryUpdateResp> resp = applicationService.qyeryUpdateById(req);
             resp.putEnumVal("classTypeEnum", EnumVal.getEnumList(AppTypeEnum.class));

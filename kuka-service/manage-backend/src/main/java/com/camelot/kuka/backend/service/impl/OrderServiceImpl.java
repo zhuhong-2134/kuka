@@ -134,7 +134,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Result updateOrder(OrderReq req, String loginUserName) {
-        if (null == req || null == req.getId() || StringUtils.isBlank(req.getOrderNo())) {
+        if (null == req.getId() && StringUtils.isBlank(req.getOrderNo())) {
             return Result.error("参数错误");
         }
         Order order = BeanUtil.copyBean(req, Order.class);

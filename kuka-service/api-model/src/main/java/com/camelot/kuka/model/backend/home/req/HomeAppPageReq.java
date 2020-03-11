@@ -21,6 +21,12 @@ public class HomeAppPageReq implements Serializable {
 
 
 	private static final long serialVersionUID = 5219194047516952089L;
+
+	/**
+	 * 集成商的ID
+	 */
+	private Long supplierId;
+
 	/**
 	 * 分类
 	 */

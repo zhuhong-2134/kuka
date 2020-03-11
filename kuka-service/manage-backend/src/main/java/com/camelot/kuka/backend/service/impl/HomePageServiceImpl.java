@@ -72,6 +72,9 @@ public class HomePageServiceImpl implements HomePageService {
     public List<Application> appPageList(HomeAppPageReq req) {
         req.setDelState(DeleteEnum.NO);
         req.setAppStatus(AppStatusEnum.YES);
+        if (null != req.getClassType() && req.getClassType() == AppTypeEnum.ALL) {
+            req.setClassType(null);
+        }
         req.setQueryTypeCode(null != req.getQueryType() ? req.getQueryType().getCode() : null);
         List<Application> appList = applicationDao.homePageList(req);
         if (!appList.isEmpty()) {
