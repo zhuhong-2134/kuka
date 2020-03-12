@@ -68,7 +68,7 @@
 				</if>
 				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 1'>
 					and id in
-						(select order_id from t_order_detailed where like CONCAT('%',#{entity.queryName},'%'))
+						(select order_id from t_order_detailed where app_name like CONCAT('%',#{entity.queryName},'%'))
 				</if>
 				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 0'>
 					and (

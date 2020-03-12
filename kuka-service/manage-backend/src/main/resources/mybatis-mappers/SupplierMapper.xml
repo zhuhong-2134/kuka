@@ -75,17 +75,25 @@
 				del_state = #{entity.delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}
 			</if>
 			<if test ='null != entity.queryName and entity.queryName != ""'>
-				<!-- 0 全部 1 供应商  2 id -->
+				<!-- 0 全部 1 手机号  2 集成商名称 3 负责人 4 ID-->
 				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 1'>
-					and supplierl_name like CONCAT('%',#{entity.queryName},'%')
+					and user_phone like CONCAT('%',#{entity.queryName},'%')
 				</if>
 				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 2'>
+					and supplierl_name like CONCAT('%',#{entity.queryName},'%')
+				</if>
+				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 3'>
+					and user_name like CONCAT('%',#{entity.queryName},'%')
+				</if>
+				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 4'>
 					and id = #{entity.queryName}
 				</if>
 				<!-- 综合查询 -->
 				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 0'>
 					and (
-					supplierl_name like CONCAT('%',#{entity.queryName},'%')
+					   user_phone like CONCAT('%',#{entity.queryName},'%')
+					or supplierl_name like CONCAT('%',#{entity.queryName},'%')
+					or user_name like CONCAT('%',#{entity.queryName},'%')
 					or id = #{entity.queryName}
 					)
 				</if>
@@ -103,17 +111,25 @@
 				del_state = #{entity.delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}
 			</if>
 			<if test ='null != entity.queryName and entity.queryName != ""'>
-				<!-- 0 全部 1 供应商  2 id -->
+				<!-- 0 全部 1 手机号  2 集成商名称 3 负责人 4 ID-->
 				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 1'>
-					and supplierl_name like CONCAT('%',#{entity.queryName},'%')
+					and user_phone like CONCAT('%',#{entity.queryName},'%')
 				</if>
 				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 2'>
+					and supplierl_name like CONCAT('%',#{entity.queryName},'%')
+				</if>
+				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 3'>
+					and user_name like CONCAT('%',#{entity.queryName},'%')
+				</if>
+				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 4'>
 					and id = #{entity.queryName}
 				</if>
 				<!-- 综合查询 -->
 				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 0'>
 					and (
-					supplierl_name like CONCAT('%',#{entity.queryName},'%')
+					user_phone like CONCAT('%',#{entity.queryName},'%')
+					or supplierl_name like CONCAT('%',#{entity.queryName},'%')
+					or user_name like CONCAT('%',#{entity.queryName},'%')
 					or id = #{entity.queryName}
 					)
 				</if>
@@ -136,17 +152,25 @@
 				del_state = #{entity.delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}
 			</if>
 			<if test ='null != entity.queryName and entity.queryName != ""'>
-				<!-- 0 全部 1 供应商  2 id -->
+				<!-- 0 全部 1 手机号  2 集成商名称 3 负责人 4 ID-->
 				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 1'>
-					and supplierl_name like CONCAT('%',#{entity.queryName},'%')
+					and user_phone like CONCAT('%',#{entity.queryName},'%')
 				</if>
 				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 2'>
+					and supplierl_name like CONCAT('%',#{entity.queryName},'%')
+				</if>
+				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 3'>
+					and user_name like CONCAT('%',#{entity.queryName},'%')
+				</if>
+				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 4'>
 					and id = #{entity.queryName}
 				</if>
 				<!-- 综合查询 -->
 				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 0'>
 					and (
-					supplierl_name like CONCAT('%',#{entity.queryName},'%')
+					user_phone like CONCAT('%',#{entity.queryName},'%')
+					or supplierl_name like CONCAT('%',#{entity.queryName},'%')
+					or user_name like CONCAT('%',#{entity.queryName},'%')
 					or id = #{entity.queryName}
 					)
 				</if>

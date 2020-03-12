@@ -12,7 +12,8 @@ import com.camelot.kuka.model.enums.BaseEnum;
 public enum PayTypeEnum implements BaseEnum {
 
     WECHAT(0, "微信"),
-    ZIFUBAO(1, "支付宝");
+    ALIPAY(1, "支付宝"),
+    BOC(2, "中国银行");
 
     private Integer code;
     private String description;

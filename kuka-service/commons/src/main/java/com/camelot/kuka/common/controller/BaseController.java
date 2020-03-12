@@ -4,6 +4,7 @@ import com.camelot.kuka.common.page.PageDomain;
 import com.camelot.kuka.common.page.TableSupport;
 import com.camelot.kuka.common.sql.SqlUtil;
 import com.camelot.kuka.common.utils.BeanUtil;
+import com.camelot.kuka.common.utils.StringUtils;
 import com.camelot.kuka.model.common.PageResult;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -56,6 +57,9 @@ public class BaseController {
         if (null != pageNum && null != pageSize)
         {
             String orderBy = SqlUtil.escapeOrderBySql(pageDomain.getOrderBy());
+            if (StringUtils.isBlank(orderBy)) {
+                orderBy = "id desc";
+            }
             PageHelper.startPage(pageNum, pageSize, orderBy);
         }
     }

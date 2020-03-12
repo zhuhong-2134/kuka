@@ -197,13 +197,13 @@ public class ApplicationServiceImpl implements ApplicationService {
 
         // 获取常见问题
         List<ApplicationProblem> applicationProblems = applicationProbleDao.queryListByAppId(app.getId());
-        if (!appList.isEmpty()) {
+        if (!applicationProblems.isEmpty()) {
             List<ApplicationProblemResp> problemResp = BeanUtil.copyBeanList(applicationProblems, ApplicationProblemResp.class);
             resp.setProblemList(problemResp);
         }
 
         // 获取集成商详情
-        if (!appList.isEmpty()) {
+        if (null != resp.getSupplierId()) {
             Supplier query = new Supplier();
             query.setId(resp.getSupplierId());
             Supplier supplier = supplierDao.queryById(query);

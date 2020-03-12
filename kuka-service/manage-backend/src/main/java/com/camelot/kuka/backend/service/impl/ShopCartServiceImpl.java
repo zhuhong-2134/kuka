@@ -9,6 +9,7 @@ import com.camelot.kuka.backend.model.ShopCart;
 import com.camelot.kuka.backend.service.ShopCartService;
 import com.camelot.kuka.common.utils.BeanUtil;
 import com.camelot.kuka.common.utils.CodeGenerateUtil;
+import com.camelot.kuka.common.utils.NumberUtil;
 import com.camelot.kuka.model.common.CommonReq;
 import com.camelot.kuka.model.common.Result;
 import com.camelot.kuka.model.enums.DeleteEnum;
@@ -97,7 +98,7 @@ public class ShopCartServiceImpl implements ShopCartService {
         shopCart.setSupplierId(application.getSupplierId());
         shopCart.setPrice(application.getPrice());
         // 总价
-        shopCart.setSunPrice(application.getPrice() * req.getNum());
+        shopCart.setSunPrice(NumberUtil.format(application.getPrice() * req.getNum()));
         shopCart.setDelState(DeleteEnum.NO);
         shopCart.setCreateBy(loginUserName);
         shopCart.setCreateTime(new Date());

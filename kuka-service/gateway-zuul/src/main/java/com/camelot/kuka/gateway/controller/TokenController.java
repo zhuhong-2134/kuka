@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.util.OAuth2Utils;
+import org.springframework.util.StopWatch;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -50,14 +51,19 @@ public class TokenController {
      */
     @PostMapping("/api/sys/login")
     public Result<Map<String, Object>> login(String userName, String password, String uuid, String code) {
+        //
+        StopWatch sw = new StopWatch("网管登录");
+        sw.start("校验验证码");
         // 校验验证码
         UserReq userReq = new UserReq();
         userReq.setCode(code);
         userReq.setUuid(uuid);
         Result<Boolean> booleanResult = userLoginClient.checkCode(userReq);
+        sw.stop();
         if (!booleanResult.isSuccess()) {
             return Result.error(booleanResult.getMsg());
         }
+        sw.start("校验密码");
         Map<String, String> parameters = new HashMap<>();
         parameters.put(OAuth2Utils.GRANT_TYPE, "password");
         parameters.put(OAuth2Utils.CLIENT_ID, SystemClientInfo.CLIENT_ID);
@@ -75,7 +81,8 @@ public class TokenController {
             return Result.error("账号或密码错误");
         }
         saveLoginLog(userName, "用户名密码登陆");
-
+        sw.stop();
+        log.info(sw.prettyPrint());
         return Result.success(tokenInfo);
     }
 

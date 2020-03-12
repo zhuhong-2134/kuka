@@ -13,6 +13,7 @@ import com.camelot.kuka.backend.service.ShopCartService;
 import com.camelot.kuka.backend.service.SupplierService;
 import com.camelot.kuka.common.utils.BeanUtil;
 import com.camelot.kuka.common.utils.CodeGenerateUtil;
+import com.camelot.kuka.common.utils.NumberUtil;
 import com.camelot.kuka.model.backend.comment.resp.CommentResp;
 import com.camelot.kuka.model.backend.order.req.OrderPageReq;
 import com.camelot.kuka.model.backend.order.req.OrderReq;
@@ -224,7 +225,7 @@ public class OrderServiceImpl implements OrderService {
         for (ShopCart shopCart : shopCartList) {
             sunPrice += null == shopCart.getSunPrice() ? Double.valueOf(0) : shopCart.getSunPrice();
         }
-        order.setSunPrice(sunPrice);
+        order.setSunPrice(NumberUtil.format(sunPrice));
         int con = orderDao.addBatch(Arrays.asList(order));
         if (0 == con) {
             return null;
@@ -284,5 +285,6 @@ public class OrderServiceImpl implements OrderService {
             order.setDetaileList(BeanUtil.copyBeanList(newList, OrderDetailedResp.class));
         }
     }
+
 
 }
