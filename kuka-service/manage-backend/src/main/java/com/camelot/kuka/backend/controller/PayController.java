@@ -146,6 +146,7 @@ public class PayController extends BaseController {
             String boc = "<form name=\"form1\" method=\"post\" action=\"#{action}\"><input type=\"hidden\" name=\"merchantNo\" value=\"#{merchantNo}\"><input type=\"hidden\" name=\"version\" value=\"#{version}\"><input type=\"hidden\" name=\"messageId\" value=\"#{messageId}\"><input type=\"hidden\" name=\"security\" value=\"#{security}\"><input type=\"hidden\" name=\"signature\" value=\"#{signature}\"><input type=\"hidden\" name=\"message\" value=\"#{message}\"><input type=\"submit\" value=\"立即支付\" style=\"display:none\" ></form><script>document.forms[0].submit();</script>";
             // 将参数放置到request对象
             boc = boc.replace("#{merchantNo}", requestMerchantNo).replace("#{version}", requestVersion).replace("#{messageId}", requestMessageId).replace("#{security}", requestSecurity).replace("#{signature}", requestSignature).replace("#{message}", requestMessage).replace("#{action}",action);
+            log.info("中行支付报文：{}", boc);
             return boc;
         } catch (Exception e) {
             e.printStackTrace();
