@@ -71,6 +71,9 @@
 			<if test ='null != entity.source'>
 				and source = #{entity.source, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}
 			</if>
+			<if test ='null != entity.type'>
+				and type = #{entity.type, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}
+			</if>
 			<if test ='null != entity.createTimeSta'>
 				and create_time &gt;= #{entity.createTimeSta}
 			</if>

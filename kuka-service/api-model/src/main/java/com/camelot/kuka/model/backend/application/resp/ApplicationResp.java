@@ -109,6 +109,11 @@ public class ApplicationResp implements Serializable {
     private Long supplierId;
 
     /**
+     * 供应商名称
+     */
+    private String supplierName;
+
+    /**
      * 新增请求联系次数
      */
     private Integer requestCount;

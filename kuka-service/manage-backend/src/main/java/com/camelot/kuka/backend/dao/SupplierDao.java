@@ -109,4 +109,13 @@ public interface SupplierDao {
      * @author 谢楠
      */
     List<Supplier> homeSupplierPageList(@Param("entity")HomeSupplierPageReq req);
+
+    /***
+     * <p>Description:[查询集合]</p>
+     * Created on 2020/2/5
+     * @param req
+     * @return List<Supplier>
+     * @author 谢楠
+     */
+    List<Supplier> findListByIds(@Param("array") Long[] ids);
 }

@@ -12,7 +12,8 @@ import com.camelot.kuka.model.enums.BaseEnum;
 public enum OrderStatusEnum implements BaseEnum {
 
     WAIT(0, "待支付"),
-    END(1, "已完成");
+    END(1, "已完成"),
+    CANCEL(2, "取消");
 
     private Integer code;
     private String description;

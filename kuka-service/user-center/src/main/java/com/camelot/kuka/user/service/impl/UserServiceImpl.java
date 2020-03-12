@@ -82,6 +82,10 @@ public class UserServiceImpl implements UserService {
 
     @Override public List<User> pageList(UserPageReq req) {
         req.setDelState(DeleteEnum.NO);
+        // 这个默认展示的是来访者
+        if (null == req.getType()) {
+            req.setType(UserTypeEnum.VISITORS);
+        }
         req.setQueryTypeCode(null != req.getQueryType() ? req.getQueryType().getCode() : null);
         List<User> list = userDao.findList(req);
         list.forEach(user -> {
@@ -219,7 +223,12 @@ public class UserServiceImpl implements UserService {
         user.setCreateTime(new Date());
         user.setDelState(DeleteEnum.NO);
         user.setType(req.getType());
-        user.setUserName(req.getUserName());
+
+        if (StringUtils.isBlank(req.getUserName())) {
+            user.setUserName(req.getMail());
+        } else {
+            user.setUserName(req.getUserName());
+        }
         user.setSource(CreateSourceEnum.REGISTER);
         // 根据来源分配角色
         if (req.getType() == UserTypeEnum.VISITORS) {

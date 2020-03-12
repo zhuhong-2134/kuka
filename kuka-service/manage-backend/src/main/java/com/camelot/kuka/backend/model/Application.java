@@ -160,4 +160,9 @@ public class Application implements Serializable {
      * 首页展示的条数
      */
     private Integer size;
+
+    /**
+     * 供应商名称
+     */
+    private String supplierName;
 }

@@ -127,7 +127,7 @@ public class ShopCartServiceImpl implements ShopCartService {
         }
         ShopCart shopCart = BeanUtil.copyBean(req, ShopCart.class);
         // 总价
-        shopCart.setSunPrice(application.getPrice() * req.getNum());
+        shopCart.setSunPrice(NumberUtil.format(application.getPrice() * req.getNum()));
         shopCart.setUpdateBy(loginUserName);
         shopCart.setUpdateTime(new Date());
         int con = shopCartDao.update(shopCart);

@@ -11,7 +11,7 @@ import com.camelot.kuka.model.enums.BaseEnum;
  */
 public enum SkilledAppEnum implements BaseEnum {
 
-    ROBOT(0, "安装、置放和..."),
+    ROBOT(0, "安装、置放和"),
     BZHJP(1, "包装和炼配"),
     BHQTHJ(2, "保护气体焊接"),
     BJ(3, "编辑"),

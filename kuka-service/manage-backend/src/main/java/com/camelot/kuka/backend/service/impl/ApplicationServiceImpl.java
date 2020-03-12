@@ -24,7 +24,6 @@ import com.camelot.kuka.model.enums.PrincipalEnum;
 import com.camelot.kuka.model.enums.application.AppTypeEnum;
 import com.camelot.kuka.model.enums.backend.IndustryTypeEnum;
 import com.camelot.kuka.model.enums.backend.SkilledAppEnum;
-import com.camelot.kuka.model.enums.order.OrderPageEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -75,6 +74,8 @@ public class ApplicationServiceImpl implements ApplicationService {
         if (!list.isEmpty()) {
             // 封面图
             setAppImg(list);
+            // 集成商名称
+            setSupplier(list);
         }
         return list;
     }
@@ -94,6 +95,8 @@ public class ApplicationServiceImpl implements ApplicationService {
         if (!list.isEmpty()) {
             // 封面图
             setAppImg(list);
+            // 集成商名称
+            setSupplier(list);
         }
         return list;
     }
@@ -109,6 +112,8 @@ public class ApplicationServiceImpl implements ApplicationService {
         if (!list.isEmpty()) {
             // 封面图
             setAppImg(list);
+            // 集成商名称
+            setSupplier(list);
         }
         return list;
     }
@@ -125,6 +130,36 @@ public class ApplicationServiceImpl implements ApplicationService {
             for (ApplicationImg appImg : appImgs) {
                 if (application.getId() == appImg.getAppId()) {
                     application.setCoverUrl(appImg.getUrl());
+                    break;
+                }
+            }
+        }
+    }
+
+    /**
+     * 获取供应商名称
+     * @param list
+     */
+    private void setSupplier(List<Application> list){
+        // 获取集成商名称
+        List<Long> supplierArray = new ArrayList<>();
+        for (Application application : list) {
+            if (null != application.getSupplierId()) {
+                supplierArray.add(application.getSupplierId());
+            }
+        }
+        if (supplierArray.isEmpty()) {
+            return;
+        }
+        Long[] supplierIds = supplierArray.stream().toArray(Long[]::new);
+        List<Supplier> listByIds = supplierDao.findListByIds(supplierIds);
+        for (Application application : list) {
+            if (null == application.getSupplierId()) {
+                continue;
+            }
+            for (Supplier supplier : listByIds) {
+                if (supplier.getId().compareTo(application.getSupplierId()) == 0) {
+                    application.setSupplierName(supplier.getSupplierlName());
                     break;
                 }
             }
