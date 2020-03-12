@@ -128,12 +128,15 @@ public class PayController extends BaseController {
         body.setCloseTime(Long.parseLong(DateUtils.dateToStr(DateUtils.addDate(new Date(), 0,1), "yyyyMMddHHmmss")));//订单关闭时间
         request.setBody(body);
         String xml = XmlUtils.converToXml(request, "UTF-8");
+        log.info("格式化的xml值：{}", xml);
         String merchantNo = BocPayConfig.merchantNo;//商户编码
         try {
             //对message原文进行加签
             //获取私钥证书
             String path = ClassLoader.getSystemClassLoader().getResource(BocPayConfig.signKeyFile).getPath();
+            log.info("密钥路径：{}", path);
             PKCSTool tool = PKCSTool.getSigner(path,BocPayConfig.signkeyPassword,BocPayConfig.signkeyPassword,"PKCS7");
+            log.info("加密工具：{}", tool.toString());
             //签名
             byte requestPlainTextByte[] = xml.getBytes("UTF-8");
             String requestSignature = tool.p7Sign(requestPlainTextByte);
@@ -149,10 +152,11 @@ public class PayController extends BaseController {
             log.info("中行支付报文：{}", boc);
             return boc;
         } catch (Exception e) {
+            log.info("支付跳转失败:{}", e.getMessage());
             e.printStackTrace();
         }
+        log.info("返回失败：空");
         return null;
-
     }
 
 
