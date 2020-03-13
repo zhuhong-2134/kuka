@@ -133,9 +133,7 @@ public class PayController extends BaseController {
         try {
             //对message原文进行加签
             //获取私钥证书
-            String path = ClassLoader.getSystemClassLoader().getResource(BocPayConfig.signKeyFile).getPath();
-            log.info("密钥路径：{}", path);
-            PKCSTool tool = PKCSTool.getSigner(path,BocPayConfig.signkeyPassword,BocPayConfig.signkeyPassword,"PKCS7");
+            PKCSTool tool = PKCSTool.getSigner(BocPayConfig.signKeyFile,BocPayConfig.signkeyPassword,BocPayConfig.signkeyPassword,"PKCS7");
             log.info("加密工具：{}", tool.toString());
             //签名
             byte requestPlainTextByte[] = xml.getBytes("UTF-8");
@@ -274,8 +272,7 @@ public class PayController extends BaseController {
             //对返回数据进行签名验证
             String plainText = new String(Base64.decode(message), "UTF-8");
             //获取验签根证书，对P7验签使用二级根证书
-            String path = ClassLoader.getSystemClassLoader().getResource(BocPayConfig.verifyCerFile).getPath();
-            InputStream fis4cer = new FileInputStream(path);
+            InputStream fis4cer = new FileInputStream(BocPayConfig.verifyCerFile);
             PKCSTool tool = PKCSTool.getVerifier(fis4cer,null);
             //验证签名,验证失败将抛出异常
             tool.p7Verify(signature, plainText.getBytes("UTF-8"));
