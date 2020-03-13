@@ -29,25 +29,7 @@ public interface OrderService {
      * @return List
      * @author 谢楠
      */
-    List<Order> pageList(OrderPageReq req);
-
-    /***
-     * <p>Description:[集成商后台-分页查询]</p>
-     * Created on 2020/2/5
-     * @param req
-     * @return List
-     * @author 谢楠
-     */
-    List<Order> supplierPageList(OrderPageReq req);
-
-    /***
-     * <p>Description:[访客后台-分页查询]</p>
-     * Created on 2020/2/5
-     * @param req
-     * @return List
-     * @author 谢楠
-     */
-    List<Order> visitorPageList(OrderPageReq req);
+    List<Order> pageList(OrderPageReq req, LoginAppUser loginAppUser);
 
     /***
      * <p>Description:[单条查询查询]</p>

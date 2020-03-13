@@ -88,6 +88,25 @@
 					)
 				</if>
 			</if>
+
+			<!-- 权限查询 -->
+			<if test ='null != entity.supplierIds'>
+				and
+				(
+					create_by = #{entity.loginName}
+				or
+					app_id in
+					(
+					select
+						id from t_application
+					where
+						supplier_id in
+					<foreach collection="entity.supplierIds" index="index" item="item" open="(" separator="," close=")">
+						#{item}
+					</foreach>
+					)
+				)
+			</if>
 		</where>
 	</select>
 

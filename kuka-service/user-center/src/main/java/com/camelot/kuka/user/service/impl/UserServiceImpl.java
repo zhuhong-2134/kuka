@@ -115,6 +115,7 @@ public class UserServiceImpl implements UserService {
 		User user = BeanUtil.copyBean(req, User.class);
         Long id = codeGenerateUtil.generateId(PrincipalEnum.USER_USER);
         user.setId(id);
+        user.setName(user.getUserName());
         // 固定参数
         user.setCreateBy(loginUserName);
         user.setCreateTime(new Date());
@@ -167,6 +168,7 @@ public class UserServiceImpl implements UserService {
         user.setCreateBy(loginUserName);
         user.setCreateTime(new Date());
         user.setDelState(DeleteEnum.NO);
+        user.setName(user.getUserName());
 
         // 查看用户是否已经存在
         int check = userDao.checkUser(user);
@@ -229,6 +231,7 @@ public class UserServiceImpl implements UserService {
         } else {
             user.setUserName(req.getUserName());
         }
+        user.setName(user.getUserName());
         user.setSource(CreateSourceEnum.REGISTER);
         // 根据来源分配角色
         if (req.getType() == UserTypeEnum.VISITORS) {
@@ -419,6 +422,29 @@ public class UserServiceImpl implements UserService {
             return Result.error("修改失败");
         }
         return Result.success();
+    }
+
+    @Override
+    public Result<List<UserResp>> queryByType() {
+        UserPageReq user = new UserPageReq();
+        user.setDelState(DeleteEnum.NO);
+        user.setType(UserTypeEnum.VISITORS);
+        List<User> list = userDao.findList(user);
+        list.forEach(us -> {
+            // 格式化地址
+            StringBuffer stringBuffer = new StringBuffer();
+            if (StringUtils.isNoneBlank(us.getProvinceName())) {
+                stringBuffer.append(us.getProvinceName());
+            }
+            if (StringUtils.isNoneBlank(us.getCityName())) {
+                stringBuffer.append(us.getCityName());
+            }
+            if (StringUtils.isNoneBlank(us.getDistrictName())) {
+                stringBuffer.append(us.getDistrictName());
+            }
+            us.setAddress(stringBuffer.toString());
+        });
+        return Result.success(BeanUtil.copyBeanList(list, UserResp.class));
     }
 
     /**

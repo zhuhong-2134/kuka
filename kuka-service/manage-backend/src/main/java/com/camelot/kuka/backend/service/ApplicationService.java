@@ -8,6 +8,7 @@ import com.camelot.kuka.model.backend.application.req.ApplicationProblemReq;
 import com.camelot.kuka.model.backend.application.resp.QyeryUpdateResp;
 import com.camelot.kuka.model.common.CommonReq;
 import com.camelot.kuka.model.common.Result;
+import com.camelot.kuka.model.user.LoginAppUser;
 
 import java.util.List;
 
@@ -28,25 +29,7 @@ public interface ApplicationService {
      * @return List<Supplier>
      * @author 谢楠
      */
-    List<Application> queryList(AppPageReq req);
-
-    /***
-     * <p>Description:[集成商-分页查询]</p>
-     * Created on 2020/2/5
-     * @param req
-     * @return List<Supplier>
-     * @author 谢楠
-     */
-    List<Application> supplierPageList(AppPageReq req);
-
-    /***
-     * <p>Description:[来访者-分页查询]</p>
-     * Created on 2020/2/5
-     * @param req
-     * @return List<Supplier>
-     * @author 谢楠
-     */
-    List<Application> visitorPageList(AppPageReq req);
+    List<Application> queryList(AppPageReq req, LoginAppUser loginAppUser);
 
     /***
      * <p>Description:[新增产品信息]</p>

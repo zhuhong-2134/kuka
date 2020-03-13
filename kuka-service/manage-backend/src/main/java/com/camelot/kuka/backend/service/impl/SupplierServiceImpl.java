@@ -18,6 +18,9 @@ import com.camelot.kuka.model.common.CommonReq;
 import com.camelot.kuka.model.common.Result;
 import com.camelot.kuka.model.enums.DeleteEnum;
 import com.camelot.kuka.model.enums.PrincipalEnum;
+import com.camelot.kuka.model.enums.user.UserTypeEnum;
+import com.camelot.kuka.model.user.LoginAppUser;
+import com.camelot.kuka.model.user.req.UserReq;
 import com.camelot.kuka.model.user.resp.UserResp;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -48,34 +51,24 @@ public class SupplierServiceImpl implements SupplierService {
     private ApplicationDao applicationDao;
 
     @Override
-    public List<Supplier> pageList(SupplierPageReq req) {
+    public List<Supplier> pageList(SupplierPageReq req, LoginAppUser loginAppUser) {
         req.setDelState(DeleteEnum.NO);
         req.setQueryTypeCode(null != req.getQueryType() ? req.getQueryType().getCode() : null);
-        List<Supplier> list = supplierDao.pageList(req);
-        list.forEach(suppliers -> {
-            JSONObject addressJson = formatAddress(suppliers);
-            suppliers.setAddressJson(addressJson.toJSONString());
-        });
-        return list;
-    }
-
-    @Override
-    public List<Supplier> supplierPageList(SupplierPageReq req) {
-        req.setDelState(DeleteEnum.NO);
-        req.setQueryTypeCode(null != req.getQueryType() ? req.getQueryType().getCode() : null);
-        List<Supplier> list = supplierDao.supplierPageList(req);
-        list.forEach(suppliers -> {
-            JSONObject addressJson = formatAddress(suppliers);
-            suppliers.setAddressJson(addressJson.toJSONString());
-        });
-        return list;
-    }
-
-    @Override
-    public List<Supplier> visitorPageList(SupplierPageReq req) {
-        req.setDelState(DeleteEnum.NO);
-        req.setQueryTypeCode(null != req.getQueryType() ? req.getQueryType().getCode() : null);
-        List<Supplier> list = supplierDao.visitorPageList(req);
+        List<Supplier> list = null;
+        // kuka用户
+        if (loginAppUser.getType() == UserTypeEnum.KUKA) {
+            list = supplierDao.pageList(req);
+        }
+        // 集成商
+        if (loginAppUser.getType() == UserTypeEnum.SUPPILER) {
+            req.setLoginName(loginAppUser.getUserName());
+            list = supplierDao.supplierPageList(req);
+        }
+        // 来访者
+        if (loginAppUser.getType() == UserTypeEnum.VISITORS) {
+            req.setLoginName(loginAppUser.getUserName());
+            list = supplierDao.visitorPageList(req);
+        }
         list.forEach(suppliers -> {
             JSONObject addressJson = formatAddress(suppliers);
             suppliers.setAddressJson(addressJson.toJSONString());
@@ -121,15 +114,15 @@ public class SupplierServiceImpl implements SupplierService {
         // 获取ID
         Long id = codeGenerateUtil.generateId(PrincipalEnum.MANAGE_SUPPLIER);
         supplier.setId(id);
+        supplier.setCreateTime(new Date());
+        supplier.setUpdateBy(loginUserName);
+        supplier.setUpdateTime(new Date());
+        supplier.setDelState(DeleteEnum.NO);
         // 参数处理
         Result result = saveHandle(supplier);
         if (!result.isSuccess()) {
             return result;
         }
-        // 固定参数
-        supplier.setCreateBy(loginUserName);
-        supplier.setCreateTime(new Date());
-        supplier.setDelState(DeleteEnum.NO);
         // 获取省市区线名称
         setAddressName(supplier);
         try {
@@ -151,22 +144,28 @@ public class SupplierServiceImpl implements SupplierService {
      */
     private Result saveHandle(Supplier supplier) {
         // 新增用户信息
-//        if (null == supplier.getUserId()) {
-//             后期如果责任人信息不存在,新增用户,待确认
-//        }
-        if (null == supplier.getUserId() ) {
-            // 临时的
-            return Result.success();
+        if (null == supplier.getUserId()) {
+             return Result.error("责任人ID不能为空");
         }
-        // 获取用户信息
-        CommonReq req = new CommonReq();
-        req.setId(supplier.getId());
-        Result<UserResp> userRespResult = userClient.queryById(req);
+        Result<UserResp> userRespResult = userClient.clientById(supplier.getUserId());
         if (!userRespResult.isSuccess() || null == userRespResult.getData()) {
-            return Result.error("未获取到用户信息");
+            return Result.error("未获取到责任人信息");
         }
+        // 修改用户类型
+        UserReq req = new UserReq();
+        req.setId(supplier.getUserId());
+        req.setUpdateBy(supplier.getUpdateBy());
+        req.setType(UserTypeEnum.SUPPILER);
+        Result result = userClient.clientUpDATE(req);
+        if (!result.isSuccess()) {
+            return Result.error("绑定责任人失败");
+        }
+
         supplier.setUserCreateTime(userRespResult.getData().getCreateTime());
         supplier.setSource(userRespResult.getData().getSource());
+        // 当前集成商创建者属于绑定的责任人
+        supplier.setCreateBy(userRespResult.getData().getUserName());
+
         return Result.success();
     }
 

@@ -49,9 +49,14 @@ public class UserResp implements Serializable {
 	private String photoUrl;
 
 	/**
-	 * 用户姓名
+	 * 用户名
 	 */
 	private String userName;
+
+	/**
+	 * 用户姓名
+	 */
+	private String name;
 
 	/**
 	 * 性别:0:男; 1:女

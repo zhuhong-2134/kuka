@@ -3,6 +3,7 @@ package com.camelot.kuka.backend.controller;
 import com.alibaba.fastjson.JSON;
 import com.camelot.kuka.backend.model.ApplicationRequest;
 import com.camelot.kuka.backend.service.ApplicationRequestService;
+import com.camelot.kuka.backend.service.SupplierService;
 import com.camelot.kuka.common.controller.BaseController;
 import com.camelot.kuka.common.utils.AppUserUtil;
 import com.camelot.kuka.model.backend.applicationrequest.req.AppRequestPageReq;
@@ -16,6 +17,7 @@ import com.camelot.kuka.model.enums.CommunicateEnum;
 import com.camelot.kuka.model.enums.DeleteEnum;
 import com.camelot.kuka.model.enums.application.AppTypeEnum;
 import com.camelot.kuka.model.enums.backend.AppRequestPageEnum;
+import com.camelot.kuka.model.enums.user.UserTypeEnum;
 import com.camelot.kuka.model.enums.user.WhetherEnum;
 import com.camelot.kuka.model.user.LoginAppUser;
 import io.swagger.annotations.Api;
@@ -41,7 +43,8 @@ public class ApplicationRequestController extends BaseController {
 
     @Resource
     private ApplicationRequestService applicationRequestService;
-
+    @Resource
+    private SupplierService supplierService;
 
     /***
      * <p>Description:[枚举查询]</p>
@@ -71,6 +74,19 @@ public class ApplicationRequestController extends BaseController {
     @PostMapping("/apprequest/pageList")
     public PageResult<List<ApplicationRequestResp>> pageList(AppRequestPageReq req){
         try {
+            LoginAppUser loginAppUser = AppUserUtil.getLoginAppUser();
+            if (null == loginAppUser) {
+                return PageResult.error("用户未登陆");
+            }
+            // 集成商
+            if (loginAppUser.getType() == UserTypeEnum.SUPPILER) {
+                // 获取当前用户拥有的集成商
+                req.setSupplierIds(supplierService.queryLoginSupplierIds(loginAppUser.getUserName()));
+            }
+            if (loginAppUser.getType() == UserTypeEnum.SUPPILER
+                    || loginAppUser.getType() == UserTypeEnum.VISITORS ) {
+                req.setLoginName(loginAppUser.getUsername());
+            }
             // 开启分页
             startPage();
             // 返回分页

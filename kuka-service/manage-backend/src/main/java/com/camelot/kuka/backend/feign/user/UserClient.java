@@ -2,10 +2,13 @@ package com.camelot.kuka.backend.feign.user;
 
 import com.camelot.kuka.model.common.CommonReq;
 import com.camelot.kuka.model.common.Result;
+import com.camelot.kuka.model.user.req.UserReq;
 import com.camelot.kuka.model.user.resp.UserResp;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Map;
@@ -22,14 +25,24 @@ import java.util.Map;
 public interface UserClient {
 
     /***
-     * <p>Description:[单条查询]</p>
+     * <p>Description:[通过ID获取用户]</p>
      * Created on 2020/1/20
      * @param req
      * @return com.camelot.kuka.model.common.PageResult
      * @author 谢楠
      */
-    @PostMapping("/users/queryById")
-    Result<UserResp> queryById(CommonReq req);
+    @GetMapping(value = "/users/client/queryById")
+    public Result<UserResp> clientById(@RequestParam("id") Long id);
+
+    /***
+     * <p>Description:[修改用户信息]</p>
+     * Created on 2020/1/20
+     * @param req
+     * @return com.camelot.kuka.model.common.PageResult
+     * @author 谢楠
+     */
+    @PostMapping("/users/client/update")
+    public Result clientUpDATE(@RequestBody UserReq req);
 
     /***
      * <p>Description:[根据地址编码返回名称]</p>

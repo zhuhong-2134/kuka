@@ -24,6 +24,8 @@ import com.camelot.kuka.model.enums.PrincipalEnum;
 import com.camelot.kuka.model.enums.application.AppTypeEnum;
 import com.camelot.kuka.model.enums.backend.IndustryTypeEnum;
 import com.camelot.kuka.model.enums.backend.SkilledAppEnum;
+import com.camelot.kuka.model.enums.user.UserTypeEnum;
+import com.camelot.kuka.model.user.LoginAppUser;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -64,13 +66,27 @@ public class ApplicationServiceImpl implements ApplicationService {
     private SupplierService supplierService;
 
     @Override
-    public List<Application> queryList(AppPageReq req) {
+    public List<Application> queryList(AppPageReq req, LoginAppUser loginAppUser) {
         req.setDelState(DeleteEnum.NO);
         if (null != req.getClassType() && req.getClassType() == AppTypeEnum.ALL) {
             req.setClassType(null);
         }
         req.setQueryTypeCode(null != req.getQueryType() ? req.getQueryType().getCode() : null);
-        List<Application> list = applicationDao.queryList(req);
+        List<Application> list = null;
+        // kuka用户
+        if (loginAppUser.getType() == UserTypeEnum.KUKA) {
+            list = applicationDao.queryList(req);
+        }
+        // 集成商
+        if (loginAppUser.getType() == UserTypeEnum.SUPPILER) {
+            req.setLoginName(loginAppUser.getUserName());
+            list = applicationDao.supplierPageList(req);
+        }
+        // 来访者
+        if (loginAppUser.getType() == UserTypeEnum.VISITORS) {
+            req.setLoginName(loginAppUser.getUserName());
+            list = applicationDao.visitorPageList(req);
+        }
         if (!list.isEmpty()) {
             // 封面图
             setAppImg(list);
@@ -80,43 +96,6 @@ public class ApplicationServiceImpl implements ApplicationService {
         return list;
     }
 
-    @Override
-    public List<Application> supplierPageList(AppPageReq req) {
-        if (null != req.getClassType() && req.getClassType() == AppTypeEnum.ALL) {
-            req.setClassType(null);
-        }
-        // 获取当前用户拥有的集成商
-        Long[] supplierIds = supplierService.queryLoginSupplierIds(req.getLoginName());
-        req.setSupplierIds(supplierIds);
-        // 删除标识
-        req.setDelState(DeleteEnum.NO);
-        req.setQueryTypeCode(null != req.getQueryType() ? req.getQueryType().getCode() : null);
-        List<Application> list = applicationDao.supplierPageList(req);
-        if (!list.isEmpty()) {
-            // 封面图
-            setAppImg(list);
-            // 集成商名称
-            setSupplier(list);
-        }
-        return list;
-    }
-
-    @Override
-    public List<Application> visitorPageList(AppPageReq req) {
-        req.setDelState(DeleteEnum.NO);
-        if (null != req.getClassType() && req.getClassType() == AppTypeEnum.ALL) {
-            req.setClassType(null);
-        }
-        req.setQueryTypeCode(null != req.getQueryType() ? req.getQueryType().getCode() : null);
-        List<Application> list = applicationDao.visitorPageList(req);
-        if (!list.isEmpty()) {
-            // 封面图
-            setAppImg(list);
-            // 集成商名称
-            setSupplier(list);
-        }
-        return list;
-    }
 
     /**
      * 获取封面图的第一张

@@ -22,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -46,13 +47,33 @@ public class UserController extends BaseController {
      * 当前登录用户 LoginAppUser
      */
     @GetMapping("/users/current")
-    public Result<LoginAppUser> getLoginAppUser() {
-        return Result.success(AppUserUtil.getLoginAppUser());
+    public Result<UserResp> getLoginAppUser() {
+        LoginAppUser loginAppUser = AppUserUtil.getLoginAppUser();
+        if (null == loginAppUser) {
+            return Result.error("用户未登录");
+        }
+        CommonReq req = new CommonReq();
+        req.setId(loginAppUser.getId());
+        Result<UserResp> userRespResult = userService.queryById(req);
+        userRespResult.getData().setUserName(userRespResult.getData().getName());
+        return userRespResult;
     }
 
     @GetMapping(value = "/users-anon/internal", params = "username")
     public LoginAppUser findByUsername(String username) {
         return userService.findByUsername(username);
+    }
+
+    @GetMapping(value = "/users/client/queryById", params = "id")
+    public Result<UserResp> clientById(Long id) {
+        CommonReq req = new CommonReq();
+        req.setId(id);
+        return userService.queryById(req);
+    }
+
+    @PostMapping("/users/client/update")
+    public Result clientUpDATE(@RequestBody UserReq req){
+        return userService.updateUser(req, req.getUpdateBy());
     }
 
     /***
@@ -87,6 +108,9 @@ public class UserController extends BaseController {
         startPage();
         // 返回分页
         PageResult<List<UserResp>> page = getPage(userService.pageList(req), UserResp.class);
+        page.getData().forEach(user -> {
+            user.setUserName(user.getName());
+        });
         page.putEnumVal("sexEnum", EnumVal.getEnumList(SexEnum.class));
         page.putEnumVal("sourceEnum", EnumVal.getEnumList(CreateSourceEnum.class));
         page.putEnumVal("delStateEnum", EnumVal.getEnumList(DeleteEnum.class));
@@ -111,6 +135,9 @@ public class UserController extends BaseController {
         req.setType(UserTypeEnum.KUKA);
         // 返回分页
         PageResult<List<UserResp>> page = getPage(userService.kukaPageList(req), UserResp.class);
+        page.getData().forEach(user -> {
+            user.setUserName(user.getName());
+        });
         page.putEnumVal("sexEnum", EnumVal.getEnumList(SexEnum.class));
         page.putEnumVal("sourceEnum", EnumVal.getEnumList(CreateSourceEnum.class));
         page.putEnumVal("delStateEnum", EnumVal.getEnumList(DeleteEnum.class));
@@ -156,7 +183,9 @@ public class UserController extends BaseController {
      */
     @PostMapping("/users/queryById")
     public Result<UserResp> queryById(CommonReq req){
-        return userService.queryById(req);
+        Result<UserResp> userRespResult = userService.queryById(req);
+        userRespResult.getData().setUserName(userRespResult.getData().getName());
+        return userRespResult;
     }
 
     /***
@@ -169,6 +198,7 @@ public class UserController extends BaseController {
     @PostMapping("/users/update")
     public Result updateUser(UserReq req){
         String loginUserName = AppUserUtil.getLoginUserName();
+        req.setName(req.getUserName());
         return userService.updateUser(req, loginUserName);
     }
 
@@ -196,5 +226,20 @@ public class UserController extends BaseController {
     public Result updateStatus(UserReq req){
         String loginUserName = AppUserUtil.getLoginUserName();
         return userService.updateUser(req, loginUserName);
+    }
+
+    /***
+     * <p>Description:[获取来访所有数据]</p>
+     * Created on 2020/1/20
+     * @return com.camelot.kuka.model.common.PageResult
+     * @author 谢楠
+     */
+    @GetMapping("/users/queryByType")
+    public Result<List<UserResp>> queryByType(){
+        Result<List<UserResp>> listResult = userService.queryByType();
+        listResult.getData().forEach(user -> {
+            user.setUserName(user.getName());
+        });
+        return listResult;
     }
 }

@@ -58,6 +58,11 @@ public class UserReq implements Serializable {
 	private String userName;
 
 	/**
+	 * 用户姓名
+	 */
+	private String name;
+
+	/**
 	 * 性别:0:男; 1:女
 	 */
 	private SexEnum sex;

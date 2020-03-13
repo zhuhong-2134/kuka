@@ -9,6 +9,7 @@
 		<result column="password" property="password" />
 		<result column="role_id" property="roleId" />
 		<result column="photo_url" property="photoUrl" />
+		<result column="name" property="name" />
 		<result column="user_name" property="userName" />
 		<result column="sex" property="sex" typeHandler="com.camelot.kuka.common.mybatis.handler.EnumTypeHandler"/>
 		<result column="phone" property="phone" />
@@ -37,6 +38,7 @@
                 password,
                 role_id,
                 photo_url,
+                name,
                 user_name,
                 sex,
                 phone,
@@ -157,6 +159,7 @@
                 password,
                 role_id,
                 photo_url,
+				name,
                 user_name,
                 sex,
                 phone,
@@ -186,6 +189,7 @@
 			#{item.password},
 			#{item.roleId},
 			#{item.photoUrl},
+			#{item.name},
 			#{item.userName},
 			#{item.sex, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
 			#{item.phone},
@@ -225,8 +229,8 @@
 			<if test ='null != photoUrl'>
 				photo_url = #{photoUrl},
 			</if>
-			<if test ='null != userName'>
-				user_name = #{userName},
+			<if test ='null != name'>
+				name = #{name},
 			</if>
 			<if test ='null != sex'>
 				sex = #{sex, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},

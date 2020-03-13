@@ -125,4 +125,13 @@ public interface UserService {
 	 * @author 谢楠
 	 */
     Result passwordByMail(UserReq req);
+
+	/***
+	 * <p>Description:[获取来发展所有数据]</p>
+	 * Created on 2020/1/20
+	 * @return com.camelot.kuka.model.common.PageResult
+	 * @author 谢楠
+	 */
+	Result<List<UserResp>> queryByType();
+
 }

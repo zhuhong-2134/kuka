@@ -119,14 +119,20 @@
 
 			<!-- 权限查询 -->
 			<if test ='null != entity.supplierIds'>
-				and id in
+				and
 				(
-					select order_id
-					from t_order_detailed
-					where supplier_id in
-					<foreach collection="entity.supplierIds" index="index" item="item" open="(" separator="," close=")">
-						#{item}
-					</foreach>
+					create_by = #{entity.loginName}
+				or
+					id in
+					(
+						select
+							order_id from t_order_detailed
+						where
+							supplier_id in
+							<foreach collection="entity.supplierIds" index="index" item="item" open="(" separator="," close=")">
+								#{item}
+							</foreach>
+					)
 				)
 			</if>
 		</where>

@@ -33,4 +33,14 @@ public class AppRequestPageReq implements Serializable {
 	 * 删除标识0:未删除;1已删除
 	 */
 	private DeleteEnum delState;
+	
+	/**
+	 * 登录人拥有的集成商ID
+	 */
+	private Long[] supplierIds;
+
+	/**
+	 * 当前登录人标识
+	 */
+	private String loginName;
 }

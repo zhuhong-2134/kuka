@@ -24,6 +24,7 @@ import com.camelot.kuka.model.common.Result;
 import com.camelot.kuka.model.enums.DeleteEnum;
 import com.camelot.kuka.model.enums.PrincipalEnum;
 import com.camelot.kuka.model.enums.order.OrderStatusEnum;
+import com.camelot.kuka.model.enums.user.UserTypeEnum;
 import com.camelot.kuka.model.shopcart.req.ShopCartReq;
 import com.camelot.kuka.model.user.LoginAppUser;
 import lombok.extern.slf4j.Slf4j;
@@ -65,33 +66,24 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
-    public List<Order> pageList(OrderPageReq req) {
+    public List<Order> pageList(OrderPageReq req, LoginAppUser loginAppUser) {
         req.setDelState(DeleteEnum.NO);
         req.setQueryTypeCode(null != req.getQueryType() ? req.getQueryType().getCode() : null);
-        List<Order> orders = orderDao.pageList(req);
-        // 放入订单明细
-        getOrderDetaileList(orders);
-        return orders;
-    }
-
-    @Override
-    public List<Order> supplierPageList(OrderPageReq req) {
-        // 获取当前用户拥有的集成商
-        Long[] supplierIds = supplierService.queryLoginSupplierIds(req.getLoginName());
-        req.setSupplierIds(supplierIds);
-        req.setDelState(DeleteEnum.NO);
-        req.setQueryTypeCode(null != req.getQueryType() ? req.getQueryType().getCode() : null);
-        List<Order> orders = orderDao.supplierPageList(req);
-        // 放入订单明细
-        getOrderDetaileList(orders);
-        return orders;
-    }
-
-    @Override
-    public List<Order> visitorPageList(OrderPageReq req) {
-        req.setDelState(DeleteEnum.NO);
-        req.setQueryTypeCode(null != req.getQueryType() ? req.getQueryType().getCode() : null);
-        List<Order> orders = orderDao.visitorPageList(req);
+        List<Order> orders = null;
+        // kuka用户
+        if (loginAppUser.getType() == UserTypeEnum.KUKA) {
+            orders = orderDao.pageList(req);
+        }
+        // 集成商
+        if (loginAppUser.getType() == UserTypeEnum.SUPPILER) {
+            req.setLoginName(loginAppUser.getUserName());
+            orders = orderDao.supplierPageList(req);
+        }
+        // 来访者
+        if (loginAppUser.getType() == UserTypeEnum.VISITORS) {
+            req.setLoginName(loginAppUser.getUserName());
+            orders = orderDao.visitorPageList(req);
+        }
         // 放入订单明细
         getOrderDetaileList(orders);
         return orders;
@@ -286,5 +278,13 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
+    /**
+     * 获取用户创建的集成商
+     * @param userName
+     * @return
+     */
+    private Long[] querySupplierIds(String userName) {
+        return supplierService.queryLoginSupplierIds(userName);
+    }
 
 }

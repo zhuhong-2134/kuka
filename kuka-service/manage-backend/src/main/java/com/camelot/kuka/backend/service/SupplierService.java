@@ -6,6 +6,7 @@ import com.camelot.kuka.model.backend.supplier.req.SupplierReq;
 import com.camelot.kuka.model.backend.supplier.resp.SupplierResp;
 import com.camelot.kuka.model.common.CommonReq;
 import com.camelot.kuka.model.common.Result;
+import com.camelot.kuka.model.user.LoginAppUser;
 
 import java.util.List;
 
@@ -26,25 +27,8 @@ public interface SupplierService {
      * @return List
      * @author 谢楠
      */
-    List<Supplier> pageList(SupplierPageReq req);
+    List<Supplier> pageList(SupplierPageReq req, LoginAppUser loginAppUser);
 
-    /***
-     * <p>Description:[集成商-分页查询]</p>
-     * Created on 2020/2/5
-     * @param req
-     * @return List
-     * @author 谢楠
-     */
-    List<Supplier> supplierPageList(SupplierPageReq req);
-
-    /***
-     * <p>Description:[来访者-分页查询]</p>
-     * Created on 2020/2/5
-     * @param req
-     * @return List
-     * @author 谢楠
-     */
-    List<Supplier> visitorPageList(SupplierPageReq req);
 
     /***
      * <p>Description:[列表查询]</p>
