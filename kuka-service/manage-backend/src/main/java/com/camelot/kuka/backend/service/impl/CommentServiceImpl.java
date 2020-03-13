@@ -102,8 +102,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public List<Comment> queryByAppId(Long appId) {
-        Long[] appIds = new Long[]{appId};
-        return commentDao.queryByOrderIds(appIds);
+        return commentDao.queryByAppId(appId);
     }
 
     @Override
