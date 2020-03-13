@@ -13,6 +13,7 @@ import com.camelot.kuka.model.enums.application.AppTypeEnum;
 import com.camelot.kuka.model.enums.backend.MessageStatusEnum;
 import com.camelot.kuka.model.enums.backend.MessageTypeEnum;
 import com.camelot.kuka.model.enums.backend.SkilledAppEnum;
+import com.camelot.kuka.model.user.LoginAppUser;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -63,6 +64,11 @@ public class MessageController extends BaseController {
     @PostMapping("/message/findList")
     public Result<List<MessageResp>> findList(MessageReq req){
         try {
+            LoginAppUser loginAppUser = AppUserUtil.getLoginAppUser();
+            if (null == loginAppUser) {
+                return PageResult.error("用户未登陆");
+            }
+            req.setUserId(loginAppUser.getId());
             Result<List<MessageResp>> resp  = messageService.findList(req);
             resp.putEnumVal("classTypeEnum", EnumVal.getEnumList(AppTypeEnum.class));
             resp.putEnumVal("appRangeEnum", EnumVal.getEnumList(SkilledAppEnum.class));

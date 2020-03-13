@@ -79,14 +79,10 @@ public class SupplierRequestController extends BaseController {
             }
             // 集成商
             if (loginAppUser.getType() == UserTypeEnum.SUPPILER) {
-                // 获取当前用户拥有的集成商
-                req.setLoginName(loginAppUser.getUsername());
                 req.setSupplierIds(supplierService.queryLoginSupplierIds(loginAppUser.getUserName()));
             }
             if (loginAppUser.getType() == UserTypeEnum.VISITORS ) {
                 req.setLoginName(loginAppUser.getUsername());
-                // 来访者没有集成商
-                req.setSupplierIds(new Long[]{-1L});
             }
             // 开启分页
             startPage();

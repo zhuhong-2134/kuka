@@ -1,6 +1,7 @@
 package com.camelot.kuka.model.backend.order.req;
 
 import com.camelot.kuka.model.enums.DeleteEnum;
+import com.camelot.kuka.model.enums.order.OrderBusinessEnum;
 import com.camelot.kuka.model.enums.order.OrderPageEnum;
 import com.camelot.kuka.model.enums.order.OrderStatusEnum;
 import lombok.Data;
@@ -33,6 +34,7 @@ public class OrderPageReq implements Serializable {
 
 	private Integer queryTypeCode;
 
+
 	/**
 	 * 查询值
 	 */
@@ -62,4 +64,9 @@ public class OrderPageReq implements Serializable {
 	 * 登录人拥有的集成商ID
 	 */
 	private Long[] supplierIds;
+
+	/**
+	 * 买卖
+	 */
+	private OrderBusinessEnum business;
 }

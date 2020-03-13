@@ -14,6 +14,7 @@ import com.camelot.kuka.model.common.EnumVal;
 import com.camelot.kuka.model.common.PageResult;
 import com.camelot.kuka.model.common.Result;
 import com.camelot.kuka.model.enums.DeleteEnum;
+import com.camelot.kuka.model.enums.order.OrderBusinessEnum;
 import com.camelot.kuka.model.enums.order.OrderPageEnum;
 import com.camelot.kuka.model.enums.order.OrderStatusEnum;
 import com.camelot.kuka.model.enums.order.PayTypeEnum;
@@ -78,7 +79,7 @@ public class OrderController extends BaseController {
                 return PageResult.error("用户未登陆");
             }
             // 集成商
-            if (loginAppUser.getType() == UserTypeEnum.SUPPILER) {
+            if (loginAppUser.getType() == UserTypeEnum.SUPPILER && req.getBusiness() == OrderBusinessEnum.SELL) {
                 // 获取当前用户拥有的集成商
                 req.setSupplierIds(supplierService.queryLoginSupplierIds(loginAppUser.getUserName()));
             }

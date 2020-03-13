@@ -46,6 +46,11 @@ public class Message implements Serializable {
     private MessageStatusEnum status;
 
     /**
+     * 接受人ID
+     */
+    private Long userId;
+
+    /**
      * 创建时间
      */
     private Date createTime;

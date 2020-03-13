@@ -10,6 +10,7 @@
 		<result column="type" property="type" typeHandler="com.camelot.kuka.common.mybatis.handler.EnumTypeHandler"/>
 		<result column="source_id" property="sourceId" />
 		<result column="status" property="status" typeHandler="com.camelot.kuka.common.mybatis.handler.EnumTypeHandler"/>
+		<result column="user_id" property="userId" />
 		<result column="create_time" property="createTime" />
 		<result column="create_by" property="createBy" />
 		<result column="update_time" property="updateTime" />
@@ -23,6 +24,7 @@
                 type,
                 source_id,
                 status,
+                user_id,
                 create_time,
                 create_by,
                 update_time,
@@ -39,6 +41,9 @@
 		<if test ='null != entity.status'>
 			and status = #{entity.status, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}
 		</if>
+		<if test ='null != entity.userId'>
+			and user_id = #{entity.userId}
+		</if>
 	</select>
 
 	<insert id="addBatch">
@@ -50,6 +55,7 @@
 				type,
 				source_id,
 				status,
+				user_id,
 				create_time,
 				create_by,
 				update_time,
@@ -64,6 +70,7 @@
 				#{item.type, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
 				#{item.sourceId},
 				#{item.status, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
+				#{item.userId},
 				#{item.createTime},
 				#{item.createBy},
 				#{item.updateTime},
@@ -89,6 +96,9 @@
 			</if>
 			<if test ='null != status'>
 				status = #{status, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
+			</if>
+			<if test ='null != userId'>
+				user_id = #{userId},
 			</if>
 			<if test ='null != createTime'>
 				create_time = #{createTime},

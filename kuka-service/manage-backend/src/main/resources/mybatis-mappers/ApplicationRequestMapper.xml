@@ -92,9 +92,6 @@
 			<!-- 权限查询 -->
 			<if test ='null != entity.supplierIds'>
 				and
-				(
-					create_by = #{entity.loginName}
-				or
 					app_id in
 					(
 					select
@@ -105,7 +102,11 @@
 						#{item}
 					</foreach>
 					)
-				)
+			</if>
+
+			<!-- 权限查询 -->
+			<if test ='null != entity.loginName'>
+				and create_by = #{entity.loginName}
 			</if>
 		</where>
 	</select>

@@ -23,6 +23,7 @@ import com.camelot.kuka.model.common.CommonReq;
 import com.camelot.kuka.model.common.Result;
 import com.camelot.kuka.model.enums.DeleteEnum;
 import com.camelot.kuka.model.enums.PrincipalEnum;
+import com.camelot.kuka.model.enums.order.OrderBusinessEnum;
 import com.camelot.kuka.model.enums.order.OrderStatusEnum;
 import com.camelot.kuka.model.enums.user.UserTypeEnum;
 import com.camelot.kuka.model.shopcart.req.ShopCartReq;
@@ -74,13 +75,13 @@ public class OrderServiceImpl implements OrderService {
         if (loginAppUser.getType() == UserTypeEnum.KUKA) {
             orders = orderDao.pageList(req);
         }
-        // 集成商
-        if (loginAppUser.getType() == UserTypeEnum.SUPPILER) {
+        // 集成商且是已卖订单
+        if (loginAppUser.getType() == UserTypeEnum.SUPPILER && req.getBusiness() == OrderBusinessEnum.SELL) {
             req.setLoginName(loginAppUser.getUserName());
             orders = orderDao.supplierPageList(req);
         }
-        // 来访者
-        if (loginAppUser.getType() == UserTypeEnum.VISITORS) {
+        // 来访者或已卖订单
+        if (loginAppUser.getType() == UserTypeEnum.VISITORS || req.getBusiness() == OrderBusinessEnum.BUY) {
             req.setLoginName(loginAppUser.getUserName());
             orders = orderDao.visitorPageList(req);
         }

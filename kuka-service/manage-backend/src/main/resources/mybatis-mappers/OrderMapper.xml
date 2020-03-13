@@ -120,9 +120,6 @@
 			<!-- 权限查询 -->
 			<if test ='null != entity.supplierIds'>
 				and
-				(
-					create_by = #{entity.loginName}
-				or
 					id in
 					(
 						select
@@ -133,7 +130,6 @@
 								#{item}
 							</foreach>
 					)
-				)
 			</if>
 		</where>
 	</select>

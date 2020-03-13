@@ -83,8 +83,7 @@ public class ApplicationRequestController extends BaseController {
                 // 获取当前用户拥有的集成商
                 req.setSupplierIds(supplierService.queryLoginSupplierIds(loginAppUser.getUserName()));
             }
-            if (loginAppUser.getType() == UserTypeEnum.SUPPILER
-                    || loginAppUser.getType() == UserTypeEnum.VISITORS ) {
+            if (loginAppUser.getType() == UserTypeEnum.VISITORS ) {
                 req.setLoginName(loginAppUser.getUsername());
             }
             // 开启分页
