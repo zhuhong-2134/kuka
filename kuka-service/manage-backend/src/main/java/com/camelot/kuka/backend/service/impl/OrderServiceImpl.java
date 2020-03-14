@@ -106,7 +106,7 @@ public class OrderServiceImpl implements OrderService {
         OrderResp orderResp = BeanUtil.copyBean(order, OrderResp.class);
 
         // 放入明细
-        Long[] orderIds = new Long[]{req.getId()};
+        Long[] orderIds = new Long[]{order.getId()};
         List<OrderDetailed> deailList = orderDetailedDao.selectByOrderIds(orderIds);
         orderResp.setDetaileList(BeanUtil.copyList(deailList, OrderDetailedResp.class ));
 
