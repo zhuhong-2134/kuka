@@ -4,14 +4,17 @@ import com.camelot.kuka.backend.dao.MessageDao;
 import com.camelot.kuka.backend.model.Message;
 import com.camelot.kuka.backend.service.MessageService;
 import com.camelot.kuka.common.utils.BeanUtil;
+import com.camelot.kuka.common.utils.CodeGenerateUtil;
 import com.camelot.kuka.model.backend.application.req.AppPageReq;
 import com.camelot.kuka.model.backend.message.req.MessageReq;
 import com.camelot.kuka.model.backend.message.resp.MessageResp;
 import com.camelot.kuka.model.common.Result;
+import com.camelot.kuka.model.enums.PrincipalEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -29,6 +32,8 @@ public class MessageServiceImpl implements MessageService {
 
     @Resource
     private MessageDao messageDao;
+    @Resource
+    private CodeGenerateUtil codeGenerateUtil;
 
     @Override
     public Result<List<MessageResp>> findList(MessageReq req) {
@@ -51,4 +56,20 @@ public class MessageServiceImpl implements MessageService {
         }
         return Result.success();
     }
+
+    @Override
+    public Result addMessage(MessageReq req, String loginUserName) {
+        Message message = BeanUtil.copyBean(req, Message.class);
+        Long id = codeGenerateUtil.generateId(PrincipalEnum.MANAGE_MESSAGE);
+        message.setId(id);
+        message.setCreateBy(loginUserName);
+        message.setCreateTime(new Date());
+        int con = messageDao.addBatch(Arrays.asList(message));
+        if (con == 0) {
+            return Result.error("新增失败");
+        }
+        return Result.success(id);
+    }
+
+
 }

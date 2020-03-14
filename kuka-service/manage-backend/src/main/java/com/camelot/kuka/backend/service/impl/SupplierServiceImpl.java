@@ -70,8 +70,7 @@ public class SupplierServiceImpl implements SupplierService {
             list = supplierDao.visitorPageList(req);
         }
         list.forEach(suppliers -> {
-            JSONObject addressJson = formatAddress(suppliers);
-            suppliers.setAddressJson(addressJson.toJSONString());
+            formatAddress(suppliers);
         });
         return list;
     }
@@ -80,8 +79,7 @@ public class SupplierServiceImpl implements SupplierService {
     public Result<List<SupplierResp>> queryList(SupplierPageReq req) {
         List<Supplier> list = supplierDao.pageList(req);
         list.forEach(suppliers -> {
-            JSONObject addressJson = formatAddress(suppliers);
-            suppliers.setAddressJson(addressJson.toJSONString());
+            formatAddress(suppliers);
         });
         List<SupplierResp> supplierResps = BeanUtil.copyBeanList(list, SupplierResp.class);
         return Result.success(supplierResps);
@@ -178,8 +176,6 @@ public class SupplierServiceImpl implements SupplierService {
         supplier.setDelState(DeleteEnum.NO);
         try {
             Supplier info = supplierDao.queryById(supplier);
-            JSONObject address = formatAddress(info);
-            info.setAddressJson(address.toJSONString());
             if (null == info) {
                 return Result.error("数据获取失败,刷新后重试");
             }
@@ -262,8 +258,6 @@ public class SupplierServiceImpl implements SupplierService {
         if (null == info) {
             return Result.error("数据获取失败,刷新后重试");
         }
-        JSONObject address = formatAddress(info);
-        info.setAddressJson(address.toJSONString());
         SupplierResp resp = BeanUtil.copyBean(info, SupplierResp.class);
 
 
@@ -277,29 +271,27 @@ public class SupplierServiceImpl implements SupplierService {
         return Result.success(resp);
     }
 
+    @Override
+    public Result<SupplierResp> queryByCreateName(String userName) {
+        if (StringUtils.isBlank(userName)) {
+
+        }
+        Supplier req = new Supplier();
+        req.setCreateBy(userName);
+        req.setDelState(DeleteEnum.NO);
+        List<Supplier> list = supplierDao.findList(req);
+        if (list.isEmpty()) {
+            return Result.success();
+        }
+        return Result.success(BeanUtil.copyBean(list.get(0), SupplierResp.class));
+    }
+
     /**
      *  格式化地址信息
      * @param supplier
      * @return
      */
-    private JSONObject formatAddress(Supplier supplier) {
-        // 区
-        JSONObject qu = new JSONObject();
-        qu.put("label", supplier.getDistrictName());
-        qu.put("value", supplier.getDistrictCode());
-        // 市
-        JSONObject shi = new JSONObject();
-        shi.put("label", supplier.getCityName());
-        shi.put("value", supplier.getCityCode());
-        shi.put("children", qu);
-        // 省
-        JSONObject shen = new JSONObject();
-        shen.put("label", supplier.getProvinceName());
-        shen.put("value", supplier.getProvinceCode());
-        shen.put("children", shi);
-        // 总
-        JSONObject zong = new JSONObject();
-        zong.put("options", shen);
+    private void formatAddress(Supplier supplier) {
         // 格式化地址
         StringBuffer stringBuffer = new StringBuffer();
         if (StringUtils.isNoneBlank(supplier.getProvinceName())) {
@@ -312,7 +304,6 @@ public class SupplierServiceImpl implements SupplierService {
             stringBuffer.append(supplier.getDistrictName());
         }
         supplier.setSupplierAddress(stringBuffer.toString());
-        return  zong;
     }
 
     /**

@@ -57,4 +57,13 @@ public interface SupplierRequestService {
      * @author 谢楠
      */
     Result addSupplierequest(CommonReq req, LoginAppUser loginAppUser);
+
+    /***
+     * <p>Description:[新增集成商请求]</p>
+     * Created on 2020/1/20
+     * @param req
+     * @return Result
+     * @author 谢楠
+     */
+    Result sendMail(CommonReq req, LoginAppUser loginAppUser);
 }

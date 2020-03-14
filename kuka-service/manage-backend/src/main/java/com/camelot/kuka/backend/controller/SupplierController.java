@@ -19,6 +19,7 @@ import com.camelot.kuka.model.user.LoginAppUser;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -177,6 +178,23 @@ public class SupplierController extends BaseController {
             return supplierService.delSupplier(req, loginUserName);
         } catch (Exception e) {
             log.error("\n 集成商模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "delSupplier", JSON.toJSONString(req), e);
+            return Result.error("网络异常, 请稍后再试");
+        }
+    }
+
+    /***
+     * <p>Description:[根据创建人获取集成商]</p>
+     * Created on 2020/1/20
+     * @param userName
+     * @return com.camelot.kuka.model.common.Result
+     * @author 谢楠
+     */
+    @GetMapping(value = "/supplier/queryByCreateName", params = "userName")
+    public Result<SupplierResp> queryByCreateName(String userName){
+        try {
+            return supplierService.queryByCreateName(userName);
+        } catch (Exception e) {
+            log.error("\n 集成商模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "queryByCreateName", JSON.toJSONString(userName), e);
             return Result.error("网络异常, 请稍后再试");
         }
     }

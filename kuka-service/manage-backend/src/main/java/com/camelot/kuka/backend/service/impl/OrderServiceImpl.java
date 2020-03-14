@@ -92,12 +92,13 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Result<OrderResp> queryById(CommonReq req) {
-        if (null == req || null == req.getId()) {
+        if (null == req.getId() && StringUtils.isBlank(req.getQueryName())) {
             return Result.error("参数错误");
         }
         Order query = new Order();
         query.setId(req.getId());
         query.setDelState(DeleteEnum.NO);
+        query.setOrderNo(req.getQueryName());
         Order order = orderDao.queryById(query);
         if (null == order) {
             return Result.error("数据获取失败, 刷新后重试");

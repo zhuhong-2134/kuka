@@ -92,4 +92,13 @@ public interface SupplierService {
      * @author 谢楠
      */
     Result<SupplierResp> querySuppAndAppById(CommonReq req);
+
+    /***
+     * <p>Description:[根据创建人获取集成商]</p>
+     * Created on 2020/1/20
+     * @param userName
+     * @return com.camelot.kuka.model.common.Result
+     * @author 谢楠
+     */
+    Result<SupplierResp> queryByCreateName(String userName);
 }

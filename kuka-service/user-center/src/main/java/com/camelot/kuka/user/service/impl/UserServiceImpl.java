@@ -1,11 +1,11 @@
 package com.camelot.kuka.user.service.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.camelot.kuka.common.utils.BeanUtil;
 import com.camelot.kuka.common.utils.CodeGenerateUtil;
 import com.camelot.kuka.common.utils.RandomNumberUtils;
 import com.camelot.kuka.common.utils.RedisStringUtils;
+import com.camelot.kuka.model.backend.supplier.resp.SupplierResp;
 import com.camelot.kuka.model.common.CommonReq;
 import com.camelot.kuka.model.common.MailReq;
 import com.camelot.kuka.model.common.Result;
@@ -20,6 +20,7 @@ import com.camelot.kuka.model.user.resp.UserResp;
 import com.camelot.kuka.user.dao.RoleDao;
 import com.camelot.kuka.user.dao.UserDao;
 import com.camelot.kuka.user.feign.MailMouldClient;
+import com.camelot.kuka.user.feign.MangeBackenCilent;
 import com.camelot.kuka.user.model.Role;
 import com.camelot.kuka.user.model.User;
 import com.camelot.kuka.user.service.UserService;
@@ -57,6 +58,8 @@ public class UserServiceImpl implements UserService {
     private MailMouldClient mailMouldClient;
     @Resource
     private RedisStringUtils redisStringUtils;
+    @Resource
+    private MangeBackenCilent mangeBackenCilent;
 
 	@Override public LoginAppUser findByUsername(String username) {
         User user = userDao.queryLongUser(username);
@@ -69,10 +72,6 @@ public class UserServiceImpl implements UserService {
         req.setDelState(DeleteEnum.NO);
         req.setQueryTypeCode(null != req.getQueryType() ? req.getQueryType().getCode() : null);
         List<User> list = userDao.kukaPageList(req);
-        list.forEach(user -> {
-            JSONObject addressJson = formatAddress(user);
-            user.setAddressJson(addressJson.toJSONString());
-        });
         // 放入角色名称
         setRoleName(list);
         return list;
@@ -88,10 +87,6 @@ public class UserServiceImpl implements UserService {
         }
         req.setQueryTypeCode(null != req.getQueryType() ? req.getQueryType().getCode() : null);
         List<User> list = userDao.findList(req);
-        list.forEach(user -> {
-            JSONObject addressJson = formatAddress(user);
-            user.setAddressJson(addressJson.toJSONString());
-        });
         return list;
 	}
 
@@ -278,9 +273,15 @@ public class UserServiceImpl implements UserService {
             if (null == info) {
                 return Result.error("数据获取失败,刷新后重试");
             }
-            JSONObject address = formatAddress(info);
-            info.setAddressJson(address.toJSONString());
-            return Result.success(BeanUtil.copyBean(info, UserResp.class));
+            UserResp userResp = BeanUtil.copyBean(info, UserResp.class);
+            // 获取当前用户绑定的集成商
+            if (info.getType() == UserTypeEnum.SUPPILER) {
+                Result<SupplierResp> supplierRespResult = mangeBackenCilent.queryByCreateName(info.getUserName());
+                if (supplierRespResult.isSuccess() && null != supplierRespResult.getData()) {
+                    userResp.setSupplierId(supplierRespResult.getData().getId());
+                }
+            }
+            return Result.success(userResp);
         } catch (Exception e) {
             e.printStackTrace();
             log.error("\n 获取用户失败, 参数:{}, \n 错误信息:{}", JSON.toJSON(req), e);
@@ -447,31 +448,35 @@ public class UserServiceImpl implements UserService {
         return Result.success(BeanUtil.copyBeanList(list, UserResp.class));
     }
 
-    /**
-     *  格式化地址信息
-     * @param user
-     * @return
-     */
-    private JSONObject formatAddress(User user) {
-        // 区
-        JSONObject qu = new JSONObject();
-        qu.put("label", user.getDistrictName());
-        qu.put("value", user.getDistrictCode());
-        // 市
-        JSONObject shi = new JSONObject();
-        shi.put("label", user.getCityName());
-        shi.put("value", user.getCityCode());
-        shi.put("children", qu);
-        // 省
-        JSONObject shen = new JSONObject();
-        shen.put("label", user.getProvinceName());
-        shen.put("value", user.getProvinceCode());
-        shen.put("children", shi);
-        // 总
-        JSONObject zong = new JSONObject();
-        zong.put("options", shen);
-        return  zong;
+    @Override
+    public Result<UserResp> queryByUserName(String userName) {
+        if (StringUtils.isBlank(userName)) {
+            return Result.error("用户名不能为空");
+        }
+        User user = new User();
+        user.setUserName(userName);
+        user.setDelState(DeleteEnum.NO);
+        try {
+            User info = userDao.queryById(user);
+            if (null == info) {
+                return Result.error("数据获取失败,刷新后重试");
+            }
+            UserResp userResp = BeanUtil.copyBean(info, UserResp.class);
+            // 获取当前用户绑定的集成商
+            if (info.getType() == UserTypeEnum.SUPPILER) {
+                Result<SupplierResp> supplierRespResult = mangeBackenCilent.queryByCreateName(info.getUserName());
+                if (supplierRespResult.isSuccess() && null != supplierRespResult.getData()) {
+                    userResp.setSupplierId(supplierRespResult.getData().getId());
+                }
+            }
+            return Result.success(userResp);
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("\n 获取用户失败, 参数:{}, \n 错误信息:{}", JSON.toJSON(userName), e);
+        }
+        return Result.error("数据获取失败");
     }
+
 
     /**
      * 放入角色名称

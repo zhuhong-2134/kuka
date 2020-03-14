@@ -165,6 +165,15 @@ public class SupplierRequestController extends BaseController {
      */
     @PostMapping("/supplierequest/sendMail")
     public Result sendMail(CommonReq req){
-        return Result.success();
+        try {
+            LoginAppUser loginAppUser = AppUserUtil.getLoginUser();
+            if (null == loginAppUser) {
+                return Result.error("用户未登录");
+            }
+            return supplierRequestService.sendMail(req, loginAppUser);
+        } catch (Exception e) {
+            log.error("\n 集成商请求模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "addSupplierequest", JSON.toJSONString(req), e);
+            return Result.error("网络异常, 请稍后再试");
+        }
     }
 }

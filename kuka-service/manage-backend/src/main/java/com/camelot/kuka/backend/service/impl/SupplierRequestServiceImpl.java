@@ -1,22 +1,38 @@
 package com.camelot.kuka.backend.service.impl;
 
+import com.camelot.kuka.backend.dao.MessageDao;
+import com.camelot.kuka.backend.dao.SupplierDao;
 import com.camelot.kuka.backend.dao.SupplierRequestDao;
+import com.camelot.kuka.backend.feign.user.UserClient;
+import com.camelot.kuka.backend.model.MailMould;
+import com.camelot.kuka.backend.model.Supplier;
 import com.camelot.kuka.backend.model.SupplierRequest;
+import com.camelot.kuka.backend.service.MailMouldService;
+import com.camelot.kuka.backend.service.MessageService;
 import com.camelot.kuka.backend.service.SupplierRequestService;
 import com.camelot.kuka.backend.service.SupplierService;
 import com.camelot.kuka.common.utils.BeanUtil;
 import com.camelot.kuka.common.utils.CodeGenerateUtil;
+import com.camelot.kuka.model.backend.mailmould.req.MailMouldPageReq;
+import com.camelot.kuka.model.backend.message.req.MessageReq;
 import com.camelot.kuka.model.backend.supplier.resp.SupplierResp;
 import com.camelot.kuka.model.backend.supplierrequest.req.SupplierRequestPageReq;
 import com.camelot.kuka.model.backend.supplierrequest.req.SupplierRequestReq;
 import com.camelot.kuka.model.backend.supplierrequest.resp.SupplierRequestResp;
 import com.camelot.kuka.model.common.CommonReq;
+import com.camelot.kuka.model.common.MailReq;
 import com.camelot.kuka.model.common.Result;
 import com.camelot.kuka.model.enums.CommunicateEnum;
 import com.camelot.kuka.model.enums.DeleteEnum;
 import com.camelot.kuka.model.enums.PrincipalEnum;
+import com.camelot.kuka.model.enums.backend.MessageStatusEnum;
+import com.camelot.kuka.model.enums.backend.MessageTypeEnum;
+import com.camelot.kuka.model.enums.mailmould.MailTypeEnum;
+import com.camelot.kuka.model.enums.user.WhetherEnum;
 import com.camelot.kuka.model.user.LoginAppUser;
+import com.camelot.kuka.model.user.resp.UserResp;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -42,6 +58,14 @@ public class SupplierRequestServiceImpl implements SupplierRequestService {
     private SupplierService supplierService;
     @Resource
     private CodeGenerateUtil codeGenerateUtil;
+    @Resource
+    private MessageService messageService;
+    @Resource
+    private SupplierDao supplierDao;
+    @Resource
+    private MailMouldService mailMouldService;
+    @Resource
+    private UserClient userClient;
 
     @Override
     public List<SupplierRequest> queryList(SupplierRequestPageReq req) {
@@ -124,5 +148,229 @@ public class SupplierRequestServiceImpl implements SupplierRequestService {
             return Result.error("新增失败");
         }
         return Result.success(id);
+    }
+
+    @Override
+    public Result sendMail(CommonReq req, LoginAppUser loginAppUser) {
+        if (null == req.getId()) {
+            return Result.error("id不能为空");
+        }
+        if (null == req.getStatus()) {
+            return Result.error("通过不通过状态不能为空");
+        }
+
+
+        // 获取请求
+        SupplierRequest queryRequest = new SupplierRequest();
+        queryRequest.setId(req.getId());
+        queryRequest.setDelState(DeleteEnum.NO);
+        SupplierRequest supplierRequest = supplierRequestDao.queryInfo(queryRequest);
+        if (null == supplierRequest) {
+            return Result.error("获取数据失败");
+        }
+
+
+        // 获取集成商
+        Supplier query = new Supplier();
+        query.setId(supplierRequest.getSupplierId());
+        query.setDelState(DeleteEnum.NO);
+        Supplier supplier = supplierDao.queryById(query);
+        if (null == supplier) {
+            return Result.error("获取集成商失败");
+        }
+
+
+        // 获取应用魔板
+        List<MailMould> mailMoulds = mailMouldService.pageList(new MailMouldPageReq());
+        if (mailMoulds.isEmpty()) {
+            return Result.error("模板为空");
+        }
+
+        // 获取创建者的用户信息
+        Result<UserResp> userRespResult = userClient.queryByUserName(supplierRequest.getCreateBy());
+        if (!userRespResult.isSuccess()) {
+            return Result.error("获取发送人信息失败");
+        }
+
+        // 不通过模板
+        if (req.getStatus() == WhetherEnum.NO) {
+            return messageNoSend(userRespResult.getData(), supplier, mailMoulds, loginAppUser);
+        }
+        // 通过模板
+        if (req.getStatus() == WhetherEnum.YES) {
+            return messageYesSend(userRespResult.getData(), supplier, mailMoulds, loginAppUser);
+        }
+        return Result.success();
+    }
+
+    /**
+     * 集成商通过模板发送
+     * @param supplier
+     * @param mailMoulds
+     * @return
+     */
+    private Result messageYesSend(UserResp user, Supplier supplier, List<MailMould> mailMoulds, LoginAppUser loginAppUser) {
+        MailMould mould = new MailMould();
+        for (MailMould m : mailMoulds) {
+            if (m.getId().compareTo(3L) == 0) {
+                mould = m;
+            }
+        }
+        // 组装消息内容
+        String message = mould.getMessage();
+        // 集成商名称
+        message = message.replace("{1}", supplier.getSupplierlName());
+        // 集成商名称
+        message = message.replace("{2}", supplier.getSupplierlName());
+        // 总负责人
+        message = message.replace("{3}", supplier.getUserName());
+        // 总负责人联系方式
+        message = message.replace("{4}", supplier.getUserPhone());
+        // 联系邮箱
+        message = message.replace("{5}", supplier.getUserMali());
+        // 集成商详细地址
+        formatAddress(supplier);
+        message = message.replace("{6}", supplier.getSupplierAddress());
+
+
+        // 全发
+        if (mould.getType() == MailTypeEnum.ALL) {
+
+
+            Result resultMessage = saveMessage(user, "集成商请求通过", message, supplier, loginAppUser);
+            if (!resultMessage.isSuccess()) {
+                return Result.error("发送站内消息失败");
+            }
+
+            Result resultSend = staSendMail(user.getMail(), "kuka审核通过", message);
+            if (!resultSend.isSuccess()) {
+                return Result.error("发送邮件失败");
+            }
+        }
+
+
+        // 站内消息
+        if (mould.getType() == MailTypeEnum.MESSAGE) {
+            Result resultMessage = saveMessage(user, "集成商请求通过", message, supplier, loginAppUser);
+            if (!resultMessage.isSuccess()) {
+                return Result.error("发送站内消息失败");
+            }
+        }
+
+        // 邮件
+        if (mould.getType() == MailTypeEnum.MAIL) {
+            Result resultSend = staSendMail(user.getMail(), "kuka审核通过", message);
+            if (!resultSend.isSuccess()) {
+                return Result.error("发送邮件失败");
+            }
+        }
+        return Result.success();
+    }
+
+
+    /**
+     * 集成商不通过模板发送
+     * @param supplier
+     * @param mailMoulds
+     * @return
+     */
+    private Result messageNoSend(UserResp user, Supplier supplier, List<MailMould> mailMoulds, LoginAppUser loginAppUser) {
+        MailMould mould = new MailMould();
+        for (MailMould m : mailMoulds) {
+            if (m.getId().compareTo(4L) == 0) {
+                mould = m;
+            }
+        }
+
+        String message = mould.getMessage();
+        // 集成商名称
+        message = message.replace("{1}", supplier.getSupplierlName());
+
+        // 全发
+        if (mould.getType() == MailTypeEnum.ALL) {
+
+            Result resultMessage = saveMessage(user, "集成商请求不通过", message, supplier, loginAppUser);
+            if (!resultMessage.isSuccess()) {
+                return Result.error("发送站内消息失败");
+            }
+
+            Result resultSend = staSendMail(user.getMail(), "kuka审核不通过", message);
+            if (!resultSend.isSuccess()) {
+                return Result.error("发送邮件失败");
+            }
+        }
+
+        // 站内消息
+        if (mould.getType() == MailTypeEnum.MESSAGE) {
+            Result resultMessage = saveMessage(user, "集成商请求不通过", message, supplier, loginAppUser);
+            if (!resultMessage.isSuccess()) {
+                return Result.error("发送站内消息失败");
+            }
+        }
+
+        // 邮件
+        if (mould.getType() == MailTypeEnum.MAIL) {
+            Result resultSend = staSendMail(user.getMail(), "kuka审核不通过", message);
+            if (!resultSend.isSuccess()) {
+                return Result.error("发送邮件失败");
+            }
+        }
+        return Result.success();
+    }
+
+    /**
+     * 保存站内消息
+     * @param title
+     * @param message
+     * @return
+     */
+    private Result saveMessage(UserResp user, String title, String message ,
+                               Supplier supplier, LoginAppUser loginAppUser) {
+        MessageReq req = new MessageReq();
+        req.setUserId(user.getId());
+        req.setTitle(title);
+        req.setMessage(message);
+        req.setType(MessageTypeEnum.SUPPLIER);
+        req.setSourceId(supplier.getId());
+        req.setStatus(MessageStatusEnum.UNREAD);
+        return messageService.addMessage(req, loginAppUser.getUserName());
+    }
+
+
+    /**
+     * 发送邮件
+     * @param mail
+     * @param title
+     * @param message
+     * @return
+     */
+    private Result staSendMail(String mail, String title, String message) {
+        MailReq req = new MailReq();
+        req.setMail(mail);
+        req.setMessage(message);
+        req.setTitle(title);
+        Result result = mailMouldService.sendMail(req);
+        return result;
+    }
+
+
+    /**
+     *  格式化地址信息
+     * @param supplier
+     * @return
+     */
+    private void formatAddress(Supplier supplier) {
+        // 格式化地址
+        StringBuffer stringBuffer = new StringBuffer();
+        if (StringUtils.isNoneBlank(supplier.getProvinceName())) {
+            stringBuffer.append(supplier.getProvinceName());
+        }
+        if (StringUtils.isNoneBlank(supplier.getCityName())) {
+            stringBuffer.append(supplier.getCityName());
+        }
+        if (StringUtils.isNoneBlank(supplier.getDistrictName())) {
+            stringBuffer.append(supplier.getDistrictName());
+        }
+        supplier.setSupplierAddress(stringBuffer.toString());
     }
 }

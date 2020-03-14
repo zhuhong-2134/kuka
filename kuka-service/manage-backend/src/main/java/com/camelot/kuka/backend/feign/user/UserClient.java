@@ -1,6 +1,5 @@
 package com.camelot.kuka.backend.feign.user;
 
-import com.camelot.kuka.model.common.CommonReq;
 import com.camelot.kuka.model.common.Result;
 import com.camelot.kuka.model.user.req.UserReq;
 import com.camelot.kuka.model.user.resp.UserResp;
@@ -27,22 +26,32 @@ public interface UserClient {
     /***
      * <p>Description:[通过ID获取用户]</p>
      * Created on 2020/1/20
-     * @param req
-     * @return com.camelot.kuka.model.common.PageResult
+     * @param id
+     * @return com.camelot.kuka.model.common.Result
      * @author 谢楠
      */
     @GetMapping(value = "/users/client/queryById")
     public Result<UserResp> clientById(@RequestParam("id") Long id);
 
     /***
+     * <p>Description:[通过ID获取用户]</p>
+     * Created on 2020/1/20
+     * @param userName
+     * @return com.camelot.kuka.model.common.Result
+     * @author 谢楠
+     */
+    @GetMapping(value = "/users/client/queryByUserName")
+    Result<UserResp> queryByUserName(@RequestParam("userName") String userName);
+
+    /***
      * <p>Description:[修改用户信息]</p>
      * Created on 2020/1/20
      * @param req
-     * @return com.camelot.kuka.model.common.PageResult
+     * @return com.camelot.kuka.model.common.Result
      * @author 谢楠
      */
     @PostMapping("/users/client/update")
-    public Result clientUpDATE(@RequestBody UserReq req);
+    Result clientUpDATE(@RequestBody UserReq req);
 
     /***
      * <p>Description:[根据地址编码返回名称]</p>
@@ -52,5 +61,5 @@ public interface UserClient {
      * @author 谢楠
      */
     @PostMapping("/address/queryAddressMap")
-    public Result<Map<String, String>> queryAddressMap(@RequestBody List<String> codes);
+    Result<Map<String, String>> queryAddressMap(@RequestBody List<String> codes);
 }

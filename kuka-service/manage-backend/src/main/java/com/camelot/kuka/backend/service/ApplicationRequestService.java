@@ -55,4 +55,13 @@ public interface ApplicationRequestService {
      * @author 谢楠
      */
     Result addApprequest(CommonReq req, LoginAppUser loginAppUser);
+
+    /***
+     * <p>Description:[发送邮件]</p>
+     * Created on 2020/2/4
+     * @param req
+     * @return com.camelot.kuka.model.common.Result
+     * @author 谢楠
+     */
+    Result sendMail(CommonReq req, LoginAppUser loginAppUser);
 }

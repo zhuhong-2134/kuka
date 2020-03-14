@@ -42,6 +42,8 @@ public enum PrincipalEnum {
 
     MANAGE_MAIL_MOULD("tableIncr:manage:mail:mould","消息模板表"),
 
+    MANAGE_MESSAGE("tableIncr:manage:message:messageId","站内消息表"),
+
 
     ;
 

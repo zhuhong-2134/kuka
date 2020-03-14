@@ -34,4 +34,15 @@ public interface MessageService {
      * @author 谢楠
      */
     Result updateMessage(MessageReq req, String loginUserName);
+
+
+    /***
+     * <p>Description:[修改]</p>
+     * Created on 2020/1/20
+     * @param req
+     * @param loginUserName
+     * @return com.camelot.kuka.model.common.PageResult
+     * @author 谢楠
+     */
+    Result addMessage(MessageReq req, String loginUserName);
 }

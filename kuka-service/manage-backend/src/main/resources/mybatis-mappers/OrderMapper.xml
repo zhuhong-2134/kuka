@@ -186,6 +186,9 @@
 			<if test ='null != entity.id'>
 				id = #{entity.id}
 			</if>
+			<if test ='null != entity.orderNo'>
+				and order_no = #{entity.orderNo}
+			</if>
 			<if test ='null != entity.delState'>
 				and del_state = #{entity.delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}
 			</if>

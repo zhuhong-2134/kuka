@@ -221,6 +221,7 @@ public class ApplicationServiceImpl implements ApplicationService {
             Supplier query = new Supplier();
             query.setId(resp.getSupplierId());
             Supplier supplier = supplierDao.queryById(query);
+            formatAddress(supplier);
             resp.setSupplier(BeanUtil.copyBean(supplier, SupplierResp.class));
         }
 
@@ -480,4 +481,23 @@ public class ApplicationServiceImpl implements ApplicationService {
         return Result.success();
     }
 
+    /**
+     *  格式化地址信息
+     * @param supplier
+     * @return
+     */
+    private void formatAddress(Supplier supplier) {
+        // 格式化地址
+        StringBuffer stringBuffer = new StringBuffer();
+        if (StringUtils.isNoneBlank(supplier.getProvinceName())) {
+            stringBuffer.append(supplier.getProvinceName());
+        }
+        if (StringUtils.isNoneBlank(supplier.getCityName())) {
+            stringBuffer.append(supplier.getCityName());
+        }
+        if (StringUtils.isNoneBlank(supplier.getDistrictName())) {
+            stringBuffer.append(supplier.getDistrictName());
+        }
+        supplier.setSupplierAddress(stringBuffer.toString());
+    }
 }

@@ -164,4 +164,9 @@ public class UserResp implements Serializable {
      * 角色名称
      */
     private String roleName;
+
+	/**
+	 * 集成商ID
+	 */
+    private Long supplierId;
 }
