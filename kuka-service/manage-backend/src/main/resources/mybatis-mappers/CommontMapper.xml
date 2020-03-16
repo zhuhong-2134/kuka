@@ -224,4 +224,25 @@
 			)
 		</foreach>
 	</insert>
+
+	<select id="queryList" resultMap="BaseResultMap">
+		SELECT
+			<include refid="Base_Column_List" />
+		FROM
+			t_comment
+		<where>
+			<if test ='null != entity.delState'>
+				del_state = #{entity.delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}
+			</if>
+			<if test ='null != entity.status'>
+				and status = #{entity.status, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}
+			</if>
+			<if test ='null != entity.commentType'>
+				and comment_type = #{entity.commentType}
+			</if>
+			<if test ='null != entity.appId'>
+				and app_id = #{entity.appId}
+			</if>
+		</where>
+	</select>
 </mapper>

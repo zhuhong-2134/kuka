@@ -1,5 +1,6 @@
 package com.camelot.kuka.model.backend.message.req;
 
+import com.camelot.kuka.model.enums.backend.JumpStatusEnum;
 import com.camelot.kuka.model.enums.backend.MessageStatusEnum;
 import com.camelot.kuka.model.enums.backend.MessageTypeEnum;
 import lombok.Data;
@@ -50,6 +51,11 @@ public class MessageReq implements Serializable {
      * 接受人ID
      */
     private Long userId;
+
+    /**
+     * 跳转状态
+     */
+    private JumpStatusEnum jumpStatus;
 
     /**
      * 创建时间

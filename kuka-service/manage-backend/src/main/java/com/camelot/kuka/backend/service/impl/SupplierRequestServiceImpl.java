@@ -1,6 +1,5 @@
 package com.camelot.kuka.backend.service.impl;
 
-import com.camelot.kuka.backend.dao.MessageDao;
 import com.camelot.kuka.backend.dao.SupplierDao;
 import com.camelot.kuka.backend.dao.SupplierRequestDao;
 import com.camelot.kuka.backend.feign.user.UserClient;
@@ -25,6 +24,7 @@ import com.camelot.kuka.model.common.Result;
 import com.camelot.kuka.model.enums.CommunicateEnum;
 import com.camelot.kuka.model.enums.DeleteEnum;
 import com.camelot.kuka.model.enums.PrincipalEnum;
+import com.camelot.kuka.model.enums.backend.JumpStatusEnum;
 import com.camelot.kuka.model.enums.backend.MessageStatusEnum;
 import com.camelot.kuka.model.enums.backend.MessageTypeEnum;
 import com.camelot.kuka.model.enums.mailmould.MailTypeEnum;
@@ -141,7 +141,7 @@ public class SupplierRequestServiceImpl implements SupplierRequestService {
         request.setUserPhone(loginAppUser.getPhone());
         request.setUserMail(loginAppUser.getMail());
         request.setDelState(DeleteEnum.NO);
-        request.setCreateBy(loginAppUser.getCreateBy());
+        request.setCreateBy(loginAppUser.getUsername());
         request.setCreateTime(new Date());
         int con = supplierRequestDao.addBatch(Arrays.asList(request));
         if (con == 0) {
@@ -237,7 +237,7 @@ public class SupplierRequestServiceImpl implements SupplierRequestService {
         if (mould.getType() == MailTypeEnum.ALL) {
 
 
-            Result resultMessage = saveMessage(user, "集成商请求通过", message, supplier, loginAppUser);
+            Result resultMessage = saveMessage(user, "集成商请求通过", message, supplier, loginAppUser, JumpStatusEnum.YES);
             if (!resultMessage.isSuccess()) {
                 return Result.error("发送站内消息失败");
             }
@@ -251,7 +251,7 @@ public class SupplierRequestServiceImpl implements SupplierRequestService {
 
         // 站内消息
         if (mould.getType() == MailTypeEnum.MESSAGE) {
-            Result resultMessage = saveMessage(user, "集成商请求通过", message, supplier, loginAppUser);
+            Result resultMessage = saveMessage(user, "集成商请求通过", message, supplier, loginAppUser, JumpStatusEnum.YES);
             if (!resultMessage.isSuccess()) {
                 return Result.error("发送站内消息失败");
             }
@@ -289,7 +289,7 @@ public class SupplierRequestServiceImpl implements SupplierRequestService {
         // 全发
         if (mould.getType() == MailTypeEnum.ALL) {
 
-            Result resultMessage = saveMessage(user, "集成商请求不通过", message, supplier, loginAppUser);
+            Result resultMessage = saveMessage(user, "集成商请求不通过", message, supplier, loginAppUser, JumpStatusEnum.NO);
             if (!resultMessage.isSuccess()) {
                 return Result.error("发送站内消息失败");
             }
@@ -302,7 +302,7 @@ public class SupplierRequestServiceImpl implements SupplierRequestService {
 
         // 站内消息
         if (mould.getType() == MailTypeEnum.MESSAGE) {
-            Result resultMessage = saveMessage(user, "集成商请求不通过", message, supplier, loginAppUser);
+            Result resultMessage = saveMessage(user, "集成商请求不通过", message, supplier, loginAppUser, JumpStatusEnum.NO);
             if (!resultMessage.isSuccess()) {
                 return Result.error("发送站内消息失败");
             }
@@ -324,13 +324,15 @@ public class SupplierRequestServiceImpl implements SupplierRequestService {
      * @param message
      * @return
      */
-    private Result saveMessage(UserResp user, String title, String message ,
-                               Supplier supplier, LoginAppUser loginAppUser) {
+    private Result saveMessage(UserResp user, String title, String message,
+                               Supplier supplier, LoginAppUser loginAppUser,
+                               JumpStatusEnum jumpStatus) {
         MessageReq req = new MessageReq();
         req.setUserId(user.getId());
         req.setTitle(title);
         req.setMessage(message);
         req.setType(MessageTypeEnum.SUPPLIER);
+        req.setJumpStatus(jumpStatus);
         req.setSourceId(supplier.getId());
         req.setStatus(MessageStatusEnum.UNREAD);
         return messageService.addMessage(req, loginAppUser.getUserName());

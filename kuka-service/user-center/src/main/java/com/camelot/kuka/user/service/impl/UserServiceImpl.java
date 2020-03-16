@@ -23,6 +23,7 @@ import com.camelot.kuka.user.feign.MailMouldClient;
 import com.camelot.kuka.user.feign.MangeBackenCilent;
 import com.camelot.kuka.user.model.Role;
 import com.camelot.kuka.user.model.User;
+import com.camelot.kuka.user.service.AddressService;
 import com.camelot.kuka.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -30,9 +31,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * <p>Description: [类功能描述]</p>
@@ -60,6 +59,8 @@ public class UserServiceImpl implements UserService {
     private RedisStringUtils redisStringUtils;
     @Resource
     private MangeBackenCilent mangeBackenCilent;
+    @Resource
+    private AddressService addressService;
 
 	@Override public LoginAppUser findByUsername(String username) {
         User user = userDao.queryLongUser(username);
@@ -121,7 +122,8 @@ public class UserServiceImpl implements UserService {
         if (check > 0) {
             return Result.error("邮箱或手机号以被绑定");
         }
-
+        // 获取地址名称
+        setAddressName(user);
         // 密码加密
         if (StringUtils.isNoneBlank(user.getPassword())) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -164,7 +166,8 @@ public class UserServiceImpl implements UserService {
         user.setCreateTime(new Date());
         user.setDelState(DeleteEnum.NO);
         user.setName(user.getUserName());
-
+        // 获取地址名称
+        setAddressName(user);
         // 查看用户是否已经存在
         int check = userDao.checkUser(user);
         if (check > 0) {
@@ -244,7 +247,8 @@ public class UserServiceImpl implements UserService {
         if (check > 0) {
             return Result.error("邮箱被绑定");
         }
-
+        // 获取地址名称
+        setAddressName(user);
         // 密码加密
         if (StringUtils.isNoneBlank(user.getPassword())) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -296,6 +300,8 @@ public class UserServiceImpl implements UserService {
         }
         try {
             User user = BeanUtil.copyBean(req, User.class);
+            // 获取地址名称
+            setAddressName(user);
             // 固定参数
             user.setUpdateBy(loginUserName);
             user.setUpdateTime(new Date());
@@ -498,4 +504,32 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    /**
+     * 通过地址编码获取地址名称
+     * @param user
+     */
+    private void setAddressName(User user) {
+        List<String> codes = new ArrayList<>();
+        if (StringUtils.isNoneBlank(user.getProvinceCode())) {
+            codes.add(user.getProvinceCode());
+        }
+        if (StringUtils.isNoneBlank(user.getCityCode())) {
+            codes.add(user.getCityCode());
+        }
+        if (StringUtils.isNoneBlank(user.getDistrictCode())) {
+            codes.add(user.getDistrictCode());
+        }
+        if (codes.isEmpty()) {
+            return;
+        }
+        Result<Map<String, String>> mapResult = addressService.queryAddressMap(codes);
+        if (!mapResult.isSuccess()) {
+            log.error("/n 通过地址编码转换地址名称失败， 参数：{}", JSON.toJSONString(codes));
+            return;
+        }
+        Map<String, String> map = mapResult.getData();
+        user.setProvinceName(map.get(user.getProvinceCode()));
+        user.setCityName(map.get(user.getCityCode()));
+        user.setDistrictName(map.get(user.getDistrictCode()));
+    }
 }

@@ -22,6 +22,7 @@ import com.camelot.kuka.model.common.Result;
 import com.camelot.kuka.model.enums.CommunicateEnum;
 import com.camelot.kuka.model.enums.DeleteEnum;
 import com.camelot.kuka.model.enums.PrincipalEnum;
+import com.camelot.kuka.model.enums.backend.JumpStatusEnum;
 import com.camelot.kuka.model.enums.backend.MessageStatusEnum;
 import com.camelot.kuka.model.enums.backend.MessageTypeEnum;
 import com.camelot.kuka.model.enums.mailmould.MailTypeEnum;
@@ -145,7 +146,7 @@ public class ApplicationRequestServiceImpl implements ApplicationRequestService 
         request.setUserPhone(loginAppUser.getPhone());
         request.setUserMail(loginAppUser.getMail());
         request.setDelState(DeleteEnum.NO);
-        request.setCreateBy(loginAppUser.getCreateBy());
+        request.setCreateBy(loginAppUser.getUsername());
         request.setCreateTime(new Date());
         int con = applicationRequestDao.addBatch(Arrays.asList(request));
         if (con == 0) {
@@ -240,7 +241,7 @@ public class ApplicationRequestServiceImpl implements ApplicationRequestService 
         if (mould.getType() == MailTypeEnum.ALL) {
 
 
-            Result resultMessage = saveMessage(user, "应用请求通过", message, app.getId(), loginAppUser);
+            Result resultMessage = saveMessage(user, "应用请求通过", message, app.getId(), loginAppUser, JumpStatusEnum.YES);
             if (!resultMessage.isSuccess()) {
                 return Result.error("发送站内消息失败");
             }
@@ -254,7 +255,7 @@ public class ApplicationRequestServiceImpl implements ApplicationRequestService 
 
         // 站内消息
         if (mould.getType() == MailTypeEnum.MESSAGE) {
-            Result resultMessage = saveMessage(user, "应用请求通过", message, app.getId(), loginAppUser);
+            Result resultMessage = saveMessage(user, "应用请求通过", message, app.getId(), loginAppUser, JumpStatusEnum.YES);
             if (!resultMessage.isSuccess()) {
                 return Result.error("发送站内消息失败");
             }
@@ -294,7 +295,7 @@ public class ApplicationRequestServiceImpl implements ApplicationRequestService 
         if (mould.getType() == MailTypeEnum.ALL) {
 
 
-            Result resultMessage = saveMessage(user, "应用请求不通过", message, app.getId(), loginAppUser);
+            Result resultMessage = saveMessage(user, "应用请求不通过", message, app.getId(), loginAppUser, JumpStatusEnum.NO);
             if (!resultMessage.isSuccess()) {
                 return Result.error("发送站内消息失败");
             }
@@ -308,7 +309,7 @@ public class ApplicationRequestServiceImpl implements ApplicationRequestService 
 
         // 站内消息
         if (mould.getType() == MailTypeEnum.MESSAGE) {
-            Result resultMessage = saveMessage(user, "应用请求通过", message, app.getId(), loginAppUser);
+            Result resultMessage = saveMessage(user, "应用请求通过", message, app.getId(), loginAppUser, JumpStatusEnum.NO);
             if (!resultMessage.isSuccess()) {
                 return Result.error("发送站内消息失败");
             }
@@ -332,12 +333,13 @@ public class ApplicationRequestServiceImpl implements ApplicationRequestService 
      * @return
      */
     private Result saveMessage(UserResp user, String title, String message ,
-                               Long appId, LoginAppUser loginAppUser) {
+                               Long appId, LoginAppUser loginAppUser, JumpStatusEnum jumpStatus) {
         MessageReq req = new MessageReq();
         req.setUserId(user.getId());
         req.setTitle(title);
         req.setMessage(message);
         req.setType(MessageTypeEnum.APP);
+        req.setJumpStatus(jumpStatus);
         req.setSourceId(appId);
         req.setStatus(MessageStatusEnum.UNREAD);
         return messageService.addMessage(req, loginAppUser.getUserName());

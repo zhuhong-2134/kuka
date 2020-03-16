@@ -24,6 +24,7 @@ import com.camelot.kuka.model.enums.PrincipalEnum;
 import com.camelot.kuka.model.enums.application.AppTypeEnum;
 import com.camelot.kuka.model.enums.backend.IndustryTypeEnum;
 import com.camelot.kuka.model.enums.backend.SkilledAppEnum;
+import com.camelot.kuka.model.enums.comment.CommentStatusEnum;
 import com.camelot.kuka.model.enums.user.UserTypeEnum;
 import com.camelot.kuka.model.user.LoginAppUser;
 import lombok.extern.slf4j.Slf4j;
@@ -57,7 +58,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     @Resource
     private ApplicationCurrencyDao applicationCurrencyDao;
     @Resource
-    private CommentService commentService;
+    private CommentDao commentDao;
     @Resource
     private ApplicationProbleDao applicationProbleDao;
     @Resource
@@ -192,9 +193,14 @@ public class ApplicationServiceImpl implements ApplicationService {
 
 
         // 获取评论信息
-        List<Comment> comments = commentService.queryByAppId(app.getId());
+        Comment reqCom = new Comment();
+        reqCom.setAppId(app.getId());
+        reqCom.setDelState(DeleteEnum.NO);
+        reqCom.setStatus(CommentStatusEnum.YES);
+        List<Comment> comments = commentDao.queryList(reqCom);
         if (!comments.isEmpty()) {
             List<CommentResp> commentResps = BeanUtil.copyBeanList(comments, CommentResp.class);
+
             resp.setCommentList(commentResps);
         }
 

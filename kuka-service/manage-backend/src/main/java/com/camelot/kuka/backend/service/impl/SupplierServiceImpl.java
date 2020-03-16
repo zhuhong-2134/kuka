@@ -1,7 +1,6 @@
 package com.camelot.kuka.backend.service.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.camelot.kuka.backend.dao.ApplicationDao;
 import com.camelot.kuka.backend.dao.SupplierDao;
 import com.camelot.kuka.backend.feign.user.UserClient;
@@ -153,12 +152,13 @@ public class SupplierServiceImpl implements SupplierService {
         UserReq req = new UserReq();
         req.setId(supplier.getUserId());
         req.setUpdateBy(supplier.getUpdateBy());
+        req.setRoleId(2L);
         req.setType(UserTypeEnum.SUPPILER);
         Result result = userClient.clientUpDATE(req);
         if (!result.isSuccess()) {
             return Result.error("绑定责任人失败");
         }
-
+        supplier.setUserName(userRespResult.getData().getName());
         supplier.setUserCreateTime(userRespResult.getData().getCreateTime());
         supplier.setSource(userRespResult.getData().getSource());
         // 当前集成商创建者属于绑定的责任人
