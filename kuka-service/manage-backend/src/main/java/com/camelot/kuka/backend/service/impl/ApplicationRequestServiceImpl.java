@@ -67,7 +67,33 @@ public class ApplicationRequestServiceImpl implements ApplicationRequestService 
         req.setDelState(DeleteEnum.NO);
         req.setQueryTypeCode(null != req.getQueryType() ? req.getQueryType().getCode() : null);
         List<ApplicationRequest> applicationRequests = applicationRequestDao.pageList(req);
+        if (!applicationRequests.isEmpty()) {
+            setUserImg(applicationRequests);
+        }
         return applicationRequests;
+    }
+
+    /**
+     * 获取用户头像
+     * @param list
+     */
+    private void setUserImg(List<ApplicationRequest> list) {
+        // 获取用户头像
+        Long[] userIds = list.stream().map(ApplicationRequest::getUserId).toArray(Long[]::new);
+        Result<List<UserResp>> listResult = userClient.queryByIds(userIds);
+        if (!listResult.isSuccess()) {
+            return;
+        }
+        for (ApplicationRequest app : list) {
+            for (UserResp user : listResult.getData()) {
+                if (app.getUserId().compareTo(user.getId()) == 0) {
+                    app.setUserName(user.getUserName());
+                    app.setUserMail(user.getMail());
+                    app.setUserPhotoUrl(user.getPhotoUrl());
+                    break;
+                }
+            }
+        }
     }
 
     @Override

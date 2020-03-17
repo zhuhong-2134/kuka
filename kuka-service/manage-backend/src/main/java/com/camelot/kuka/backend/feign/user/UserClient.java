@@ -36,6 +36,16 @@ public interface UserClient {
     /***
      * <p>Description:[通过ID获取用户]</p>
      * Created on 2020/1/20
+     * @param ids
+     * @return com.camelot.kuka.model.common.Result
+     * @author 谢楠
+     */
+    @GetMapping(value = "/users/client/queryByIds", params = "ids")
+    public Result<List<UserResp>> queryByIds(@RequestParam("ids") Long[] ids);
+
+    /***
+     * <p>Description:[通过ID获取用户]</p>
+     * Created on 2020/1/20
      * @param userName
      * @return com.camelot.kuka.model.common.Result
      * @author 谢楠

@@ -372,4 +372,16 @@
 			)
 		</where>
 	</select>
+
+	<select id="queryByIds" resultMap="BaseResultMap">
+		SELECT
+			<include refid="Base_Column_List" />
+		FROM
+			t_user
+		WHERE
+			id in
+		<foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
 </mapper>

@@ -141,4 +141,12 @@ public interface UserService {
 	 * @author 谢楠
 	 */
     Result<UserResp> queryByUserName(String userName);
+
+	/***
+	 * <p>Description:[根据用户名获取]</p>
+	 * Created on 2020/1/20
+	 * @return com.camelot.kuka.model.common.PageResult
+	 * @author 谢楠
+	 */
+	Result<List<UserResp>> queryByIds(Long[] ids);
 }

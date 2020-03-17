@@ -59,16 +59,39 @@ public class UserController extends BaseController {
         return userRespResult;
     }
 
+    /**
+     * 登录信息
+     * @param username
+     * @return
+     */
     @GetMapping(value = "/users-anon/internal", params = "username")
     public LoginAppUser findByUsername(String username) {
         return userService.findByUsername(username);
     }
 
+    /**
+     * 通过ID获取
+     * @param id
+     * @return
+     */
     @GetMapping(value = "/users/client/queryById", params = "id")
     public Result<UserResp> clientById(Long id) {
         CommonReq req = new CommonReq();
         req.setId(id);
         return userService.queryById(req);
+    }
+    /**
+     * 通过ID获取
+     * @param ids
+     * @return
+     */
+    @GetMapping(value = "/users/client/queryByIds", params = "ids")
+    public Result<List<UserResp>> queryByIds(Long[] ids) {
+        Result<List<UserResp>> listResult = userService.queryByIds(ids);
+        listResult.getData().forEach(user -> {
+            user.setUserName(user.getName());
+        });
+        return listResult;
     }
 
     @GetMapping(value = "/users/client/queryByUserName", params = "userName")

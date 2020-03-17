@@ -93,4 +93,11 @@ public interface UserDao {
 	 * @author 谢楠
 	 */
 	int checkUser(@Param("entity") User user);
+
+	/**
+	 * 根据ids获取数据
+	 * @param ids
+	 * @return
+	 */
+    List<User> queryByIds(@Param("array") Long[] ids);
 }

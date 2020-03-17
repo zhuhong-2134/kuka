@@ -72,7 +72,33 @@ public class SupplierRequestServiceImpl implements SupplierRequestService {
         req.setDelState(DeleteEnum.NO);
         req.setQueryTypeCode(null != req.getQueryType() ? req.getQueryType().getCode() : null);
         List<SupplierRequest> list = supplierRequestDao.pageList(req);
+        if (!list.isEmpty()) {
+            setUserImg(list);
+        }
         return list;
+    }
+
+    /**
+     * 获取用户头像
+     * @param list
+     */
+    private void setUserImg(List<SupplierRequest> list) {
+        // 获取用户头像
+        Long[] userIds = list.stream().map(SupplierRequest::getUserId).toArray(Long[]::new);
+        Result<List<UserResp>> listResult = userClient.queryByIds(userIds);
+        if (!listResult.isSuccess()) {
+            return;
+        }
+        for (SupplierRequest supp : list) {
+            for (UserResp user : listResult.getData()) {
+                if (supp.getUserId().compareTo(user.getId()) == 0) {
+                    supp.setUserName(user.getUserName());
+                    supp.setUserMail(user.getMail());
+                    supp.setUserPhotoUrl(user.getPhotoUrl());
+                    break;
+                }
+            }
+        }
     }
 
     @Override

@@ -483,6 +483,12 @@ public class UserServiceImpl implements UserService {
         return Result.error("数据获取失败");
     }
 
+    @Override
+    public Result<List<UserResp>> queryByIds(Long[] ids) {
+        List<User> users = userDao.queryByIds(ids);
+        return Result.success(BeanUtil.copyBeanList(users, UserResp.class));
+    }
+
 
     /**
      * 放入角色名称
