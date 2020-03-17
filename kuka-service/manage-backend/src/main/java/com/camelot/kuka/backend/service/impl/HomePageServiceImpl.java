@@ -110,7 +110,7 @@ public class HomePageServiceImpl implements HomePageService {
         List<ApplicationImg> appImgs = applicationImgDao.selectList(appIds);
         for (Application application : list) {
             for (ApplicationImg appImg : appImgs) {
-                if (application.getId() == appImg.getAppId()) {
+                if (application.getId().equals(appImg.getAppId())) {
                     application.setCoverUrl(appImg.getUrl());
                     break;
                 }
