@@ -2,6 +2,7 @@ package com.camelot.kuka.model.backend.supplier.req;
 
 import com.camelot.kuka.model.enums.DeleteEnum;
 import com.camelot.kuka.model.enums.backend.SuppliePageEnum;
+import com.camelot.kuka.model.enums.user.CreateSourceEnum;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -45,4 +46,9 @@ public class SupplierPageReq implements Serializable {
 	 * 登录人拥有的集成商ID
 	 */
 	private Long[] supplierIds;
+
+	/**
+	 * 0:注册;1后台出创建
+	 */
+	private CreateSourceEnum source;
 }

@@ -74,6 +74,9 @@
 			<if test ='null != entity.delState'>
 				del_state = #{entity.delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}
 			</if>
+			<if test ='null != entity.source'>
+				and source = #{entity.source, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}
+			</if>
 			<if test ='null != entity.queryName and entity.queryName != ""'>
 				<!-- 0 全部 1 手机号  2 集成商名称 3 负责人 4 ID-->
 				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 1'>
@@ -109,6 +112,9 @@
 		<where>
 			<if test ='null != entity.delState'>
 				del_state = #{entity.delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}
+			</if>
+			<if test ='null != entity.source'>
+				and source = #{entity.source, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}
 			</if>
 			<if test ='null != entity.queryName and entity.queryName != ""'>
 				<!-- 0 全部 1 手机号  2 集成商名称 3 负责人 4 ID-->
@@ -150,6 +156,9 @@
 		<where>
 			<if test ='null != entity.delState'>
 				del_state = #{entity.delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}
+			</if>
+			<if test ='null != entity.source'>
+				and source = #{entity.source, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}
 			</if>
 			<if test ='null != entity.queryName and entity.queryName != ""'>
 				<!-- 0 全部 1 手机号  2 集成商名称 3 负责人 4 ID-->

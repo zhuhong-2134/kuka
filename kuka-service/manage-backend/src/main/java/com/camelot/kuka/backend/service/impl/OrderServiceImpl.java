@@ -240,6 +240,7 @@ public class OrderServiceImpl implements OrderService {
             Long id = codeGenerateUtil.generateId(PrincipalEnum.MANAGE_ORDERDETAILED);
             detailed.setId(id);
             detailed.setAppId(shopCart.getAppId());
+            detailed.setSupplierId(shopCart.getSupplierId());
             detailed.setAppName(shopCart.getAppName());
             detailed.setAppUrl(shopCart.getAppUrl());
             detailed.setNum(shopCart.getNum());

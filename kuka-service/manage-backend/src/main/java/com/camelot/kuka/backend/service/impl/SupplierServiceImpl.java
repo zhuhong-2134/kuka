@@ -237,7 +237,7 @@ public class SupplierServiceImpl implements SupplierService {
     public Long[] queryLoginSupplierIds(String loginUserName) {
         Supplier supplier = new Supplier();
         supplier.setDelState(DeleteEnum.NO);
-        supplier.setUpdateBy(loginUserName);
+        supplier.setCreateBy(loginUserName);
         List<Supplier> list = supplierDao.findList(supplier);
         if (list.isEmpty()) {
             // 返回 -1 代表没有自己的集成商
