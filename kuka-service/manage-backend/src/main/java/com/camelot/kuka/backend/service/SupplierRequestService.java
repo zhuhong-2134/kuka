@@ -2,6 +2,7 @@ package com.camelot.kuka.backend.service;
 
 import com.camelot.kuka.backend.dao.SupplierRequestDao;
 import com.camelot.kuka.backend.model.SupplierRequest;
+import com.camelot.kuka.model.backend.message.resp.MessageResp;
 import com.camelot.kuka.model.backend.supplierrequest.req.SupplierRequestPageReq;
 import com.camelot.kuka.model.backend.supplierrequest.req.SupplierRequestReq;
 import com.camelot.kuka.model.backend.supplierrequest.resp.SupplierRequestResp;
@@ -66,4 +67,13 @@ public interface SupplierRequestService {
      * @author 谢楠
      */
     Result sendMail(CommonReq req, LoginAppUser loginAppUser);
+
+    /***
+     * <p>Description:[消息预览]</p>
+     * Created on 2020/1/20
+     * @param req
+     * @return Result
+     * @author 谢楠
+     */
+    Result<MessageResp> previewMessage(CommonReq req, LoginAppUser loginAppUser);
 }

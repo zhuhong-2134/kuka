@@ -16,6 +16,7 @@ import com.camelot.kuka.model.backend.applicationrequest.req.ApplicationRequestR
 import com.camelot.kuka.model.backend.applicationrequest.resp.ApplicationRequestResp;
 import com.camelot.kuka.model.backend.mailmould.req.MailMouldPageReq;
 import com.camelot.kuka.model.backend.message.req.MessageReq;
+import com.camelot.kuka.model.backend.message.resp.MessageResp;
 import com.camelot.kuka.model.common.CommonReq;
 import com.camelot.kuka.model.common.MailReq;
 import com.camelot.kuka.model.common.Result;
@@ -220,11 +221,102 @@ public class ApplicationRequestServiceImpl implements ApplicationRequestService 
 
         // 不通过模板
         if (req.getStatus() == WhetherEnum.NO) {
-            return messageNoSend(userRespResult.getData(), qyeryUpdateRespResult.getData(), mailMoulds, loginAppUser);
+            return messageNoSend(userRespResult.getData(), qyeryUpdateRespResult.getData(), mailMoulds, loginAppUser, req.getId());
         }
         // 通过模板
         if (req.getStatus() == WhetherEnum.YES) {
-            return messageYesSend(userRespResult.getData(), qyeryUpdateRespResult.getData(), mailMoulds, loginAppUser);
+            return messageYesSend(userRespResult.getData(), qyeryUpdateRespResult.getData(), mailMoulds, loginAppUser, req.getId());
+        }
+        return Result.success();
+    }
+
+    @Override
+    public Result<MessageResp> previewMessage(CommonReq req, LoginAppUser loginAppUser) {
+        if (null == req.getId()) {
+            return Result.error("id不能为空");
+        }
+        if (null == req.getStatus()) {
+            return Result.error("通过不通过状态不能为空");
+        }
+        // 获取请求
+        ApplicationRequest query = new ApplicationRequest();
+        query.setId(req.getId());
+        query.setDelState(DeleteEnum.NO);
+        ApplicationRequest applicationRequest = applicationRequestDao.queryInfo(query);
+        if (null == applicationRequest) {
+            return Result.error("获取数据失败");
+        }
+
+        // 获取应用
+        CommonReq appReq = new CommonReq();
+        appReq.setId(applicationRequest.getAppId());
+        Result<QyeryUpdateResp> qyeryUpdateRespResult = applicationService.qyeryUpdateById(appReq);
+        if (!qyeryUpdateRespResult.isSuccess() || null == qyeryUpdateRespResult.getData()) {
+            return Result.error("获取应用失败");
+        }
+
+        // 获取应用魔板
+        List<MailMould> mailMoulds = mailMouldService.pageList(new MailMouldPageReq());
+        if (mailMoulds.isEmpty()) {
+            return Result.error("模板为空");
+        }
+
+        // 获取创建者的用户信息
+        Result<UserResp> userRespResult = userClient.queryByUserName(applicationRequest.getCreateBy());
+        if (!userRespResult.isSuccess()) {
+            return Result.error("获取发送人信息失败");
+        }
+
+        // 不通过模板
+        if (req.getStatus() == WhetherEnum.NO) {
+            MailMould mould = new MailMould();
+            for (MailMould m : mailMoulds) {
+                if (m.getId().compareTo(2L) == 0) {
+                    mould = m;
+                }
+            }
+
+            // 组装消息内容
+            String message = mould.getMessage();
+            // 应用名称
+            message = message.replace("{1}", qyeryUpdateRespResult.getData().getAppName());
+            MessageResp resp = new MessageResp();
+            resp.setMessage(message);
+            return Result.success(resp);
+        }
+        // 通过模板
+        if (req.getStatus() == WhetherEnum.YES) {
+            MailMould mould = new MailMould();
+            for (MailMould m : mailMoulds) {
+                if (m.getId().compareTo(1L) == 0) {
+                    mould = m;
+                }
+            }
+            // 组装消息内容
+            String message = mould.getMessage();
+            // 应用名称
+            QyeryUpdateResp app = qyeryUpdateRespResult.getData();
+            message = message.replace("{1}", app.getAppName());
+            if (null != app.getSupplier()) {
+                // 集成商名称
+                message = message.replace("{2}", app.getSupplier().getSupplierlName());
+                // 总负责人
+                message = message.replace("{3}", app.getSupplier().getUserName());
+                // 总负责人联系方式
+                message = message.replace("{4}", app.getSupplier().getUserPhone());
+                // 集成商详细地址
+                message = message.replace("{8}", app.getSupplier().getSupplierAddress());
+            }
+            // 应用联系人
+            message = message.replace("{5}", null != app.getContactBy() ? app.getContactBy(): null);
+            // 应用联系人联系方式
+            message = message.replace("{6}", null != app.getContactPhone() ? app.getContactPhone() : "");
+            // 应用邮箱
+            message = message.replace("{7}", null != app.getContactMail() ? app.getContactMail() : " ");
+            message = message.replaceAll("(\\r\\n|\\n|\\n\\r)","<br/>");
+            MessageResp resp = new MessageResp();
+            resp.setMessage(message);
+            return Result.success(resp);
         }
         return Result.success();
     }
@@ -235,7 +327,7 @@ public class ApplicationRequestServiceImpl implements ApplicationRequestService 
      * @param mailMoulds
      * @return
      */
-    private Result messageYesSend(UserResp user, QyeryUpdateResp app, List<MailMould> mailMoulds, LoginAppUser loginAppUser) {
+    private Result messageYesSend(UserResp user, QyeryUpdateResp app, List<MailMould> mailMoulds, LoginAppUser loginAppUser, Long id) {
         MailMould mould = new MailMould();
         for (MailMould m : mailMoulds) {
             if (m.getId().compareTo(1L) == 0) {
@@ -262,7 +354,7 @@ public class ApplicationRequestServiceImpl implements ApplicationRequestService 
         message = message.replace("{6}", null != app.getContactPhone() ? app.getContactPhone() : "");
         // 应用邮箱
         message = message.replace("{7}", null != app.getContactMail() ? app.getContactMail() : " ");
-
+        message = message.replaceAll("(\\r\\n|\\n|\\n\\r)","<br/>");
         // 全发
         if (mould.getType() == MailTypeEnum.ALL) {
 
@@ -294,6 +386,13 @@ public class ApplicationRequestServiceImpl implements ApplicationRequestService 
                 return Result.error("发送邮件失败");
             }
         }
+
+        // 修改状态
+        Result resultUp = sendUpStatus(id, loginAppUser.getUserName());
+        if (!resultUp.isSuccess()) {
+            return resultUp;
+        }
+
         return Result.success();
     }
 
@@ -304,7 +403,7 @@ public class ApplicationRequestServiceImpl implements ApplicationRequestService 
      * @param mailMoulds
      * @return
      */
-    private Result messageNoSend(UserResp user, QyeryUpdateResp app, List<MailMould> mailMoulds, LoginAppUser loginAppUser) {
+    private Result messageNoSend(UserResp user, QyeryUpdateResp app, List<MailMould> mailMoulds, LoginAppUser loginAppUser, Long id) {
         MailMould mould = new MailMould();
         for (MailMould m : mailMoulds) {
             if (m.getId().compareTo(2L) == 0) {
@@ -349,6 +448,12 @@ public class ApplicationRequestServiceImpl implements ApplicationRequestService 
             }
         }
 
+        // 修改状态
+        Result resultUp = sendUpStatus(id, loginAppUser.getUserName());
+        if (!resultUp.isSuccess()) {
+            return resultUp;
+        }
+
         return Result.success();
     }
 
@@ -386,5 +491,22 @@ public class ApplicationRequestServiceImpl implements ApplicationRequestService 
         req.setTitle(title);
         Result result = mailMouldService.sendMail(req);
         return result;
+    }
+
+    /**
+     * 修改请求状态
+     * @param id
+     * @param longUserName
+     * @return
+     */
+    private Result sendUpStatus(Long id, String longUserName) {
+        ApplicationRequestReq req = new ApplicationRequestReq();
+        req.setId(id);
+        req.setStatus(CommunicateEnum.YES);
+        Result result = this.updateStatus(req, longUserName);
+        if (!result.isSuccess()) {
+            return Result.error("修改沟通状态失败");
+        }
+        return Result.success();
     }
 }

@@ -3,6 +3,7 @@ package com.camelot.kuka.backend.service.impl;
 import com.camelot.kuka.backend.dao.OrderDao;
 import com.camelot.kuka.backend.dao.OrderDetailedDao;
 import com.camelot.kuka.backend.dao.ShopCartDao;
+import com.camelot.kuka.backend.feign.user.UserClient;
 import com.camelot.kuka.backend.model.Comment;
 import com.camelot.kuka.backend.model.Order;
 import com.camelot.kuka.backend.model.OrderDetailed;
@@ -28,6 +29,7 @@ import com.camelot.kuka.model.enums.order.OrderStatusEnum;
 import com.camelot.kuka.model.enums.user.UserTypeEnum;
 import com.camelot.kuka.model.shopcart.req.ShopCartReq;
 import com.camelot.kuka.model.user.LoginAppUser;
+import com.camelot.kuka.model.user.resp.UserResp;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -64,6 +66,8 @@ public class OrderServiceImpl implements OrderService {
     private CodeGenerateUtil codeGenerateUtil;
     @Resource
     private ShopCartService shopCartService;
+    @Resource
+    private UserClient userClient;
 
 
     @Override
@@ -112,7 +116,7 @@ public class OrderServiceImpl implements OrderService {
 
 
         // 获取评论信息
-        List<Comment> comments = commentService.queryByOrderIds(orderIds);
+        List<Comment> comments = queryComment(orderIds);
         // 放入明细
         for (OrderDetailedResp orderDetailed : orderResp.getDetaileList()) {
             for (Comment comment : comments) {
@@ -124,6 +128,31 @@ public class OrderServiceImpl implements OrderService {
         }
 
         return Result.success(orderResp);
+    }
+
+    /**
+     * 获取评论信息
+     * @param orderIds
+     */
+    private List<Comment> queryComment(Long[] orderIds) {
+        // 获取评论信息
+        List<Comment> comments = commentService.queryByOrderIds(orderIds);
+        if (comments.isEmpty() ) {
+            return new ArrayList<>();
+        }
+        // 获取用户信息
+        Long[] userIds = comments.stream().map(Comment::getUserId).toArray(Long[]::new);
+        Result<List<UserResp>> listResult = userClient.queryByIds(userIds);
+        if (listResult.isSuccess() && null != listResult.getData()) {
+            for (Comment comment : comments) {
+                for (UserResp user : listResult.getData()) {
+                    if (comment.getUserId().compareTo(user.getId()) == 0) {
+                        comment.setPhotoUrl(user.getPhotoUrl());
+                    }
+                }
+            }
+        }
+        return comments;
     }
 
 

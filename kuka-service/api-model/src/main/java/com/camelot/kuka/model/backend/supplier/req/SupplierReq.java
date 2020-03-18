@@ -31,6 +31,11 @@ public class SupplierReq implements Serializable {
     private String coverUrl;
 
     /**
+     * 列表图
+     */
+    private String listImg;
+
+    /**
      * 集成商名称
      */
     private String supplierlName;

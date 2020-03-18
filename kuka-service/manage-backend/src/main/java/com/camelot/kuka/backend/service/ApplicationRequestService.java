@@ -4,6 +4,7 @@ import com.camelot.kuka.backend.model.ApplicationRequest;
 import com.camelot.kuka.model.backend.applicationrequest.req.AppRequestPageReq;
 import com.camelot.kuka.model.backend.applicationrequest.req.ApplicationRequestReq;
 import com.camelot.kuka.model.backend.applicationrequest.resp.ApplicationRequestResp;
+import com.camelot.kuka.model.backend.message.resp.MessageResp;
 import com.camelot.kuka.model.common.CommonReq;
 import com.camelot.kuka.model.common.Result;
 import com.camelot.kuka.model.user.LoginAppUser;
@@ -64,4 +65,13 @@ public interface ApplicationRequestService {
      * @author 谢楠
      */
     Result sendMail(CommonReq req, LoginAppUser loginAppUser);
+
+    /***
+     * <p>Description:[预览邮件信息]</p>
+     * Created on 2020/2/4
+     * @param req
+     * @return com.camelot.kuka.model.common.Result
+     * @author 谢楠
+     */
+    Result<MessageResp> previewMessage(CommonReq req, LoginAppUser loginAppUser);
 }

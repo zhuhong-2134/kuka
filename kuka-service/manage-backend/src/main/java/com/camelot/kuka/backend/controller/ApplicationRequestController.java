@@ -9,6 +9,7 @@ import com.camelot.kuka.common.utils.AppUserUtil;
 import com.camelot.kuka.model.backend.applicationrequest.req.AppRequestPageReq;
 import com.camelot.kuka.model.backend.applicationrequest.req.ApplicationRequestReq;
 import com.camelot.kuka.model.backend.applicationrequest.resp.ApplicationRequestResp;
+import com.camelot.kuka.model.backend.message.resp.MessageResp;
 import com.camelot.kuka.model.common.CommonReq;
 import com.camelot.kuka.model.common.EnumVal;
 import com.camelot.kuka.model.common.PageResult;
@@ -176,6 +177,27 @@ public class ApplicationRequestController extends BaseController {
             return applicationRequestService.sendMail(req, loginAppUser);
         } catch (Exception e) {
             log.error("\n 应用请求模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "addSupplierequest", JSON.toJSONString(req), e);
+            return Result.error("网络异常, 请稍后再试");
+        }
+    }
+
+    /***
+     * <p>Description:[预览邮件信息]</p>
+     * Created on 2020/2/4
+     * @param req
+     * @return com.camelot.kuka.model.common.Result
+     * @author 谢楠
+     */
+    @PostMapping("/apprequest/previewMessage")
+    public Result<MessageResp> previewMessage(CommonReq req){
+        try {
+            LoginAppUser loginAppUser = AppUserUtil.getLoginUser();
+            if (null == loginAppUser) {
+                return Result.error("用户未登录");
+            }
+            return applicationRequestService.previewMessage(req, loginAppUser);
+        } catch (Exception e) {
+            log.error("\n 应用请求模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "previewMessage", JSON.toJSONString(req), e);
             return Result.error("网络异常, 请稍后再试");
         }
     }

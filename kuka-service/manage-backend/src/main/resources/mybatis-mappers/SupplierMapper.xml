@@ -6,6 +6,7 @@
 	<resultMap id="BaseResultMap" type="com.camelot.kuka.backend.model.Supplier" >
 		<result column="id" property="id" />
 		<result column="cover_url" property="coverUrl" />
+		<result column="list_img" property="listImg" />
 		<result column="supplierl_name" property="supplierlName" />
 		<result column="supplierl_desc" property="supplierlDesc" />
 		<result column="province_name" property="provinceName" />
@@ -37,6 +38,7 @@
 	<sql id="Base_Column_List">
 		id,
 		cover_url,
+		list_img,
 		supplierl_name,
 		supplierl_desc,
 		province_name,
@@ -211,6 +213,7 @@
 		INSERT INTO t_supplier(
 				id,
 				cover_url,
+				list_img,
 				supplierl_name,
 				supplierl_desc,
 				province_name,
@@ -243,6 +246,7 @@
 			(
 				#{item.id},
 				#{item.coverUrl},
+				#{item.listImg},
 				#{item.supplierlName},
 				#{item.supplierlDesc},
 				#{item.provinceName},
@@ -293,6 +297,9 @@
 		<set>
 			<if test ='null != coverUrl'>
 				cover_url = #{coverUrl},
+			</if>
+			<if test ='null != listImg'>
+				list_img = #{listImg},
 			</if>
 			<if test ='null != supplierlName'>
 				supplierl_name = #{supplierlName},

@@ -2,9 +2,9 @@ package com.camelot.kuka.backend.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.camelot.kuka.backend.dao.*;
+import com.camelot.kuka.backend.feign.user.UserClient;
 import com.camelot.kuka.backend.model.*;
 import com.camelot.kuka.backend.service.ApplicationService;
-import com.camelot.kuka.backend.service.CommentService;
 import com.camelot.kuka.backend.service.SupplierService;
 import com.camelot.kuka.common.utils.BeanUtil;
 import com.camelot.kuka.common.utils.CodeGenerateUtil;
@@ -27,6 +27,7 @@ import com.camelot.kuka.model.enums.backend.SkilledAppEnum;
 import com.camelot.kuka.model.enums.comment.CommentStatusEnum;
 import com.camelot.kuka.model.enums.user.UserTypeEnum;
 import com.camelot.kuka.model.user.LoginAppUser;
+import com.camelot.kuka.model.user.resp.UserResp;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -65,6 +66,8 @@ public class ApplicationServiceImpl implements ApplicationService {
     private SupplierDao supplierDao;
     @Resource
     private SupplierService supplierService;
+    @Resource
+    private UserClient userClient;
 
     @Override
     public List<Application> queryList(AppPageReq req, LoginAppUser loginAppUser) {
@@ -108,7 +111,7 @@ public class ApplicationServiceImpl implements ApplicationService {
         List<ApplicationImg> appImgs = applicationImgDao.selectList(appIds);
         for (Application application : list) {
             for (ApplicationImg appImg : appImgs) {
-                if (application.getId() == appImg.getAppId()) {
+                if (application.getId().compareTo(appImg.getAppId()) == 0) {
                     application.setCoverUrl(appImg.getUrl());
                     break;
                 }
@@ -199,8 +202,20 @@ public class ApplicationServiceImpl implements ApplicationService {
         reqCom.setStatus(CommentStatusEnum.YES);
         List<Comment> comments = commentDao.queryList(reqCom);
         if (!comments.isEmpty()) {
-            List<CommentResp> commentResps = BeanUtil.copyBeanList(comments, CommentResp.class);
 
+            // 获取用户信息
+            Long[] userIds = comments.stream().map(Comment::getUserId).toArray(Long[]::new);
+            Result<List<UserResp>> listResult = userClient.queryByIds(userIds);
+            if (listResult.isSuccess() && null != listResult.getData()) {
+                for (Comment comment : comments) {
+                    for (UserResp user : listResult.getData()) {
+                        if (comment.getUserId().compareTo(user.getId()) == 0) {
+                            comment.setPhotoUrl(user.getPhotoUrl());
+                        }
+                    }
+                }
+            }
+            List<CommentResp> commentResps = BeanUtil.copyBeanList(comments, CommentResp.class);
             resp.setCommentList(commentResps);
         }
 

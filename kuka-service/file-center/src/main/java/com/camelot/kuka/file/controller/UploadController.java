@@ -44,6 +44,13 @@ public class UploadController extends BaseController {
     // 单文件上传
     @PostMapping("/file/upload")
     public Result<JSONObject> upload(@RequestParam(value = "file", required = false) MultipartFile file, HttpServletRequest request) throws Exception{
+
+        System.out.println(file.getSize());
+        // 校验文件的大小
+        if (file.getSize() > 1024 * 1024 * 3) {
+            return Result.error("文件大小不能超过3MB");
+        }
+
         // 定义返回客户端json对象
         JSONObject returnData = new JSONObject();
         // 定义处理流对象

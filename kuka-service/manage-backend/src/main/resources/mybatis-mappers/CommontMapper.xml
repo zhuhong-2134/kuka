@@ -71,14 +71,14 @@
 					and order_no like CONCAT('%',#{entity.queryName},'%')
 				</if>
 				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 1'>
-					and id in
+					and order_id in
 					(select order_id from t_order_detailed where app_name like CONCAT('%',#{entity.queryName},'%'))
 				</if>
 				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 0'>
 					and (
 					id = #{entity.queryName}
 					or order_no like CONCAT('%',#{entity.queryName},'%')
-					or id in
+					or order_id in
 					(select order_id from t_order_detailed where app_name = #{entity.queryName})
 					)
 				</if>

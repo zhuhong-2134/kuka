@@ -46,6 +46,9 @@
 		<if test ='null != entity.userId'>
 			and user_id = #{entity.userId}
 		</if>
+
+		<!--默认ID倒叙排序-->
+		order by id desc
 	</select>
 
 	<insert id="addBatch">

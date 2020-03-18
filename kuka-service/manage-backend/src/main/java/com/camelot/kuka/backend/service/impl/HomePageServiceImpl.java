@@ -22,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -55,6 +56,8 @@ public class HomePageServiceImpl implements HomePageService {
         if (!appList.isEmpty()) {
             // 封面图
             setAppImg(appList);
+            // 集成商名称
+            setSupplier(appList);
         }
         return Result.success(BeanUtil.copyBeanList(appList, ApplicationResp.class));
     }
@@ -112,6 +115,36 @@ public class HomePageServiceImpl implements HomePageService {
             for (ApplicationImg appImg : appImgs) {
                 if (application.getId().equals(appImg.getAppId())) {
                     application.setCoverUrl(appImg.getUrl());
+                    break;
+                }
+            }
+        }
+    }
+
+    /**
+     * 获取供应商名称
+     * @param list
+     */
+    private void setSupplier(List<Application> list){
+        // 获取集成商名称
+        List<Long> supplierArray = new ArrayList<>();
+        for (Application application : list) {
+            if (null != application.getSupplierId()) {
+                supplierArray.add(application.getSupplierId());
+            }
+        }
+        if (supplierArray.isEmpty()) {
+            return;
+        }
+        Long[] supplierIds = supplierArray.stream().toArray(Long[]::new);
+        List<Supplier> listByIds = supplierDao.findListByIds(supplierIds);
+        for (Application application : list) {
+            if (null == application.getSupplierId()) {
+                continue;
+            }
+            for (Supplier supplier : listByIds) {
+                if (supplier.getId().compareTo(application.getSupplierId()) == 0) {
+                    application.setSupplierName(supplier.getSupplierlName());
                     break;
                 }
             }

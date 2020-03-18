@@ -14,6 +14,7 @@ import com.camelot.kuka.common.utils.BeanUtil;
 import com.camelot.kuka.common.utils.CodeGenerateUtil;
 import com.camelot.kuka.model.backend.mailmould.req.MailMouldPageReq;
 import com.camelot.kuka.model.backend.message.req.MessageReq;
+import com.camelot.kuka.model.backend.message.resp.MessageResp;
 import com.camelot.kuka.model.backend.supplier.resp.SupplierResp;
 import com.camelot.kuka.model.backend.supplierrequest.req.SupplierRequestPageReq;
 import com.camelot.kuka.model.backend.supplierrequest.req.SupplierRequestReq;
@@ -220,11 +221,11 @@ public class SupplierRequestServiceImpl implements SupplierRequestService {
 
         // 不通过模板
         if (req.getStatus() == WhetherEnum.NO) {
-            return messageNoSend(userRespResult.getData(), supplier, mailMoulds, loginAppUser);
+            return messageNoSend(userRespResult.getData(), supplier, mailMoulds, loginAppUser, req.getId());
         }
         // 通过模板
         if (req.getStatus() == WhetherEnum.YES) {
-            return messageYesSend(userRespResult.getData(), supplier, mailMoulds, loginAppUser);
+            return messageYesSend(userRespResult.getData(), supplier, mailMoulds, loginAppUser, req.getId());
         }
         return Result.success();
     }
@@ -235,7 +236,7 @@ public class SupplierRequestServiceImpl implements SupplierRequestService {
      * @param mailMoulds
      * @return
      */
-    private Result messageYesSend(UserResp user, Supplier supplier, List<MailMould> mailMoulds, LoginAppUser loginAppUser) {
+    private Result messageYesSend(UserResp user, Supplier supplier, List<MailMould> mailMoulds, LoginAppUser loginAppUser, Long id) {
         MailMould mould = new MailMould();
         for (MailMould m : mailMoulds) {
             if (m.getId().compareTo(3L) == 0) {
@@ -257,7 +258,7 @@ public class SupplierRequestServiceImpl implements SupplierRequestService {
         // 集成商详细地址
         formatAddress(supplier);
         message = message.replace("{6}", supplier.getSupplierAddress());
-
+        message = message.replaceAll("(\\r\\n|\\n|\\n\\r)","<br/>");
 
         // 全发
         if (mould.getType() == MailTypeEnum.ALL) {
@@ -290,6 +291,13 @@ public class SupplierRequestServiceImpl implements SupplierRequestService {
                 return Result.error("发送邮件失败");
             }
         }
+
+        // 修改状态
+        Result resultUp = sendUpdateStatus(id, loginAppUser.getUserName());
+        if (!resultUp.isSuccess()) {
+            return resultUp;
+        }
+
         return Result.success();
     }
 
@@ -300,7 +308,7 @@ public class SupplierRequestServiceImpl implements SupplierRequestService {
      * @param mailMoulds
      * @return
      */
-    private Result messageNoSend(UserResp user, Supplier supplier, List<MailMould> mailMoulds, LoginAppUser loginAppUser) {
+    private Result messageNoSend(UserResp user, Supplier supplier, List<MailMould> mailMoulds, LoginAppUser loginAppUser, Long id) {
         MailMould mould = new MailMould();
         for (MailMould m : mailMoulds) {
             if (m.getId().compareTo(4L) == 0) {
@@ -341,6 +349,13 @@ public class SupplierRequestServiceImpl implements SupplierRequestService {
                 return Result.error("发送邮件失败");
             }
         }
+
+        // 修改状态
+        Result resultUp = sendUpdateStatus(id, loginAppUser.getUserName());
+        if (!resultUp.isSuccess()) {
+            return resultUp;
+        }
+
         return Result.success();
     }
 
@@ -400,5 +415,112 @@ public class SupplierRequestServiceImpl implements SupplierRequestService {
             stringBuffer.append(supplier.getDistrictName());
         }
         supplier.setSupplierAddress(stringBuffer.toString());
+    }
+
+    /**
+     * 修改状态为已沟通
+     * @param id
+     * @return
+     */
+    private Result sendUpdateStatus(Long id, String loginUserName) {
+        SupplierRequestReq req = new SupplierRequestReq();
+        req.setId(id);
+        req.setStatus(CommunicateEnum.YES);
+        Result result = this.updateStatus(req, loginUserName);
+        if (!result.isSuccess()) {
+            return Result.error("修改沟通状态失败");
+        }
+        return Result.success();
+    }
+
+
+
+    @Override
+    public Result<MessageResp> previewMessage(CommonReq req, LoginAppUser loginAppUser) {
+        if (null == req.getId()) {
+            return Result.error("id不能为空");
+        }
+        if (null == req.getStatus()) {
+            return Result.error("通过不通过状态不能为空");
+        }
+
+
+        // 获取请求
+        SupplierRequest queryRequest = new SupplierRequest();
+        queryRequest.setId(req.getId());
+        queryRequest.setDelState(DeleteEnum.NO);
+        SupplierRequest supplierRequest = supplierRequestDao.queryInfo(queryRequest);
+        if (null == supplierRequest) {
+            return Result.error("获取数据失败");
+        }
+
+
+        // 获取集成商
+        Supplier query = new Supplier();
+        query.setId(supplierRequest.getSupplierId());
+        query.setDelState(DeleteEnum.NO);
+        Supplier supplier = supplierDao.queryById(query);
+        if (null == supplier) {
+            return Result.error("获取集成商失败");
+        }
+
+
+        // 获取应用魔板
+        List<MailMould> mailMoulds = mailMouldService.pageList(new MailMouldPageReq());
+        if (mailMoulds.isEmpty()) {
+            return Result.error("模板为空");
+        }
+
+        // 获取创建者的用户信息
+        Result<UserResp> userRespResult = userClient.queryByUserName(supplierRequest.getCreateBy());
+        if (!userRespResult.isSuccess()) {
+            return Result.error("获取发送人信息失败");
+        }
+
+        // 不通过模板
+        if (req.getStatus() == WhetherEnum.NO) {
+            MailMould mould = new MailMould();
+            for (MailMould m : mailMoulds) {
+                if (m.getId().compareTo(4L) == 0) {
+                    mould = m;
+                }
+            }
+
+            String message = mould.getMessage();
+            // 集成商名称
+            message = message.replace("{1}", supplier.getSupplierlName());
+            MessageResp resp = new MessageResp();
+            resp.setMessage(message);
+            return Result.success(resp);
+        }
+        // 通过模板
+        if (req.getStatus() == WhetherEnum.YES) {
+            MailMould mould = new MailMould();
+            for (MailMould m : mailMoulds) {
+                if (m.getId().compareTo(3L) == 0) {
+                    mould = m;
+                }
+            }
+            // 组装消息内容
+            String message = mould.getMessage();
+            // 集成商名称
+            message = message.replace("{1}", supplier.getSupplierlName());
+            // 集成商名称
+            message = message.replace("{2}", supplier.getSupplierlName());
+            // 总负责人
+            message = message.replace("{3}", supplier.getUserName());
+            // 总负责人联系方式
+            message = message.replace("{4}", supplier.getUserPhone());
+            // 联系邮箱
+            message = message.replace("{5}", supplier.getUserMali());
+            // 集成商详细地址
+            formatAddress(supplier);
+            message = message.replace("{6}", supplier.getSupplierAddress());
+            message = message.replaceAll("(\\r\\n|\\n|\\n\\r)","<br/>");
+            MessageResp resp = new MessageResp();
+            resp.setMessage(message);
+            return Result.success(resp);
+        }
+        return Result.success();
     }
 }
