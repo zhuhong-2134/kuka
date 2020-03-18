@@ -1,8 +1,8 @@
 spring:
   redis:
-    host: 123.57.69.18
-    port: 6379
-    password: A5B4w1u5
+    host: 52.83.64.99
+    port: 6380
+    password: g2keh3QJDpnNY0Y3piwQsMZuY6rCB%w
     timeout: 10s
     lettuce:
       pool:
@@ -12,9 +12,9 @@ spring:
         max-wait: -1ms
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://123.57.69.18:3306/kuka_oauth?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false
+    url: jdbc:mysql://52.83.64.99:3306/kuka_oauth?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false
     username: root
-    password: 123456
+    password: 2h5Qry3Nl0lVR#aN
     type: com.alibaba.druid.pool.DruidDataSource
     initial-size: 10
     min-idle: 8

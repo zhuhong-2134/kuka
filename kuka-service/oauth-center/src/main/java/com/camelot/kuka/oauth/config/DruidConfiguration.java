@@ -60,7 +60,7 @@ public class DruidConfiguration {
         private String driverClassName;
         private int initialSize;
         private int minIdle;
-        private int maxActive;
+        private int maxActive = 20;
         private int maxWait;
         private int timeBetweenEvictionRunsMillis;
         private int minEvictableIdleTimeMillis;
