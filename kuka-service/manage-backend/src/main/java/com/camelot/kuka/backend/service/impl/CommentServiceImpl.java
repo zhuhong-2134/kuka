@@ -1,9 +1,7 @@
 package com.camelot.kuka.backend.service.impl;
 
-import com.camelot.kuka.backend.dao.ApplicationDao;
-import com.camelot.kuka.backend.dao.CommentDao;
-import com.camelot.kuka.backend.dao.OrderDao;
-import com.camelot.kuka.backend.dao.OrderDetailedDao;
+import com.camelot.kuka.backend.dao.*;
+import com.camelot.kuka.backend.model.ApplicationImg;
 import com.camelot.kuka.backend.model.Comment;
 import com.camelot.kuka.backend.model.Order;
 import com.camelot.kuka.backend.model.OrderDetailed;
@@ -49,9 +47,9 @@ public class CommentServiceImpl implements CommentService {
     @Resource
     private OrderDao orderDao;
     @Resource
-    private ApplicationDao applicationDao;
-    @Resource
     private CodeGenerateUtil codeGenerateUtil;
+    @Resource
+    private ApplicationImgDao applicationImgDao;
 
     @Override
     public List<Comment> pageList(CommentPageReq req) {
@@ -76,6 +74,20 @@ public class CommentServiceImpl implements CommentService {
         List<OrderDetailed> deailList = orderDetailedDao.selectByOrderIds(ids);
         // 获取订单
         List<Order> orders = orderDao.queryByIds(ids);
+        // 获取订单图片
+        Long[] appIds = deailList.stream().map(OrderDetailed::getAppId).toArray(Long[]::new);
+        List<ApplicationImg> applicationImgs = applicationImgDao.selectList(appIds);
+
+        for (OrderDetailed orderDetailed : deailList) {
+            for (ApplicationImg applicationImg : applicationImgs) {
+                // 只放第一条
+                if (orderDetailed.getAppId().compareTo(applicationImg.getAppId()) == 0) {
+                    orderDetailed.setAppUrl(applicationImg.getUrl());
+                    break;
+                }
+            }
+        }
+
         for (Comment comment : list) {
             List<OrderDetailed> newList = new ArrayList<>();
             for (OrderDetailed orderDetailed : deailList) {
