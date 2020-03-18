@@ -51,6 +51,12 @@ public class ShopCartServiceImpl implements ShopCartService {
         query.setDelState(DeleteEnum.NO);
         query.setCreateBy(loginUserName);
         List<ShopCart> shopCarts = shopCartDao.queryList(query);
+        shopCarts.stream().forEach(item->{
+            Long[] ids = new Long[1];
+            ids[0] = item.getAppId();
+            List<ApplicationImg> applicationImgs = applicationImgDao.selectList(ids);
+            item.setAppUrl(applicationImgs.get(0).getUrl());
+        });
         return Result.success(BeanUtil.copyBeanList(shopCarts, ShopCartResp.class));
     }
 
