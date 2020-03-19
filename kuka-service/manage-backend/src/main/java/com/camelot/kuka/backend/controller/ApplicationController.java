@@ -113,6 +113,30 @@ public class ApplicationController extends BaseController {
         }
     }
 
+    //查询全部应用
+    @PostMapping("/application/pageListAll")
+    public PageResult<List<ApplicationResp>> pageListAll(AppPageReq req){
+        try {
+            LoginAppUser loginAppUser = new LoginAppUser();
+            loginAppUser.setType(UserTypeEnum.KUKA);
+            // 开启分页
+            startPage();
+            // 返回分页
+            List<Application> application = applicationService.queryList(req, loginAppUser);
+            PageResult<List<ApplicationResp>> page = getPage(application, ApplicationResp.class);
+            page.putEnumVal("classTypeEnum", EnumVal.getEnumList(AppTypeEnum.class));
+            page.putEnumVal("appRangeEnum", EnumVal.getEnumList(SkilledAppEnum.class));
+            page.putEnumVal("industryEnum", EnumVal.getEnumList(IndustryTypeEnum.class));
+            page.putEnumVal("appStatusEnum", EnumVal.getEnumList(AppStatusEnum.class));
+            page.putEnumVal("delStateEnum", EnumVal.getEnumList(DeleteEnum.class));
+            page.putEnumVal("queryTypeEnum", EnumVal.getEnumList(ApplicationPageEnum.class));
+            return page;
+        } catch (Exception e) {
+            log.error("\n 产品模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "pageList", JSON.toJSONString(req), e);
+            return PageResult.error("网络异常, 请稍后再试");
+        }
+    }
+
     /***
      * <p>Description:[新增产品信息]</p>
      * Created on 2020/2/4

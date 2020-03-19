@@ -1,6 +1,7 @@
 package com.camelot.kuka.backend.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.camelot.kuka.backend.feign.user.UserClient;
 import com.camelot.kuka.backend.model.ApplicationRequest;
 import com.camelot.kuka.backend.service.ApplicationRequestService;
 import com.camelot.kuka.backend.service.SupplierService;
@@ -21,6 +22,7 @@ import com.camelot.kuka.model.enums.backend.AppRequestPageEnum;
 import com.camelot.kuka.model.enums.user.UserTypeEnum;
 import com.camelot.kuka.model.enums.user.WhetherEnum;
 import com.camelot.kuka.model.user.LoginAppUser;
+import com.camelot.kuka.model.user.resp.UserResp;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,6 +48,8 @@ public class ApplicationRequestController extends BaseController {
     private ApplicationRequestService applicationRequestService;
     @Resource
     private SupplierService supplierService;
+    @Resource
+    private UserClient userClient;
 
     /***
      * <p>Description:[枚举查询]</p>
@@ -86,6 +90,16 @@ public class ApplicationRequestController extends BaseController {
             }
             if (loginAppUser.getType() == UserTypeEnum.VISITORS ) {
                 req.setLoginName(loginAppUser.getUsername());
+            }
+
+
+            if(req.getQueryType()!=null&&req.getQueryType()==AppRequestPageEnum.USERNAME){
+                Result<UserResp> userRespResult = userClient.queryByName(req.getQueryName());
+                UserResp data = userRespResult.getData();
+                if(data!=null){
+                    String mail = data.getMail();
+                    req.setQueryName(mail);
+                }
             }
             // 开启分页
             startPage();

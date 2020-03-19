@@ -332,6 +332,9 @@
 			<if test ='null != entity.userName'>
 				and user_name = #{entity.userName}
 			</if>
+			<if test ='null != entity.name'>
+				and name = #{entity.name}
+			</if>
 		</where>
 	</select>
 

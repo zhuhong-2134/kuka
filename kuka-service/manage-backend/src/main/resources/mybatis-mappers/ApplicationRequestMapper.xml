@@ -71,7 +71,7 @@
 			<if test ='null != entity.queryName and entity.queryName != ""'>
 				<!-- 0 全部 1 用户名 2 ID 3 应用名称 -->
 				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 1'>
-					and user_name like CONCAT('%',#{entity.queryName},'%')
+					and user_mail like CONCAT('%',#{entity.queryName},'%')
 				</if>
 				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 2'>
 					and id = #{entity.queryName}
