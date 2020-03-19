@@ -90,6 +90,7 @@ public class ApplicationRequestServiceImpl implements ApplicationRequestService 
                 if (app.getUserId().compareTo(user.getId()) == 0) {
                     app.setUserName(user.getUserName());
                     app.setUserMail(user.getMail());
+                    app.setUserPhone(user.getPhone());
                     app.setUserPhotoUrl(user.getPhotoUrl());
                     break;
                 }
