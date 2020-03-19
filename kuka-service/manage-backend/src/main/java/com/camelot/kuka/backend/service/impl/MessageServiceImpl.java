@@ -10,6 +10,7 @@ import com.camelot.kuka.model.backend.message.req.MessageReq;
 import com.camelot.kuka.model.backend.message.resp.MessageResp;
 import com.camelot.kuka.model.common.Result;
 import com.camelot.kuka.model.enums.PrincipalEnum;
+import com.camelot.kuka.model.enums.backend.MessageStatusEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -71,5 +72,12 @@ public class MessageServiceImpl implements MessageService {
         return Result.success(id);
     }
 
+    @Override
+    public Result queryCount(MessageReq req) {
+        Message qeru = BeanUtil.copyBean(req, Message.class);
+        qeru.setStatus(MessageStatusEnum.UNREAD);
+        List<Message> list = messageDao.findList(qeru);
+        return Result.success(list.size());
+    }
 
 }

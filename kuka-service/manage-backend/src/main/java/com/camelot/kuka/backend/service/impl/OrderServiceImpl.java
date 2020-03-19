@@ -1,13 +1,8 @@
 package com.camelot.kuka.backend.service.impl;
 
-import com.camelot.kuka.backend.dao.OrderDao;
-import com.camelot.kuka.backend.dao.OrderDetailedDao;
-import com.camelot.kuka.backend.dao.ShopCartDao;
+import com.camelot.kuka.backend.dao.*;
 import com.camelot.kuka.backend.feign.user.UserClient;
-import com.camelot.kuka.backend.model.Comment;
-import com.camelot.kuka.backend.model.Order;
-import com.camelot.kuka.backend.model.OrderDetailed;
-import com.camelot.kuka.backend.model.ShopCart;
+import com.camelot.kuka.backend.model.*;
 import com.camelot.kuka.backend.service.CommentService;
 import com.camelot.kuka.backend.service.OrderService;
 import com.camelot.kuka.backend.service.ShopCartService;
@@ -68,6 +63,8 @@ public class OrderServiceImpl implements OrderService {
     private ShopCartService shopCartService;
     @Resource
     private UserClient userClient;
+    @Resource
+    private ApplicationImgDao applicationImgDao;
 
 
     @Override
@@ -299,6 +296,18 @@ public class OrderServiceImpl implements OrderService {
         Long[] ids = orders.stream().map(Order::getId).toArray(Long[]::new);
         // 获取明细信息
         List<OrderDetailed> deailList = orderDetailedDao.selectByOrderIds(ids);
+        // 获取封面图片
+        Long[] appIds = deailList.stream().map(OrderDetailed::getAppId).toArray(Long[]::new);
+        List<ApplicationImg> appImgs = applicationImgDao.selectList(appIds);
+        for (OrderDetailed orderDetailed : deailList) {
+            for (ApplicationImg appImg : appImgs) {
+                // 放评论的第一张图
+                if (orderDetailed.getAppId().compareTo(appImg.getAppId()) == 0) {
+                    orderDetailed.setAppUrl(appImg.getUrl());
+                    break;
+                }
+            }
+        }
         for (Order order : orders) {
             List<OrderDetailed> newList = new ArrayList<>();
             for (OrderDetailed orderDetailed : deailList) {
