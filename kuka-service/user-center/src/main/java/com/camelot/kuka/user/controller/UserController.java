@@ -70,6 +70,16 @@ public class UserController extends BaseController {
     }
 
     /**
+     * 邮箱或手机号查询
+     * @param req
+     * @return
+     */
+    @PostMapping(value = "/users/client/phoneOrMali")
+    public Result<UserResp> phoneOrMali(@RequestBody UserReq req) {
+        return userService.phoneOrMali(req);
+    }
+
+    /**
      * 通过ID获取
      * @param id
      * @return
@@ -100,7 +110,7 @@ public class UserController extends BaseController {
     }
 
     @PostMapping("/users/client/update")
-    public Result clientUpDATE(@RequestBody UserReq req){
+    public Result clientUpdate(@RequestBody UserReq req){
         return userService.updateUser(req, req.getUpdateBy());
     }
 
@@ -200,6 +210,18 @@ public class UserController extends BaseController {
         String loginUserName = AppUserUtil.getLoginUserName();
         req.setType(UserTypeEnum.KUKA);
         return userService.kukaAddUser(req, loginUserName);
+    }
+
+    /***
+     * <p>Description:[新增集成商用户]</p>
+     * Created on 2020/2/4
+     * @param req
+     * @return com.camelot.kuka.model.common.PageResult
+     * @author 谢楠
+     */
+    @PostMapping("/users/suppiler/add")
+    public Result<Long> suppilerAddUser(@RequestBody UserReq req){
+        return userService.suppilerAddUser(req);
     }
 
     /***

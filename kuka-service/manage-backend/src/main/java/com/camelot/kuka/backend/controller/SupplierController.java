@@ -139,6 +139,13 @@ public class SupplierController extends BaseController {
     @PostMapping("/supplier/queryById")
     public Result<SupplierResp> queryById(CommonReq req){
         try {
+            if (null == req.getId()) {
+                LoginAppUser loginAppUser = AppUserUtil.getLoginAppUser();
+                if (null == loginAppUser) {
+                    return Result.error("用户未登陆");
+                }
+                req.setUserId(loginAppUser.getId());
+            }
             return supplierService.queryById(req);
         } catch (Exception e) {
             log.error("\n 集成商模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "queryById", JSON.toJSONString(req), e);

@@ -289,6 +289,9 @@
 			<if test ='null != entity.id'>
 				and id = #{entity.id}
 			</if>
+			<if test ='null != entity.userId'>
+				and user_id = #{entity.userId}
+			</if>
 		</where>
 	</select>
 

@@ -174,4 +174,8 @@ public class SupplierReq implements Serializable {
      */
     private String updateBy;
 
+    /**
+     * 密码
+     */
+    private String password;
 }

@@ -384,4 +384,19 @@
 			#{item}
 		</foreach>
 	</select>
+
+	<select id="phoneOrMali" resultMap="BaseResultMap">
+		SELECT
+			<include refid="Base_Column_List" />
+		FROM
+			t_user
+		WHERE
+			del_state = #{entity.delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}
+			AND
+		(
+			mail = #{entity.mail}
+			or
+			phone = #{entity.phone}
+		)
+	</select>
 </mapper>

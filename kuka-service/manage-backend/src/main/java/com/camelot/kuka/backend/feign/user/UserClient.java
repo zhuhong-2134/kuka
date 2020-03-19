@@ -1,6 +1,7 @@
 package com.camelot.kuka.backend.feign.user;
 
 import com.camelot.kuka.model.common.Result;
+import com.camelot.kuka.model.user.LoginAppUser;
 import com.camelot.kuka.model.user.req.UserReq;
 import com.camelot.kuka.model.user.resp.UserResp;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -33,6 +34,14 @@ public interface UserClient {
     @GetMapping(value = "/users/client/queryById")
     public Result<UserResp> clientById(@RequestParam("id") Long id);
 
+    /**
+     * 手机号或邮箱查询信息
+     * @param req
+     * @return
+     */
+    @PostMapping(value = "/users/client/phoneOrMali")
+    Result<UserResp> phoneOrMali(@RequestBody UserReq req);
+
     /***
      * <p>Description:[通过ID获取用户]</p>
      * Created on 2020/1/20
@@ -41,7 +50,7 @@ public interface UserClient {
      * @author 谢楠
      */
     @GetMapping(value = "/users/client/queryByIds", params = "ids")
-    public Result<List<UserResp>> queryByIds(@RequestParam("ids") Long[] ids);
+    Result<List<UserResp>> queryByIds(@RequestParam("ids") Long[] ids);
 
     /***
      * <p>Description:[通过ID获取用户]</p>
@@ -61,7 +70,7 @@ public interface UserClient {
      * @author 谢楠
      */
     @PostMapping("/users/client/update")
-    Result clientUpDATE(@RequestBody UserReq req);
+    Result clientUpdate(@RequestBody UserReq req);
 
     /***
      * <p>Description:[根据地址编码返回名称]</p>
@@ -72,4 +81,14 @@ public interface UserClient {
      */
     @PostMapping("/address/queryAddressMap")
     Result<Map<String, String>> queryAddressMap(@RequestBody List<String> codes);
+
+    /***
+     * <p>Description:[新增集成商用户]</p>
+     * Created on 2020/2/4
+     * @param req
+     * @return com.camelot.kuka.model.common.PageResult
+     * @author 谢楠
+     */
+    @PostMapping("/users/suppiler/add")
+    Result<Long> suppilerAddUser(@RequestBody UserReq req);
 }
