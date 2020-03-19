@@ -45,4 +45,13 @@ public interface MessageService {
      * @author 谢楠
      */
     Result addMessage(MessageReq req, String loginUserName);
+
+    /***
+     * <p>Description:[统计数量]</p>
+     * Created on 2020/1/20
+     * @param req
+     * @return com.camelot.kuka.model.common.PageResult
+     * @author 谢楠
+     */
+    Result queryCount(MessageReq req);
 }
