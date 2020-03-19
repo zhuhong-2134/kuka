@@ -149,4 +149,20 @@ public interface UserService {
 	 * @author 谢楠
 	 */
 	Result<List<UserResp>> queryByIds(Long[] ids);
+
+	/***
+	 * <p>Description:[邮箱或手机号查询]</p>
+	 * Created on 2020/1/20
+	 * @return com.camelot.kuka.model.common.PageResult
+	 * @author 谢楠
+	 */
+	Result<UserResp> phoneOrMali(UserReq req);
+
+	/***
+	 * <p>Description:[新增集成商用户]</p>
+	 * Created on 2020/1/20
+	 * @return com.camelot.kuka.model.common.PageResult
+	 * @author 谢楠
+	 */
+	Result<Long> suppilerAddUser(UserReq req);
 }

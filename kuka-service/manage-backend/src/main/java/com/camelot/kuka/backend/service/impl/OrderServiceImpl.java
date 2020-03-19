@@ -109,6 +109,18 @@ public class OrderServiceImpl implements OrderService {
         // 放入明细
         Long[] orderIds = new Long[]{order.getId()};
         List<OrderDetailed> deailList = orderDetailedDao.selectByOrderIds(orderIds);
+        // 获取封面图片
+        Long[] appIds = deailList.stream().map(OrderDetailed::getAppId).toArray(Long[]::new);
+        List<ApplicationImg> appImgs = applicationImgDao.selectList(appIds);
+        for (OrderDetailed orderDetailed : deailList) {
+            for (ApplicationImg appImg : appImgs) {
+                // 放评论的第一张图
+                if (orderDetailed.getAppId().compareTo(appImg.getAppId()) == 0) {
+                    orderDetailed.setAppUrl(appImg.getUrl());
+                    break;
+                }
+            }
+        }
         orderResp.setDetaileList(BeanUtil.copyList(deailList, OrderDetailedResp.class ));
 
 

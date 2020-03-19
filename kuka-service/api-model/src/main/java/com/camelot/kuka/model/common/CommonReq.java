@@ -33,4 +33,9 @@ public class CommonReq {
      * 主键s
      */
     private Long[] ids;
+
+    /**
+     * 用户主键
+     */
+    private Long userId;
 }

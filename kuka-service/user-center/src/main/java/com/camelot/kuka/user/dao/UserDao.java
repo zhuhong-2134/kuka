@@ -100,4 +100,11 @@ public interface UserDao {
 	 * @return
 	 */
     List<User> queryByIds(@Param("array") Long[] ids);
+
+	/**
+	 * 邮箱或手机号查询
+	 * @param query
+	 * @return
+	 */
+    User phoneOrMali(@Param("entity") User query);
 }

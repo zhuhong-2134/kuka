@@ -489,6 +489,50 @@ public class UserServiceImpl implements UserService {
         return Result.success(BeanUtil.copyBeanList(users, UserResp.class));
     }
 
+    @Override
+    public Result<UserResp> phoneOrMali(UserReq req) {
+        User query = BeanUtil.copyBean(req, User.class);
+        query.setDelState(DeleteEnum.NO);
+        User user = userDao.phoneOrMali(query);
+        return Result.success(BeanUtil.copyBean(user, UserResp.class));
+    }
+
+    @Override
+    public Result<Long> suppilerAddUser(UserReq req) {
+        if (StringUtils.isBlank(req.getUserName())) {
+            return Result.error("用户名称不能为空");
+        }
+        if (StringUtils.isBlank(req.getPassword())) {
+            return Result.error("密码不能为空");
+        }
+        if (StringUtils.isBlank(req.getPhone())) {
+            return Result.error("手机号不能为空");
+        }
+        if (null == req.getRoleId()) {
+            return Result.error("角色不能为空");
+        }
+        User user = BeanUtil.copyBean(req, User.class);
+        Long id = codeGenerateUtil.generateId(PrincipalEnum.USER_USER);
+        user.setId(id);
+        // 固定参数
+        user.setCreateTime(new Date());
+        user.setDelState(DeleteEnum.NO);
+        // 密码加密
+        if (StringUtils.isNoneBlank(user.getPassword())) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
+        try {
+            int con = userDao.addUser(Arrays.asList(user));
+            if (con == 0) {
+                return Result.error("新增失败");
+            }
+            return Result.success(id);
+        } catch (Exception e) {
+            log.error("\n 新增用户失败, 参数:{}, \n 错误信息:{}", JSON.toJSON(req), e);
+        }
+        return Result.error("新增失败");
+    }
+
 
     /**
      * 放入角色名称

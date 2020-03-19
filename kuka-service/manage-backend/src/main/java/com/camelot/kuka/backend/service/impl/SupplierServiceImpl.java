@@ -17,6 +17,7 @@ import com.camelot.kuka.model.common.CommonReq;
 import com.camelot.kuka.model.common.Result;
 import com.camelot.kuka.model.enums.DeleteEnum;
 import com.camelot.kuka.model.enums.PrincipalEnum;
+import com.camelot.kuka.model.enums.user.CreateSourceEnum;
 import com.camelot.kuka.model.enums.user.UserTypeEnum;
 import com.camelot.kuka.model.user.LoginAppUser;
 import com.camelot.kuka.model.user.req.UserReq;
@@ -115,13 +116,13 @@ public class SupplierServiceImpl implements SupplierService {
         supplier.setUpdateBy(loginUserName);
         supplier.setUpdateTime(new Date());
         supplier.setDelState(DeleteEnum.NO);
+        // 获取省市区线名称
+        setAddressName(supplier);
         // 参数处理
         Result result = saveHandle(supplier);
         if (!result.isSuccess()) {
             return result;
         }
-        // 获取省市区线名称
-        setAddressName(supplier);
         try {
             int con = supplierDao.addSupplier(Arrays.asList(supplier));
             if (con == 0) {
@@ -141,35 +142,59 @@ public class SupplierServiceImpl implements SupplierService {
      */
     private Result saveHandle(Supplier supplier) {
         // 新增用户信息
-        if (null == supplier.getUserId()) {
-             return Result.error("责任人ID不能为空");
+        if (StringUtils.isBlank(supplier.getUserMali())) {
+             return Result.error("责任人邮箱不能为空");
         }
-        Result<UserResp> userRespResult = userClient.clientById(supplier.getUserId());
-        if (!userRespResult.isSuccess() || null == userRespResult.getData()) {
-            return Result.error("未获取到责任人信息");
+        if (StringUtils.isBlank(supplier.getUserPhone())) {
+            return Result.error("责任人邮箱不能为空");
         }
-        // 修改用户类型
-        UserReq req = new UserReq();
-        req.setId(supplier.getUserId());
-        req.setUpdateBy(supplier.getUpdateBy());
-        req.setRoleId(2L);
-        req.setType(UserTypeEnum.SUPPILER);
-        Result result = userClient.clientUpDATE(req);
-        if (!result.isSuccess()) {
-            return Result.error("绑定责任人失败");
+        UserReq userReq = new UserReq();
+        userReq.setMail(supplier.getUserMali());
+        userReq.setPhone(supplier.getUserPhone());
+        Result<UserResp> userResp = userClient.phoneOrMali(userReq);
+        if (!userResp.isSuccess()) {
+            return Result.error("校验责任人失败");
         }
-        supplier.setUserName(userRespResult.getData().getName());
-        supplier.setUserCreateTime(userRespResult.getData().getCreateTime());
-        supplier.setSource(userRespResult.getData().getSource());
+        if (null != userResp.getData() && userResp.getData().getMail().equals(supplier.getUserMali())) {
+            return Result.error("邮箱已被绑定");
+        }
+        if (null != userResp.getData() && userResp.getData().getPhone().equals(supplier.getUserPhone())) {
+            return Result.error("手机号已经被绑定");
+        }
+
+        // 创建用户信息
+        UserReq addUser = new UserReq();
+        addUser.setPhone(supplier.getUserPhone());
+        addUser.setMail(supplier.getUserMali());
+        addUser.setUserName(supplier.getUserMali());
+        addUser.setPassword(supplier.getPassword());
+        addUser.setName(supplier.getUserName());
+        addUser.setRoleId(2L);
+        addUser.setType(UserTypeEnum.SUPPILER);
+        addUser.setSource(CreateSourceEnum.BACKSTAGE);
+        addUser.setPhotoUrl(supplier.getCoverUrl());
+        addUser.setProvinceName(supplier.getProvinceName());
+        addUser.setProvinceCode(supplier.getProvinceCode());
+        addUser.setCityName(supplier.getCityName());
+        addUser.setCityCode(supplier.getCityCode());
+        addUser.setDistrictName(supplier.getDistrictName());
+        addUser.setDistrictCode(supplier.getDistrictCode());
+        Result<Long> resultAddUser = userClient.suppilerAddUser(addUser);
+        if (!resultAddUser.isSuccess()) {
+            return Result.error("创建集成商用户失败");
+        }
+        supplier.setUserId(resultAddUser.getData());
+        supplier.setUserCreateTime(new Date());
+        supplier.setSource(CreateSourceEnum.BACKSTAGE);
         // 当前集成商创建者属于绑定的责任人
-        supplier.setCreateBy(userRespResult.getData().getUserName());
+        supplier.setCreateBy(supplier.getUserMali());
 
         return Result.success();
     }
 
     @Override
     public Result<SupplierResp> queryById(CommonReq req) {
-        if (null == req || null == req.getId()) {
+        if (null == req.getId() && req.getUserId() == null) {
             return Result.error("主键不能为空");
         }
         Supplier supplier = BeanUtil.copyBean(req, Supplier.class);

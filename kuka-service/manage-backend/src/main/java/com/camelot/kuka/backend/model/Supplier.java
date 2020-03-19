@@ -190,4 +190,8 @@ public class Supplier implements Serializable {
      * 首页展示的条数
      */
     private Integer size;
+    /**
+     * 密码
+     */
+    private String password;
 }
