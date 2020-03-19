@@ -71,6 +71,7 @@ public class SupplierServiceImpl implements SupplierService {
         }
         list.forEach(suppliers -> {
             formatAddress(suppliers);
+            suppliers.setPassword("密码只是为了回显");
         });
         return list;
     }
@@ -204,6 +205,7 @@ public class SupplierServiceImpl implements SupplierService {
             if (null == info) {
                 return Result.error("数据获取失败,刷新后重试");
             }
+            info.setPassword("密码只是为了回显");
             return Result.success(BeanUtil.copyBean(info, SupplierResp.class));
         } catch (Exception e) {
             e.printStackTrace();

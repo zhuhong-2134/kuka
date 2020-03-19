@@ -128,6 +128,11 @@ public class SupplierResp implements Serializable {
     private String userName;
 
     /**
+     * 密码
+     */
+    private String password;
+
+    /**
      * 负责人id
      */
     private Long userId;
