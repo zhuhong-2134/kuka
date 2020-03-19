@@ -116,6 +116,9 @@ public class UserServiceImpl implements UserService {
         user.setCreateBy(loginUserName);
         user.setCreateTime(new Date());
         user.setDelState(DeleteEnum.NO);
+        if(user.getType()==null){//如果用户类型为空则设置为来访者
+            user.setType(UserTypeEnum.VISITORS);
+        }
         // 默认的用户头像
         if (StringUtils.isBlank(user.getPhotoUrl())) {
             user.setPhotoUrl("http://52.83.64.99/static/imgs/zhuce.jpg");
