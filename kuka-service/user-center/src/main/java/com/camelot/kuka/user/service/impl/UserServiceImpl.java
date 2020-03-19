@@ -116,7 +116,10 @@ public class UserServiceImpl implements UserService {
         user.setCreateBy(loginUserName);
         user.setCreateTime(new Date());
         user.setDelState(DeleteEnum.NO);
-
+        // 默认的用户头像
+        if (StringUtils.isBlank(user.getPhotoUrl())) {
+            user.setPhotoUrl("http://52.83.64.99/static/imgs/zhuce.jpg");
+        }
         // 查看用户是否已经存在
         int check = userDao.checkUser(user);
         if (check > 0) {
@@ -166,6 +169,10 @@ public class UserServiceImpl implements UserService {
         user.setCreateTime(new Date());
         user.setDelState(DeleteEnum.NO);
         user.setName(user.getUserName());
+        // 默认的用户头像
+        if (StringUtils.isBlank(user.getPhotoUrl())) {
+            user.setPhotoUrl("http://52.83.64.99/static/imgs/zhuce.jpg");
+        }
         // 获取地址名称
         setAddressName(user);
         // 查看用户是否已经存在
@@ -223,7 +230,10 @@ public class UserServiceImpl implements UserService {
         user.setCreateTime(new Date());
         user.setDelState(DeleteEnum.NO);
         user.setType(req.getType());
-
+        // 默认的用户头像
+        if (StringUtils.isBlank(user.getPhotoUrl())) {
+            user.setPhotoUrl("http://52.83.64.99/static/imgs/zhuce.jpg");
+        }
         if (StringUtils.isBlank(req.getUserName())) {
             user.setUserName(req.getMail());
         } else {

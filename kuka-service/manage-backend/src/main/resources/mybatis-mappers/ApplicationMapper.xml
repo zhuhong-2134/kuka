@@ -24,6 +24,7 @@
 		<result column="request_count" property="requestCount" />
 		<result column="app_status" property="appStatus" typeHandler="com.camelot.kuka.common.mybatis.handler.EnumTypeHandler"/>
 		<result column="opinion" property="opinion"/>
+		<result column="licence_str" property="licenceStr"/>
 		<result column="del_state" property="delState" typeHandler="com.camelot.kuka.common.mybatis.handler.EnumTypeHandler"/>
 		<result column="create_time" property="createTime" />
 		<result column="create_by" property="createBy" />
@@ -52,6 +53,7 @@
                 request_count,
                 app_status,
                 opinion,
+                licence_str,
                 del_state,
                 create_time,
                 create_by,
@@ -202,6 +204,7 @@
                 request_count,
                 app_status,
 				opinion,
+				licence_str,
                 del_state,
                 create_time,
                 create_by,
@@ -231,6 +234,7 @@
 				#{item.requestCount},
 				#{item.appStatus, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
 				#{item.opinion},
+				#{item.licenceStr},
 				#{item.delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
 				#{item.createTime},
 				#{item.createBy},
@@ -333,6 +337,9 @@
 			</if>
 			<if test ='null != opinion'>
 				opinion = #{opinion},
+			</if>
+			<if test ='null != licenceStr'>
+				licence_str = #{licenceStr},
 			</if>
 			<if test ='null != delState'>
 				del_state = #{delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},

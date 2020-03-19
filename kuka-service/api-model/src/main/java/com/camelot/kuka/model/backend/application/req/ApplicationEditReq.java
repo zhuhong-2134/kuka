@@ -124,6 +124,11 @@ public class ApplicationEditReq implements Serializable {
     private String opinion;
 
     /**
+     * licence
+     */
+    private String licenceStr;
+
+    /**
      * 封面URL
      */
     private String[] coverUrl;
