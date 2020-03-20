@@ -119,6 +119,9 @@ public class UserServiceImpl implements UserService {
         if(user.getType()==null){//如果用户类型为空则设置为来访者
             user.setType(UserTypeEnum.VISITORS);
         }
+        if(user.getSource()==null){//如果用户来源为空设置为后台创建
+            user.setSource(CreateSourceEnum.BACKSTAGE);
+        }
         // 默认的用户头像
         if (StringUtils.isBlank(user.getPhotoUrl())) {
             user.setPhotoUrl("http://52.83.64.99/static/imgs/zhuce.jpg");
@@ -126,7 +129,7 @@ public class UserServiceImpl implements UserService {
         // 查看用户是否已经存在
         int check = userDao.checkUser(user);
         if (check > 0) {
-            return Result.error("邮箱或手机号以被绑定");
+            return Result.error("邮箱或手机号已被绑定");
         }
         // 获取地址名称
         setAddressName(user);
@@ -492,6 +495,36 @@ public class UserServiceImpl implements UserService {
         } catch (Exception e) {
             e.printStackTrace();
             log.error("\n 获取用户失败, 参数:{}, \n 错误信息:{}", JSON.toJSON(userName), e);
+        }
+        return Result.error("数据获取失败");
+    }
+
+
+    @Override
+    public Result<UserResp> queryByName(String name) {
+        if (StringUtils.isBlank(name)) {
+            return Result.error("名称不能为空");
+        }
+        User user = new User();
+        user.setName(name);
+        user.setDelState(DeleteEnum.NO);
+        try {
+            User info = userDao.queryById(user);
+            if (null == info) {
+                return Result.error("数据获取失败,刷新后重试");
+            }
+            UserResp userResp = BeanUtil.copyBean(info, UserResp.class);
+            // 获取当前用户绑定的集成商
+            if (info.getType() == UserTypeEnum.SUPPILER) {
+                Result<SupplierResp> supplierRespResult = mangeBackenCilent.queryByCreateName(info.getUserName());
+                if (supplierRespResult.isSuccess() && null != supplierRespResult.getData()) {
+                    userResp.setSupplierId(supplierRespResult.getData().getId());
+                }
+            }
+            return Result.success(userResp);
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("\n 获取用户失败, 参数:{}, \n 错误信息:{}", JSON.toJSON(name), e);
         }
         return Result.error("数据获取失败");
     }

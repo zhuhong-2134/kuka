@@ -109,6 +109,12 @@ public class UserController extends BaseController {
         return userService.queryByUserName(userName);
     }
 
+    @GetMapping(value = "/users/client/queryByName", params = "userName")
+    public Result<UserResp> queryByName(String userName) {
+        return userService.queryByName(userName);
+    }
+
+
     @PostMapping("/users/client/update")
     public Result clientUpdate(@RequestBody UserReq req){
         return userService.updateUser(req, req.getUpdateBy());

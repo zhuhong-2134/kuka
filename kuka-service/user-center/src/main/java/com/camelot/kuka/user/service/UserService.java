@@ -143,6 +143,13 @@ public interface UserService {
     Result<UserResp> queryByUserName(String userName);
 
 	/***
+	 * 根据名称查询
+	 * @param name
+	 * @return
+	 */
+	Result<UserResp> queryByName(String name);
+
+	/***
 	 * <p>Description:[根据用户名获取]</p>
 	 * Created on 2020/1/20
 	 * @return com.camelot.kuka.model.common.PageResult

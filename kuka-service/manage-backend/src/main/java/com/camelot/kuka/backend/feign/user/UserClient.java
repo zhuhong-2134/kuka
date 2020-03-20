@@ -62,6 +62,14 @@ public interface UserClient {
     @GetMapping(value = "/users/client/queryByUserName")
     Result<UserResp> queryByUserName(@RequestParam("userName") String userName);
 
+    /**
+     * 根据名称查询
+     * @param userName
+     * @return
+     */
+    @GetMapping(value = "/users/client/queryByName")
+    Result<UserResp> queryByName(@RequestParam("userName") String userName);
+
     /***
      * <p>Description:[修改用户信息]</p>
      * Created on 2020/1/20
