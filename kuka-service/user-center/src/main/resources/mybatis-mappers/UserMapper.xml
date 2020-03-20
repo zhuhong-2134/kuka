@@ -88,7 +88,7 @@
 					and phone like CONCAT('%',#{entity.queryName},'%')
 				</if>
 				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 2'>
-					and user_name like CONCAT('%',#{entity.queryName},'%')
+					and name like CONCAT('%',#{entity.queryName},'%')
 				</if>
 				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 3'>
 					and id = #{entity.queryName}
@@ -135,7 +135,7 @@
 					and phone = #{entity.queryName}
 				</if>
 				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 2'>
-					and user_name = #{entity.queryName}
+					and name = #{entity.queryName}
 				</if>
 				<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 3'>
 					and id = #{entity.queryName}

@@ -1,10 +1,7 @@
 package com.camelot.kuka.user.service.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.camelot.kuka.common.utils.BeanUtil;
-import com.camelot.kuka.common.utils.CodeGenerateUtil;
-import com.camelot.kuka.common.utils.RandomNumberUtils;
-import com.camelot.kuka.common.utils.RedisStringUtils;
+import com.camelot.kuka.common.utils.*;
 import com.camelot.kuka.model.backend.supplier.resp.SupplierResp;
 import com.camelot.kuka.model.common.CommonReq;
 import com.camelot.kuka.model.common.MailReq;
@@ -134,9 +131,8 @@ public class UserServiceImpl implements UserService {
         // 获取地址名称
         setAddressName(user);
         // 密码加密
-        if (StringUtils.isNoneBlank(user.getPassword())) {
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
-        }
+        String md5Pwd = MD5Util.MD("m" + req.getPhone());
+        user.setPassword(passwordEncoder.encode(md5Pwd));
         try {
             int con = userDao.addUser(Arrays.asList(user));
             if (con == 0) {
@@ -148,7 +144,6 @@ public class UserServiceImpl implements UserService {
         }
         return Result.error("新增失败");
 	}
-
 
 	@Override
 	public Result kukaAddUser(UserReq req, String loginUserName) {
