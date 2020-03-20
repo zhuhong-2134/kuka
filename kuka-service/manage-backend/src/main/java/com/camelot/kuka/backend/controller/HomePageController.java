@@ -120,7 +120,7 @@ public class HomePageController extends BaseController {
     public PageResult<List<ApplicationResp>> appPageList(HomeAppPageReq req) {
         try {
             // 开启分页
-            startPage();
+            // startPage();
             // 返回分页
             List<Application> application = homePageService.appPageList(req);
             PageResult<List<ApplicationResp>> page = getPage(application, ApplicationResp.class);
@@ -187,7 +187,7 @@ public class HomePageController extends BaseController {
     public PageResult<List<SupplierResp>> supplierPageList(HomeSupplierPageReq req){
         try {
             // 开启分页
-            startPage();
+            // startPage();
             // 返回分页
             List<Supplier> suppliers = homePageService.supplierPageList(req);
             PageResult<List<SupplierResp>> page = getPage(suppliers, SupplierResp.class);
