@@ -68,4 +68,9 @@ public class AppPageReq implements Serializable {
 	 * 登录人拥有的集成商ID
 	 */
 	private Long[] supplierIds;
+
+	/**
+	 * 前台传入的集成商
+	 */
+	private Long supplierId;
 }

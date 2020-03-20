@@ -76,6 +76,9 @@
 			<if test ='null != entity.appStatus'>
 				and app_status = #{entity.appStatus, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}
 			</if>
+			<if test ='null != entity.supplierId'>
+				and supplier_id = #{entity.supplierId}
+			</if>
 			<if test ='null != entity.createTimeSta'>
 				and create_time &gt;= #{entity.createTimeSta}
 			</if>
@@ -111,6 +114,9 @@
 			</if>
 			<if test ='null != entity.appStatus'>
 				and app_status = #{entity.appStatus, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}
+			</if>
+			<if test ='null != entity.supplierId'>
+				and supplier_id = #{entity.supplierId}
 			</if>
 			<if test ='null != entity.createTimeSta'>
 				and create_time &gt;= #{entity.createTimeSta}
@@ -155,6 +161,9 @@
 			</if>
 			<if test ='null != entity.appStatus'>
 				and app_status = #{entity.appStatus, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}
+			</if>
+			<if test ='null != entity.supplierId'>
+				and supplier_id = #{entity.supplierId}
 			</if>
 			<if test ='null != entity.createTimeSta'>
 				and create_time &gt;= #{entity.createTimeSta}
