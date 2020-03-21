@@ -88,4 +88,50 @@
 			)
 		</foreach>
 	</insert>
+
+	<update id="update">
+		update t_order_detailed
+		<set>
+			<if test="record.orderId != null">
+				order_id = #{record.orderId},
+			</if>
+			<if test="record.supplierId != null">
+				supplier_id = #{record.supplierId},
+			</if>
+			<if test="record.appId != null">
+				app_id = #{record.appId},
+			</if>
+			<if test="record.appUrl != null">
+				app_url = #{record.appUrl},
+			</if>
+			<if test="record.appName != null">
+				app_name = #{record.appName},
+			</if>
+			<if test="record.price != null">
+				price = #{record.price},
+			</if>
+			<if test="record.num != null">
+				num = #{record.num},
+			</if>
+			<if test="record.sumPrice != null">
+				sum_price = #{record.sumPrice},
+			</if>
+			<if test="record.delState != null">
+				del_state = #{record.delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
+			</if>
+			<if test="record.createTime != null">
+				create_time = #{record.createTime},
+			</if>
+			<if test="record.createBy != null">
+				create_by = #{record.createBy},
+			</if>
+			<if test="record.updateTime != null">
+				update_time = #{record.updateTime},
+			</if>
+			<if test="record.updateBy != null">
+				update_by = #{record.updateBy},
+			</if>
+		</set>
+		where id = #{record.id}
+	</update>
 </mapper>

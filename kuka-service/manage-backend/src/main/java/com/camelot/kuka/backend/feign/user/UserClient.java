@@ -35,6 +35,14 @@ public interface UserClient {
     public Result<UserResp> clientById(@RequestParam("id") Long id);
 
     /**
+     * 根据条件查询集合
+     * @param userReq
+     * @return
+     */
+    @PostMapping(value = "/users/client/queryByInfo")
+    Result<List<UserResp>> queryByInfo(@RequestBody UserReq userReq);
+
+    /**
      * 手机号或邮箱查询信息
      * @param req
      * @return

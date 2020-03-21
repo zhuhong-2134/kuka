@@ -34,4 +34,13 @@ public interface OrderDetailedDao {
      * @author 谢楠
      */
     int addBatch(@Param("list") List<OrderDetailed> orderDetaileds);
+
+    /***
+     * <p>Description:[修改]</p>
+     * Created on 2020/2/5
+     * @param orderDetailed
+     * @return List
+     * @author 谢楠
+     */
+    int update(@Param("record") OrderDetailed orderDetailed);
 }

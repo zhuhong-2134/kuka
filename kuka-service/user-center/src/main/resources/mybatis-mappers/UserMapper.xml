@@ -402,4 +402,18 @@
 			phone = #{entity.phone}
 		)
 	</select>
+
+	<select id="queryByInfo" resultMap="BaseResultMap">
+		SELECT
+			<include refid="Base_Column_List" />
+		FROM
+			t_user
+		WHERE
+		<if test ='null != entity.delState'>
+			del_state = #{entity.delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}
+		</if>
+		<if test ='null != entity.name and entity.name != ""'>
+			and name like CONCAT('%',#{entity.name},'%')
+		</if>
+	</select>
 </mapper>

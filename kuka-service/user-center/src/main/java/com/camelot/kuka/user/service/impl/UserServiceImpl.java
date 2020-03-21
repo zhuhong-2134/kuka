@@ -574,6 +574,13 @@ public class UserServiceImpl implements UserService {
         return Result.error("新增失败");
     }
 
+    @Override
+    public Result<List<UserResp>> queryByInfo(UserReq userReq) {
+        userReq.setDelState(DeleteEnum.NO);
+        List<User> users = userDao.queryByInfo(userReq);
+        return Result.success(BeanUtil.copyBeanList(users, UserResp.class));
+    }
+
 
     /**
      * 放入角色名称

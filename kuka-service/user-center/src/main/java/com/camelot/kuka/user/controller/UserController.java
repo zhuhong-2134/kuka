@@ -69,6 +69,7 @@ public class UserController extends BaseController {
         return userService.findByUsername(username);
     }
 
+
     /**
      * 邮箱或手机号查询
      * @param req
@@ -102,6 +103,16 @@ public class UserController extends BaseController {
             user.setUserName(user.getName());
         });
         return listResult;
+    }
+
+    /**
+     * 通过条件获取数据
+     * @param queryByInfo
+     * @return
+     */
+    @PostMapping(value = "/users/client/queryByInfo")
+    public Result<List<UserResp>> queryByInfo(@RequestBody UserReq userReq) {
+        return userService.queryByInfo(userReq);
     }
 
     @GetMapping(value = "/users/client/queryByUserName", params = "userName")

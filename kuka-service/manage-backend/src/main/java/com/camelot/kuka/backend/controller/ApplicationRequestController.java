@@ -19,9 +19,11 @@ import com.camelot.kuka.model.enums.CommunicateEnum;
 import com.camelot.kuka.model.enums.DeleteEnum;
 import com.camelot.kuka.model.enums.application.AppTypeEnum;
 import com.camelot.kuka.model.enums.backend.AppRequestPageEnum;
+import com.camelot.kuka.model.enums.backend.SupplierRequestPageEnum;
 import com.camelot.kuka.model.enums.user.UserTypeEnum;
 import com.camelot.kuka.model.enums.user.WhetherEnum;
 import com.camelot.kuka.model.user.LoginAppUser;
+import com.camelot.kuka.model.user.req.UserReq;
 import com.camelot.kuka.model.user.resp.UserResp;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
@@ -93,12 +95,14 @@ public class ApplicationRequestController extends BaseController {
             }
 
 
-            if(req.getQueryType()!=null&&req.getQueryType()==AppRequestPageEnum.USERNAME){
-                Result<UserResp> userRespResult = userClient.queryByName(req.getQueryName());
-                UserResp data = userRespResult.getData();
-                if(data!=null){
-                    String mail = data.getMail();
-                    req.setQueryName(mail);
+            if(req.getQueryType() != null && (req.getQueryType()== AppRequestPageEnum.USERNAME || req.getQueryType()== AppRequestPageEnum.ALL)){
+                UserReq userReq = new UserReq();
+                userReq.setName(req.getQueryName());
+                Result<List<UserResp>> userRespResult = userClient.queryByInfo(userReq);
+                if (userRespResult.isSuccess() && !userRespResult.getData().isEmpty()) {
+                    // 用户ID
+                    Long[] userIds = userRespResult.getData().stream().map(UserResp::getId).toArray(Long[]::new);
+                    req.setUserIds(userIds);
                 }
             }
             // 开启分页

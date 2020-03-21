@@ -40,6 +40,11 @@ public class SupplierRequestPageReq implements Serializable {
 	private Long[] supplierIds;
 
 	/**
+	 * 用户IDS
+	 */
+	private Long[] userIds;
+
+	/**
 	 * 当前登录人标识
 	 */
 	private String loginName;

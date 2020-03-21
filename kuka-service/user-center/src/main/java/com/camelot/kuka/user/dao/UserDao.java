@@ -1,7 +1,5 @@
 package com.camelot.kuka.user.dao;
 
-import com.camelot.kuka.model.common.CommonReq;
-import com.camelot.kuka.model.common.Result;
 import com.camelot.kuka.model.user.req.UserPageReq;
 import com.camelot.kuka.model.user.req.UserReq;
 import com.camelot.kuka.user.model.User;
@@ -107,4 +105,11 @@ public interface UserDao {
 	 * @return
 	 */
     User phoneOrMali(@Param("entity") User query);
+
+	/**
+	 * 条件查询返回集合
+	 * @param userReq
+	 * @return
+	 */
+    List<User> queryByInfo(@Param("entity") UserReq userReq);
 }
