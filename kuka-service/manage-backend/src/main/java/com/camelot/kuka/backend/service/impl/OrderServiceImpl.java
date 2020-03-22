@@ -302,7 +302,7 @@ public class OrderServiceImpl implements OrderService {
      * @param orders
      */
     private void getOrderDetaileList(List<Order> orders){
-        if (orders.isEmpty()) {
+        if (null == orders || orders.isEmpty()) {
             return;
         }
         Long[] ids = orders.stream().map(Order::getId).toArray(Long[]::new);

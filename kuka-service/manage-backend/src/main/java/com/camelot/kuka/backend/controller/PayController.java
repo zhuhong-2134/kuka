@@ -6,6 +6,10 @@ import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.internal.util.AlipaySignature;
 import com.alipay.api.request.AlipayTradePagePayRequest;
+import com.camelot.kuka.backend.feign.user.UserClient;
+import com.camelot.kuka.backend.service.ApplicationService;
+import com.camelot.kuka.backend.service.MailMouldService;
+import com.camelot.kuka.backend.service.MessageService;
 import com.camelot.kuka.backend.service.OrderService;
 import com.camelot.kuka.common.controller.BaseController;
 import com.camelot.kuka.common.model.unpay.Body;
@@ -18,31 +22,31 @@ import com.camelot.kuka.common.utils.pay.payment.common.security.Base64;
 import com.camelot.kuka.common.utils.pay.payment.common.security.PKCSTool;
 import com.camelot.kuka.common.utils.pay.payment.common.util.Constants;
 import com.camelot.kuka.common.utils.pay.payment.common.util.XmlUtil;
+import com.camelot.kuka.model.backend.mailmould.resp.MailMouldResp;
+import com.camelot.kuka.model.backend.message.req.MessageReq;
 import com.camelot.kuka.model.backend.order.req.OrderReq;
 import com.camelot.kuka.model.backend.order.resp.OrderDetailedResp;
 import com.camelot.kuka.model.backend.order.resp.OrderResp;
 import com.camelot.kuka.model.common.CommonReq;
+import com.camelot.kuka.model.common.MailReq;
 import com.camelot.kuka.model.common.Result;
+import com.camelot.kuka.model.enums.backend.JumpStatusEnum;
+import com.camelot.kuka.model.enums.backend.MessageStatusEnum;
+import com.camelot.kuka.model.enums.backend.MessageTypeEnum;
+import com.camelot.kuka.model.enums.mailmould.MailTypeEnum;
 import com.camelot.kuka.model.enums.order.OrderStatusEnum;
+import com.camelot.kuka.model.user.resp.UserResp;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.w3c.dom.Document;
 
 import javax.annotation.Resource;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 /***
  * 支付入口
@@ -54,6 +58,14 @@ public class PayController extends BaseController {
 
     @Resource
     private OrderService orderService;
+    @Resource
+    private ApplicationService applicationService;
+    @Resource
+    private MailMouldService mailMouldService;
+    @Resource
+    private UserClient userClient;
+    @Resource
+    private MessageService messageService;
 
     /**
      * 支付宝支付
@@ -231,7 +243,8 @@ public class PayController extends BaseController {
                     if (!result.isSuccess()) {
                         log.info("********************** 支付后修改订单异常 **********************");
                     }
-
+                    // 发送邮件
+                    sendMail(out_trade_no);
                     log.info("********************** 支付成功(支付宝异步通知) **********************");
                     log.info("* 订单号: {}", out_trade_no);
                     log.info("* 支付宝交易号: {}", trade_no);
@@ -296,6 +309,8 @@ public class PayController extends BaseController {
                 if (!result.isSuccess()) {
                     log.error("********************** 支付后修改订单异常 **********************");
                 }
+                // 发送邮件
+                sendMail(orderNo);
                 //request.setAttribute("result",responseCode+",Notice Success!");
                 //request.getRequestDispatcher("/jsp/ResultDisplay.jsp").forward(request, response);
             }
@@ -305,6 +320,116 @@ public class PayController extends BaseController {
             return "error";
         }
         return "OK,Notice Success!";
+    }
+
+    /**
+     * 发送邮件
+     * @param orderNo
+     */
+    private void sendMail(String orderNo) {
+        // 获取订单详情
+        CommonReq req = new CommonReq();
+        req.setQueryName(orderNo);
+        Result<OrderResp> orderRespResult = orderService.queryById(req);
+        if (!orderRespResult.isSuccess() || null == orderRespResult.getData()) {
+            log.error("\n 支付回调接口，发送邮件，订单号:{}, 获取订单详情失败! 错误信息:{}", orderNo, orderRespResult.getMsg());
+            return;
+        }
+        // 获取创建者的用户信息
+        Result<UserResp> userRespResult = userClient.queryByUserName(orderRespResult.getData().getCreateBy());
+        if (!userRespResult.isSuccess()) {
+            log.error("\n 支付回调接口，发送邮件，订单号:{}, 获取创建者的用户信息失败! 错误信息:{}", orderNo, userRespResult.getMsg());
+            return;
+        }
+        // 获取模板内容
+        CommonReq reqMa = new CommonReq();
+        reqMa.setId(5L);
+        Result<MailMouldResp> mailMouldRespResult = mailMouldService.queryById(reqMa);
+        if (!mailMouldRespResult.isSuccess() || mailMouldRespResult.getData() == null) {
+            log.error("\n 支付回调接口，发送邮件，订单号:{}, 获取模板内容失败! 错误信息:{}", orderNo, mailMouldRespResult.getMsg());
+            return;
+        }
+        OrderResp order = orderRespResult.getData();
+        List<OrderDetailedResp> detaileList = orderRespResult.getData().getDetaileList();
+        // 名称
+        StringBuffer sb = new StringBuffer();
+        for (OrderDetailedResp orderDetailedResp : detaileList) {
+            sb.append(orderDetailedResp.getAppName()).append(",");
+        }
+        // 消息内容
+        String appName = sb.toString().substring(0, sb.toString().length() - 1);
+        String message = mailMouldRespResult.getData().getMessage();
+        message = message.replace("{1}", orderNo);
+        message = message.replace("{2}", appName);
+        message = message.replace("{3}", order.getId().toString());
+
+        // 全发
+        if (mailMouldRespResult.getData().getType() == MailTypeEnum.ALL) {
+            Result saveMessageRes = saveMessage(userRespResult.getData(), "kuka购买软件成功提醒", message, order.getId());
+            if (!saveMessageRes.isSuccess()) {
+                log.error("\n 支付回调接口，发送邮件，订单号:{}, 发送站内消息失败!, 错误信息:{}", orderNo, saveMessageRes.getMsg());
+                return;
+            }
+            Result staSendMailRes = staSendMail(order.getOrderMail(), "kuka购买软件成功提醒", message);
+            if (!staSendMailRes.isSuccess()) {
+                log.error("\n 支付回调接口，发送邮件，订单号:{}, 发送邮件失败!, 错误信息:{}", orderNo, staSendMailRes.getMsg());
+                return;
+            }
+        }
+
+        // 站内消息
+        if (mailMouldRespResult.getData().getType() == MailTypeEnum.MESSAGE) {
+            Result saveMessageRes = saveMessage(userRespResult.getData(), "kuka购买软件成功提醒", message, order.getId());
+            if (!saveMessageRes.isSuccess()) {
+                log.error("\n 支付回调接口，发送邮件，订单号:{}, 发送站内消息失败!, 错误信息:{}", orderNo, saveMessageRes.getMsg());
+                return;
+            }
+        }
+
+        // 邮件
+        if (mailMouldRespResult.getData().getType() == MailTypeEnum.MAIL) {
+            Result staSendMailRes = staSendMail(order.getOrderMail(), "kuka购买软件成功提醒", message);
+            if (!staSendMailRes.isSuccess()) {
+                log.error("\n 支付回调接口，发送邮件，订单号:{}, 发送邮件失败!, 错误信息:{}", orderNo, staSendMailRes.getMsg());
+                return;
+            }
+        }
+    }
+
+
+    /**
+     * 发送邮件
+     * @param mail
+     * @param title
+     * @param message
+     * @return
+     */
+    private Result staSendMail(String mail, String title, String message) {
+        MailReq req = new MailReq();
+        req.setMail(mail);
+        req.setMessage(message);
+        req.setTitle(title);
+        Result result = mailMouldService.sendMail(req);
+        return result;
+    }
+
+    /**
+     * 保存站内消息
+     * @param title
+     * @param message
+     * @return
+     */
+    private Result saveMessage(UserResp user, String title, String message,
+                               Long orderId) {
+        MessageReq req = new MessageReq();
+        req.setUserId(user.getId());
+        req.setTitle(title);
+        req.setMessage(message);
+        req.setType(MessageTypeEnum.ORDER);
+        req.setJumpStatus(JumpStatusEnum.YES);
+        req.setSourceId(orderId);
+        req.setStatus(MessageStatusEnum.UNREAD);
+        return messageService.addMessage(req, "kuka");
     }
 
 }

@@ -69,4 +69,9 @@ public class OrderPageReq implements Serializable {
 	 * 买卖
 	 */
 	private OrderBusinessEnum business;
+
+	/**
+	 * 创建者邮箱
+	 */
+	private String mail;
 }

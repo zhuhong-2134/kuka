@@ -43,4 +43,9 @@ public class AppRequestPageReq implements Serializable {
 	 * 当前登录人标识
 	 */
 	private String loginName;
+
+	/**
+	 * 用户IDS
+	 */
+	private Long[] userIds;
 }

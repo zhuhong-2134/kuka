@@ -1,6 +1,7 @@
 package com.camelot.kuka.backend.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.camelot.kuka.backend.feign.user.UserClient;
 import com.camelot.kuka.backend.model.ApplicationRequest;
 import com.camelot.kuka.backend.service.ApplicationRequestService;
 import com.camelot.kuka.backend.service.SupplierService;
@@ -18,9 +19,12 @@ import com.camelot.kuka.model.enums.CommunicateEnum;
 import com.camelot.kuka.model.enums.DeleteEnum;
 import com.camelot.kuka.model.enums.application.AppTypeEnum;
 import com.camelot.kuka.model.enums.backend.AppRequestPageEnum;
+import com.camelot.kuka.model.enums.backend.SupplierRequestPageEnum;
 import com.camelot.kuka.model.enums.user.UserTypeEnum;
 import com.camelot.kuka.model.enums.user.WhetherEnum;
 import com.camelot.kuka.model.user.LoginAppUser;
+import com.camelot.kuka.model.user.req.UserReq;
+import com.camelot.kuka.model.user.resp.UserResp;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,6 +50,8 @@ public class ApplicationRequestController extends BaseController {
     private ApplicationRequestService applicationRequestService;
     @Resource
     private SupplierService supplierService;
+    @Resource
+    private UserClient userClient;
 
     /***
      * <p>Description:[枚举查询]</p>
@@ -86,6 +92,18 @@ public class ApplicationRequestController extends BaseController {
             }
             if (loginAppUser.getType() == UserTypeEnum.VISITORS ) {
                 req.setLoginName(loginAppUser.getUsername());
+            }
+
+
+            if(req.getQueryType() != null && (req.getQueryType()== AppRequestPageEnum.USERNAME || req.getQueryType()== AppRequestPageEnum.ALL)){
+                UserReq userReq = new UserReq();
+                userReq.setName(req.getQueryName());
+                Result<List<UserResp>> userRespResult = userClient.queryByInfo(userReq);
+                if (userRespResult.isSuccess() && !userRespResult.getData().isEmpty()) {
+                    // 用户ID
+                    Long[] userIds = userRespResult.getData().stream().map(UserResp::getId).toArray(Long[]::new);
+                    req.setUserIds(userIds);
+                }
             }
             // 开启分页
             startPage();

@@ -39,14 +39,14 @@ public class HomeSupplierPageReq implements Serializable {
 	/**
 	 * 行业
 	 */
-	private IndustryTypeALLEnum industry;
-	private String industryCode;
+	private String industry;
+	private String[] industrys;
 
 	/**
 	 * 应用
 	 */
-	private SkilledAppALLEnum appType;
-	private String appTypeCode;
+	private String appType;
+	private String[] appTypes;
 
 	/**
 	 * 省编码

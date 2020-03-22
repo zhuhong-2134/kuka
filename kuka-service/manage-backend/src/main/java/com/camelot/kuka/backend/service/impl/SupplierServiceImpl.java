@@ -78,6 +78,7 @@ public class SupplierServiceImpl implements SupplierService {
 
     @Override
     public Result<List<SupplierResp>> queryList(SupplierPageReq req) {
+        req.setDelState(DeleteEnum.NO);
         List<Supplier> list = supplierDao.pageList(req);
         list.forEach(suppliers -> {
             formatAddress(suppliers);

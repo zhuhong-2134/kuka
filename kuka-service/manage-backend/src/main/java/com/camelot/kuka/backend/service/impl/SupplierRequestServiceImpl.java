@@ -163,7 +163,7 @@ public class SupplierRequestServiceImpl implements SupplierRequestService {
         request.setAddress(supplier.getUserAddress());
         request.setStatus(CommunicateEnum.NO);
         request.setUserId(loginAppUser.getId());
-        request.setUserName(loginAppUser.getUserName());
+        request.setUserName(loginAppUser.getName());
         request.setUserPhotoUrl(loginAppUser.getPhotoUrl());
         request.setUserPhone(loginAppUser.getPhone());
         request.setUserMail(loginAppUser.getMail());

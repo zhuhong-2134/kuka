@@ -15,6 +15,7 @@ import com.camelot.kuka.model.common.Result;
 import com.camelot.kuka.model.enums.DeleteEnum;
 import com.camelot.kuka.model.enums.backend.*;
 import com.camelot.kuka.model.enums.user.CreateSourceEnum;
+import com.camelot.kuka.model.enums.user.UserTypeEnum;
 import com.camelot.kuka.model.user.LoginAppUser;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
@@ -104,6 +105,13 @@ public class SupplierController extends BaseController {
     @PostMapping("/supplier/list")
     public Result<List<SupplierResp>> queryList(SupplierPageReq req){
         try {
+            LoginAppUser loginAppUser = AppUserUtil.getLoginAppUser();
+            if (null == loginAppUser) {
+                return PageResult.error("用户未登陆");
+            }
+            if (loginAppUser.getType() == UserTypeEnum.SUPPILER) {
+                req.setLoginName(loginAppUser.getUsername());
+            }
             return supplierService.queryList(req);
         } catch (Exception e) {
             log.error("\n 集成商模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "queryList", JSON.toJSONString(req), e);

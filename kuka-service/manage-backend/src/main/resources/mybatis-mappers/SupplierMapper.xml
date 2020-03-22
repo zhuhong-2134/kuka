@@ -103,6 +103,11 @@
 					)
 				</if>
 			</if>
+
+			<!-- 权限查询 -->
+			<if test ='null != entity.loginName'>
+				and create_by = #{entity.loginName}
+			</if>
 		</where>
 	</select>
 
@@ -441,11 +446,17 @@
 			<if test ='null != entity.districtCode and entity.districtCode != ""'>
 				and district_code = #{entity.districtCode}
 			</if>
-			<if test ='null != entity.industryCode and entity.industryCode != ""'>
-				and industry like CONCAT('%',#{entity.industryCode},'%')
+			<if test ='null != entity.industrys'>
+				and
+				<foreach collection="entity.industrys" index="index" item="item" open="(" separator="or" close=")">
+					industry like CONCAT('%',#{item},'%')
+				</foreach>
 			</if>
-			<if test ='null != entity.appTypeCode and entity.industryCode != ""'>
-				and app_type like CONCAT('%',#{entity.appTypeCode},'%')
+			<if test ='null != entity.appTypes'>
+				and
+				<foreach collection="entity.appTypes" index="index" item="item" open="(" separator="or" close=")">
+					app_type like CONCAT('%',#{item},'%')
+				</foreach>
 			</if>
 			<!-- 6的时候是集成商查询-->
 			<if test ='null != entity.queryTypeCode and entity.queryTypeCode == 6'>

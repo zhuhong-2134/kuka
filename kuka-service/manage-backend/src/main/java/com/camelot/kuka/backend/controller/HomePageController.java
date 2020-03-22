@@ -7,6 +7,7 @@ import com.camelot.kuka.backend.service.ApplicationService;
 import com.camelot.kuka.backend.service.HomePageService;
 import com.camelot.kuka.backend.service.SupplierService;
 import com.camelot.kuka.common.controller.BaseController;
+import com.camelot.kuka.common.utils.StringUtils;
 import com.camelot.kuka.model.backend.application.resp.ApplicationResp;
 import com.camelot.kuka.model.backend.application.resp.QyeryUpdateResp;
 import com.camelot.kuka.model.backend.home.req.HomeAppPageReq;
@@ -120,7 +121,7 @@ public class HomePageController extends BaseController {
     public PageResult<List<ApplicationResp>> appPageList(HomeAppPageReq req) {
         try {
             // 开启分页
-            startPage();
+            // startPage();
             // 返回分页
             List<Application> application = homePageService.appPageList(req);
             PageResult<List<ApplicationResp>> page = getPage(application, ApplicationResp.class);
@@ -148,6 +149,16 @@ public class HomePageController extends BaseController {
             resp.putEnumVal("appRangeEnum", EnumVal.getEnumList(SkilledAppEnum.class));
             resp.putEnumVal("industryEnum", EnumVal.getEnumList(IndustryTypeEnum.class));
             resp.putEnumVal("appStatusEnum", EnumVal.getEnumList(AppStatusEnum.class));
+            String assemblyDetails = resp.getData().getAssemblyDetails();
+            if(StringUtils.isNotBlank(assemblyDetails)){
+                String s = assemblyDetails.replaceAll("(\\r\\n|\\n|\\n\\r)", "<br/>");
+                resp.getData().setAssemblyDetails(s);
+            }
+            String advantageDesc = resp.getData().getAdvantageDesc();
+            if(StringUtils.isNotBlank(advantageDesc)){
+                String s = advantageDesc.replaceAll("(\\r\\n|\\n|\\n\\r)", "<br/>");
+                resp.getData().setAdvantageDesc(s);
+            }
             return resp;
         } catch (Exception e) {
             log.error("\n 产品模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "appById", JSON.toJSONString(req), e);
@@ -187,7 +198,7 @@ public class HomePageController extends BaseController {
     public PageResult<List<SupplierResp>> supplierPageList(HomeSupplierPageReq req){
         try {
             // 开启分页
-            startPage();
+            // startPage();
             // 返回分页
             List<Supplier> suppliers = homePageService.supplierPageList(req);
             PageResult<List<SupplierResp>> page = getPage(suppliers, SupplierResp.class);

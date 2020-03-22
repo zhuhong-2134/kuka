@@ -1,6 +1,7 @@
 package com.camelot.kuka.backend.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.camelot.kuka.backend.feign.user.UserClient;
 import com.camelot.kuka.backend.model.SupplierRequest;
 import com.camelot.kuka.backend.service.SupplierRequestService;
 import com.camelot.kuka.backend.service.SupplierService;
@@ -20,6 +21,8 @@ import com.camelot.kuka.model.enums.backend.SupplierRequestPageEnum;
 import com.camelot.kuka.model.enums.user.UserTypeEnum;
 import com.camelot.kuka.model.enums.user.WhetherEnum;
 import com.camelot.kuka.model.user.LoginAppUser;
+import com.camelot.kuka.model.user.req.UserReq;
+import com.camelot.kuka.model.user.resp.UserResp;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -45,6 +48,8 @@ public class SupplierRequestController extends BaseController {
     private SupplierRequestService supplierRequestService;
     @Resource
     private SupplierService supplierService;
+    @Resource
+    private UserClient userClient;
 
 
     /***
@@ -84,6 +89,16 @@ public class SupplierRequestController extends BaseController {
             }
             if (loginAppUser.getType() == UserTypeEnum.VISITORS ) {
                 req.setLoginName(loginAppUser.getUsername());
+            }
+            if(req.getQueryType() != null && (req.getQueryType()== SupplierRequestPageEnum.USERNAME || req.getQueryType()== SupplierRequestPageEnum.ALL)){
+                UserReq userReq = new UserReq();
+                userReq.setName(req.getQueryName());
+                Result<List<UserResp>> userRespResult = userClient.queryByInfo(userReq);
+                if (userRespResult.isSuccess() && !userRespResult.getData().isEmpty()) {
+                    // 用户ID
+                    Long[] userIds = userRespResult.getData().stream().map(UserResp::getId).toArray(Long[]::new);
+                    req.setUserIds(userIds);
+                }
             }
             // 开启分页
             startPage();

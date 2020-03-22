@@ -35,6 +35,14 @@ public interface UserClient {
     public Result<UserResp> clientById(@RequestParam("id") Long id);
 
     /**
+     * 根据条件查询集合
+     * @param userReq
+     * @return
+     */
+    @PostMapping(value = "/users/client/queryByInfo")
+    Result<List<UserResp>> queryByInfo(@RequestBody UserReq userReq);
+
+    /**
      * 手机号或邮箱查询信息
      * @param req
      * @return
@@ -61,6 +69,14 @@ public interface UserClient {
      */
     @GetMapping(value = "/users/client/queryByUserName")
     Result<UserResp> queryByUserName(@RequestParam("userName") String userName);
+
+    /**
+     * 根据名称查询
+     * @param userName
+     * @return
+     */
+    @GetMapping(value = "/users/client/queryByName")
+    Result<UserResp> queryByName(@RequestParam("userName") String userName);
 
     /***
      * <p>Description:[修改用户信息]</p>

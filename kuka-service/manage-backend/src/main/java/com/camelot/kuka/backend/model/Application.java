@@ -123,6 +123,11 @@ public class Application implements Serializable {
     private String opinion;
 
     /**
+     * licence
+     */
+    private String licenceStr;
+
+    /**
      * 删除标识0:未删除;1已删除
      */
     private DeleteEnum delState;

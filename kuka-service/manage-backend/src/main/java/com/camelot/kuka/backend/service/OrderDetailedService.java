@@ -1,6 +1,8 @@
 package com.camelot.kuka.backend.service;
 
 import com.camelot.kuka.backend.dao.OrderDetailedDao;
+import com.camelot.kuka.backend.model.OrderDetailed;
+import com.camelot.kuka.model.common.Result;
 
 import javax.annotation.Resource;
 
@@ -14,5 +16,12 @@ import javax.annotation.Resource;
  */
 public interface OrderDetailedService {
 
-
+    /***
+     * <p>Description:[修改订单数量]</p>
+     * Created on 2020/1/20
+     * @param req
+     * @return com.camelot.kuka.model.common.PageResult
+     * @author 谢楠
+     */
+    Result updateNum(OrderDetailed req, String loginUserName);
 }

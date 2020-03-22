@@ -407,12 +407,6 @@ public class ApplicationServiceImpl implements ApplicationService {
         if (StringUtils.isBlank(req.getAppName())) {
             return Result.error("名称不能为空");
         }
-        if (null == req.getTradeCount()) {
-            return Result.error("交易数不能为空");
-        }
-        if (null == req.getFileSum()) {
-            return Result.error("文件大小不能为空");
-        }
         if (StringUtils.isBlank(req.getAppRange())) {
             return Result.error("适用范围不能为空");
         }
