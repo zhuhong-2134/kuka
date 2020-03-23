@@ -8,5 +8,5 @@ public class BocPayConfig {
     public static String verifyCerFile = "/data/payfile/config/payment/bocnetcaSIT.cer"; // 验签的中行根证书
     public static String notify_url = "http://161.189.2.249:1111/bocpay/notice";//异步通知
     public static String return_url = "http://161.189.2.249/";//跳转页面
-    public static String merchantNo = "";//商户编码
+    public static String merchantNo = "52390";//商户编码
 }
