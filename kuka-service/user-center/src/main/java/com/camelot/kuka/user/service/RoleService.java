@@ -2,6 +2,7 @@ package com.camelot.kuka.user.service;
 
 import com.camelot.kuka.model.common.CommonReq;
 import com.camelot.kuka.model.common.Result;
+import com.camelot.kuka.model.user.LoginAppUser;
 import com.camelot.kuka.model.user.role.req.RoleMenuReq;
 import com.camelot.kuka.model.user.role.req.RolePageReq;
 import com.camelot.kuka.model.user.role.req.RoleReq;
@@ -73,7 +74,7 @@ public interface RoleService {
      * @return Result
      * @author 谢楠
      */
-    Result<List<RoleMenuResp>> roleMenu(CommonReq req);
+    Result<List<RoleMenuResp>> roleMenu(CommonReq req, LoginAppUser loginAppUser);
 
     /***
      * <p>Description:[权限关联]</p>

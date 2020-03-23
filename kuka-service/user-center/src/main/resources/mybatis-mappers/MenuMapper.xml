@@ -39,6 +39,11 @@
 			<include refid="Base_Column_List" />
 		FROM
 			t_menu
+		<where>
+			<if test ='null != entity.type'>
+				type = #{entity.type, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}
+			</if>
+		</where>
 	</select>
 	
 	<insert id="addBatch" >

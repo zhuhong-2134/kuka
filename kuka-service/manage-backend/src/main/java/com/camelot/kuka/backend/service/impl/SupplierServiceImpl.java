@@ -174,7 +174,7 @@ public class SupplierServiceImpl implements SupplierService {
         addUser.setRoleId(2L);
         addUser.setType(UserTypeEnum.SUPPILER);
         addUser.setSource(CreateSourceEnum.BACKSTAGE);
-        addUser.setPhotoUrl(supplier.getCoverUrl());
+        addUser.setPhotoUrl(supplier.getListImg());
         addUser.setProvinceName(supplier.getProvinceName());
         addUser.setProvinceCode(supplier.getProvinceCode());
         addUser.setCityName(supplier.getCityName());
@@ -227,6 +227,19 @@ public class SupplierServiceImpl implements SupplierService {
             // 固定参数
             supplier.setUpdateBy(loginUserName);
             supplier.setUpdateTime(new Date());
+            // 修改用户基本信息
+            if (null != req.getUserId()) {
+                UserReq reqUser = new UserReq();
+                reqUser.setId(req.getUserId());
+                reqUser.setName(req.getUserName());
+                reqUser.setPhotoUrl(req.getListImg());
+                reqUser.setPhone(req.getUserPhone());
+                reqUser.setAddress(req.getUserAddress());
+                Result resultUser = userClient.clientUpdate(reqUser);
+                if (!resultUser.isSuccess()) {
+                    return Result.error("修改用户信息失败");
+                }
+            }
             int con = supplierDao.updateSupplier(supplier);
             if (con == 0) {
                 return Result.error("修改失败");

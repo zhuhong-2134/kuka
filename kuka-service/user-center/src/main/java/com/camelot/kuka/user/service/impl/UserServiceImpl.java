@@ -9,6 +9,7 @@ import com.camelot.kuka.model.common.Result;
 import com.camelot.kuka.model.enums.DeleteEnum;
 import com.camelot.kuka.model.enums.PrincipalEnum;
 import com.camelot.kuka.model.enums.user.CreateSourceEnum;
+import com.camelot.kuka.model.enums.user.UserStatusEnum;
 import com.camelot.kuka.model.enums.user.UserTypeEnum;
 import com.camelot.kuka.model.user.LoginAppUser;
 import com.camelot.kuka.model.user.req.UserPageReq;
@@ -121,7 +122,7 @@ public class UserServiceImpl implements UserService {
         }
         // 默认的用户头像
         if (StringUtils.isBlank(user.getPhotoUrl())) {
-            user.setPhotoUrl("http://52.83.64.99/static/imgs/zhuce.jpg");
+            user.setPhotoUrl("http://www.kukaplus.com/static/imgs/zhuce.jpg");
         }
         // 查看用户是否已经存在
         int check = userDao.checkUser(user);
@@ -170,16 +171,17 @@ public class UserServiceImpl implements UserService {
         user.setCreateTime(new Date());
         user.setDelState(DeleteEnum.NO);
         user.setName(user.getUserName());
+        user.setStatus(UserStatusEnum.OPEN);
         // 默认的用户头像
         if (StringUtils.isBlank(user.getPhotoUrl())) {
-            user.setPhotoUrl("http://52.83.64.99/static/imgs/zhuce.jpg");
+            user.setPhotoUrl("http://www.kukaplus.com/static/imgs/zhuce.jpg");
         }
         // 获取地址名称
         setAddressName(user);
         // 查看用户是否已经存在
         int check = userDao.checkUser(user);
         if (check > 0) {
-            return Result.error("手机号以被绑定");
+            return Result.error("手机号或邮箱已被绑定");
         }
 
         // 密码加密
@@ -233,7 +235,7 @@ public class UserServiceImpl implements UserService {
         user.setType(req.getType());
         // 默认的用户头像
         if (StringUtils.isBlank(user.getPhotoUrl())) {
-            user.setPhotoUrl("http://52.83.64.99/static/imgs/zhuce.jpg");
+            user.setPhotoUrl("http://www.kukaplus.com/static/imgs/zhuce.jpg");
         }
         if (StringUtils.isBlank(req.getUserName())) {
             user.setUserName(req.getMail());
