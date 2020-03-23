@@ -35,8 +35,7 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public Result<List<MenuTreeResp>> queryList(LoginAppUser loginAppUser) {
-        // 获取菜单列表
-        List<Menu> menus = menuDao.queryList();
+        List<Menu> menus = menuDao.queryList(new Menu());
         // 获取角色已经关联的数据
         List<RoleMenu> roleMenus = roleMenuDao.selectByRoleId(loginAppUser.getRoleId());
         if (roleMenus.isEmpty() || menus.isEmpty()) {

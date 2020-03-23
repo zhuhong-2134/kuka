@@ -10,6 +10,7 @@ import com.camelot.kuka.model.common.Result;
 import com.camelot.kuka.model.enums.user.role.RoleMenuEnum;
 import com.camelot.kuka.model.enums.user.role.RolePageEnum;
 import com.camelot.kuka.model.enums.user.role.RoleStatusEnum;
+import com.camelot.kuka.model.user.LoginAppUser;
 import com.camelot.kuka.model.user.role.req.RoleMenuReq;
 import com.camelot.kuka.model.user.role.req.RolePageReq;
 import com.camelot.kuka.model.user.role.req.RoleReq;
@@ -68,6 +69,7 @@ public class RoleController extends BaseController {
     @PostMapping("/role/pageList")
     public PageResult<List<RoleResp>> pageList(RolePageReq req){
         try {
+            
             // 开启分页
             startPage();
             // 返回分页
@@ -181,7 +183,11 @@ public class RoleController extends BaseController {
     @PostMapping("/role/roleMenu")
     public Result<List<RoleMenuResp>> roleMenu(CommonReq req){
         try {
-            return roleService.roleMenu(req );
+            LoginAppUser loginAppUser = AppUserUtil.getLoginUser();
+            if (null == loginAppUser) {
+                return Result.error("用户未登陆");
+            }
+            return roleService.roleMenu(req, loginAppUser);
         } catch (Exception e) {
             log.error("\n 角色模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "roleMenu", JSON.toJSONString(req), e);
             return Result.error("网络异常, 请稍后再试");

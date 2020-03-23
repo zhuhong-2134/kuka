@@ -7,6 +7,7 @@ import com.camelot.kuka.model.common.Result;
 import com.camelot.kuka.model.enums.PrincipalEnum;
 import com.camelot.kuka.model.enums.user.role.RoleMenuEnum;
 import com.camelot.kuka.model.enums.user.role.RoleStatusEnum;
+import com.camelot.kuka.model.user.LoginAppUser;
 import com.camelot.kuka.model.user.role.req.RoleMenuReq;
 import com.camelot.kuka.model.user.role.req.RolePageReq;
 import com.camelot.kuka.model.user.role.req.RoleReq;
@@ -119,12 +120,15 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public Result<List<RoleMenuResp>> roleMenu(CommonReq req) {
+    public Result<List<RoleMenuResp>> roleMenu(CommonReq req, LoginAppUser loginAppUser) {
         if (null == req || null == req.getId()) {
             return Result.error("角色ID不能为空");
         }
         // 获取菜单列表
-        List<Menu> menus = menuDao.queryList();
+
+        Menu qeruy = new Menu();
+        qeruy.setType(loginAppUser.getType());
+        List<Menu> menus = menuDao.queryList(qeruy);
         // 获取角色已经关联的数据
         List<RoleMenu> roleMenus = roleMenuDao.selectByRoleId(req.getId());
         // 数据处理

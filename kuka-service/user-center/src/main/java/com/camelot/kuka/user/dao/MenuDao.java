@@ -33,7 +33,7 @@ public interface MenuDao {
      * @return List<Role>
      * @author 谢楠
      */
-    List<Menu> queryList();
+    List<Menu> queryList(@Param("entity") Menu menuQuer);
 
     /***
      * <p>Description:[新增]</p>
