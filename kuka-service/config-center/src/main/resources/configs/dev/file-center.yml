@@ -25,4 +25,4 @@ security:
       prefer-token-info: false
 
 files:
-  ip: http://161.189.2.249
+  ip: http://52.83.60.249
