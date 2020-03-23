@@ -13,7 +13,7 @@ server:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://52.83.64.99:8761/eureka/
+      defaultZone: http://www.kukaplus.com:8761/eureka/
     registry-fetch-interval-seconds: 5
   instance:
     lease-expiration-duration-in-seconds: 15

@@ -6,7 +6,7 @@ logging:
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://52.83.64.99:3306/kuka_user?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false
+    url: jdbc:mysql://www.kukaplus.com:3306/kuka_user?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false
     username: root
     password: 2h5Qry3Nl0lVR#aN
     type: com.alibaba.druid.pool.DruidDataSource
@@ -26,7 +26,7 @@ spring:
     filters: stat,wall,log4j2
     connectionPropertie: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
   redis:
-    host: 52.83.64.99
+    host: www.kukaplus.com
     port: 6380
     password: g2keh3QJDpnNY0Y3piwQsMZuY6rCB%w
     timeout: 10s
@@ -61,7 +61,7 @@ pagehelper:
 security:
   oauth2:
     resource:
-      user-info-uri: http://52.83.64.99/api/api-o/user-me
+      user-info-uri: http://www.kukaplus.com/api/api-o/user-me
       prefer-token-info: false
 ribbon:
   ReadTimeout: 10000
