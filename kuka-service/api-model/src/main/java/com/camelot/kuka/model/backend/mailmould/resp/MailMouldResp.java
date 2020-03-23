@@ -35,6 +35,7 @@ public class MailMouldResp implements Serializable {
      * 发送方式1:邮件;2站内信 3,都发送
      */
     private MailTypeEnum type;
+    private String typeStr;
 
     /**
      * 消息内容

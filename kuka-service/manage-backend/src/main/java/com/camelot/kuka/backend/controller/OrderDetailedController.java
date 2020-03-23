@@ -41,7 +41,7 @@ public class OrderDetailedController {
         try {
             String loginUserName = AppUserUtil.getLoginUserName();
             if (null == loginUserName) {
-
+                return Result.error("用户未登陆");
             }
             return orderDetailedService.updateNum(req, loginUserName);
         } catch (Exception e) {

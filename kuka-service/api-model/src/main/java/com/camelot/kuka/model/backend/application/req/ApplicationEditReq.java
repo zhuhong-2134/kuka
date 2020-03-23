@@ -76,12 +76,14 @@ public class ApplicationEditReq implements Serializable {
      * 枚举类 SkilledAppEnum
      */
     private String appRange;
+    private String appRangeArray[];
 
     /**
      * 行业，具体看枚举类
      * 枚举类 IndustryTypeEnum
      */
     private String industry;
+    private String industryArray[];
 
     /**
      * 特征与优势

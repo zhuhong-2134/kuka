@@ -52,7 +52,7 @@ public class OrderDetailedServiceImpl implements OrderDetailedService {
         // 计算总价
         Double sunPrice = Double.valueOf(0);
         for (OrderDetailed orderDetailed : orderDetaileds) {
-            if (req.getId() == orderDetailed.getId()) {
+            if (req.getId().compareTo(orderDetailed.getId()) == 0) {
                 orderDetailed.setNum(req.getNum());
                 orderDetailed.setSumPrice(NumberUtil.format(req.getNum() * orderDetailed.getPrice()));
                 orderDetailed.setUpdateBy(loginUserName);

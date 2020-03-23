@@ -213,6 +213,9 @@ public class ApplicationServiceImpl implements ApplicationService {
                             comment.setPhotoUrl(user.getPhotoUrl());
                         }
                     }
+                    if (StringUtils.isNoneBlank(comment.getCommentUrl())) {
+                        comment.setCommentUrls(comment.getCommentUrl().split(","));
+                    }
                 }
             }
             List<CommentResp> commentResps = BeanUtil.copyBeanList(comments, CommentResp.class);
@@ -407,10 +410,10 @@ public class ApplicationServiceImpl implements ApplicationService {
         if (StringUtils.isBlank(req.getAppName())) {
             return Result.error("名称不能为空");
         }
-        if (StringUtils.isBlank(req.getAppRange())) {
+        if (null == req.getAppRangeArray()) {
             return Result.error("适用范围不能为空");
         }
-        if (StringUtils.isBlank(req.getIndustry())) {
+        if (null == req.getIndustryArray()) {
             return Result.error("适用行业不能为空");
         }
         return Result.success();
@@ -427,6 +430,27 @@ public class ApplicationServiceImpl implements ApplicationService {
         application.setCreateBy(loginUserName);
         application.setCreateTime(new Date());
         application.setDelState(DeleteEnum.NO);
+        // 处理中文枚举
+        if (null != req.getAppRangeArray() && req.getAppRangeArray().length > 0) {
+            String[] appRangeArray = req.getAppRangeArray();
+            StringBuffer appSb = new StringBuffer();
+            for (String appRangeStr : appRangeArray) {
+                String streN = SkilledAppEnum.getMap().get(appRangeStr);
+                appSb.append(streN).append(",");
+            }
+            application.setAppRange(appSb.toString().substring(0, appSb.toString().length() - 1));
+        }
+        // 处理中文枚举
+        if (null != req.getIndustryArray() && req.getIndustryArray().length > 0) {
+            String[] industryArray = req.getIndustryArray();
+            StringBuffer industrySb = new StringBuffer();
+            for (String industryStr : industryArray) {
+                String streN = IndustryTypeEnum.getMap().get(industryStr);
+                industrySb.append(streN).append(",");
+            }
+            application.setIndustry(industrySb.toString().substring(0, industrySb.toString().length() - 1));
+        }
+
         try {
             int cont = applicationDao.insertBatch(Arrays.asList(application));
             if (cont == 0) {
@@ -449,6 +473,26 @@ public class ApplicationServiceImpl implements ApplicationService {
         Application application = BeanUtil.copyBean(req, Application.class);
         application.setUpdateBy(loginUserName);
         application.setUpdateTime(new Date());
+        // 处理中文枚举
+        if (null != req.getAppRangeArray() && req.getAppRangeArray().length > 0) {
+            String[] appRangeArray = req.getAppRangeArray();
+            StringBuffer appSb = new StringBuffer();
+            for (String appRangeStr : appRangeArray) {
+                String streN = SkilledAppEnum.getMap().get(appRangeStr);
+                appSb.append(streN).append(",");
+            }
+            application.setAppRange(appSb.toString().substring(0, appSb.toString().length() - 1));
+        }
+        // 处理中文枚举
+        if (null != req.getIndustryArray() && req.getIndustryArray().length > 0) {
+            String[] industryArray = req.getIndustryArray();
+            StringBuffer industrySb = new StringBuffer();
+            for (String industryStr : industryArray) {
+                String streN = IndustryTypeEnum.getMap().get(industryStr);
+                industrySb.append(streN).append(",");
+            }
+            application.setIndustry(industrySb.toString().substring(0, industrySb.toString().length() - 1));
+        }
         try {
             int cont = applicationDao.update(application);
             if (cont == 0) {

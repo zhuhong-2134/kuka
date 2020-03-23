@@ -66,7 +66,7 @@ public class RoleServiceImpl implements RoleService {
         role.setId(id);
         role.setCreateBy(loginUserName);
         role.setCreateTime(new Date());
-        role.setStatus(null == role.getStatus() ? RoleStatusEnum.SHUT : role.getStatus());
+        role.setStatus(null == role.getStatus() ? RoleStatusEnum.OPEN : role.getStatus());
         int con = roleDao.addBatch(Arrays.asList(role));
         if (con == 0) {
             return Result.error("新增失败, 请联系管理员");
@@ -177,6 +177,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public Result<List<RoleResp>> findList(RoleReq req) {
+        req.setStatus(RoleStatusEnum.OPEN);
         List<Role> list = roleDao.findList(BeanUtil.copyBean(req, Role.class));
         return Result.success(BeanUtil.copyBeanList(list, RoleResp.class));
     }
