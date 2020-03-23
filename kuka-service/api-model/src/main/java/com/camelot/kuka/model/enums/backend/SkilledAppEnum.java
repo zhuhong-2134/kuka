@@ -2,6 +2,9 @@ package com.camelot.kuka.model.enums.backend;
 
 import com.camelot.kuka.model.enums.BaseEnum;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * <p>Description: [擅长应用枚举]</p>
  * Created on 2020年2月5日
@@ -81,6 +84,19 @@ public enum SkilledAppEnum implements BaseEnum {
             }
         }
         return null;
+    }
+
+    /**
+     *  将枚举转换成map
+     * @return
+     */
+
+    public static Map<String,String> getMap(){
+        Map<String,String> map = new HashMap<>();
+        for (SkilledAppEnum e : SkilledAppEnum.values()) {
+            map.put(e.description, e.name());
+        }
+        return map;
     }
 
     @Override
