@@ -16,10 +16,10 @@ public class AlipayConfig {
     public static String alipay_public_key = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtDzWXLxeIoZryzJBQGzWIuiMnY1emqJbC/S1FHjP+1r2NjdU8/a4W8ETsqfY6Mr7WYunHP/vMFfg/ZeruU8z4ykoFwWuhfY8wL7FoBT6ePfAqAEy3uAijjrcBdwUkRZHsqK1AzQo8lSSfkqG2bdhlzRo9IJ2D+3a5KFVxu4YccW/fCA0mwRVMk1mytf7jJTQ2wJIX4Pho2cNjuqJCAZqN9yOkTyHu2E1UzGiHRyCgCd3AvLKz5sV8FHnaHF40nboQHENpzA4ehm7jArw30y7AysqCn7zPnbRRKL+g6RaZUB7uhs7QWIJL8Wgn4Y+3KUsQGutoulEp1RbnJ58ETekuQIDAQAB";
 
     // 服务器异步通知页面路径  需http://格式的完整路径，不能加?id=123这类自定义参数，必须外网可以正常访问
-    public static String notify_url = "http://52.83.60.249:1111/alipay/notice";
+    public static String notify_url = "http://www.kukaplus.com:1111/alipay/notice";
 
     // 页面跳转同步通知页面路径 需http://格式的完整路径，不能加?id=123这类自定义参数，必须外网可以正常访问
-    public static String return_url = "http://52.83.60.249/#/webOrderDetail";
+    public static String return_url = "http://www.kukaplus.com/#/webOrderDetail";
 
     // 签名方式
     public static String sign_type = "RSA2";
