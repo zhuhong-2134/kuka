@@ -93,6 +93,8 @@ public class OrderServiceImpl implements OrderService {
                 Result<UserResp> userRespResult = userClient.queryByUserName(contactBy);
                 if(userRespResult!=null&& userRespResult.getData()!=null){
                     String name = userRespResult.getData().getName();
+                    String phone = userRespResult.getData().getPhone();
+                    item.setContactPhone(phone);
                     item.setContactBy(name);
                 }
             }
