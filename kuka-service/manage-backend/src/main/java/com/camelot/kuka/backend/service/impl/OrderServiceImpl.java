@@ -86,6 +86,19 @@ public class OrderServiceImpl implements OrderService {
             req.setLoginName(loginAppUser.getUserName());
             orders = orderDao.visitorPageList(req);
         }
+        //组装姓名
+        orders.stream().forEach(item->{
+            String contactBy = item.getContactBy();
+            if(StringUtils.isNotBlank(contactBy)){
+                Result<UserResp> userRespResult = userClient.queryByUserName(contactBy);
+                if(userRespResult!=null&& userRespResult.getData()!=null){
+                    String name = userRespResult.getData().getName();
+                    item.setContactBy(name);
+                }
+            }
+
+        });
+
         // 放入订单明细
         getOrderDetaileList(orders);
         return orders;
