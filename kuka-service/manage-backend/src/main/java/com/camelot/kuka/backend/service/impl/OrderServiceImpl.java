@@ -130,6 +130,9 @@ public class OrderServiceImpl implements OrderService {
         for (OrderDetailedResp orderDetailed : orderResp.getDetaileList()) {
             for (Comment comment : comments) {
                 if (comment.getAppId().compareTo(orderDetailed.getAppId()) == 0) {
+                    if (StringUtils.isNoneBlank(comment.getCommentUrl())) {
+                        comment.setCommentUrls(comment.getCommentUrl().split(","));
+                    }
                     orderDetailed.setComment(BeanUtil.copyBean(comment, CommentResp.class));
                     break;
                 }

@@ -63,6 +63,11 @@
 			<include refid="Base_Column_List" />
 		FROM
 			t_role
+		<where>
+			<if test ='null != entity.status'>
+				status = #{entity.status, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}
+			</if>
+		</where>
 	</select>
 
 	<select id="qeuryById" resultMap="BaseResultMap">

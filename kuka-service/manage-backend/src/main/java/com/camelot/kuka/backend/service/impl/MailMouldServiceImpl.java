@@ -14,7 +14,7 @@ import com.camelot.kuka.model.common.MailReq;
 import com.camelot.kuka.model.common.Result;
 import com.camelot.kuka.model.enums.DeleteEnum;
 import com.camelot.kuka.model.enums.PrincipalEnum;
-import com.camelot.kuka.model.log.Log;
+import com.camelot.kuka.model.enums.mailmould.MailTypeEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -48,7 +48,19 @@ public class MailMouldServiceImpl implements MailMouldService {
     public List<MailMould> pageList(MailMouldPageReq req) {
         // 未删除
         req.setDelState(DeleteEnum.NO);
-        return mailMouldDao.pageList(req);
+        List<MailMould> mailMoulds = mailMouldDao.pageList(req);
+        for (MailMould mailMould : mailMoulds) {
+            if (mailMould.getType() == MailTypeEnum.ALL) {
+                mailMould.setTypeStr("邮箱、站内信");
+            }
+            if (mailMould.getType() == MailTypeEnum.MESSAGE) {
+                mailMould.setTypeStr("站内信");
+            }
+            if (mailMould.getType() == MailTypeEnum.MAIL) {
+                mailMould.setTypeStr("邮箱");
+            }
+        }
+        return mailMoulds;
     }
 
     @Override

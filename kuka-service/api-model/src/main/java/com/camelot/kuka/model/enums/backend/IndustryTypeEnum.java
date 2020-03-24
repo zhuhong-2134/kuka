@@ -2,6 +2,9 @@ package com.camelot.kuka.model.enums.backend;
 
 import com.camelot.kuka.model.enums.BaseEnum;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * <p>Description: [所属行业枚举]</p>
  * Created on 2020年2月5日
@@ -67,7 +70,17 @@ public enum IndustryTypeEnum implements BaseEnum {
         }
         return null;
     }
-
+    /**
+     *  将枚举转换成map
+     * @return
+     */
+    public static Map<String,String> getMap(){
+        Map<String,String> map = new HashMap<>();
+        for (IndustryTypeEnum e : IndustryTypeEnum.values()) {
+            map.put(e.description, e.name());
+        }
+        return map;
+    }
     @Override
     public Integer getCode() {
         return code;
