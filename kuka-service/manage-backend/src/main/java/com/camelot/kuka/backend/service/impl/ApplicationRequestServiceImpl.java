@@ -309,7 +309,7 @@ public class ApplicationRequestServiceImpl implements ApplicationRequestService 
                 message = message.replace("{8}", app.getSupplier().getSupplierAddress());
             }
             // 应用联系人
-            message = message.replace("{5}", null != app.getContactBy() ? app.getContactBy(): null);
+            message = message.replace("{5}", null != app.getContactBy() ? app.getContactBy(): "");
             // 应用联系人联系方式
             message = message.replace("{6}", null != app.getContactPhone() ? app.getContactPhone() : "");
             // 应用邮箱
@@ -350,7 +350,7 @@ public class ApplicationRequestServiceImpl implements ApplicationRequestService 
             message = message.replace("{8}", app.getSupplier().getSupplierAddress());
         }
         // 应用联系人
-        message = message.replace("{5}", null != app.getContactBy() ? app.getContactBy(): null);
+        message = message.replace("{5}", null != app.getContactBy() ? app.getContactBy(): "");
         // 应用联系人联系方式
         message = message.replace("{6}", null != app.getContactPhone() ? app.getContactPhone() : "");
         // 应用邮箱

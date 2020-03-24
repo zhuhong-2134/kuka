@@ -431,6 +431,6 @@
 				and class_type = #{entity.queryType, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}
 			</if>
 		</if>
-
+		order by id desc
 	</select>
 </mapper>
