@@ -85,4 +85,12 @@ public interface ApplicationService {
      */
     Result deleteApplication(CommonReq req, String loginUserName);
 
+    /***
+     * <p>Description:[获取本次新增的ID]</p>
+     * Created on 2020/2/5
+     * @param
+     * @return List<Supplier>
+     * @author 谢楠
+     */
+    Result queryAddId();
 }

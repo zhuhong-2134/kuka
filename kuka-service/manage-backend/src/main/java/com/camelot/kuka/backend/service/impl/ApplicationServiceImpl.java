@@ -156,7 +156,12 @@ public class ApplicationServiceImpl implements ApplicationService {
         if (!result.isSuccess()) {
             return result;
         }
-        Long appId = codeGenerateUtil.generateId(PrincipalEnum.MANAGE_APPLICATION);
+        Long appId = null;
+        if (null != req.getId()) {
+            appId = req.getId();
+        } else {
+            appId = codeGenerateUtil.generateId(PrincipalEnum.MANAGE_APPLICATION);
+        }
         req.setId(appId);
         // 处理应用信息
         Result appHan = HandleAppSave(req, loginUserName);
@@ -389,6 +394,12 @@ public class ApplicationServiceImpl implements ApplicationService {
             return Result.error("删除应用失败, 联系管理员");
         }
         return Result.success();
+    }
+
+    @Override
+    public Result queryAddId() {
+        Long aLong = codeGenerateUtil.generateId(PrincipalEnum.MANAGE_APPLICATION);
+        return Result.success(aLong);
     }
 
     /**

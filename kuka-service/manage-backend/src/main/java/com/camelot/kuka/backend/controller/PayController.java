@@ -7,10 +7,7 @@ import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.internal.util.AlipaySignature;
 import com.alipay.api.request.AlipayTradePagePayRequest;
 import com.camelot.kuka.backend.feign.user.UserClient;
-import com.camelot.kuka.backend.service.ApplicationService;
-import com.camelot.kuka.backend.service.MailMouldService;
-import com.camelot.kuka.backend.service.MessageService;
-import com.camelot.kuka.backend.service.OrderService;
+import com.camelot.kuka.backend.service.*;
 import com.camelot.kuka.common.controller.BaseController;
 import com.camelot.kuka.common.model.unpay.Body;
 import com.camelot.kuka.common.model.unpay.Request;
@@ -27,6 +24,7 @@ import com.camelot.kuka.model.backend.message.req.MessageReq;
 import com.camelot.kuka.model.backend.order.req.OrderReq;
 import com.camelot.kuka.model.backend.order.resp.OrderDetailedResp;
 import com.camelot.kuka.model.backend.order.resp.OrderResp;
+import com.camelot.kuka.model.backend.supplier.resp.SupplierResp;
 import com.camelot.kuka.model.common.CommonReq;
 import com.camelot.kuka.model.common.MailReq;
 import com.camelot.kuka.model.common.Result;
@@ -66,6 +64,8 @@ public class PayController extends BaseController {
     private UserClient userClient;
     @Resource
     private MessageService messageService;
+    @Resource
+    private SupplierService supplierService;
 
     /**
      * 支付宝支付
@@ -375,6 +375,13 @@ public class PayController extends BaseController {
                 log.error("\n 支付回调接口，发送邮件，订单号:{}, 发送邮件失败!, 错误信息:{}", orderNo, staSendMailRes.getMsg());
                 return;
             }
+
+            // 集成商站内信
+            Result resultSupp = saveSupplierMessage(detaileList, orderNo, order.getId());
+            if (!resultSupp.isSuccess()) {
+                log.error("\n 支付回调接口，发送邮件，订单号:{}, 发送集成商站内信失败!, 错误信息:{}", orderNo, resultSupp.getMsg());
+                return;
+            }
         }
 
         // 站内消息
@@ -384,6 +391,13 @@ public class PayController extends BaseController {
                 log.error("\n 支付回调接口，发送邮件，订单号:{}, 发送站内消息失败!, 错误信息:{}", orderNo, saveMessageRes.getMsg());
                 return;
             }
+
+            // 集成商站内信
+            Result resultSupp = saveSupplierMessage(detaileList, orderNo, order.getId());
+            if (!resultSupp.isSuccess()) {
+                log.error("\n 支付回调接口，发送邮件，订单号:{}, 发送集成商站内信失败!, 错误信息:{}", orderNo, resultSupp.getMsg());
+                return;
+            }
         }
 
         // 邮件
@@ -391,6 +405,13 @@ public class PayController extends BaseController {
             Result staSendMailRes = staSendMail(order.getOrderMail(), "kuka购买软件成功提醒", message);
             if (!staSendMailRes.isSuccess()) {
                 log.error("\n 支付回调接口，发送邮件，订单号:{}, 发送邮件失败!, 错误信息:{}", orderNo, staSendMailRes.getMsg());
+                return;
+            }
+
+            // 集成商站内信
+            Result resultSupp = saveSupplierMessage(detaileList, orderNo, order.getId());
+            if (!resultSupp.isSuccess()) {
+                log.error("\n 支付回调接口，发送邮件，订单号:{}, 发送集成商站内信失败!, 错误信息:{}", orderNo, resultSupp.getMsg());
                 return;
             }
         }
@@ -423,7 +444,7 @@ public class PayController extends BaseController {
                                Long orderId) {
         MessageReq req = new MessageReq();
         req.setUserId(user.getId());
-        req.setTitle(title);
+        req.setTitle(message);
         req.setMessage(message);
         req.setType(MessageTypeEnum.ORDER);
         req.setJumpStatus(JumpStatusEnum.YES);
@@ -432,4 +453,37 @@ public class PayController extends BaseController {
         return messageService.addMessage(req, "kuka");
     }
 
+    /**
+     * 保存集成商站内消息
+     * @param detaileList
+     * @param orderNo
+     * @return
+     */
+    private Result saveSupplierMessage(List<OrderDetailedResp> detaileList, String orderNo, Long orderId) {
+        for (OrderDetailedResp orderDetailedResp : detaileList) {
+            if (null == orderDetailedResp.getSupplierId()) {
+                continue;
+            }
+            CommonReq commonReq = new CommonReq();
+            commonReq.setId(orderDetailedResp.getSupplierId());
+            Result<SupplierResp> supplierRespResult = supplierService.queryById(commonReq);
+            if (!supplierRespResult.isSuccess() || null == supplierRespResult.getData()) {
+                continue;
+            }
+            SupplierResp supplierResp = supplierRespResult.getData();
+            MessageReq reqMessage = new MessageReq();
+            reqMessage.setUserId(supplierResp.getUserId());
+            reqMessage.setTitle("您收到新的订单（订单编号：" + orderNo + "）, 点击可查看订单详情");
+            reqMessage.setMessage("您收到新的订单（订单编号：" + orderNo + "）, 点击可查看订单详情");
+            reqMessage.setType(MessageTypeEnum.ORDER);
+            reqMessage.setJumpStatus(JumpStatusEnum.YES);
+            reqMessage.setSourceId(orderId);
+            reqMessage.setStatus(MessageStatusEnum.UNREAD);
+            Result messageRes = messageService.addMessage(reqMessage, "kuka");
+            if (!messageRes.isSuccess()) {
+                log.error("\n 支付回调接口，发送邮件，订单号:{}, 发送集成商站内信失败!, 错误信息:{}", orderNo, messageRes.getMsg());
+            }
+        }
+        return Result.success();
+    }
 }

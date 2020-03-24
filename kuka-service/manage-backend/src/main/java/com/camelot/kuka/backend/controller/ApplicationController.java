@@ -158,6 +158,23 @@ public class ApplicationController extends BaseController {
     /***
      * <p>Description:[新增适用产品信息]</p>
      * Created on 2020/2/4
+     * @param
+     * @return com.camelot.kuka.model.common.Result
+     * @author 谢楠
+     */
+    @GetMapping("/application/queryAddId")
+    public Result queryAddId(){
+        try {
+            return applicationService.queryAddId();
+        } catch (Exception e) {
+            log.error("\n 产品模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "queryAddId", JSON.toJSONString(null), e);
+            return Result.error("网络异常, 请稍后再试");
+        }
+    }
+
+    /***
+     * <p>Description:[新增适用产品信息]</p>
+     * Created on 2020/2/4
      * @param req
      * @return com.camelot.kuka.model.common.Result
      * @author 谢楠
