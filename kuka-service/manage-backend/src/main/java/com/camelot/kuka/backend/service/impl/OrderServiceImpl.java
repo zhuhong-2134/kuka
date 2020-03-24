@@ -263,7 +263,11 @@ public class OrderServiceImpl implements OrderService {
         order.setOrderNo(orderNo);
         order.setContactMail(loginAppUser.getMail());
         order.setContactPhone(loginAppUser.getPhone());
-        order.setContactBy(loginAppUser.getUsername());
+        String contactBy = loginAppUser.getName();
+        if(StringUtils.isBlank(contactBy)){
+            contactBy = loginAppUser.getUsername();
+        }
+        order.setContactBy(contactBy);
         order.setOrderPhone(loginAppUser.getPhone());
         order.setOrderMail(loginAppUser.getMail());
         order.setDelState(DeleteEnum.NO);
