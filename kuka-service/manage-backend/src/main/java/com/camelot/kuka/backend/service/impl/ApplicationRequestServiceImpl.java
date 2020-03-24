@@ -426,7 +426,7 @@ public class ApplicationRequestServiceImpl implements ApplicationRequestService 
                 return Result.error("发送站内消息失败");
             }
 
-            Result resultSend = staSendMail(user.getMail(), "kuka审核求通过", message);
+            Result resultSend = staSendMail(user.getMail(), "kuka审核不通过", message);
             if (!resultSend.isSuccess()) {
                 return Result.error("发送邮件失败");
             }
@@ -435,7 +435,7 @@ public class ApplicationRequestServiceImpl implements ApplicationRequestService 
 
         // 站内消息
         if (mould.getType() == MailTypeEnum.MESSAGE) {
-            Result resultMessage = saveMessage(user, "应用请求通过", message, app.getId(), loginAppUser, JumpStatusEnum.NO);
+            Result resultMessage = saveMessage(user, "应用请求不通过", message, app.getId(), loginAppUser, JumpStatusEnum.NO);
             if (!resultMessage.isSuccess()) {
                 return Result.error("发送站内消息失败");
             }
@@ -443,7 +443,7 @@ public class ApplicationRequestServiceImpl implements ApplicationRequestService 
 
         // 邮件
         if (mould.getType() == MailTypeEnum.MAIL) {
-            Result resultSend = staSendMail(user.getMail(), "kuka审核通过", message);
+            Result resultSend = staSendMail(user.getMail(), "kuka审核不通过", message);
             if (!resultSend.isSuccess()) {
                 return Result.error("发送邮件失败");
             }

@@ -360,6 +360,21 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
+    public Result delCurrency(ApplicationCurrencyReq req) {
+        if (null == req.getAppId()) {
+            return Result.error("应用ID不能为空");
+        }
+        if (null == req.getCurrencyAppId()) {
+            return Result.error("应用ID不能为空");
+        }
+        int cont = applicationCurrencyDao.delCurrency(req);
+        if (cont == 0) {
+            return Result.error("删除失败");
+        }
+        return Result.success();
+    }
+
+    @Override
     public Result updateAppStatus(ApplicationEditReq req, String loginUserName) {
         Application application = new Application();
         application.setId(req.getId());

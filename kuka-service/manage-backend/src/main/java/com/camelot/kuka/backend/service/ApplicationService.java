@@ -69,6 +69,15 @@ public interface ApplicationService {
     Result addCurrency(ApplicationCurrencyReq req);
 
     /***
+     * <p>Description:[删除适用产品信息]</p>
+     * Created on 2020/2/5
+     * @param req
+     * @return List<Supplier>
+     * @author 谢楠
+     */
+    Result delCurrency(ApplicationCurrencyReq req);
+
+    /***
      * <p>Description:[修改应用状态]</p>
      * Created on 2020/2/5
      * @param req
@@ -103,4 +112,6 @@ public interface ApplicationService {
      * @author 谢楠
      */
     Result<List<ApplicationResp>> currencyList(ApplicationProblemReq req);
+
+
 }

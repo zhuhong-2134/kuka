@@ -214,6 +214,23 @@ public class ApplicationController extends BaseController {
     }
 
     /***
+     * <p>Description:[删除适用产品信息]</p>
+     * Created on 2020/2/4
+     * @param req
+     * @return com.camelot.kuka.model.common.Result
+     * @author 谢楠
+     */
+    @PostMapping("/application/delCurrency")
+    public Result delCurrency(ApplicationCurrencyReq req){
+        try {
+            return applicationService.delCurrency(req);
+        } catch (Exception e) {
+            log.error("\n 产品模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "delCurrency", JSON.toJSONString(req), e);
+            return Result.error("网络异常, 请稍后再试");
+        }
+    }
+
+    /***
      * <p>Description:[通过ID获取]</p>
      * Created on 2020/2/4
      * @param req

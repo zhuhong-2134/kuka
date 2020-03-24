@@ -27,5 +27,10 @@ public class ApplicationCurrencyReq implements Serializable {
     /**
      * 产品通用主键
      */
+    private Long currencyAppId;
+
+    /**
+     * 产品通用主键
+     */
     private String currencyAppIds;
 }
