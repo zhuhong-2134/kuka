@@ -7,6 +7,7 @@ import com.camelot.kuka.backend.service.ApplicationProbleService;
 import com.camelot.kuka.common.utils.BeanUtil;
 import com.camelot.kuka.common.utils.CodeGenerateUtil;
 import com.camelot.kuka.model.backend.application.req.ApplicationProblemReq;
+import com.camelot.kuka.model.backend.application.resp.ApplicationProblemResp;
 import com.camelot.kuka.model.common.Result;
 import com.camelot.kuka.model.enums.PrincipalEnum;
 import lombok.extern.slf4j.Slf4j;
@@ -79,5 +80,14 @@ public class ApplicationProbleServiceImpl implements ApplicationProbleService {
             return Result.error("修改应用常见问题失败, 联系管理员");
         }
         return Result.success();
+    }
+
+    @Override
+    public Result<List<ApplicationProblemResp>> queryByAppId(ApplicationProblemReq req, String loginUserName) {
+        if (null == req.getAppId()) {
+            return Result.error("产品ID不能为空");
+        }
+        List<ApplicationProblem> applicationProblems = applicationProbleDao.queryListByAppId(req.getAppId());
+        return Result.success(BeanUtil.copyBeanList(applicationProblems, ApplicationProblemResp.class));
     }
 }

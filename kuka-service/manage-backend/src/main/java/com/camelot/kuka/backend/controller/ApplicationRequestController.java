@@ -150,6 +150,9 @@ public class ApplicationRequestController extends BaseController {
     public Result updateStatus(ApplicationRequestReq req){
         try {
             String loginUserName = AppUserUtil.getLoginUserName();
+            if (null == loginUserName) {
+                return Result.error("用户未登录");
+            }
             return applicationRequestService.updateStatus(req, loginUserName);
         } catch (Exception e) {
             log.error("\n 应用请求模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "updateStatus", JSON.toJSONString(req), e);

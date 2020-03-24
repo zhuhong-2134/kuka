@@ -1,6 +1,7 @@
 package com.camelot.kuka.backend.dao;
 
 import com.camelot.kuka.backend.model.ApplicationCurrency;
+import com.camelot.kuka.model.backend.application.req.ApplicationCurrencyReq;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -44,4 +45,13 @@ public interface ApplicationCurrencyDao {
      * @author 谢楠
      */
     List<ApplicationCurrency> selectByAppId(@Param("appId") Long appId);
+
+    /***
+     * <p>Description:[删除表示]</p>
+     * Created on 2020/2/5
+     * @param req
+     * @return List<ApplicationCurrency>
+     * @author 谢楠
+     */
+    int delCurrency(ApplicationCurrencyReq req);
 }

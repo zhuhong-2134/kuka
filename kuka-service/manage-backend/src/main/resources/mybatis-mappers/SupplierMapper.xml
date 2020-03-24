@@ -472,6 +472,7 @@
 				)
 			</if>
 		</where>
+		order by id desc
 	</select>
 
 	<select id="findListByIds" resultMap="BaseResultMap">

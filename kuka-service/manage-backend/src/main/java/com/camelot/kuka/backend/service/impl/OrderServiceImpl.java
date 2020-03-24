@@ -86,6 +86,21 @@ public class OrderServiceImpl implements OrderService {
             req.setLoginName(loginAppUser.getUserName());
             orders = orderDao.visitorPageList(req);
         }
+        //组装姓名
+        orders.stream().forEach(item->{
+            String contactBy = item.getContactBy();
+            if(StringUtils.isNotBlank(contactBy)){
+                Result<UserResp> userRespResult = userClient.queryByUserName(contactBy);
+                if(userRespResult!=null&& userRespResult.getData()!=null){
+                    String name = userRespResult.getData().getName();
+                    String phone = userRespResult.getData().getPhone();
+                    item.setContactPhone(phone);
+                    item.setContactBy(name);
+                }
+            }
+
+        });
+
         // 放入订单明细
         getOrderDetaileList(orders);
         return orders;
@@ -248,7 +263,11 @@ public class OrderServiceImpl implements OrderService {
         order.setOrderNo(orderNo);
         order.setContactMail(loginAppUser.getMail());
         order.setContactPhone(loginAppUser.getPhone());
-        order.setContactBy(loginAppUser.getUsername());
+        String contactBy = loginAppUser.getName();
+        if(StringUtils.isBlank(contactBy)){
+            contactBy = loginAppUser.getUsername();
+        }
+        order.setContactBy(contactBy);
         order.setOrderPhone(loginAppUser.getPhone());
         order.setOrderMail(loginAppUser.getMail());
         order.setDelState(DeleteEnum.NO);

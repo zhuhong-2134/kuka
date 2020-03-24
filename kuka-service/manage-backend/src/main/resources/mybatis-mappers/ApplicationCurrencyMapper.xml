@@ -46,4 +46,13 @@
 		WHERE
 			app_id = #{appId}
 	</select>
+
+	<delete id="delCurrency">
+		DELETE FROM
+			t_application_currency
+		WHERE
+			app_id = #{appId}
+		and
+			currency_id = #{currencyAppId}
+	</delete>
 </mapper>

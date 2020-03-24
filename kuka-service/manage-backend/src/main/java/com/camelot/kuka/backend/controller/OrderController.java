@@ -128,6 +128,9 @@ public class OrderController extends BaseController {
     public Result updateOrder(OrderReq req){
         try {
             String loginUserName = AppUserUtil.getLoginUserName();
+            if (null == loginUserName) {
+                return Result.error("用户未登录");
+            }
             return orderService.updateOrder(req, loginUserName);
         } catch (Exception e) {
             log.error("\n 订单模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "updateOrder", JSON.toJSONString(req), e);

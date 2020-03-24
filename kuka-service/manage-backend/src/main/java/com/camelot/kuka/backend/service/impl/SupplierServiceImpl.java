@@ -256,6 +256,24 @@ public class SupplierServiceImpl implements SupplierService {
         if (null == req || null == req.getId()) {
             return Result.error("主键不能为空");
         }
+        // 获取集成商详情
+        Result<SupplierResp> supplierRespResult = this.queryById(req);
+        if (!supplierRespResult.isSuccess() || null == supplierRespResult.getData()) {
+            return Result.error("删除失败");
+        }
+
+        // 删除集成商绑定的用户
+        UserReq reqUser = new UserReq();
+        reqUser.setId(supplierRespResult.getData().getUserId());
+        reqUser.setDelState(DeleteEnum.YES);
+        reqUser.setUpdateBy(loginUserName);
+        Result resultUser = userClient.clientUpdate(reqUser);
+        if (!resultUser.isSuccess()) {
+            return Result.error("删除集成商用户失败");
+        }
+
+
+        // 删除集成商
         Supplier supplier = new Supplier();
         supplier.setId(req.getId());
         supplier.setDelState(DeleteEnum.YES);

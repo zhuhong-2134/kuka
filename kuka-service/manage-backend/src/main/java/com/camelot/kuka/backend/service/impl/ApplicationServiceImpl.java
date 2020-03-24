@@ -11,6 +11,7 @@ import com.camelot.kuka.common.utils.CodeGenerateUtil;
 import com.camelot.kuka.model.backend.application.req.AppPageReq;
 import com.camelot.kuka.model.backend.application.req.ApplicationCurrencyReq;
 import com.camelot.kuka.model.backend.application.req.ApplicationEditReq;
+import com.camelot.kuka.model.backend.application.req.ApplicationProblemReq;
 import com.camelot.kuka.model.backend.application.resp.ApplicationProblemResp;
 import com.camelot.kuka.model.backend.application.resp.ApplicationResp;
 import com.camelot.kuka.model.backend.application.resp.QyeryUpdateResp;
@@ -156,7 +157,12 @@ public class ApplicationServiceImpl implements ApplicationService {
         if (!result.isSuccess()) {
             return result;
         }
-        Long appId = codeGenerateUtil.generateId(PrincipalEnum.MANAGE_APPLICATION);
+        Long appId = null;
+        if (null != req.getId()) {
+            appId = req.getId();
+        } else {
+            appId = codeGenerateUtil.generateId(PrincipalEnum.MANAGE_APPLICATION);
+        }
         req.setId(appId);
         // 处理应用信息
         Result appHan = HandleAppSave(req, loginUserName);
@@ -354,6 +360,21 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
+    public Result delCurrency(ApplicationCurrencyReq req) {
+        if (null == req.getAppId()) {
+            return Result.error("应用ID不能为空");
+        }
+        if (null == req.getCurrencyAppId()) {
+            return Result.error("应用ID不能为空");
+        }
+        int cont = applicationCurrencyDao.delCurrency(req);
+        if (cont == 0) {
+            return Result.error("删除失败");
+        }
+        return Result.success();
+    }
+
+    @Override
     public Result updateAppStatus(ApplicationEditReq req, String loginUserName) {
         Application application = new Application();
         application.setId(req.getId());
@@ -389,6 +410,28 @@ public class ApplicationServiceImpl implements ApplicationService {
             return Result.error("删除应用失败, 联系管理员");
         }
         return Result.success();
+    }
+
+    @Override
+    public Result queryAddId() {
+        Long aLong = codeGenerateUtil.generateId(PrincipalEnum.MANAGE_APPLICATION);
+        return Result.success(aLong);
+    }
+
+    @Override
+    public Result<List<ApplicationResp>> currencyList(ApplicationProblemReq req) {
+        if (null == req.getAppId()) {
+            return Result.error("产品ID不能为空");
+        }
+        // 获取适用产品
+        List<Application> appList = applicationDao.queryCurrencyList(req.getAppId());
+        if (!appList.isEmpty()) {
+            // 封面图
+            setAppImg(appList);
+
+        }
+        List<ApplicationResp> appResps = BeanUtil.copyBeanList(appList, ApplicationResp.class);
+        return Result.success(appResps);
     }
 
     /**

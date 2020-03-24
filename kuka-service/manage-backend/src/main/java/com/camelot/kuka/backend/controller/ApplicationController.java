@@ -9,6 +9,7 @@ import com.camelot.kuka.common.utils.AppUserUtil;
 import com.camelot.kuka.model.backend.application.req.AppPageReq;
 import com.camelot.kuka.model.backend.application.req.ApplicationCurrencyReq;
 import com.camelot.kuka.model.backend.application.req.ApplicationEditReq;
+import com.camelot.kuka.model.backend.application.req.ApplicationProblemReq;
 import com.camelot.kuka.model.backend.application.resp.ApplicationResp;
 import com.camelot.kuka.model.backend.application.resp.QyeryUpdateResp;
 import com.camelot.kuka.model.common.CommonReq;
@@ -118,6 +119,9 @@ public class ApplicationController extends BaseController {
     public PageResult<List<ApplicationResp>> pageListAll(AppPageReq req){
         try {
             LoginAppUser loginAppUser = new LoginAppUser();
+            if (null == loginAppUser) {
+                return PageResult.error("用户未登陆");
+            }
             loginAppUser.setType(UserTypeEnum.KUKA);
             // 开启分页
             startPage();
@@ -138,6 +142,23 @@ public class ApplicationController extends BaseController {
     }
 
     /***
+     * <p>Description:[获取适用产品]</p>
+     * Created on 2020/2/4
+     * @param req
+     * @return com.camelot.kuka.model.common.Result
+     * @author 谢楠
+     */
+    @PostMapping("/application/currencyList")
+    public Result<List<ApplicationResp>> currencyList(ApplicationProblemReq req){
+        try {
+            return applicationService.currencyList(req);
+        } catch (Exception e) {
+            log.error("\n 产品模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "currencyList", JSON.toJSONString(req), e);
+            return PageResult.error("网络异常, 请稍后再试");
+        }
+    }
+
+    /***
      * <p>Description:[新增产品信息]</p>
      * Created on 2020/2/4
      * @param req
@@ -148,9 +169,29 @@ public class ApplicationController extends BaseController {
     public Result addApplication(ApplicationEditReq req){
         try {
             String loginUserName = AppUserUtil.getLoginUserName();
+            if (null == loginUserName) {
+                return Result.error("用户未登录");
+            }
             return applicationService.addApplication(req, loginUserName);
         } catch (Exception e) {
             log.error("\n 产品模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "addApplication", JSON.toJSONString(req), e);
+            return Result.error("网络异常, 请稍后再试");
+        }
+    }
+
+    /***
+     * <p>Description:[获取新增的ID]</p>
+     * Created on 2020/2/4
+     * @param
+     * @return com.camelot.kuka.model.common.Result
+     * @author 谢楠
+     */
+    @GetMapping("/application/queryAddId")
+    public Result queryAddId(){
+        try {
+            return applicationService.queryAddId();
+        } catch (Exception e) {
+            log.error("\n 产品模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "queryAddId", JSON.toJSONString(null), e);
             return Result.error("网络异常, 请稍后再试");
         }
     }
@@ -168,6 +209,23 @@ public class ApplicationController extends BaseController {
             return applicationService.addCurrency(req);
         } catch (Exception e) {
             log.error("\n 产品模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "addCurrency", JSON.toJSONString(req), e);
+            return Result.error("网络异常, 请稍后再试");
+        }
+    }
+
+    /***
+     * <p>Description:[删除适用产品信息]</p>
+     * Created on 2020/2/4
+     * @param req
+     * @return com.camelot.kuka.model.common.Result
+     * @author 谢楠
+     */
+    @PostMapping("/application/delCurrency")
+    public Result delCurrency(ApplicationCurrencyReq req){
+        try {
+            return applicationService.delCurrency(req);
+        } catch (Exception e) {
+            log.error("\n 产品模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "delCurrency", JSON.toJSONString(req), e);
             return Result.error("网络异常, 请稍后再试");
         }
     }
@@ -200,6 +258,9 @@ public class ApplicationController extends BaseController {
     public Result updateApplication(ApplicationEditReq req){
         try {
             String loginUserName = AppUserUtil.getLoginUserName();
+            if (null == loginUserName) {
+                return Result.error("用户未登录");
+            }
             return applicationService.updateApplication(req, loginUserName);
         } catch (Exception e) {
             log.error("\n 产品模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "updateApplication", JSON.toJSONString(req), e);
@@ -218,6 +279,9 @@ public class ApplicationController extends BaseController {
     public Result updateAppStatus(ApplicationEditReq req){
         try {
             String loginUserName = AppUserUtil.getLoginUserName();
+            if (null == loginUserName) {
+                return Result.error("用户未登录");
+            }
             return applicationService.updateAppStatus(req, loginUserName);
         } catch (Exception e) {
             log.error("\n 产品模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "updateAppStatus", JSON.toJSONString(req), e);
@@ -236,6 +300,9 @@ public class ApplicationController extends BaseController {
     public Result deleteApplication(CommonReq req){
         try {
             String loginUserName = AppUserUtil.getLoginUserName();
+            if (null == loginUserName) {
+                return Result.error("用户未登录");
+            }
             return applicationService.deleteApplication(req, loginUserName);
         } catch (Exception e) {
             log.error("\n 产品模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "deleteApplication", JSON.toJSONString(req), e);
