@@ -43,6 +43,9 @@ public class AppProbleController extends BaseController {
     public Result addProbleApplication(ApplicationProblemReq req){
         try {
             String loginUserName = AppUserUtil.getLoginUserName();
+            if (null == loginUserName) {
+                return Result.error("用户未登录");
+            }
             return applicationProbleService.addProbleApplication(req, loginUserName);
         } catch (Exception e) {
             log.error("\n 应用常见问模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "addProbleApplication", JSON.toJSONString(req), e);
@@ -62,6 +65,9 @@ public class AppProbleController extends BaseController {
     public Result updateProbleApplication(ApplicationProblemReq req){
         try {
             String loginUserName = AppUserUtil.getLoginUserName();
+            if (null == loginUserName) {
+                return Result.error("用户未登录");
+            }
             return applicationProbleService.updateProbleApplication(req, loginUserName);
         } catch (Exception e) {
             log.error("\n 应用常见问模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "updateProbleApplication", JSON.toJSONString(req), e);

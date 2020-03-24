@@ -113,6 +113,9 @@ public class RoleController extends BaseController {
     public Result addRole(RoleReq req){
         try {
             String loginUserName = AppUserUtil.getLoginUserName();
+            if (null == loginUserName) {
+                return Result.error("用户未登陆");
+            }
             return roleService.addRole(req, loginUserName);
         } catch (Exception e) {
             log.error("\n 角色模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "addRole", JSON.toJSONString(req), e);
@@ -148,6 +151,9 @@ public class RoleController extends BaseController {
     public Result updateRole(RoleReq req){
         try {
             String loginUserName = AppUserUtil.getLoginUserName();
+            if (null == loginUserName) {
+                return Result.error("用户未登陆");
+            }
             return roleService.updateRole(req, loginUserName);
         } catch (Exception e) {
             log.error("\n 角色模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "updateRole", JSON.toJSONString(req), e);
@@ -166,6 +172,9 @@ public class RoleController extends BaseController {
     public Result updateStatus(RoleReq req){
         try {
             String loginUserName = AppUserUtil.getLoginUserName();
+            if (null == loginUserName) {
+                return Result.error("用户未登陆");
+            }
             return roleService.updateStatus(req, loginUserName);
         } catch (Exception e) {
             log.error("\n 角色模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "updateStatus", JSON.toJSONString(req), e);

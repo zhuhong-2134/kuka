@@ -60,6 +60,9 @@ public class CommentTypeController extends BaseController {
     public Result addCommentType(CommentTypeResp req){
         try {
             String loginUserName = AppUserUtil.getLoginUserName();
+            if (null == loginUserName) {
+                return Result.error("用户未登录");
+            }
             return commentTypeService.addCommentType(req, loginUserName);
         } catch (Exception e) {
             log.error("\n 评论分类模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "addCommentType", JSON.toJSONString(req), e);
@@ -79,6 +82,9 @@ public class CommentTypeController extends BaseController {
     public Result deleteCommentType(CommonReq req){
         try {
             String loginUserName = AppUserUtil.getLoginUserName();
+            if (null == loginUserName) {
+                return Result.error("用户未登录");
+            }
             return commentTypeService.deleteCommentType(req, loginUserName);
         } catch (Exception e) {
             log.error("\n 评论分类模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "deleteCommentType", JSON.toJSONString(req), e);

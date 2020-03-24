@@ -118,6 +118,9 @@ public class ApplicationController extends BaseController {
     public PageResult<List<ApplicationResp>> pageListAll(AppPageReq req){
         try {
             LoginAppUser loginAppUser = new LoginAppUser();
+            if (null == loginAppUser) {
+                return PageResult.error("用户未登陆");
+            }
             loginAppUser.setType(UserTypeEnum.KUKA);
             // 开启分页
             startPage();
@@ -148,6 +151,9 @@ public class ApplicationController extends BaseController {
     public Result addApplication(ApplicationEditReq req){
         try {
             String loginUserName = AppUserUtil.getLoginUserName();
+            if (null == loginUserName) {
+                return Result.error("用户未登录");
+            }
             return applicationService.addApplication(req, loginUserName);
         } catch (Exception e) {
             log.error("\n 产品模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "addApplication", JSON.toJSONString(req), e);
@@ -217,6 +223,9 @@ public class ApplicationController extends BaseController {
     public Result updateApplication(ApplicationEditReq req){
         try {
             String loginUserName = AppUserUtil.getLoginUserName();
+            if (null == loginUserName) {
+                return Result.error("用户未登录");
+            }
             return applicationService.updateApplication(req, loginUserName);
         } catch (Exception e) {
             log.error("\n 产品模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "updateApplication", JSON.toJSONString(req), e);
@@ -235,6 +244,9 @@ public class ApplicationController extends BaseController {
     public Result updateAppStatus(ApplicationEditReq req){
         try {
             String loginUserName = AppUserUtil.getLoginUserName();
+            if (null == loginUserName) {
+                return Result.error("用户未登录");
+            }
             return applicationService.updateAppStatus(req, loginUserName);
         } catch (Exception e) {
             log.error("\n 产品模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "updateAppStatus", JSON.toJSONString(req), e);
@@ -253,6 +265,9 @@ public class ApplicationController extends BaseController {
     public Result deleteApplication(CommonReq req){
         try {
             String loginUserName = AppUserUtil.getLoginUserName();
+            if (null == loginUserName) {
+                return Result.error("用户未登录");
+            }
             return applicationService.deleteApplication(req, loginUserName);
         } catch (Exception e) {
             log.error("\n 产品模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "deleteApplication", JSON.toJSONString(req), e);

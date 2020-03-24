@@ -130,6 +130,9 @@ public class SupplierController extends BaseController {
     public Result addSupplier(SupplierReq req){
         try {
             String loginUserName = AppUserUtil.getLoginUserName();
+            if (null == loginUserName) {
+                return Result.error("用户未登录");
+            }
             return supplierService.addSupplier(req, loginUserName);
         } catch (Exception e) {
             log.error("\n 集成商模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "addSupplier", JSON.toJSONString(req), e);
@@ -172,6 +175,9 @@ public class SupplierController extends BaseController {
     public Result updateSupplier(SupplierReq req){
         try {
             String loginUserName = AppUserUtil.getLoginUserName();
+            if (null == loginUserName) {
+                return Result.error("用户未登录");
+            }
             return supplierService.updateSupplier(req, loginUserName);
         } catch (Exception e) {
             log.error("\n 集成商模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "delSupplier", JSON.toJSONString(req), e);
@@ -190,6 +196,9 @@ public class SupplierController extends BaseController {
     public Result delSupplier(CommonReq req){
         try {
             String loginUserName = AppUserUtil.getLoginUserName();
+            if (null == loginUserName) {
+                return Result.error("用户未登录");
+            }
             return supplierService.delSupplier(req, loginUserName);
         } catch (Exception e) {
             log.error("\n 集成商模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "delSupplier", JSON.toJSONString(req), e);

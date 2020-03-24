@@ -107,7 +107,7 @@ public class UserController extends BaseController {
 
     /**
      * 通过条件获取数据
-     * @param queryByInfo
+     * @param
      * @return
      */
     @PostMapping(value = "/users/client/queryByInfo")
@@ -212,6 +212,9 @@ public class UserController extends BaseController {
     @PostMapping("/users/add")
     public Result addUser(UserReq req){
         String loginUserName = AppUserUtil.getLoginUserName();
+        if (null == loginUserName) {
+            return Result.error("用户未登陆");
+        }
         return userService.addUser(req, loginUserName);
     }
 
@@ -225,6 +228,9 @@ public class UserController extends BaseController {
     @PostMapping("/users/kuka/add")
     public Result kukaAddUser(UserReq req){
         String loginUserName = AppUserUtil.getLoginUserName();
+        if (null == loginUserName) {
+            return Result.error("用户未登陆");
+        }
         req.setType(UserTypeEnum.KUKA);
         return userService.kukaAddUser(req, loginUserName);
     }
@@ -265,6 +271,9 @@ public class UserController extends BaseController {
     @PostMapping("/users/update")
     public Result updateUser(UserReq req){
         String loginUserName = AppUserUtil.getLoginUserName();
+        if (null == loginUserName) {
+            return Result.error("用户未登陆");
+        }
         req.setName(req.getUserName());
         return userService.updateUser(req, loginUserName);
     }
@@ -279,6 +288,9 @@ public class UserController extends BaseController {
     @PostMapping("/users/del")
     public Result delUser(CommonReq req){
         String loginUserName = AppUserUtil.getLoginUserName();
+        if (null == loginUserName) {
+            return Result.error("用户未登陆");
+        }
         return userService.delUser(req, loginUserName);
     }
 
@@ -292,6 +304,9 @@ public class UserController extends BaseController {
     @PostMapping("/users/updateStatus")
     public Result updateStatus(UserReq req){
         String loginUserName = AppUserUtil.getLoginUserName();
+        if (null == loginUserName) {
+            return Result.error("用户未登陆");
+        }
         return userService.updateUser(req, loginUserName);
     }
 

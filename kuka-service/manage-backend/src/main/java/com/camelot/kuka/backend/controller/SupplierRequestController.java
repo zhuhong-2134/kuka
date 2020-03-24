@@ -144,6 +144,9 @@ public class SupplierRequestController extends BaseController {
     public Result updateStatus(SupplierRequestReq req){
         try {
             String loginUserName = AppUserUtil.getLoginUserName();
+            if (null == loginUserName) {
+                return Result.error("用户未登录");
+            }
             return supplierRequestService.updateStatus(req, loginUserName);
         } catch (Exception e) {
             log.error("\n 集成商请求模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "updateStatus", JSON.toJSONString(req), e);

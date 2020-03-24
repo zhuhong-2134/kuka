@@ -80,6 +80,9 @@ public class MailMouldController extends BaseController {
     public Result addMailMould(MailMouldReq req){
         try {
             String loginUserName = AppUserUtil.getLoginUserName();
+            if (null == loginUserName) {
+                return Result.error("用户未登录");
+            }
             return mailMouldService.addMailMould(req, loginUserName);
         } catch (Exception e) {
             log.error("\n 邮件模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "addMailMould", JSON.toJSONString(req), e);
@@ -114,6 +117,9 @@ public class MailMouldController extends BaseController {
     public Result updateMailMould(MailMouldReq req){
         try {
             String loginUserName = AppUserUtil.getLoginUserName();
+            if (null == loginUserName) {
+                return Result.error("用户未登录");
+            }
             return mailMouldService.updateMailMould(req, loginUserName);
         } catch (Exception e) {
             log.error("\n 邮件模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "updateMailMould", JSON.toJSONString(req), e);
@@ -132,6 +138,9 @@ public class MailMouldController extends BaseController {
     public Result delMailMould(MailMouldReq req){
         try {
             String loginUserName = AppUserUtil.getLoginUserName();
+            if (null == loginUserName) {
+                return Result.error("用户未登录");
+            }
             return mailMouldService.delMailMould(req, loginUserName);
         } catch (Exception e) {
             log.error("\n 邮件模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "delMailMould", JSON.toJSONString(req), e);

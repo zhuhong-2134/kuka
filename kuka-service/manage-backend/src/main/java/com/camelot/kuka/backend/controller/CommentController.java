@@ -113,6 +113,9 @@ public class CommentController extends BaseController {
     public Result delComment(CommonReq req){
         try {
             String loginUserName = AppUserUtil.getLoginUserName();
+            if (null == loginUserName) {
+                return Result.error("用户未登录");
+            }
             return commentService.delComment(req, loginUserName);
         } catch (Exception e) {
             log.error("\n 评论模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "delSupplier", JSON.toJSONString(req), e);
@@ -148,6 +151,9 @@ public class CommentController extends BaseController {
     public Result toExamine(CommentReq req){
         try {
             String loginUserName = AppUserUtil.getLoginUserName();
+            if (null == loginUserName) {
+                return Result.error("用户未登录");
+            }
             return commentService.toExamine(req, loginUserName);
         } catch (Exception e) {
             log.error("\n 评论模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "toExamine", JSON.toJSONString(req), e);
