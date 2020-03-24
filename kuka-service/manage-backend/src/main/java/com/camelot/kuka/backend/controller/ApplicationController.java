@@ -9,6 +9,7 @@ import com.camelot.kuka.common.utils.AppUserUtil;
 import com.camelot.kuka.model.backend.application.req.AppPageReq;
 import com.camelot.kuka.model.backend.application.req.ApplicationCurrencyReq;
 import com.camelot.kuka.model.backend.application.req.ApplicationEditReq;
+import com.camelot.kuka.model.backend.application.req.ApplicationProblemReq;
 import com.camelot.kuka.model.backend.application.resp.ApplicationResp;
 import com.camelot.kuka.model.backend.application.resp.QyeryUpdateResp;
 import com.camelot.kuka.model.common.CommonReq;
@@ -141,6 +142,23 @@ public class ApplicationController extends BaseController {
     }
 
     /***
+     * <p>Description:[获取适用产品]</p>
+     * Created on 2020/2/4
+     * @param req
+     * @return com.camelot.kuka.model.common.Result
+     * @author 谢楠
+     */
+    @PostMapping("/application/currencyList")
+    public Result<List<ApplicationResp>> currencyList(ApplicationProblemReq req){
+        try {
+            return applicationService.currencyList(req);
+        } catch (Exception e) {
+            log.error("\n 产品模块, \n 方法:{}, \n 参数:{}, \n 错误信息:{}", "currencyList", JSON.toJSONString(req), e);
+            return PageResult.error("网络异常, 请稍后再试");
+        }
+    }
+
+    /***
      * <p>Description:[新增产品信息]</p>
      * Created on 2020/2/4
      * @param req
@@ -162,7 +180,7 @@ public class ApplicationController extends BaseController {
     }
 
     /***
-     * <p>Description:[新增适用产品信息]</p>
+     * <p>Description:[获取新增的ID]</p>
      * Created on 2020/2/4
      * @param
      * @return com.camelot.kuka.model.common.Result

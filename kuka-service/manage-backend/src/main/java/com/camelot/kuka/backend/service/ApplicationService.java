@@ -5,6 +5,7 @@ import com.camelot.kuka.model.backend.application.req.AppPageReq;
 import com.camelot.kuka.model.backend.application.req.ApplicationCurrencyReq;
 import com.camelot.kuka.model.backend.application.req.ApplicationEditReq;
 import com.camelot.kuka.model.backend.application.req.ApplicationProblemReq;
+import com.camelot.kuka.model.backend.application.resp.ApplicationResp;
 import com.camelot.kuka.model.backend.application.resp.QyeryUpdateResp;
 import com.camelot.kuka.model.common.CommonReq;
 import com.camelot.kuka.model.common.Result;
@@ -93,4 +94,13 @@ public interface ApplicationService {
      * @author 谢楠
      */
     Result queryAddId();
+
+    /***
+     * <p>Description:[获取适用产品]</p>
+     * Created on 2020/2/5
+     * @param
+     * @return List<Supplier>
+     * @author 谢楠
+     */
+    Result<List<ApplicationResp>> currencyList(ApplicationProblemReq req);
 }

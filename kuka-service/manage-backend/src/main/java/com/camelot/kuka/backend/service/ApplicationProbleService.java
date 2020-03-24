@@ -34,4 +34,13 @@ public interface ApplicationProbleService {
      * @author 谢楠
      */
     Result updateProbleApplication(ApplicationProblemReq req, String loginUserName);
+
+    /***
+     * <p>Description:[根据应用ID获取]</p>
+     * Created on 2020/2/4
+     * @param req
+     * @return com.camelot.kuka.model.common.Result
+     * @author 谢楠
+     */
+    Result<List<ApplicationProblemResp>> queryByAppId(ApplicationProblemReq req, String loginUserName);
 }

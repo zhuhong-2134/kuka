@@ -11,6 +11,7 @@ import com.camelot.kuka.common.utils.CodeGenerateUtil;
 import com.camelot.kuka.model.backend.application.req.AppPageReq;
 import com.camelot.kuka.model.backend.application.req.ApplicationCurrencyReq;
 import com.camelot.kuka.model.backend.application.req.ApplicationEditReq;
+import com.camelot.kuka.model.backend.application.req.ApplicationProblemReq;
 import com.camelot.kuka.model.backend.application.resp.ApplicationProblemResp;
 import com.camelot.kuka.model.backend.application.resp.ApplicationResp;
 import com.camelot.kuka.model.backend.application.resp.QyeryUpdateResp;
@@ -400,6 +401,22 @@ public class ApplicationServiceImpl implements ApplicationService {
     public Result queryAddId() {
         Long aLong = codeGenerateUtil.generateId(PrincipalEnum.MANAGE_APPLICATION);
         return Result.success(aLong);
+    }
+
+    @Override
+    public Result<List<ApplicationResp>> currencyList(ApplicationProblemReq req) {
+        if (null == req.getAppId()) {
+            return Result.error("产品ID不能为空");
+        }
+        // 获取适用产品
+        List<Application> appList = applicationDao.queryCurrencyList(req.getAppId());
+        if (!appList.isEmpty()) {
+            // 封面图
+            setAppImg(appList);
+
+        }
+        List<ApplicationResp> appResps = BeanUtil.copyBeanList(appList, ApplicationResp.class);
+        return Result.success(appResps);
     }
 
     /**
