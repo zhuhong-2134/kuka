@@ -2,6 +2,8 @@ package com.camelot.kuka.model.backend.supplier.resp;
 
 import com.camelot.kuka.model.backend.application.resp.ApplicationResp;
 import com.camelot.kuka.model.enums.DeleteEnum;
+import com.camelot.kuka.model.enums.backend.JumpStatusEnum;
+import com.camelot.kuka.model.enums.backend.MessageStatusEnum;
 import com.camelot.kuka.model.enums.user.CreateSourceEnum;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
@@ -194,5 +196,15 @@ public class SupplierResp implements Serializable {
      * 应用详情
      */
     private List<ApplicationResp> appList;
+
+    /**
+     * 跳转状态
+     */
+    private JumpStatusEnum jumpStatus;
+
+    /**
+     * 消息内容
+     */
+    private String message;
 
 }

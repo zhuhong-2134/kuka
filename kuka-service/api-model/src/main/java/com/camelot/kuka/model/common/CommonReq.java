@@ -38,4 +38,9 @@ public class CommonReq {
      * 用户主键
      */
     private Long userId;
+
+    /**
+     * 消息ID
+     */
+    private Long messageId;
 }

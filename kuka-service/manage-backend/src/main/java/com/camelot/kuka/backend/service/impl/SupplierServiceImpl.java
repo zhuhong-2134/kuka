@@ -2,9 +2,11 @@ package com.camelot.kuka.backend.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.camelot.kuka.backend.dao.ApplicationDao;
+import com.camelot.kuka.backend.dao.MessageDao;
 import com.camelot.kuka.backend.dao.SupplierDao;
 import com.camelot.kuka.backend.feign.user.UserClient;
 import com.camelot.kuka.backend.model.Application;
+import com.camelot.kuka.backend.model.Message;
 import com.camelot.kuka.backend.model.Supplier;
 import com.camelot.kuka.backend.service.SupplierService;
 import com.camelot.kuka.common.utils.BeanUtil;
@@ -49,6 +51,8 @@ public class SupplierServiceImpl implements SupplierService {
     private CodeGenerateUtil codeGenerateUtil;
     @Resource
     private ApplicationDao applicationDao;
+    @Resource
+    private MessageDao messageDao;
 
     @Override
     public List<Supplier> pageList(SupplierPageReq req, LoginAppUser loginAppUser) {
@@ -207,7 +211,16 @@ public class SupplierServiceImpl implements SupplierService {
                 return Result.error("数据获取失败,刷新后重试");
             }
             info.setPassword("密码只是为了回显");
-            return Result.success(BeanUtil.copyBean(info, SupplierResp.class));
+            SupplierResp supplierResp = BeanUtil.copyBean(info, SupplierResp.class);
+            // 获取消息内容
+            if (null != req.getMessageId()) {
+                Message message = messageDao.queryById(req.getMessageId());
+                if (null != message) {
+                    supplierResp.setMessage(message.getMessage());
+                    supplierResp.setJumpStatus(message.getJumpStatus());
+                }
+            }
+            return Result.success(supplierResp);
         } catch (Exception e) {
             e.printStackTrace();
             log.error("\n 获取供应商失败, 参数:{}, \n 错误信息:{}", JSON.toJSON(req), e);
