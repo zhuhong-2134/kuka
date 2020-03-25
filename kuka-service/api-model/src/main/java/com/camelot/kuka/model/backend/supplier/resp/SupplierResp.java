@@ -100,24 +100,28 @@ public class SupplierResp implements Serializable {
      *  对应枚举 SupplierTypeEnum
      */
     private String type;
+    private String typeStr;
 
     /**
      * 行业，具体看枚举类
      * 对应枚举 IndustryTypeEnum
      */
     private String industry;
+    private String industryStr;
 
     /**
      * 擅长应用
      * 对应枚举 SkilledAppEnum
      */
     private String appType;
+    private String appTypeStr;
 
     /**
      * 经营模式
      * 对应枚举 PatternTypeEnum
      */
     private String patternType;
+    private String patternTypeStr;
 
     /**
      * 营业执照url

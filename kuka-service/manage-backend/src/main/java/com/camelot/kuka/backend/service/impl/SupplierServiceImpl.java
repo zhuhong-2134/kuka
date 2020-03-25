@@ -16,9 +16,14 @@ import com.camelot.kuka.model.backend.supplier.req.SupplierPageReq;
 import com.camelot.kuka.model.backend.supplier.req.SupplierReq;
 import com.camelot.kuka.model.backend.supplier.resp.SupplierResp;
 import com.camelot.kuka.model.common.CommonReq;
+import com.camelot.kuka.model.common.EnumVal;
 import com.camelot.kuka.model.common.Result;
 import com.camelot.kuka.model.enums.DeleteEnum;
 import com.camelot.kuka.model.enums.PrincipalEnum;
+import com.camelot.kuka.model.enums.backend.IndustryTypeEnum;
+import com.camelot.kuka.model.enums.backend.PatternTypeEnum;
+import com.camelot.kuka.model.enums.backend.SkilledAppEnum;
+import com.camelot.kuka.model.enums.backend.SupplierTypeEnum;
 import com.camelot.kuka.model.enums.user.CreateSourceEnum;
 import com.camelot.kuka.model.enums.user.UserTypeEnum;
 import com.camelot.kuka.model.user.LoginAppUser;
@@ -102,16 +107,16 @@ public class SupplierServiceImpl implements SupplierService {
         if (StringUtils.isBlank(req.getSupplierlDesc())) {
             return Result.error("集成商详情不能为空");
         }
-        if (null == req.getType()) {
+        if (null == req.getTypeArray() || req.getTypeArray().length == 0) {
             return Result.error("集成商类型不能为空");
         }
-        if (null == req.getIndustry()) {
+        if (null == req.getIndustryArray() || req.getIndustryArray().length == 0) {
             return Result.error("所属行业不能为空");
         }
-        if (null == req.getAppType()) {
+        if (null == req.getAppTypeArray() || req.getAppTypeArray().length == 0) {
             return Result.error("擅长应用不能为空");
         }
-        if (null == req.getPatternType()) {
+        if (null == req.getPatternTypeArray() || req.getPatternTypeArray().length == 0) {
             return Result.error("经营模式不能为空");
         }
         Supplier supplier = BeanUtil.copyBean(req, Supplier.class);
@@ -129,6 +134,48 @@ public class SupplierServiceImpl implements SupplierService {
         if (!result.isSuccess()) {
             return result;
         }
+        // 处理中文枚举
+        if (null != req.getTypeArray() && req.getTypeArray().length > 0) {
+            String[] typeArray = req.getTypeArray();
+            StringBuffer stpeSb = new StringBuffer();
+            for (String stpeStr : typeArray) {
+                String streN = SupplierTypeEnum.getMap().get(stpeStr);
+                stpeSb.append(streN).append(",");
+            }
+            supplier.setType(stpeSb.toString().substring(0, stpeSb.toString().length() - 1));
+        }
+
+        // 处理中文枚举
+        if (null != req.getIndustryArray() && req.getIndustryArray().length > 0) {
+            String[] industryArray = req.getIndustryArray();
+            StringBuffer industrySb = new StringBuffer();
+            for (String industryStr : industryArray) {
+                String streN = IndustryTypeEnum.getMap().get(industryStr);
+                industrySb.append(streN).append(",");
+            }
+            supplier.setIndustry(industrySb.toString().substring(0, industrySb.toString().length() - 1));
+        }
+
+        if (null != req.getAppTypeArray() && req.getAppTypeArray().length > 0) {
+            String[] appTypeArray = req.getAppTypeArray();
+            StringBuffer appTypeSb = new StringBuffer();
+            for (String appTypeStr : appTypeArray) {
+                String streN = SkilledAppEnum.getMap().get(appTypeStr);
+                appTypeSb.append(streN).append(",");
+            }
+            supplier.setAppType(appTypeSb.toString().substring(0, appTypeSb.toString().length() - 1));
+        }
+
+        if (null != req.getPatternTypeArray() && req.getPatternTypeArray().length > 0) {
+            String[] patternTypeArray = req.getPatternTypeArray();
+            StringBuffer patternTypeSb = new StringBuffer();
+            for (String patternTypeStr : patternTypeArray) {
+                String streN = PatternTypeEnum.getMap().get(patternTypeStr);
+                patternTypeSb.append(streN).append(",");
+            }
+            supplier.setPatternType(patternTypeSb.toString().substring(0, patternTypeSb.toString().length() - 1));
+        }
+
         try {
             int con = supplierDao.addSupplier(Arrays.asList(supplier));
             if (con == 0) {
@@ -220,6 +267,71 @@ public class SupplierServiceImpl implements SupplierService {
                     supplierResp.setJumpStatus(message.getJumpStatus());
                 }
             }
+
+            // 转换枚举
+            if (StringUtils.isNoneBlank(supplierResp.getType())) {
+                String typeStr = "";
+                String[] codes = supplierResp.getType().split(",");
+                for (String code : codes) {
+                    List<EnumVal> enumList = EnumVal.getEnumList(SupplierTypeEnum.class);
+                    for (EnumVal enumVal : enumList) {
+                        if (enumVal.getName().equals(code) ) {
+                            typeStr += enumVal.getDes() + ",";
+                            break;
+                        }
+                    }
+                }
+                supplierResp.setTypeStr(typeStr.substring(0, typeStr.length()-1));
+            }
+
+            // 转换枚举
+            if (StringUtils.isNoneBlank(supplierResp.getIndustry())) {
+                String industryStr = "";
+                String[] codes = supplierResp.getIndustry().split(",");
+                for (String code : codes) {
+                    List<EnumVal> enumList = EnumVal.getEnumList(IndustryTypeEnum.class);
+                    for (EnumVal enumVal : enumList) {
+                        if (enumVal.getName().equals(code) ) {
+                            industryStr += enumVal.getDes() + ",";
+                            break;
+                        }
+                    }
+                }
+                supplierResp.setIndustryStr(industryStr.substring(0, industryStr.length()-1));
+            }
+
+            // 转换枚举
+            if (StringUtils.isNoneBlank(supplierResp.getAppType())) {
+                String appTypeStr = "";
+                String[] codes = supplierResp.getAppType().split(",");
+                for (String code : codes) {
+                    List<EnumVal> enumList = EnumVal.getEnumList(SkilledAppEnum.class);
+                    for (EnumVal enumVal : enumList) {
+                        if (enumVal.getName().equals(code) ) {
+                            appTypeStr += enumVal.getDes() + ",";
+                            break;
+                        }
+                    }
+                }
+                supplierResp.setAppTypeStr(appTypeStr.substring(0, appTypeStr.length()-1));
+            }
+
+            // 转换枚举
+            if (StringUtils.isNoneBlank(supplierResp.getPatternType())) {
+                String patternTypeStr = "";
+                String[] codes = supplierResp.getPatternType().split(",");
+                for (String code : codes) {
+                    List<EnumVal> enumList = EnumVal.getEnumList(PatternTypeEnum.class);
+                    for (EnumVal enumVal : enumList) {
+                        if (enumVal.getName().equals(code) ) {
+                            patternTypeStr += enumVal.getDes() + ",";
+                            break;
+                        }
+                    }
+                }
+                supplierResp.setPatternTypeStr(patternTypeStr.substring(0, patternTypeStr.length()-1));
+            }
+            
             return Result.success(supplierResp);
         } catch (Exception e) {
             e.printStackTrace();
