@@ -51,6 +51,15 @@
 		order by id desc
 	</select>
 
+	<select id="queryById" resultMap="BaseResultMap">
+		SELECT
+			<include refid="Base_Column_List" />
+		FROM
+			t_message
+		WHERE
+			id = #{id}
+	</select>
+
 	<insert id="addBatch">
 		INSERT INTO
 			t_message(
@@ -107,7 +116,7 @@
 			<if test ='null != userId'>
 				user_id = #{userId},
 			</if>
-			<if test ='null != status'>
+			<if test ='null != jumpStatus'>
 				jump_status = #{jumpStatus, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
 			</if>
 			<if test ='null != createTime'>

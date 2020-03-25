@@ -5,6 +5,7 @@ import com.camelot.kuka.model.backend.supplier.resp.SupplierResp;
 import com.camelot.kuka.model.enums.DeleteEnum;
 import com.camelot.kuka.model.enums.application.AppStatusEnum;
 import com.camelot.kuka.model.enums.application.AppTypeEnum;
+import com.camelot.kuka.model.enums.backend.JumpStatusEnum;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
@@ -174,4 +175,14 @@ public class QyeryUpdateResp implements Serializable {
      * 集成商详情
      */
     private SupplierResp supplier;
+
+    /**
+     * 跳转状态
+     */
+    private JumpStatusEnum jumpStatus;
+
+    /**
+     * 消息内容
+     */
+    private String message;
 }

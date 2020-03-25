@@ -69,6 +69,8 @@ public class ApplicationServiceImpl implements ApplicationService {
     private SupplierService supplierService;
     @Resource
     private UserClient userClient;
+    @Resource
+    private MessageDao messageDao;
 
     @Override
     public List<Application> queryList(AppPageReq req, LoginAppUser loginAppUser) {
@@ -255,6 +257,17 @@ public class ApplicationServiceImpl implements ApplicationService {
             resp.setSupplier(BeanUtil.copyBean(supplier, SupplierResp.class));
         }
 
+        // 获取消息内容
+        if (null != req.getMessageId()) {
+            if (null != req.getMessageId()) {
+                Message message = messageDao.queryById(req.getMessageId());
+                if (null != message) {
+                    resp.setMessage(message.getMessage());
+                    resp.setJumpStatus(message.getJumpStatus());
+                }
+            }
+        }
+
         // 转换枚举
         if (StringUtils.isNoneBlank(resp.getAppRange())) {
             String appRangeStr = "";
@@ -284,6 +297,7 @@ public class ApplicationServiceImpl implements ApplicationService {
             }
             resp.setIndustryStr(industryStr.substring(0, industryStr.length()-1));
         }
+
 
 
         return Result.success(resp);

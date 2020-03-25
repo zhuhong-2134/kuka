@@ -27,6 +27,15 @@ public interface MessageDao {
     List<Message> findList(@Param("entity") Message query);
 
     /***
+     * <p>Description:[列表查询]</p>
+     * Created on 2020/2/4
+     * @param id
+     * @return list
+     * @author 谢楠
+     */
+    Message queryById(@Param("id") Long id);
+
+    /***
      * <p>Description:[批量新增]</p>
      * Created on 2020/2/4
      * @param list
