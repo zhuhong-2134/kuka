@@ -365,6 +365,47 @@ public class SupplierServiceImpl implements SupplierService {
                     return Result.error("修改用户信息失败");
                 }
             }
+            // 处理中文枚举
+            if (null != req.getTypeArray() && req.getTypeArray().length > 0) {
+                String[] typeArray = req.getTypeArray();
+                StringBuffer stpeSb = new StringBuffer();
+                for (String stpeStr : typeArray) {
+                    String streN = SupplierTypeEnum.getMap().get(stpeStr);
+                    stpeSb.append(streN).append(",");
+                }
+                supplier.setType(stpeSb.toString().substring(0, stpeSb.toString().length() - 1));
+            }
+
+            // 处理中文枚举
+            if (null != req.getIndustryArray() && req.getIndustryArray().length > 0) {
+                String[] industryArray = req.getIndustryArray();
+                StringBuffer industrySb = new StringBuffer();
+                for (String industryStr : industryArray) {
+                    String streN = IndustryTypeEnum.getMap().get(industryStr);
+                    industrySb.append(streN).append(",");
+                }
+                supplier.setIndustry(industrySb.toString().substring(0, industrySb.toString().length() - 1));
+            }
+
+            if (null != req.getAppTypeArray() && req.getAppTypeArray().length > 0) {
+                String[] appTypeArray = req.getAppTypeArray();
+                StringBuffer appTypeSb = new StringBuffer();
+                for (String appTypeStr : appTypeArray) {
+                    String streN = SkilledAppEnum.getMap().get(appTypeStr);
+                    appTypeSb.append(streN).append(",");
+                }
+                supplier.setAppType(appTypeSb.toString().substring(0, appTypeSb.toString().length() - 1));
+            }
+
+            if (null != req.getPatternTypeArray() && req.getPatternTypeArray().length > 0) {
+                String[] patternTypeArray = req.getPatternTypeArray();
+                StringBuffer patternTypeSb = new StringBuffer();
+                for (String patternTypeStr : patternTypeArray) {
+                    String streN = PatternTypeEnum.getMap().get(patternTypeStr);
+                    patternTypeSb.append(streN).append(",");
+                }
+                supplier.setPatternType(patternTypeSb.toString().substring(0, patternTypeSb.toString().length() - 1));
+            }
             int con = supplierDao.updateSupplier(supplier);
             if (con == 0) {
                 return Result.error("修改失败");
