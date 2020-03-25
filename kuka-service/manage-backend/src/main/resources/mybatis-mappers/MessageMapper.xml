@@ -107,7 +107,7 @@
 			<if test ='null != userId'>
 				user_id = #{userId},
 			</if>
-			<if test ='null != status'>
+			<if test ='null != jumpStatus'>
 				jump_status = #{jumpStatus, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
 			</if>
 			<if test ='null != createTime'>
