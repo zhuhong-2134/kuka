@@ -1,5 +1,6 @@
 package com.camelot.kuka.backend.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.camelot.kuka.backend.dao.ApplicationRequestDao;
 import com.camelot.kuka.backend.feign.user.UserClient;
 import com.camelot.kuka.backend.model.ApplicationRequest;
@@ -297,16 +298,16 @@ public class ApplicationRequestServiceImpl implements ApplicationRequestService 
             String message = mould.getMessage();
             // 应用名称
             QyeryUpdateResp app = qyeryUpdateRespResult.getData();
-            message = message.replace("{1}", app.getAppName());
+            message = message.replace("{1}", null != app.getAppName() ? app.getAppName() : "");
             if (null != app.getSupplier()) {
                 // 集成商名称
-                message = message.replace("{2}", app.getSupplier().getSupplierlName());
+                message = message.replace("{2}", null != app.getSupplier().getSupplierlName() ? app.getSupplier().getSupplierlName() : "");
                 // 总负责人
-                message = message.replace("{3}", app.getSupplier().getUserName());
+                message = message.replace("{3}", null != app.getSupplier().getUserName() ? app.getSupplier().getUserName() : "");
                 // 总负责人联系方式
-                message = message.replace("{4}", app.getSupplier().getUserPhone());
+                message = message.replace("{4}", null != app.getSupplier().getUserPhone() ? app.getSupplier().getUserPhone() : "");
                 // 集成商详细地址
-                message = message.replace("{8}", app.getSupplier().getSupplierAddress());
+                message = message.replace("{8}", null != app.getSupplier().getSupplierAddress() ? app.getSupplier().getSupplierAddress() : "");
             }
             // 应用联系人
             message = message.replace("{5}", null != app.getContactBy() ? app.getContactBy(): "");
@@ -338,16 +339,16 @@ public class ApplicationRequestServiceImpl implements ApplicationRequestService 
         // 组装消息内容
         String message = mould.getMessage();
         // 应用名称
-        message = message.replace("{1}", app.getAppName());
+        message = message.replace("{1}", null != app.getAppName() ? app.getAppName() : "");
         if (null != app.getSupplier()) {
             // 集成商名称
-            message = message.replace("{2}", app.getSupplier().getSupplierlName());
+            message = message.replace("{2}", null != app.getSupplier().getSupplierlName() ? app.getSupplier().getSupplierlName() : "");
             // 总负责人
-            message = message.replace("{3}", app.getSupplier().getUserName());
+            message = message.replace("{3}", null != app.getSupplier().getUserName() ? app.getSupplier().getUserName() : "");
             // 总负责人联系方式
-            message = message.replace("{4}", app.getSupplier().getUserPhone());
+            message = message.replace("{4}", null != app.getSupplier().getUserPhone() ? app.getSupplier().getUserPhone() : "");
             // 集成商详细地址
-            message = message.replace("{8}", app.getSupplier().getSupplierAddress());
+            message = message.replace("{8}", null != app.getSupplier().getSupplierAddress() ? app.getSupplier().getSupplierAddress() : "");
         }
         // 应用联系人
         message = message.replace("{5}", null != app.getContactBy() ? app.getContactBy(): "");
@@ -474,6 +475,7 @@ public class ApplicationRequestServiceImpl implements ApplicationRequestService 
         req.setJumpStatus(jumpStatus);
         req.setSourceId(appId);
         req.setStatus(MessageStatusEnum.UNREAD);
+        log.info("\n 发送站内消息，参数:{}", JSON.toJSONString(req));
         return messageService.addMessage(req, loginAppUser.getUserName());
     }
 

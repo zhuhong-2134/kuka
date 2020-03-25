@@ -317,9 +317,9 @@ public class SupplierServiceImpl implements SupplierService {
         if (null == info) {
             return Result.error("数据获取失败,刷新后重试");
         }
+        // 格式化地址信息
+        formatAddress(info);
         SupplierResp resp = BeanUtil.copyBean(info, SupplierResp.class);
-
-
         // 放入应用信息
         Application query = new Application();
         query.setSupplierId(info.getId());

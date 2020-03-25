@@ -246,18 +246,18 @@ public class SupplierRequestServiceImpl implements SupplierRequestService {
         // 组装消息内容
         String message = mould.getMessage();
         // 集成商名称
-        message = message.replace("{1}", supplier.getSupplierlName());
+        message = message.replace("{1}", null != supplier.getSupplierlName() ? supplier.getSupplierlName() : "");
         // 集成商名称
-        message = message.replace("{2}", supplier.getSupplierlName());
+        message = message.replace("{2}", null != supplier.getSupplierlName() ? supplier.getSupplierlName() : "");
         // 总负责人
-        message = message.replace("{3}", supplier.getUserName());
+        message = message.replace("{3}", null != supplier.getUserName() ? supplier.getUserName() : "");
         // 总负责人联系方式
-        message = message.replace("{4}", supplier.getUserPhone());
+        message = message.replace("{4}", null != supplier.getUserPhone() ? supplier.getUserPhone() : "");
         // 联系邮箱
-        message = message.replace("{5}", supplier.getUserMali());
+        message = message.replace("{5}", null != supplier.getUserMali() ? supplier.getUserMali() : "");
         // 集成商详细地址
         formatAddress(supplier);
-        message = message.replace("{6}", supplier.getSupplierAddress());
+        message = message.replace("{6}", null != supplier.getSupplierAddress() ? supplier.getSupplierAddress() : "");
         message = message.replaceAll("(\\r\\n|\\n|\\n\\r)","<br/>");
 
         // 全发
@@ -504,18 +504,18 @@ public class SupplierRequestServiceImpl implements SupplierRequestService {
             // 组装消息内容
             String message = mould.getMessage();
             // 集成商名称
-            message = message.replace("{1}", supplier.getSupplierlName());
+            message = message.replace("{1}", null != supplier.getSupplierlName() ? supplier.getSupplierlName() : "");
             // 集成商名称
-            message = message.replace("{2}", supplier.getSupplierlName());
+            message = message.replace("{2}", null != supplier.getSupplierlName() ? supplier.getSupplierlName() : "");
             // 总负责人
-            message = message.replace("{3}", supplier.getUserName());
+            message = message.replace("{3}", null != supplier.getUserName() ? supplier.getUserName() : "");
             // 总负责人联系方式
-            message = message.replace("{4}", supplier.getUserPhone());
+            message = message.replace("{4}", null != supplier.getUserPhone() ? supplier.getUserPhone() : "");
             // 联系邮箱
-            message = message.replace("{5}", supplier.getUserMali());
+            message = message.replace("{5}", null != supplier.getUserMali() ? supplier.getUserMali() : "");
             // 集成商详细地址
             formatAddress(supplier);
-            message = message.replace("{6}", supplier.getSupplierAddress());
+            message = message.replace("{6}", null != supplier.getSupplierAddress() ? supplier.getSupplierAddress() : "");
             message = message.replaceAll("(\\r\\n|\\n|\\n\\r)","<br/>");
             MessageResp resp = new MessageResp();
             resp.setMessage(message);
