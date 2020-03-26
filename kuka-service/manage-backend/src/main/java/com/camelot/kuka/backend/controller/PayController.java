@@ -121,7 +121,7 @@ public class PayController extends BaseController {
      * @param httpServletResponse
      * @return
      */
-    @GetMapping("/pay/bocPay")
+    @GetMapping("/pay/bocpay")
     public String bocPay(CommonReq req, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
         OrderResp order = orderService.queryById(req).getData();
         Request request = new Request();

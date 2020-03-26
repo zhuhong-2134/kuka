@@ -307,14 +307,14 @@ public class ApplicationRequestServiceImpl implements ApplicationRequestService 
                 // 总负责人联系方式
                 message = message.replace("{4}", null != app.getSupplier().getUserPhone() ? app.getSupplier().getUserPhone() : "");
                 // 集成商详细地址
-                message = message.replace("{8}", null != app.getSupplier().getSupplierAddress() ? app.getSupplier().getSupplierAddress() : "");
+                message = message.replace("{8}", null != app.getSupplier().getUserAddress() ? app.getSupplier().getUserAddress() : "");
+                // 应用邮箱
+                message = message.replace("{7}", null != app.getSupplier().getUserMali() ? app.getSupplier().getUserMali() : "");
             }
             // 应用联系人
             message = message.replace("{5}", null != app.getContactBy() ? app.getContactBy(): "");
             // 应用联系人联系方式
             message = message.replace("{6}", null != app.getContactPhone() ? app.getContactPhone() : "");
-            // 应用邮箱
-            message = message.replace("{7}", null != app.getContactMail() ? app.getContactMail() : " ");
             message = message.replaceAll("(\\r\\n|\\n|\\n\\r)","<br/>");
             MessageResp resp = new MessageResp();
             resp.setMessage(message);
@@ -348,14 +348,15 @@ public class ApplicationRequestServiceImpl implements ApplicationRequestService 
             // 总负责人联系方式
             message = message.replace("{4}", null != app.getSupplier().getUserPhone() ? app.getSupplier().getUserPhone() : "");
             // 集成商详细地址
-            message = message.replace("{8}", null != app.getSupplier().getSupplierAddress() ? app.getSupplier().getSupplierAddress() : "");
+            message = message.replace("{8}", null != app.getSupplier().getUserAddress() ? app.getSupplier().getUserAddress() : "");
+            // 应用邮箱
+            message = message.replace("{7}", null != app.getSupplier().getUserMali() ? app.getSupplier().getUserMali() : "");
         }
         // 应用联系人
         message = message.replace("{5}", null != app.getContactBy() ? app.getContactBy(): "");
         // 应用联系人联系方式
         message = message.replace("{6}", null != app.getContactPhone() ? app.getContactPhone() : "");
-        // 应用邮箱
-        message = message.replace("{7}", null != app.getContactMail() ? app.getContactMail() : " ");
+
         message = message.replaceAll("(\\r\\n|\\n|\\n\\r)","<br/>");
         // 全发
         if (mould.getType() == MailTypeEnum.ALL) {
