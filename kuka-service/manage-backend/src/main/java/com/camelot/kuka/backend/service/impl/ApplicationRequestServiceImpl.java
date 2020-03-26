@@ -111,6 +111,19 @@ public class ApplicationRequestServiceImpl implements ApplicationRequestService 
         if (null == applicationRequest) {
             return Result.error("获取失败, 刷新后重试");
         }
+        // 获取应用
+        CommonReq commonReq = new CommonReq();
+        commonReq.setId(applicationRequest.getAppId());
+        Result<QyeryUpdateResp> qyeryUpdateRespResult = applicationService.qyeryUpdateById(commonReq);
+        if (qyeryUpdateRespResult.isSuccess() && qyeryUpdateRespResult.getData() != null) {
+            QyeryUpdateResp appResp = qyeryUpdateRespResult.getData();
+            applicationRequest.setAppName(appResp.getContactBy());
+            applicationRequest.setAppPhone(appResp.getContactPhone());
+            if (null != appResp.getSupplier()) {
+                applicationRequest.setMail(appResp.getSupplier().getUserMali());
+                applicationRequest.setAddress(appResp.getSupplier().getUserAddress());
+            }
+        }
         return Result.success(BeanUtil.copyBean(applicationRequest, ApplicationRequestResp.class));
     }
 
