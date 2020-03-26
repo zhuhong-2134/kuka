@@ -404,7 +404,7 @@ public class ApplicationRequestServiceImpl implements ApplicationRequestService 
         }
 
         // 修改状态
-        Result resultUp = sendUpStatus(id, loginAppUser.getUserName());
+        Result resultUp = sendUpStatus(id, loginAppUser.getUserName(), message, JumpStatusEnum.YES);
         if (!resultUp.isSuccess()) {
             return resultUp;
         }
@@ -465,7 +465,7 @@ public class ApplicationRequestServiceImpl implements ApplicationRequestService 
         }
 
         // 修改状态
-        Result resultUp = sendUpStatus(id, loginAppUser.getUserName());
+        Result resultUp = sendUpStatus(id, loginAppUser.getUserName(), message, JumpStatusEnum.NO);
         if (!resultUp.isSuccess()) {
             return resultUp;
         }
@@ -516,10 +516,12 @@ public class ApplicationRequestServiceImpl implements ApplicationRequestService 
      * @param longUserName
      * @return
      */
-    private Result sendUpStatus(Long id, String longUserName) {
+    private Result sendUpStatus(Long id, String longUserName, String message, JumpStatusEnum jumpStatus) {
         ApplicationRequestReq req = new ApplicationRequestReq();
         req.setId(id);
         req.setStatus(CommunicateEnum.YES);
+        req.setJumpStatus(jumpStatus);
+        req.setMessage(message);
         Result result = this.updateStatus(req, longUserName);
         if (!result.isSuccess()) {
             return Result.error("修改沟通状态失败");

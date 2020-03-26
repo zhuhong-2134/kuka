@@ -3,6 +3,7 @@ package com.camelot.kuka.model.backend.applicationrequest.req;
 import com.camelot.kuka.model.enums.CommunicateEnum;
 import com.camelot.kuka.model.enums.DeleteEnum;
 import com.camelot.kuka.model.enums.application.AppTypeEnum;
+import com.camelot.kuka.model.enums.backend.JumpStatusEnum;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -117,6 +118,16 @@ public class ApplicationRequestReq implements Serializable {
      * 用户邮箱
      */
     private String userMail;
+
+    /**
+     * 跳转状态
+     */
+    private JumpStatusEnum jumpStatus;
+
+    /**
+     * 消息内容
+     */
+    private String message;
 
     /**
      * 删除标识0:未删除;1已删除
