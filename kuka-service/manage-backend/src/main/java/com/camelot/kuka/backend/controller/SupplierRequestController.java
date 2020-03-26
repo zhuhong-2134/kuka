@@ -85,7 +85,8 @@ public class SupplierRequestController extends BaseController {
             }
             // 集成商
             if (loginAppUser.getType() == UserTypeEnum.SUPPILER) {
-                req.setSupplierIds(supplierService.queryLoginSupplierIds(loginAppUser.getUserName()));
+                // req.setSupplierIds(supplierService.queryLoginSupplierIds(loginAppUser.getUserName()));
+                req.setLoginName(loginAppUser.getUsername());
             }
             if (loginAppUser.getType() == UserTypeEnum.VISITORS ) {
                 req.setLoginName(loginAppUser.getUsername());
