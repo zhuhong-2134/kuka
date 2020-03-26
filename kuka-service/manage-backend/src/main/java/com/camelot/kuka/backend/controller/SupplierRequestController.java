@@ -99,6 +99,9 @@ public class SupplierRequestController extends BaseController {
                     // 用户ID
                     Long[] userIds = userRespResult.getData().stream().map(UserResp::getId).toArray(Long[]::new);
                     req.setUserIds(userIds);
+                } else {
+                    // 代表没有数据
+                    req.setUserIds(new Long[]{-1L});
                 }
             }
             // 开启分页
