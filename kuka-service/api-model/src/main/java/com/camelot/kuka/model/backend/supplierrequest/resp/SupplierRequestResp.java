@@ -2,6 +2,7 @@ package com.camelot.kuka.model.backend.supplierrequest.resp;
 
 import com.camelot.kuka.model.enums.CommunicateEnum;
 import com.camelot.kuka.model.enums.DeleteEnum;
+import com.camelot.kuka.model.enums.backend.JumpStatusEnum;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
@@ -95,6 +96,16 @@ public class SupplierRequestResp implements Serializable {
      * 用户邮箱
      */
     private String userMail;
+
+    /**
+     * 跳转状态
+     */
+    private JumpStatusEnum jumpStatus;
+
+    /**
+     * 消息内容
+     */
+    private String message;
 
     /**
      * 删除标识0:未删除;1已删除

@@ -293,7 +293,7 @@ public class SupplierRequestServiceImpl implements SupplierRequestService {
         }
 
         // 修改状态
-        Result resultUp = sendUpdateStatus(id, loginAppUser.getUserName());
+        Result resultUp = sendUpdateStatus(id, loginAppUser.getUserName(), message, JumpStatusEnum.YES);
         if (!resultUp.isSuccess()) {
             return resultUp;
         }
@@ -351,7 +351,7 @@ public class SupplierRequestServiceImpl implements SupplierRequestService {
         }
 
         // 修改状态
-        Result resultUp = sendUpdateStatus(id, loginAppUser.getUserName());
+        Result resultUp = sendUpdateStatus(id, loginAppUser.getUserName(), message, JumpStatusEnum.NO);
         if (!resultUp.isSuccess()) {
             return resultUp;
         }
@@ -422,10 +422,12 @@ public class SupplierRequestServiceImpl implements SupplierRequestService {
      * @param id
      * @return
      */
-    private Result sendUpdateStatus(Long id, String loginUserName) {
+    private Result sendUpdateStatus(Long id, String loginUserName, String message, JumpStatusEnum jumpStatus) {
         SupplierRequestReq req = new SupplierRequestReq();
         req.setId(id);
         req.setStatus(CommunicateEnum.YES);
+        req.setJumpStatus(jumpStatus);
+        req.setMessage(message);
         Result result = this.updateStatus(req, loginUserName);
         if (!result.isSuccess()) {
             return Result.error("修改沟通状态失败");

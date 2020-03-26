@@ -24,6 +24,8 @@
 		<result column="user_photo_url" property="userPhotoUrl" />
 		<result column="user_phone" property="userPhone" />
 		<result column="user_mail" property="userMail" />
+		<result column="jump_status" property="jumpStatus" typeHandler="com.camelot.kuka.common.mybatis.handler.EnumTypeHandler"/>
+		<result column="message" property="message" />
 		<result column="del_state" property="delState" typeHandler="com.camelot.kuka.common.mybatis.handler.EnumTypeHandler"/>
 		<result column="create_time" property="createTime" />
 		<result column="create_by" property="createBy" />
@@ -52,6 +54,8 @@
                 user_photo_url,
                 user_phone,
                 user_mail,
+                jump_status,
+                message,
                 del_state,
                 create_time,
                 create_by,
@@ -155,6 +159,8 @@
 				user_photo_url,
 				user_phone,
 				user_mail,
+				jump_status,
+				message,
 				del_state,
 				create_time,
 				create_by,
@@ -184,6 +190,8 @@
 				#{item.userPhotoUrl},
 				#{item.userPhone},
 				#{item.userMail},
+				#{item.jumpStatus, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
+				#{item.message},
 				#{item.delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
 				#{item.createTime},
 				#{item.createBy},
@@ -252,6 +260,12 @@
 			</if>
 			<if test ='null != userMail'>
 				user_mail = #{userMail},
+			</if>
+			<if test ='null != jumpStatus'>
+				jump_status = #{jumpStatus, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
+			</if>
+			<if test ='null != message'>
+				message = #{message},
 			</if>
 			<if test ='null != delState'>
 				del_state = #{delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
