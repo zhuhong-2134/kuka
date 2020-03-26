@@ -298,8 +298,6 @@ public class ApplicationServiceImpl implements ApplicationService {
             resp.setIndustryStr(industryStr.substring(0, industryStr.length()-1));
         }
 
-
-
         return Result.success(resp);
     }
 
@@ -310,6 +308,14 @@ public class ApplicationServiceImpl implements ApplicationService {
         // 非空校验
         if (null == req || req.getId() == null) {
             return Result.error("主键不能为空");
+        }
+        // 判断数据库数据是否存在
+        Application qeury = new Application();
+        qeury.setId(req.getId());
+        qeury.setDelState(DeleteEnum.NO);
+        Application app =  applicationDao.selectById(qeury);
+        if (null == app) {
+            return this.addApplication(req, loginUserName);
         }
         // 处理应用信息
         Result appHan = HandleAppUpdate(req, loginUserName);
