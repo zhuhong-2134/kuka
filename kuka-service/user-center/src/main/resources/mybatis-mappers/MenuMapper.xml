@@ -9,6 +9,7 @@
 		<result column="p_id" property="pId" />
 		<result column="href_url" property="hrefUrl" />
 		<result column="type" property="type" typeHandler="com.camelot.kuka.common.mybatis.handler.EnumTypeHandler"/>
+		<result column="order_by" property="orderBy" />
 		<result column="create_time" property="createTime" />
 		<result column="create_by" property="createBy" />
 		<result column="update_time" property="updateTime" />
@@ -21,6 +22,7 @@
                 p_id,
                 href_url,
                 type,
+                order_by,
                 create_time,
                 create_by,
                 update_time,
@@ -44,6 +46,7 @@
 				type = #{entity.type, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}
 			</if>
 		</where>
+		order by order_by desc
 	</select>
 	
 	<insert id="addBatch" >

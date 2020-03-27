@@ -42,6 +42,11 @@ public class Menu implements Serializable {
     private UserTypeEnum type;
 
     /**
+     * 排序字段
+     */
+    private Integer orderBy;
+
+    /**
      * 创建时间
      */
     private Date createTime;
