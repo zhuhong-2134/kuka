@@ -19,6 +19,7 @@ import com.camelot.kuka.common.utils.pay.payment.common.security.Base64;
 import com.camelot.kuka.common.utils.pay.payment.common.security.PKCSTool;
 import com.camelot.kuka.common.utils.pay.payment.common.util.Constants;
 import com.camelot.kuka.common.utils.pay.payment.common.util.XmlUtil;
+import com.camelot.kuka.model.backend.application.req.ApplicationEditReq;
 import com.camelot.kuka.model.backend.mailmould.resp.MailMouldResp;
 import com.camelot.kuka.model.backend.message.req.MessageReq;
 import com.camelot.kuka.model.backend.order.req.OrderReq;
@@ -418,6 +419,28 @@ public class PayController extends BaseController {
                 return;
             }
         }
+
+        // 修改应用的交易数量
+        updateOrder(detaileList);
+    }
+
+    /**
+     * 修改应用的交易数量
+     * @param detaileList
+     */
+    private void updateOrder(List<OrderDetailedResp> detaileList) {
+        for (OrderDetailedResp orderDetailedResp : detaileList) {
+            if (null == orderDetailedResp.getNum()) {
+                continue;
+            }
+            ApplicationEditReq req = new ApplicationEditReq();
+            req.setId(orderDetailedResp.getAppId());
+            req.setTradeCount(orderDetailedResp.getNum());
+            Result result = applicationService.updateApplicationNum(req);
+            if (!result.isSuccess()) {
+                log.error("\n 支付回调接口，发送邮件，订单号:{}, 修改应用交易数量失败!, 参数:{},  错误信息:{},", orderDetailedResp.getOrderId(), JSON.toJSON(req), result.getMsg());
+            }
+        }
     }
 
 
@@ -493,103 +516,105 @@ public class PayController extends BaseController {
 
 
 
-//    /**
-//     * 发送邮件
-//     * @param orderNo
-//     */
-//    @PostMapping("/pay/sendMail")
-//    private String sendMailTT(String orderNo) {
-//        // 获取订单详情
-//        CommonReq req = new CommonReq();
-//        req.setQueryName(orderNo);
-//        Result<OrderResp> orderRespResult = orderService.queryById(req);
-//        if (!orderRespResult.isSuccess() || null == orderRespResult.getData()) {
-//            log.error("\n 支付回调接口，发送邮件，订单号:{}, 获取订单详情失败! 错误信息:{}", orderNo, orderRespResult.getMsg());
-//            return "123";
-//        }
-//        // 获取创建者的用户信息
-//        Result<UserResp> userRespResult = userClient.queryByUserName(orderRespResult.getData().getCreateBy());
-//        if (!userRespResult.isSuccess()) {
-//            log.error("\n 支付回调接口，发送邮件，订单号:{}, 获取创建者的用户信息失败! 错误信息:{}", orderNo, userRespResult.getMsg());
-//            return "123";
-//        }
-//        // 获取模板内容
-//        CommonReq reqMa = new CommonReq();
-//        reqMa.setId(5L);
-//        Result<MailMouldResp> mailMouldRespResult = mailMouldService.queryById(reqMa);
-//        if (!mailMouldRespResult.isSuccess() || mailMouldRespResult.getData() == null) {
-//            log.error("\n 支付回调接口，发送邮件，订单号:{}, 获取模板内容失败! 错误信息:{}", orderNo, mailMouldRespResult.getMsg());
-//            return "123";
-//        }
-//        OrderResp order = orderRespResult.getData();
-//        List<OrderDetailedResp> detaileList = orderRespResult.getData().getDetaileList();
-//        // 名称
-//        StringBuffer sb = new StringBuffer();
-//        for (OrderDetailedResp orderDetailedResp : detaileList) {
-//            sb.append(orderDetailedResp.getAppName()).append(",");
-//        }
-//        // 消息内容
-//        String appName = sb.toString().substring(0, sb.toString().length() - 1);
-//        String message = mailMouldRespResult.getData().getMessage();
-//        message = message.replace("{1}", orderNo);
-//        message = message.replace("{2}", appName);
-//        message = message.replace("{3}", order.getId().toString());
-//
-//        String messageTitle = "您好，您的订单{1}已完成，您购买的软件{2}, 经公司审核后会在2日内发送到您的指定邮箱！";
-//        messageTitle = messageTitle.replace("{1}", orderNo);
-//        messageTitle = messageTitle.replace("{2}", appName);
-//        // 全发
-//        if (mailMouldRespResult.getData().getType() == MailTypeEnum.ALL) {
-//            Result saveMessageRes = saveMessage(userRespResult.getData(), messageTitle, message, order.getId());
-//            if (!saveMessageRes.isSuccess()) {
-//                log.error("\n 支付回调接口，发送邮件，订单号:{}, 发送站内消息失败!, 错误信息:{}", orderNo, saveMessageRes.getMsg());
-//                return "123";
-//            }
-//            Result staSendMailRes = staSendMail(order.getOrderMail(), messageTitle, message);
-//            if (!staSendMailRes.isSuccess()) {
-//                log.error("\n 支付回调接口，发送邮件，订单号:{}, 发送邮件失败!, 错误信息:{}", orderNo, staSendMailRes.getMsg());
-//                return "123";
-//            }
-//
-//            // 集成商站内信
-//            Result resultSupp = saveSupplierMessage(detaileList, orderNo, order.getId());
-//            if (!resultSupp.isSuccess()) {
-//                log.error("\n 支付回调接口，发送邮件，订单号:{}, 发送集成商站内信失败!, 错误信息:{}", orderNo, resultSupp.getMsg());
-//                return "123";
-//            }
-//        }
-//
-//        // 站内消息
-//        if (mailMouldRespResult.getData().getType() == MailTypeEnum.MESSAGE) {
-//            Result saveMessageRes = saveMessage(userRespResult.getData(), messageTitle, message, order.getId());
-//            if (!saveMessageRes.isSuccess()) {
-//                log.error("\n 支付回调接口，发送邮件，订单号:{}, 发送站内消息失败!, 错误信息:{}", orderNo, saveMessageRes.getMsg());
-//                return "123";
-//            }
-//
-//            // 集成商站内信
-//            Result resultSupp = saveSupplierMessage(detaileList, orderNo, order.getId());
-//            if (!resultSupp.isSuccess()) {
-//                log.error("\n 支付回调接口，发送邮件，订单号:{}, 发送集成商站内信失败!, 错误信息:{}", orderNo, resultSupp.getMsg());
-//                return "123";
-//            }
-//        }
-//
-//        // 邮件
-//        if (mailMouldRespResult.getData().getType() == MailTypeEnum.MAIL) {
-//            Result staSendMailRes = staSendMail(order.getOrderMail(), messageTitle, message);
-//            if (!staSendMailRes.isSuccess()) {
-//                log.error("\n 支付回调接口，发送邮件，订单号:{}, 发送邮件失败!, 错误信息:{}", orderNo, staSendMailRes.getMsg());
-//                return "123";
-//            }
-//
-//            // 集成商站内信
-//            Result resultSupp = saveSupplierMessage(detaileList, orderNo, order.getId());
-//            if (!resultSupp.isSuccess()) {
-//                log.error("\n 支付回调接口，发送邮件，订单号:{}, 发送集成商站内信失败!, 错误信息:{}", orderNo, resultSupp.getMsg());
-//                return "123";
-//            }
-//        }
-//        return "123";
-//    }
+    /**
+     * 发送邮件
+     * @param orderNo
+     */
+    @PostMapping("/pay/sendMail")
+    private String sendMailTT(String orderNo) {
+        // 获取订单详情
+        CommonReq req = new CommonReq();
+        req.setQueryName(orderNo);
+        Result<OrderResp> orderRespResult = orderService.queryById(req);
+        if (!orderRespResult.isSuccess() || null == orderRespResult.getData()) {
+            log.error("\n 支付回调接口，发送邮件，订单号:{}, 获取订单详情失败! 错误信息:{}", orderNo, orderRespResult.getMsg());
+            return "123";
+        }
+        // 获取创建者的用户信息
+        Result<UserResp> userRespResult = userClient.queryByUserName(orderRespResult.getData().getCreateBy());
+        if (!userRespResult.isSuccess()) {
+            log.error("\n 支付回调接口，发送邮件，订单号:{}, 获取创建者的用户信息失败! 错误信息:{}", orderNo, userRespResult.getMsg());
+            return "123";
+        }
+        // 获取模板内容
+        CommonReq reqMa = new CommonReq();
+        reqMa.setId(5L);
+        Result<MailMouldResp> mailMouldRespResult = mailMouldService.queryById(reqMa);
+        if (!mailMouldRespResult.isSuccess() || mailMouldRespResult.getData() == null) {
+            log.error("\n 支付回调接口，发送邮件，订单号:{}, 获取模板内容失败! 错误信息:{}", orderNo, mailMouldRespResult.getMsg());
+            return "123";
+        }
+        OrderResp order = orderRespResult.getData();
+        List<OrderDetailedResp> detaileList = orderRespResult.getData().getDetaileList();
+        // 名称
+        StringBuffer sb = new StringBuffer();
+        for (OrderDetailedResp orderDetailedResp : detaileList) {
+            sb.append(orderDetailedResp.getAppName()).append(",");
+        }
+        // 消息内容
+        String appName = sb.toString().substring(0, sb.toString().length() - 1);
+        String message = mailMouldRespResult.getData().getMessage();
+        message = message.replace("{1}", orderNo);
+        message = message.replace("{2}", appName);
+        message = message.replace("{3}", order.getId().toString());
+
+        String messageTitle = "您好，您的订单{1}已完成，您购买的软件{2}, 经公司审核后会在2日内发送到您的指定邮箱！";
+        messageTitle = messageTitle.replace("{1}", orderNo);
+        messageTitle = messageTitle.replace("{2}", appName);
+        // 全发
+        if (mailMouldRespResult.getData().getType() == MailTypeEnum.ALL) {
+            Result saveMessageRes = saveMessage(userRespResult.getData(), messageTitle, message, order.getId());
+            if (!saveMessageRes.isSuccess()) {
+                log.error("\n 支付回调接口，发送邮件，订单号:{}, 发送站内消息失败!, 错误信息:{}", orderNo, saveMessageRes.getMsg());
+                return "123";
+            }
+            Result staSendMailRes = staSendMail(order.getOrderMail(), messageTitle, message);
+            if (!staSendMailRes.isSuccess()) {
+                log.error("\n 支付回调接口，发送邮件，订单号:{}, 发送邮件失败!, 错误信息:{}", orderNo, staSendMailRes.getMsg());
+                return "123";
+            }
+
+            // 集成商站内信
+            Result resultSupp = saveSupplierMessage(detaileList, orderNo, order.getId());
+            if (!resultSupp.isSuccess()) {
+                log.error("\n 支付回调接口，发送邮件，订单号:{}, 发送集成商站内信失败!, 错误信息:{}", orderNo, resultSupp.getMsg());
+                return "123";
+            }
+        }
+
+        // 站内消息
+        if (mailMouldRespResult.getData().getType() == MailTypeEnum.MESSAGE) {
+            Result saveMessageRes = saveMessage(userRespResult.getData(), messageTitle, message, order.getId());
+            if (!saveMessageRes.isSuccess()) {
+                log.error("\n 支付回调接口，发送邮件，订单号:{}, 发送站内消息失败!, 错误信息:{}", orderNo, saveMessageRes.getMsg());
+                return "123";
+            }
+
+            // 集成商站内信
+            Result resultSupp = saveSupplierMessage(detaileList, orderNo, order.getId());
+            if (!resultSupp.isSuccess()) {
+                log.error("\n 支付回调接口，发送邮件，订单号:{}, 发送集成商站内信失败!, 错误信息:{}", orderNo, resultSupp.getMsg());
+                return "123";
+            }
+        }
+
+        // 邮件
+        if (mailMouldRespResult.getData().getType() == MailTypeEnum.MAIL) {
+            Result staSendMailRes = staSendMail(order.getOrderMail(), messageTitle, message);
+            if (!staSendMailRes.isSuccess()) {
+                log.error("\n 支付回调接口，发送邮件，订单号:{}, 发送邮件失败!, 错误信息:{}", orderNo, staSendMailRes.getMsg());
+                return "123";
+            }
+
+            // 集成商站内信
+            Result resultSupp = saveSupplierMessage(detaileList, orderNo, order.getId());
+            if (!resultSupp.isSuccess()) {
+                log.error("\n 支付回调接口，发送邮件，订单号:{}, 发送集成商站内信失败!, 错误信息:{}", orderNo, resultSupp.getMsg());
+                return "123";
+            }
+        }
+        // 修改应用的交易数量
+        updateOrder(detaileList);
+        return "123";
+    }
 }

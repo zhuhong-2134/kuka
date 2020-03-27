@@ -100,4 +100,13 @@ public interface ApplicationDao {
      * @author 谢楠
      */
     List<Application> homePageList(@Param("entity") HomeAppPageReq req);
+
+    /***
+     * <p>Description:[增加产品的交易数，愿有的基础上加]</p>
+     * Created on 2020/2/5
+     * @param application
+     * @return List<Supplier>
+     * @author 谢楠
+     */
+    int updateApplicationNum(Application application);
 }

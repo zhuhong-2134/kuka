@@ -420,7 +420,8 @@
 				del_state = #{entity.delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler}
 			</if>
 
-
+			<!--排序-->
+			order by supplierl_name asc
 			<!--放在最后面的-->
 			<if test ='null != entity.size'>
 				LIMIT #{entity.size}

@@ -11,6 +11,7 @@ import com.camelot.kuka.backend.service.MailMouldService;
 import com.camelot.kuka.backend.service.MessageService;
 import com.camelot.kuka.common.utils.BeanUtil;
 import com.camelot.kuka.common.utils.CodeGenerateUtil;
+import com.camelot.kuka.model.backend.application.req.ApplicationEditReq;
 import com.camelot.kuka.model.backend.application.resp.QyeryUpdateResp;
 import com.camelot.kuka.model.backend.applicationrequest.req.AppRequestPageReq;
 import com.camelot.kuka.model.backend.applicationrequest.req.ApplicationRequestReq;
@@ -192,6 +193,14 @@ public class ApplicationRequestServiceImpl implements ApplicationRequestService 
         request.setCreateTime(new Date());
         int con = applicationRequestDao.addBatch(Arrays.asList(request));
         if (con == 0) {
+            return Result.error("新增失败");
+        }
+        // 修改交易数量
+        ApplicationEditReq appReq = new ApplicationEditReq();
+        appReq.setId(data.getId());
+        appReq.setTradeCount(1);
+        Result result = applicationService.updateApplicationNum(appReq);
+        if (!result.isSuccess()) {
             return Result.error("新增失败");
         }
         return Result.success(id);

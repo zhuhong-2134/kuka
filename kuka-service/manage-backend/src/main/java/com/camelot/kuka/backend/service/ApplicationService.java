@@ -114,4 +114,12 @@ public interface ApplicationService {
     Result<List<ApplicationResp>> currencyList(ApplicationProblemReq req);
 
 
+    /***
+     * <p>Description:[增加产品的交易数，愿有的基础上加]</p>
+     * Created on 2020/2/5
+     * @param req
+     * @return List<Supplier>
+     * @author 谢楠
+     */
+    Result updateApplicationNum(ApplicationEditReq req);
 }
