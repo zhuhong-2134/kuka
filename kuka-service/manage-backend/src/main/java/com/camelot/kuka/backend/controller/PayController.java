@@ -10,6 +10,7 @@ import com.camelot.kuka.backend.feign.user.UserClient;
 import com.camelot.kuka.backend.service.*;
 import com.camelot.kuka.common.controller.BaseController;
 import com.camelot.kuka.common.model.unpay.Body;
+import com.camelot.kuka.common.model.unpay.Head;
 import com.camelot.kuka.common.model.unpay.Request;
 import com.camelot.kuka.common.payconfig.AlipayConfig;
 import com.camelot.kuka.common.payconfig.BocPayConfig;
@@ -126,13 +127,15 @@ public class PayController extends BaseController {
         OrderResp order = orderService.queryById(req).getData();
         Request request = new Request();
         Body body = new Body();
+        Head head = new Head();
+        request.setHead(head);
         body.setOrderNo(order.getOrderNo());//订单号
         body.setAmount((int)(order.getSunPrice()*100));//价格 单位：分
         body.setOrderTime(Long.parseLong(DateUtils.dateToStr(order.getCreateTime(),"yyyyMMddHHmmss")));//订单时间
         //商品描述，可空
-        String note = "用户订购商品 ";
+        String note = "用户订购商品";
         for (OrderDetailedResp detail : order.getDetaileList()) {
-            note += detail.getAppName() + " ，个数：" + detail.getNum() + "";
+            note += detail.getAppName() + "，个数：" + detail.getNum() + "";
         }
         body.setOrderNote(note);//商品描述
         body.setBackNotifyUrl(BocPayConfig.notify_url);//异步通知URL
