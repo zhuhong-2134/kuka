@@ -389,6 +389,8 @@
 				and supplier_id = #{entity.supplierId}
 			</if>
 
+			<!--默认排序-->
+			order by trade_count desc
 			<!--放在最后面的-->
 			<if test ='null != entity.size'>
 				LIMIT #{entity.size}
@@ -433,4 +435,11 @@
 		</if>
 		order by id desc
 	</select>
+
+	<update id="updateApplicationNum">
+		UPDATE t_application
+			SET
+			trade_count = trade_count + #{tradeCount}
+		WHERE id = #{id}
+	</update>
 </mapper>

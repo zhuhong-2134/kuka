@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -53,7 +54,7 @@ public class MenuServiceImpl implements MenuService {
                 }
             }
         }
-
+        newList = newList.stream().sorted(Comparator.comparing(Menu::getOrderBy).reversed()).collect(Collectors.toList());
         // 结构化树信息
         List<MenuTreeResp> respsList = new ArrayList<>();
         for (Menu menu : newList) {

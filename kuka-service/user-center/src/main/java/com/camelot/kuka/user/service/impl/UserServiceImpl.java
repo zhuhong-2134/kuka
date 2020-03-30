@@ -62,6 +62,9 @@ public class UserServiceImpl implements UserService {
 
 	@Override public LoginAppUser findByUsername(String username) {
         User user = userDao.queryLongUser(username);
+        if (null != user && null != user.getStatus() && UserStatusEnum.SHUT == user.getStatus()) {
+            return null;
+        }
         LoginAppUser loginAppUser = BeanUtil.copyBean(user, LoginAppUser.class);
         return loginAppUser;
 	}

@@ -454,6 +454,26 @@ public class ApplicationServiceImpl implements ApplicationService {
         return Result.success(appResps);
     }
 
+    @Override
+    public Result updateApplicationNum(ApplicationEditReq req) {
+        if (null == req.getId()) {
+            return Result.error("参数不能为空");
+        }
+        Application application = new Application();
+        application.setId(req.getId());
+        application.setTradeCount(req.getTradeCount());
+        try {
+            int cont = applicationDao.updateApplicationNum(application);
+            if (cont == 0) {
+                return Result.error("修改失败, 联系管理员");
+            }
+        } catch (Exception e) {
+            log.error("\n 修改失败, 参数:{}, \n 错误信息:{}", JSON.toJSON(req), e);
+            return Result.error("修改状态失败, 联系管理员");
+        }
+        return Result.success();
+    }
+
     /**
      * 校验非空字段
      * @param req
