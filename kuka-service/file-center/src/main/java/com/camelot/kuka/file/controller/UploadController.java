@@ -47,8 +47,8 @@ public class UploadController extends BaseController {
 
         System.out.println(file.getSize());
         // 校验文件的大小
-        if (file.getSize() > 1024 * 1024 * 3) {
-            return Result.error("文件大小不能超过3MB");
+        if (file.getSize() > 1024 * 1024 * 10) {
+            return Result.error("文件大小不能超过10MB");
         }
 
         // 定义返回客户端json对象
