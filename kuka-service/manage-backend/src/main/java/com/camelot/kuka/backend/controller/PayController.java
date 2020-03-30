@@ -283,6 +283,7 @@ public class PayController extends BaseController {
     @ResponseBody
     public String bocNotifyNotice(HttpServletRequest request, HttpServletResponse response){
         try {
+            log.info("中行支付异步通知");
             // 获得参数message和signature
             String message = request.getParameter("message");
             String signature = request.getParameter("signature");
