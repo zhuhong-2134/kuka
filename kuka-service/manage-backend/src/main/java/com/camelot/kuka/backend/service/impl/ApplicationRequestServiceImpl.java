@@ -11,6 +11,7 @@ import com.camelot.kuka.backend.service.MailMouldService;
 import com.camelot.kuka.backend.service.MessageService;
 import com.camelot.kuka.common.utils.BeanUtil;
 import com.camelot.kuka.common.utils.CodeGenerateUtil;
+import com.camelot.kuka.common.utils.StringUtils;
 import com.camelot.kuka.model.backend.application.req.ApplicationEditReq;
 import com.camelot.kuka.model.backend.application.resp.QyeryUpdateResp;
 import com.camelot.kuka.model.backend.applicationrequest.req.AppRequestPageReq;
@@ -336,11 +337,23 @@ public class ApplicationRequestServiceImpl implements ApplicationRequestService 
                 // 应用邮箱
                 message = message.replace("{7}", null != app.getSupplier().getUserMali() ? app.getSupplier().getUserMali() : "");
             }
-            // 应用联系人
-            message = message.replace("{5}", null != app.getContactBy() ? app.getContactBy(): "");
-            // 应用联系人联系方式
-            message = message.replace("{6}", null != app.getContactPhone() ? app.getContactPhone() : "");
+            if (StringUtils.isBlank(app.getContactBy())) {
+                // 应用联系人
+                message = message.replace("应用联系人：{5}", "空");
+            } else {
+                // 应用联系人
+                message = message.replace("{5}", app.getContactBy());
+            }
+            if (StringUtils.isBlank(app.getContactPhone())) {
+                // 应用联系人联系方式
+                message = message.replace("应用联系人联系方式：{6}", "空");
+            } else {
+                // 应用联系人联系方式
+                message = message.replace("{6}", app.getContactPhone());
+            }
+
             message = message.replaceAll("(\\r\\n|\\n|\\n\\r)","<br/>");
+            message = message.replaceAll("<br/>空","");
             MessageResp resp = new MessageResp();
             resp.setMessage(message);
             return Result.success(resp);
@@ -377,12 +390,23 @@ public class ApplicationRequestServiceImpl implements ApplicationRequestService 
             // 应用邮箱
             message = message.replace("{7}", null != app.getSupplier().getUserMali() ? app.getSupplier().getUserMali() : "");
         }
-        // 应用联系人
-        message = message.replace("{5}", null != app.getContactBy() ? app.getContactBy(): "");
-        // 应用联系人联系方式
-        message = message.replace("{6}", null != app.getContactPhone() ? app.getContactPhone() : "");
+        if (StringUtils.isBlank(app.getContactBy())) {
+            // 应用联系人
+            message = message.replace("应用联系人：{5}", "空");
+        } else {
+            // 应用联系人
+            message = message.replace("{5}", app.getContactBy());
+        }
+        if (StringUtils.isBlank(app.getContactPhone())) {
+            // 应用联系人联系方式
+            message = message.replace("应用联系人联系方式：{6}", "空");
+        } else {
+            // 应用联系人联系方式
+            message = message.replace("{6}", app.getContactPhone());
+        }
 
         message = message.replaceAll("(\\r\\n|\\n|\\n\\r)","<br/>");
+        message = message.replaceAll("<br/>空","");
         // 全发
         if (mould.getType() == MailTypeEnum.ALL) {
 
