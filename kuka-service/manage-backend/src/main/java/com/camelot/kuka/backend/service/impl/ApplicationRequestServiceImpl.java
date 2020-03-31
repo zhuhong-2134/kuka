@@ -125,6 +125,9 @@ public class ApplicationRequestServiceImpl implements ApplicationRequestService 
                 applicationRequest.setAddress(appResp.getSupplier().getUserAddress());
             }
         }
+        // 前端要求，好像前端不会用  if (null == AppContactName || AppContactName == "")
+        applicationRequest.setAppContactName(null == applicationRequest.getAppContactName() ? "" : applicationRequest.getAppContactName());
+        applicationRequest.setAppPhone(null == applicationRequest.getAppPhone() ? "" : applicationRequest.getAppPhone());
         return Result.success(BeanUtil.copyBean(applicationRequest, ApplicationRequestResp.class));
     }
 

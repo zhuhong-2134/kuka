@@ -114,6 +114,13 @@ public class SupplierRequestServiceImpl implements SupplierRequestService {
         if (null == supplierRequest) {
             return Result.error("获取失败, 刷新后重试");
         }
+        Supplier querySup = new Supplier();
+        querySup.setId(supplierRequest.getSupplierId());
+        querySup.setDelState(DeleteEnum.NO);
+        Supplier supplier = supplierDao.queryById(querySup);
+        if (null != supplier) {
+            supplierRequest.setAddress(supplier.getUserAddress());
+        }
         return Result.success(BeanUtil.copyBean(supplierRequest, SupplierRequestResp.class));
     }
 
@@ -256,8 +263,7 @@ public class SupplierRequestServiceImpl implements SupplierRequestService {
         // 联系邮箱
         message = message.replace("{5}", null != supplier.getUserMali() ? supplier.getUserMali() : "");
         // 集成商详细地址
-        formatAddress(supplier);
-        message = message.replace("{6}", null != supplier.getSupplierAddress() ? supplier.getSupplierAddress() : "");
+        message = message.replace("{6}", null != supplier.getUserAddress() ? supplier.getUserAddress() : "");
         message = message.replaceAll("(\\r\\n|\\n|\\n\\r)","<br/>");
 
         // 全发
@@ -516,8 +522,7 @@ public class SupplierRequestServiceImpl implements SupplierRequestService {
             // 联系邮箱
             message = message.replace("{5}", null != supplier.getUserMali() ? supplier.getUserMali() : "");
             // 集成商详细地址
-            formatAddress(supplier);
-            message = message.replace("{6}", null != supplier.getSupplierAddress() ? supplier.getSupplierAddress() : "");
+            message = message.replace("{6}", null != supplier.getUserAddress() ? supplier.getUserAddress() : "");
             message = message.replaceAll("(\\r\\n|\\n|\\n\\r)","<br/>");
             MessageResp resp = new MessageResp();
             resp.setMessage(message);

@@ -539,8 +539,11 @@ public class UserServiceImpl implements UserService {
     public Result<UserResp> phoneOrMali(UserReq req) {
         User query = BeanUtil.copyBean(req, User.class);
         query.setDelState(DeleteEnum.NO);
-        User user = userDao.phoneOrMali(query);
-        return Result.success(BeanUtil.copyBean(user, UserResp.class));
+        List<User> list = userDao.phoneOrMali(query);
+        if (null != list && !list.isEmpty()) {
+            return Result.success(BeanUtil.copyBean(list.get(0), UserResp.class));
+        }
+        return Result.success();
     }
 
     @Override
