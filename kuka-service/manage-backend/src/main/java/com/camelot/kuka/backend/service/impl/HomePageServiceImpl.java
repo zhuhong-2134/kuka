@@ -48,7 +48,7 @@ public class HomePageServiceImpl implements HomePageService {
     public Result<List<ApplicationResp>> appQuery() {
         Application query = new Application();
         query.setDelState(DeleteEnum.NO);
-        query.setClassType(AppTypeEnum.SOFTWARE);
+        // query.setClassType(AppTypeEnum.SOFTWARE);
         query.setAppStatus(AppStatusEnum.YES);
         query.setSize(5);
         List<Application> appList = applicationDao.homeAppList(query);

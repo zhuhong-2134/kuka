@@ -104,7 +104,7 @@ public interface UserDao {
 	 * @param query
 	 * @return
 	 */
-    User phoneOrMali(@Param("entity") User query);
+    List<User> phoneOrMali(@Param("entity") User query);
 
 	/**
 	 * 条件查询返回集合
