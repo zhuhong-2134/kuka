@@ -10,7 +10,7 @@ import java.util.List;
  * <p>Description: [订单明细接口]</p>
  * Created on 2020/1/19
  *
- * @author <a href="mailto: xienan@camelotchina.com">谢楠</a>
+ *
  * @version 1.0
  * Copyright (c) 2020 北京柯莱特科技有限公司
  */
@@ -22,7 +22,7 @@ public interface OrderDetailedDao {
      * Created on 2020/2/5
      * @param orderIds
      * @return List
-     * @author 谢楠
+     *
      */
     List<OrderDetailed> selectByOrderIds(@Param("array") Long[] orderIds);
 
@@ -31,7 +31,7 @@ public interface OrderDetailedDao {
      * Created on 2020/2/5
      * @param orderDetaileds
      * @return List
-     * @author 谢楠
+     *
      */
     int addBatch(@Param("list") List<OrderDetailed> orderDetaileds);
 
@@ -40,7 +40,7 @@ public interface OrderDetailedDao {
      * Created on 2020/2/5
      * @param orderDetailed
      * @return List
-     * @author 谢楠
+     *
      */
     int update(@Param("record") OrderDetailed orderDetailed);
 }

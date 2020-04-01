@@ -17,7 +17,7 @@ import javax.annotation.Resource;
  * <p>Description: [订单明细控制层]</p>
  * Created on 2020/2/12
  *
- * @author <a href="mailto: xienan@camelotchina.com">谢楠</a>
+ *
  * @version 1.0
  * Copyright (c) 2020 北京柯莱特科技有限公司
  */
@@ -34,7 +34,7 @@ public class OrderDetailedController {
      * Created on 2020/1/20
      * @param req
      * @return com.camelot.kuka.model.common.PageResult
-     * @author 谢楠
+     *
      */
     @PostMapping("/order/detailed/updateNum")
     public Result updateNum(OrderDetailed req){

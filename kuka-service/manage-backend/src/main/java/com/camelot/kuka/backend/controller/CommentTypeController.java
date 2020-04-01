@@ -20,7 +20,7 @@ import java.util.List;
  * <p>Description: [评论分类控制层]</p>
  * Created on 2020/1/19
  *
- * @author <a href="mailto: xienan@camelotchina.com">谢楠</a>
+ *
  * @version 1.0
  * Copyright (c) 2020 北京柯莱特科技有限公司
  */
@@ -37,7 +37,7 @@ public class CommentTypeController extends BaseController {
      * Created on 2020/1/20
      * @param
      * @return com.camelot.kuka.model.common.PageResult
-     * @author 谢楠
+     *
      */
     @PostMapping("/commentType/list")
     public Result<List<CommentTypeResp>> queryList(){
@@ -54,7 +54,7 @@ public class CommentTypeController extends BaseController {
      * Created on 2020/2/4
      * @param req
      * @return com.camelot.kuka.model.common.Result
-     * @author 谢楠
+     *
      */
     @PostMapping("/commentType/add")
     public Result addCommentType(CommentTypeResp req){
@@ -76,7 +76,7 @@ public class CommentTypeController extends BaseController {
      * Created on 2020/2/4
      * @param req
      * @return com.camelot.kuka.model.common.Result
-     * @author 谢楠
+     *
      */
     @PostMapping("/commentType/delete")
     public Result deleteCommentType(CommonReq req){

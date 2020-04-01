@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 /**
  *  权限关联状态
- * @author xienan 2020-02-17
+ *   2020-02-17
  */
 @Data
 public class RoleMenuReq implements Serializable {

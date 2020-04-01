@@ -38,7 +38,7 @@ import java.util.List;
  * <p>Description: [产品控制层]</p>
  * Created on 2020/1/19
  *
- * @author <a href="mailto: xienan@camelotchina.com">谢楠</a>
+ *
  * @version 1.0
  * Copyright (c) 2020 北京柯莱特科技有限公司
  */
@@ -57,7 +57,7 @@ public class ApplicationController extends BaseController {
      * Created on 2020/1/20
      * @param
      * @return com.camelot.kuka.model.common.PageResult
-     * @author 谢楠
+     *
      */
     @PostMapping("/application/queryEnum")
     public PageResult queryEnum(){
@@ -76,7 +76,7 @@ public class ApplicationController extends BaseController {
      * Created on 2020/1/20
      * @param req
      * @return com.camelot.kuka.model.common.PageResult
-     * @author 谢楠
+     *
      */
     @PostMapping("/application/pageList")
     public PageResult<List<ApplicationResp>> pageList(AppPageReq req){
@@ -146,7 +146,7 @@ public class ApplicationController extends BaseController {
      * Created on 2020/2/4
      * @param req
      * @return com.camelot.kuka.model.common.Result
-     * @author 谢楠
+     *
      */
     @PostMapping("/application/currencyList")
     public Result<List<ApplicationResp>> currencyList(ApplicationProblemReq req){
@@ -163,7 +163,7 @@ public class ApplicationController extends BaseController {
      * Created on 2020/2/4
      * @param req
      * @return com.camelot.kuka.model.common.Result
-     * @author 谢楠
+     *
      */
     @PostMapping("/application/add")
     public Result addApplication(ApplicationEditReq req){
@@ -184,7 +184,7 @@ public class ApplicationController extends BaseController {
      * Created on 2020/2/4
      * @param
      * @return com.camelot.kuka.model.common.Result
-     * @author 谢楠
+     *
      */
     @GetMapping("/application/queryAddId")
     public Result queryAddId(){
@@ -201,7 +201,7 @@ public class ApplicationController extends BaseController {
      * Created on 2020/2/4
      * @param req
      * @return com.camelot.kuka.model.common.Result
-     * @author 谢楠
+     *
      */
     @PostMapping("/application/addCurrency")
     public Result addCurrency(ApplicationCurrencyReq req){
@@ -218,7 +218,7 @@ public class ApplicationController extends BaseController {
      * Created on 2020/2/4
      * @param req
      * @return com.camelot.kuka.model.common.Result
-     * @author 谢楠
+     *
      */
     @PostMapping("/application/delCurrency")
     public Result delCurrency(ApplicationCurrencyReq req){
@@ -235,7 +235,7 @@ public class ApplicationController extends BaseController {
      * Created on 2020/2/4
      * @param req
      * @return com.camelot.kuka.model.common.Result
-     * @author 谢楠
+     *
      */
     @PostMapping("/application/qyeryUpdateById")
     public Result<QyeryUpdateResp> qyeryUpdateById(CommonReq req){
@@ -252,7 +252,7 @@ public class ApplicationController extends BaseController {
      * Created on 2020/2/4
      * @param req
      * @return com.camelot.kuka.model.common.Result
-     * @author 谢楠
+     *
      */
     @PostMapping("/application/update")
     public Result updateApplication(ApplicationEditReq req){
@@ -273,7 +273,7 @@ public class ApplicationController extends BaseController {
      * Created on 2020/2/4
      * @param req
      * @return com.camelot.kuka.model.common.Result
-     * @author 谢楠
+     *
      */
     @PostMapping("/application/updateAppStatus")
     public Result updateAppStatus(ApplicationEditReq req){
@@ -294,7 +294,7 @@ public class ApplicationController extends BaseController {
      * Created on 2020/2/4
      * @param req
      * @return com.camelot.kuka.model.common.Result
-     * @author 谢楠
+     *
      */
     @PostMapping("/application/delete")
     public Result deleteApplication(CommonReq req){

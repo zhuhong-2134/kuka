@@ -35,7 +35,7 @@ public class MailMouldController extends BaseController {
      * Created on 2020/1/20
      * @param
      * @return com.camelot.kuka.model.common.PageResult
-     * @author 谢楠
+     *
      */
     @PostMapping("/mailMould/queryEnum")
     public PageResult queryEnum(){
@@ -50,7 +50,7 @@ public class MailMouldController extends BaseController {
      * Created on 2020/1/20
      * @param req
      * @return com.camelot.kuka.model.common.PageResult
-     * @author 谢楠
+     *
      */
     @PostMapping("/mailMould/pageList")
     public PageResult<List<MailMouldResp>> pageList(MailMouldPageReq req){
@@ -95,7 +95,7 @@ public class MailMouldController extends BaseController {
      * Created on 2020/1/20
      * @param req
      * @return com.camelot.kuka.model.common.PageResult
-     * @author 谢楠
+     *
      */
     @PostMapping("/mailMould/queryById")
     public Result<MailMouldResp> queryById(CommonReq req){

@@ -11,7 +11,7 @@ import java.util.Date;
 
 /**
  *  消息管理
- * @author xienan 2020-02-20
+ *   2020-02-20
  */
 @Data
 public class MessageResp implements Serializable {

@@ -25,7 +25,7 @@ import java.util.Map;
  * <p>Description: [登录信息]</p>
  * Created on 2020/1/19
  *
- * @author <a href="mailto: xienan@camelotchina.com">谢楠</a>
+ *
  * @version 1.0
  * Copyright (c) 2020 北京柯莱特科技有限公司
  */
@@ -45,7 +45,7 @@ public class LoginController extends BaseController {
      * Created on 2020/2/4
      * @param req
      * @return com.camelot.kuka.model.common.PageResult
-     * @author 谢楠
+     *
      */
     @PostMapping("/login/add")
     public Result addUser(UserReq req){
@@ -57,7 +57,7 @@ public class LoginController extends BaseController {
      * Created on 2020/2/4
      * @param req
      * @return com.camelot.kuka.model.common.PageResult
-     * @author 谢楠
+     *
      */
     @PostMapping("/login/updatePassword")
     public Result updatePassword(UserReq req){
@@ -132,7 +132,7 @@ public class LoginController extends BaseController {
      * Created on 2020/2/4
      * @param req
      * @return com.camelot.kuka.model.common.PageResult
-     * @author 谢楠
+     *
      */
     @PostMapping("/login/sendMail")
     public Result sendMail(UserReq req){
@@ -144,7 +144,7 @@ public class LoginController extends BaseController {
      * Created on 2020/2/4
      * @param req
      * @return com.camelot.kuka.model.common.PageResult
-     * @author 谢楠
+     *
      */
     @PostMapping("/login/update/passwordByMail")
     public Result passwordByMail(UserReq req){

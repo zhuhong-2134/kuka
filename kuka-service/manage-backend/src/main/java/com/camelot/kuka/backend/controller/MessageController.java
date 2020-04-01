@@ -27,7 +27,7 @@ import java.util.List;
  * <p>Description: [消息控制层]</p>
  * Created on 2020/1/19
  *
- * @author <a href="mailto: xienan@camelotchina.com">谢楠</a>
+ *
  * @version 1.0
  * Copyright (c) 2020 北京柯莱特科技有限公司
  */
@@ -45,7 +45,7 @@ public class MessageController extends BaseController {
      * Created on 2020/1/20
      * @param
      * @return com.camelot.kuka.model.common.PageResult
-     * @author 谢楠
+     *
      */
     @PostMapping("/message/queryEnum")
     public PageResult queryEnum(){
@@ -60,7 +60,7 @@ public class MessageController extends BaseController {
      * Created on 2020/1/20
      * @param req
      * @return com.camelot.kuka.model.common.PageResult
-     * @author 谢楠
+     *
      */
     @PostMapping("/message/findList")
     public Result<List<MessageResp>> findList(MessageReq req){
@@ -85,7 +85,7 @@ public class MessageController extends BaseController {
      * Created on 2020/1/20
      * @param
      * @return com.camelot.kuka.model.common.PageResult
-     * @author 谢楠
+     *
      */
     @GetMapping("/message/queryCount")
     public Result queryCount(){
@@ -108,7 +108,7 @@ public class MessageController extends BaseController {
      * Created on 2020/1/20
      * @param req
      * @return com.camelot.kuka.model.common.PageResult
-     * @author 谢楠
+     *
      */
     @PostMapping("/message/update")
     public Result updateMessage(MessageReq req){

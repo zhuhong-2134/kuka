@@ -5,7 +5,7 @@ import com.camelot.kuka.common.utils.StringUtils;
 /**
  * 分页数据
  * 
- * @author xienan
+ *
  */
 public class PageDomain
 {

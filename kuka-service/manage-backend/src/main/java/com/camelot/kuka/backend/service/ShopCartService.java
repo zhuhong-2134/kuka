@@ -11,7 +11,7 @@ import java.util.List;
  * <p>Description: [购物车信息]</p>
  * Created on 2020/2/5
  *
- * @author <a href="mailto: xienan@camelotchina.com">谢楠</a>
+ *
  * @version 1.0
  * Copyright (c) 2020 北京柯莱特科技有限公司
  */
@@ -22,7 +22,7 @@ public interface ShopCartService {
      * Created on 2020/1/20
      * @param
      * @return com.camelot.kuka.model.common.PageResult
-     * @author 谢楠
+     *
      */
     Result<List<ShopCartResp>> queryList(String loginUserName);
 
@@ -31,7 +31,7 @@ public interface ShopCartService {
      * Created on 2020/1/20
      * @param
      * @return com.camelot.kuka.model.common.PageResult
-     * @author 谢楠
+     *
      */
     Result addShopCart(ShopCartReq req, String loginUserName);
 
@@ -40,7 +40,7 @@ public interface ShopCartService {
      * Created on 2020/1/20
      * @param
      * @return com.camelot.kuka.model.common.PageResult
-     * @author 谢楠
+     *
      */
     Result updateShopCart(ShopCartReq req, String loginUserName);
 
@@ -49,7 +49,7 @@ public interface ShopCartService {
      * Created on 2020/1/20
      * @param
      * @return com.camelot.kuka.model.common.PageResult
-     * @author 谢楠
+     *
      */
     Result delShopCart(CommonReq req, String loginUserName);
 

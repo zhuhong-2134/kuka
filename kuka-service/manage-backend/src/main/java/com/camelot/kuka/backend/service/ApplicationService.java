@@ -17,7 +17,7 @@ import java.util.List;
  * <p>Description: [产品接口]</p>
  * Created on 2020/2/5
  *
- * @author <a href="mailto: xienan@camelotchina.com">谢楠</a>
+ *
  * @version 1.0
  * Copyright (c) 2020 北京柯莱特科技有限公司
  */
@@ -28,7 +28,7 @@ public interface ApplicationService {
      * Created on 2020/2/5
      * @param req
      * @return List<Supplier>
-     * @author 谢楠
+     *
      */
     List<Application> queryList(AppPageReq req, LoginAppUser loginAppUser);
 
@@ -37,7 +37,7 @@ public interface ApplicationService {
      * Created on 2020/2/5
      * @param req
      * @return List<Supplier>
-     * @author 谢楠
+     *
      */
     Result addApplication(ApplicationEditReq req, String loginUserName);
 
@@ -46,7 +46,7 @@ public interface ApplicationService {
      * Created on 2020/2/5
      * @param req
      * @return List<Supplier>
-     * @author 谢楠
+     *
      */
     Result<QyeryUpdateResp> qyeryUpdateById(CommonReq req);
 
@@ -55,7 +55,7 @@ public interface ApplicationService {
      * Created on 2020/2/5
      * @param req
      * @return List<Supplier>
-     * @author 谢楠
+     *
      */
     Result updateApplication(ApplicationEditReq req, String loginUserName);
 
@@ -64,7 +64,7 @@ public interface ApplicationService {
      * Created on 2020/2/5
      * @param req
      * @return List<Supplier>
-     * @author 谢楠
+     *
      */
     Result addCurrency(ApplicationCurrencyReq req);
 
@@ -73,7 +73,7 @@ public interface ApplicationService {
      * Created on 2020/2/5
      * @param req
      * @return List<Supplier>
-     * @author 谢楠
+     *
      */
     Result delCurrency(ApplicationCurrencyReq req);
 
@@ -82,7 +82,7 @@ public interface ApplicationService {
      * Created on 2020/2/5
      * @param req
      * @return List<Supplier>
-     * @author 谢楠
+     *
      */
     Result updateAppStatus(ApplicationEditReq req, String loginUserName);
 
@@ -91,7 +91,7 @@ public interface ApplicationService {
      * Created on 2020/2/5
      * @param req
      * @return List<Supplier>
-     * @author 谢楠
+     *
      */
     Result deleteApplication(CommonReq req, String loginUserName);
 
@@ -100,7 +100,7 @@ public interface ApplicationService {
      * Created on 2020/2/5
      * @param
      * @return List<Supplier>
-     * @author 谢楠
+     *
      */
     Result queryAddId();
 
@@ -109,7 +109,7 @@ public interface ApplicationService {
      * Created on 2020/2/5
      * @param
      * @return List<Supplier>
-     * @author 谢楠
+     *
      */
     Result<List<ApplicationResp>> currencyList(ApplicationProblemReq req);
 
@@ -119,7 +119,7 @@ public interface ApplicationService {
      * Created on 2020/2/5
      * @param req
      * @return List<Supplier>
-     * @author 谢楠
+     *
      */
     Result updateApplicationNum(ApplicationEditReq req);
 }

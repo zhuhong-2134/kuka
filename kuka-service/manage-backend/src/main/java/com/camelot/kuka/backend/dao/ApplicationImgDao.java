@@ -11,7 +11,7 @@ import java.util.List;
  * <p>Description: [应用图片dao]</p>
  * Created on 2020/1/19
  *
- * @author <a href="mailto: xienan@camelotchina.com">谢楠</a>
+ *
  * @version 1.0
  * Copyright (c) 2020 北京柯莱特科技有限公司
  */
@@ -23,7 +23,7 @@ public interface ApplicationImgDao {
      * Created on 2020/2/5
      * @param appId
      * @return int
-     * @author 谢楠
+     *
      */
     int deleteByAppId(@Param("appId") Long appId);
 
@@ -32,7 +32,7 @@ public interface ApplicationImgDao {
      * Created on 2020/2/5
      * @param addAppImgList
      * @return int
-     * @author 谢楠
+     *
      */
     int insertBatch(@Param("list") List<ApplicationImg> addAppImgList);
 
@@ -41,7 +41,7 @@ public interface ApplicationImgDao {
      * Created on 2020/2/5
      * @param appIds
      * @return int
-     * @author 谢楠
+     *
      */
     List<ApplicationImg> selectList(@Param("array") Long[] appIds);
 

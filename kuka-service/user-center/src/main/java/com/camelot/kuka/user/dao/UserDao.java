@@ -12,7 +12,7 @@ import java.util.List;
  * <p>Description: [用户DAO]</p>
  * Created on 2020/1/19
  *
- * @author <a href="mailto: xienan@camelotchina.com">谢楠</a>
+ *
  * @version 1.0
  * Copyright (c) 2020 北京柯莱特科技有限公司
  */
@@ -24,7 +24,7 @@ public interface UserDao {
 	 * Created on 2020/1/19
 	 * @param user
 	 * @return List<User>
-	 * @author 谢楠
+	 *
 	 */
 	List<User> findList(@Param("entity")UserPageReq user);
 
@@ -33,7 +33,7 @@ public interface UserDao {
 	 * Created on 2020/1/19
 	 * @param req
 	 * @return List<User>
-	 * @author 谢楠
+	 *
 	 */
 	List<User> kukaPageList(@Param("entity") UserPageReq req);
 
@@ -42,7 +42,7 @@ public interface UserDao {
 	 * Created on 2020/2/4
 	 * @param user
 	 * @return List<User>
-	 * @author 谢楠
+	 *
 	 */
 	int addUser(@Param("list") List<User> user);
 
@@ -51,7 +51,7 @@ public interface UserDao {
 	 * Created on 2020/2/4
 	 * @param user
 	 * @return List<User>
-	 * @author 谢楠
+	 *
 	 */
 	int updateUser(User user);
 
@@ -60,7 +60,7 @@ public interface UserDao {
 	 * Created on 2020/2/4
 	 * @param user
 	 * @return List<User>
-	 * @author 谢楠
+	 *
 	 */
 	int delUser(User user);
 
@@ -69,7 +69,7 @@ public interface UserDao {
 	 * Created on 2020/2/4
 	 * @param user
 	 * @return List<User>
-	 * @author 谢楠
+	 *
 	 */
 	User queryById(@Param("entity") User user);
 
@@ -78,7 +78,7 @@ public interface UserDao {
 	 * Created on 2020/2/4
 	 * @param userName
 	 * @return User
-	 * @author 谢楠
+	 *
 	 */
 	User queryLongUser(@Param("userName") String userName);
 
@@ -88,7 +88,7 @@ public interface UserDao {
 	 * Created on 2020/2/4
 	 * @param user
 	 * @return List<User>
-	 * @author 谢楠
+	 *
 	 */
 	int checkUser(@Param("entity") User user);
 

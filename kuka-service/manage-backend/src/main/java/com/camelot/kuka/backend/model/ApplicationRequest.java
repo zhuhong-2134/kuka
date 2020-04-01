@@ -11,7 +11,7 @@ import java.util.Date;
 
 /**
  *  应用请求管理
- * @author xienan 2020-02-19
+ *
  */
 @Data
 public class ApplicationRequest implements Serializable {

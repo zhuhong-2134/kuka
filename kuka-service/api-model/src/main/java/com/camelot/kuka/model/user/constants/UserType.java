@@ -3,7 +3,7 @@ package com.camelot.kuka.model.user.constants;
 /**
  * 用户类型
  * 
- * @author 崔春松
+ *
  *
  */
 public enum UserType {

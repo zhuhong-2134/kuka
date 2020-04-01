@@ -9,7 +9,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 /**
  * 网关系统
  * 
- * @author 崔春松 cuichunsong@camelotchina.com
+ *    cuichunsong@camelotchina.com
  *
  */
 @EnableFeignClients

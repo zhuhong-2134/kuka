@@ -22,7 +22,7 @@ import com.netflix.zuul.context.RequestContext;
  * 考虑到性能，我们不实时掉接口从别的服务获取了，<br>
  * 而是定时把黑名单ip列表同步到网关层,
  * 
- * @author 崔春松
+ *
  *
  */
 @Component

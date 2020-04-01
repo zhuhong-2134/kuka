@@ -15,7 +15,7 @@ import com.camelot.kuka.common.constants.PermitAllUrl;
 /**
  * 资源服务配置
  * 
- * @author 崔春松
+ *
  *
  */
 @EnableResourceServer

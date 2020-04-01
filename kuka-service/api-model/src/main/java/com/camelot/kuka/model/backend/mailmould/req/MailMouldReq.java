@@ -11,7 +11,7 @@ import java.util.Date;
  * <p>Description: [消息模板请求返回所有字段]</p>
  * Created on 2020/2/17
  *
- * @author <a href="mailto: cuichunsong@camelotchina.com">崔春松</a>
+ *
  * @version 1.0
  * Copyright (c) 2020 北京柯莱特科技有限公司
  */

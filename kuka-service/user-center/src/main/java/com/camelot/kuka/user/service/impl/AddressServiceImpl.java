@@ -57,7 +57,7 @@ public class AddressServiceImpl implements AddressService {
      * @param treeList
      * @param pid
      * @return java.util.List<com.fehorizon.commonService.model.saas.resp.SysOrgTreeResp>
-     * @author 谢楠
+     *
      */
     public List<AddressTreeResp> getOrgTree(List<AddressTreeResp> treeList, Long pid) {
         List<AddressTreeResp> result = new ArrayList<>();

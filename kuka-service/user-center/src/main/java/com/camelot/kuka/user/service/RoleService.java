@@ -16,7 +16,7 @@ import java.util.List;
  * <p>Description: [角色信息]</p>
  * Created on 2020/1/19
  *
- * @author <a href="mailto: xienan@camelotchina.com">谢楠</a>
+ *
  * @version 1.0
  * Copyright (c) 2020 北京柯莱特科技有限公司
  */
@@ -27,7 +27,7 @@ public interface RoleService {
      * Created on 2020/2/4
      * @param req
      * @return List
-     * @author 谢楠
+     *
      */
     List<Role> queryList(RolePageReq req);
 
@@ -36,7 +36,7 @@ public interface RoleService {
      * Created on 2020/2/4
      * @param req
      * @return Result
-     * @author 谢楠
+     *
      */
     Result addRole(RoleReq req, String loginUserName);
 
@@ -45,7 +45,7 @@ public interface RoleService {
      * Created on 2020/2/4
      * @param req
      * @return Result
-     * @author 谢楠
+     *
      */
     Result updateRole(RoleReq req, String loginUserName);
 
@@ -54,7 +54,7 @@ public interface RoleService {
      * Created on 2020/2/4
      * @param req
      * @return Result
-     * @author 谢楠
+     *
      */
     Result updateStatus(RoleReq req, String loginUserName);
 
@@ -63,7 +63,7 @@ public interface RoleService {
      * Created on 2020/2/4
      * @param req
      * @return Result
-     * @author 谢楠
+     *
      */
     Result<RoleResp> qeuryById(CommonReq req);
 
@@ -72,7 +72,7 @@ public interface RoleService {
      * Created on 2020/2/4
      * @param req
      * @return Result
-     * @author 谢楠
+     *
      */
     Result<List<RoleMenuResp>> roleMenu(CommonReq req, LoginAppUser loginAppUser);
 
@@ -81,7 +81,7 @@ public interface RoleService {
      * Created on 2020/2/4
      * @param req
      * @return Result
-     * @author 谢楠
+     *
      */
     Result updateRoleMenu(RoleMenuReq req);
 
@@ -90,7 +90,7 @@ public interface RoleService {
      * Created on 2020/2/4
      * @param req
      * @return Result
-     * @author 谢楠
+     *
      */
     Result<List<RoleResp>> findList(RoleReq req);
 }

@@ -16,7 +16,7 @@ import java.util.List;
  * <p>Description: [订单业务层]</p>
  * Created on 2020/2/5
  *
- * @author <a href="mailto: xienan@camelotchina.com">谢楠</a>
+ *
  * @version 1.0
  * Copyright (c) 2020 北京柯莱特科技有限公司
  */
@@ -27,7 +27,7 @@ public interface OrderService {
      * Created on 2020/2/5
      * @param req
      * @return List
-     * @author 谢楠
+     *
      */
     List<Order> pageList(OrderPageReq req, LoginAppUser loginAppUser);
 
@@ -36,7 +36,7 @@ public interface OrderService {
      * Created on 2020/2/5
      * @param req
      * @return List
-     * @author 谢楠
+     *
      */
     Result<OrderResp> queryById(CommonReq req);
 
@@ -45,7 +45,7 @@ public interface OrderService {
      * Created on 2020/2/5
      * @param req
      * @return List
-     * @author 谢楠
+     *
      */
     Result updateOrder(OrderReq req, String loginUserName);
 
@@ -54,7 +54,7 @@ public interface OrderService {
      * Created on 2020/2/5
      * @param req
      * @return List
-     * @author 谢楠
+     *
      */
     Result<OrderResp> createOrder(CommonReq req, LoginAppUser loginAppUser);
 
@@ -63,7 +63,7 @@ public interface OrderService {
      * Created on 2020/1/20
      * @param req
      * @return com.camelot.kuka.model.common.PageResult
-     * @author 谢楠
+     *
      */
     Result<OrderResp> createInstantly(ShopCartReq req, LoginAppUser loginAppUser);
 }

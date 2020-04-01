@@ -17,7 +17,7 @@ import java.util.List;
  * <p>Description: [集成商请求业务层]</p>
  * Created on 2020/2/5
  *
- * @author <a href="mailto: xienan@camelotchina.com">谢楠</a>
+ *
  * @version 1.0
  * Copyright (c) 2020 北京柯莱特科技有限公司
  */
@@ -28,7 +28,7 @@ public interface SupplierRequestService {
      * Created on 2020/1/20
      * @param req
      * @return list
-     * @author 谢楠
+     *
      */
     List<SupplierRequest> queryList(SupplierRequestPageReq req);
 
@@ -37,7 +37,7 @@ public interface SupplierRequestService {
      * Created on 2020/1/20
      * @param req
      * @return Result
-     * @author 谢楠
+     *
      */
     Result<SupplierRequestResp> queryById(CommonReq req);
 
@@ -46,7 +46,7 @@ public interface SupplierRequestService {
      * Created on 2020/1/20
      * @param req
      * @return Result
-     * @author 谢楠
+     *
      */
     Result updateStatus(SupplierRequestReq req, String loginUserName);
 
@@ -55,7 +55,7 @@ public interface SupplierRequestService {
      * Created on 2020/1/20
      * @param req
      * @return Result
-     * @author 谢楠
+     *
      */
     Result addSupplierequest(CommonReq req, LoginAppUser loginAppUser);
 
@@ -64,7 +64,7 @@ public interface SupplierRequestService {
      * Created on 2020/1/20
      * @param req
      * @return Result
-     * @author 谢楠
+     *
      */
     Result sendMail(CommonReq req, LoginAppUser loginAppUser);
 
@@ -73,7 +73,7 @@ public interface SupplierRequestService {
      * Created on 2020/1/20
      * @param req
      * @return Result
-     * @author 谢楠
+     *
      */
     Result<MessageResp> previewMessage(CommonReq req, LoginAppUser loginAppUser);
 }

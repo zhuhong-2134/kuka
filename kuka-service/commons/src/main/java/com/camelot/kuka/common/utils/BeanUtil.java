@@ -90,7 +90,7 @@ public abstract class BeanUtil {
      * @param objSource 源对象
      * @param clazz     目标对象
      * @return 转换结果
-     * @author 崔春松
+     *
      */
     public static <T> T copyBean(Object objSource, Class<T> clazz) {
         if (null == objSource) {
@@ -157,7 +157,7 @@ public abstract class BeanUtil {
      * @param objSource 源list
      * @param clazz     目标list
      * @return 转换结果
-     * @author 崔春松
+     *
      */
     public static <T, E> List<T> copyBeanList(List<E> objSource, Class<T> clazz) {
         if (null == objSource) {

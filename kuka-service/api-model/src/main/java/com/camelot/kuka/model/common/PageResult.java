@@ -6,7 +6,7 @@ import lombok.Data;
  * <p>Description: [分页返回结果集]</p>
  * Created on 2017年12月11日
  *
- * @author <a href="mailto: cuichunsong@camelotchina.com">崔春松</a>
+ *
  * @version 1.0
  * Copyright (c) 2017 北京柯莱特科技有限公司
  */

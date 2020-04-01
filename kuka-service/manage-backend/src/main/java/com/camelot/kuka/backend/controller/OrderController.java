@@ -33,7 +33,7 @@ import java.util.List;
  * <p>Description: [订单控制层]</p>
  * Created on 2020/2/12
  *
- * @author <a href="mailto: xienan@camelotchina.com">谢楠</a>
+ *
  * @version 1.0
  * Copyright (c) 2020 北京柯莱特科技有限公司
  */
@@ -52,7 +52,7 @@ public class OrderController extends BaseController {
      * Created on 2020/1/20
      * @param
      * @return com.camelot.kuka.model.common.PageResult
-     * @author 谢楠
+     *
      */
     @PostMapping("/order/queryEnum")
     public PageResult queryEnum(){
@@ -69,7 +69,7 @@ public class OrderController extends BaseController {
      * Created on 2020/1/20
      * @param req
      * @return com.camelot.kuka.model.common.PageResult
-     * @author 谢楠
+     *
      */
     @PostMapping("/order/pageList")
     public PageResult<List<OrderResp>> pageList(OrderPageReq req){
@@ -105,7 +105,7 @@ public class OrderController extends BaseController {
      * Created on 2020/1/20
      * @param req
      * @return com.camelot.kuka.model.common.PageResult
-     * @author 谢楠
+     *
      */
     @PostMapping("/order/queryById")
     public Result<OrderResp> queryById(CommonReq req){
@@ -122,7 +122,7 @@ public class OrderController extends BaseController {
      * Created on 2020/1/20
      * @param req
      * @return com.camelot.kuka.model.common.PageResult
-     * @author 谢楠
+     *
      */
     @PostMapping("/order/update")
     public Result updateOrder(OrderReq req){
@@ -143,7 +143,7 @@ public class OrderController extends BaseController {
      * Created on 2020/1/20
      * @param req
      * @return com.camelot.kuka.model.common.PageResult
-     * @author 谢楠
+     *
      */
     @PostMapping("/order/createOrder")
     public Result<OrderResp> createOrder(CommonReq req){
@@ -166,7 +166,7 @@ public class OrderController extends BaseController {
      * Created on 2020/1/20
      * @param req
      * @return com.camelot.kuka.model.common.PageResult
-     * @author 谢楠
+     *
      */
     @PostMapping("/order/createInstantly")
     public Result<OrderResp> createInstantly(ShopCartReq req){

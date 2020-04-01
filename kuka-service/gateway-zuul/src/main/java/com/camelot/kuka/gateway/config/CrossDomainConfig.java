@@ -11,7 +11,7 @@ import org.springframework.web.filter.CorsFilter;
  * 页面访问域名和后端接口地址的域名不一致时，会先发起一个OPTIONS的试探请求<br>
  * 如果不设置跨域的话，js将无法正确访问接口，域名一致的话，不存在这个问题
  *
- * @author 崔春松
+ *
  */
 @Configuration
 public class CrossDomainConfig {

@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  *  tree地址
- * @author xienan 2020-02-17
+ *   2020-02-17
  */
 @Data
 public class AddressTreeResp implements Serializable {

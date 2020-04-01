@@ -19,7 +19,7 @@ import feign.RequestTemplate;
  * header的话，是Authorization:Bearer xxx<br>
  * 我们默认放在header里
  * 
- * @author 崔春松
+ *
  *
  */
 @Configuration

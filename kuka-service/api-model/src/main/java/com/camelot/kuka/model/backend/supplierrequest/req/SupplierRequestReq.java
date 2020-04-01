@@ -10,7 +10,7 @@ import java.util.Date;
 
 /**
  *  集成商请求管理
- * @author xienan 2020-02-19
+ *
  */
 @Data
 public class SupplierRequestReq implements Serializable {

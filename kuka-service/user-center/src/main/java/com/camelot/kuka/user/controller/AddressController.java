@@ -19,7 +19,7 @@ import java.util.Map;
  * <p>Description: [地址信息信息]</p>
  * Created on 2020/1/19
  *
- * @author <a href="mailto: xienan@camelotchina.com">谢楠</a>
+ *
  * @version 1.0
  * Copyright (c) 2020 北京柯莱特科技有限公司
  */
@@ -36,7 +36,7 @@ public class AddressController {
      * Created on 2020/2/4
      * @param req
      * @return com.camelot.kuka.model.common.Result
-     * @author 谢楠
+     *
      */
     @GetMapping("/address/queryAll")
     public String queryById(CommonReq req){
@@ -49,7 +49,7 @@ public class AddressController {
      * Created on 2020/2/4
      * @param codes
      * @return key code value 名称
-     * @author 谢楠
+     *
      */
     @PostMapping("/address/queryAddressMap")
     public Result<Map<String, String>> queryAddressMap(@RequestBody List<String> codes) {

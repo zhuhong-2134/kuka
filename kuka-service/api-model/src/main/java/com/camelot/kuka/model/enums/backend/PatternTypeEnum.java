@@ -8,7 +8,7 @@ import java.util.Map;
 /**
  * <p>Description: [经营模式枚举]</p>
  * Created on 2020年2月5日
- * @author <a href="mailto: hexiaobo@camelotchina.com">谢楠</a>
+ *
  * @version 1.0
  * Copyright (c) 2019 北京柯莱特科技有限公司
  */

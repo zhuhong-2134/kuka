@@ -18,7 +18,7 @@ import java.sql.SQLException;
 
 /**
  * 数据源的置类
- * @author xienan
+ *
  */
 @Configuration
 public class DruidConfiguration {

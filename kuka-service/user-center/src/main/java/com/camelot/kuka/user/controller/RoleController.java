@@ -31,7 +31,7 @@ import java.util.List;
  * <p>Description: [角色信息]</p>
  * Created on 2020/1/19
  *
- * @author <a href="mailto: xienan@camelotchina.com">谢楠</a>
+ *
  * @version 1.0
  * Copyright (c) 2020 北京柯莱特科技有限公司
  */
@@ -48,7 +48,7 @@ public class RoleController extends BaseController {
      * Created on 2020/1/20
      * @param
      * @return com.camelot.kuka.model.common.PageResult
-     * @author 谢楠
+     *
      */
     @PostMapping("/role/queryEnum")
     public PageResult queryEnum(){
@@ -64,7 +64,7 @@ public class RoleController extends BaseController {
      * Created on 2020/1/20
      * @param req
      * @return com.camelot.kuka.model.common.PageResult
-     * @author 谢楠
+     *
      */
     @PostMapping("/role/pageList")
     public PageResult<List<RoleResp>> pageList(RolePageReq req){
@@ -90,7 +90,7 @@ public class RoleController extends BaseController {
      * Created on 2020/1/20
      * @param req
      * @return com.camelot.kuka.model.common.PageResult
-     * @author 谢楠
+     *
      */
     @PostMapping("/role/findList")
     public Result<List<RoleResp>> findList(RoleReq req){
@@ -107,7 +107,7 @@ public class RoleController extends BaseController {
      * Created on 2020/2/4
      * @param req
      * @return com.camelot.kuka.model.common.Result
-     * @author 谢楠
+     *
      */
     @PostMapping("/role/add")
     public Result addRole(RoleReq req){
@@ -128,7 +128,7 @@ public class RoleController extends BaseController {
      * Created on 2020/2/4
      * @param req
      * @return com.camelot.kuka.model.common.Result
-     * @author 谢楠
+     *
      */
     @PostMapping("/role/queryById")
     public Result<RoleResp> queryById(CommonReq req){
@@ -145,7 +145,7 @@ public class RoleController extends BaseController {
      * Created on 2020/2/4
      * @param req
      * @return com.camelot.kuka.model.common.Result
-     * @author 谢楠
+     *
      */
     @PostMapping("/role/update")
     public Result updateRole(RoleReq req){
@@ -166,7 +166,7 @@ public class RoleController extends BaseController {
      * Created on 2020/2/4
      * @param req
      * @return com.camelot.kuka.model.common.Result
-     * @author 谢楠
+     *
      */
     @PostMapping("/role/updateStatus")
     public Result updateStatus(RoleReq req){
@@ -187,7 +187,7 @@ public class RoleController extends BaseController {
      * Created on 2020/2/4
      * @param req
      * @return com.camelot.kuka.model.common.Result
-     * @author 谢楠
+     *
      */
     @PostMapping("/role/roleMenu")
     public Result<List<RoleMenuResp>> roleMenu(CommonReq req){
@@ -208,7 +208,7 @@ public class RoleController extends BaseController {
      * Created on 2020/2/4
      * @param req
      * @return com.camelot.kuka.model.common.Result
-     * @author 谢楠
+     *
      */
     @PostMapping("/role/updateRoleMenu")
     public Result updateRoleMenu(RoleMenuReq req){

@@ -30,7 +30,7 @@ import java.util.List;
  * <p>Description: [供应商控制层]</p>
  * Created on 2020/1/19
  *
- * @author <a href="mailto: xienan@camelotchina.com">谢楠</a>
+ *
  * @version 1.0
  * Copyright (c) 2020 北京柯莱特科技有限公司
  */
@@ -47,7 +47,7 @@ public class SupplierController extends BaseController {
      * Created on 2020/1/20
      * @param
      * @return com.camelot.kuka.model.common.PageResult
-     * @author 谢楠
+     *
      */
     @PostMapping("/supplier/queryEnum")
     public PageResult queryEnum(){
@@ -67,7 +67,7 @@ public class SupplierController extends BaseController {
      * Created on 2020/1/20
      * @param req
      * @return com.camelot.kuka.model.common.PageResult
-     * @author 谢楠
+     *
      */
     @PostMapping("/supplier/pageList")
     public PageResult<List<SupplierResp>> pageList(SupplierPageReq req){
@@ -100,7 +100,7 @@ public class SupplierController extends BaseController {
      * Created on 2020/1/20
      * @param req
      * @return com.camelot.kuka.model.common.PageResult
-     * @author 谢楠
+     *
      */
     @PostMapping("/supplier/list")
     public Result<List<SupplierResp>> queryList(SupplierPageReq req){
@@ -124,7 +124,7 @@ public class SupplierController extends BaseController {
      * Created on 2020/2/4
      * @param req
      * @return com.camelot.kuka.model.common.Result
-     * @author 谢楠
+     *
      */
     @PostMapping("/supplier/add")
     public Result addSupplier(SupplierReq req){
@@ -145,7 +145,7 @@ public class SupplierController extends BaseController {
      * Created on 2020/1/20
      * @param req
      * @return com.camelot.kuka.model.common.Result
-     * @author 谢楠
+     *
      */
     @PostMapping("/supplier/queryById")
     public Result<SupplierResp> queryById(CommonReq req){
@@ -169,7 +169,7 @@ public class SupplierController extends BaseController {
      * Created on 2020/2/4
      * @param req
      * @return com.camelot.kuka.model.common.Result
-     * @author 谢楠
+     *
      */
     @PostMapping("/supplier/update")
     public Result updateSupplier(SupplierReq req){
@@ -190,7 +190,7 @@ public class SupplierController extends BaseController {
      * Created on 2020/2/4
      * @param req
      * @return com.camelot.kuka.model.common.Result
-     * @author 谢楠
+     *
      */
     @PostMapping("/supplier/del")
     public Result delSupplier(CommonReq req){
@@ -211,7 +211,7 @@ public class SupplierController extends BaseController {
      * Created on 2020/1/20
      * @param userName
      * @return com.camelot.kuka.model.common.Result
-     * @author 谢楠
+     *
      */
     @GetMapping(value = "/supplier/queryByCreateName", params = "userName")
     public Result<SupplierResp> queryByCreateName(String userName){

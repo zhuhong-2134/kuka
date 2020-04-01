@@ -3,7 +3,7 @@ package com.camelot.kuka.model.enums;
 /**
  * <p>Description: [性别标识]</p>
  * Created on 2020年2月5日
- * @author <a href="mailto: hexiaobo@camelotchina.com">谢楠</a>
+ *
  * @version 1.0
  * Copyright (c) 2019 北京柯莱特科技有限公司
  */

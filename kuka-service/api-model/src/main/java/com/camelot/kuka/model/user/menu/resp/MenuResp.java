@@ -8,7 +8,7 @@ import java.util.Date;
 
 /**
  *  菜单
- * @author xienan 2020-02-17
+ *   2020-02-17
  */
 @Data
 public class MenuResp implements Serializable {

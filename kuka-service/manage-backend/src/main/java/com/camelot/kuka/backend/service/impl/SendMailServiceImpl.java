@@ -15,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 /**
  * 邮件发送
  * 
- * @author 崔春松
+ *
  *
  */
 @Slf4j

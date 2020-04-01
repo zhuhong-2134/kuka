@@ -15,7 +15,7 @@ import java.util.List;
  * <p>Description: [应用商请求]</p>
  * Created on 2020/2/5
  *
- * @author <a href="mailto: xienan@camelotchina.com">谢楠</a>
+ *
  * @version 1.0
  * Copyright (c) 2020 北京柯莱特科技有限公司
  */
@@ -26,7 +26,7 @@ public interface ApplicationRequestService {
      * Created on 2020/1/20
      * @param req
      * @return list
-     * @author 谢楠
+     *
      */
     List<ApplicationRequest> queryList(AppRequestPageReq req);
 
@@ -35,7 +35,7 @@ public interface ApplicationRequestService {
      * Created on 2020/1/20
      * @param req
      * @return resultr
-     * @author 谢楠
+     *
      */
     Result<ApplicationRequestResp> queryById(CommonReq req);
 
@@ -44,7 +44,7 @@ public interface ApplicationRequestService {
      * Created on 2020/1/20
      * @param req
      * @return resultr
-     * @author 谢楠
+     *
      */
     Result updateStatus(ApplicationRequestReq req, String loginUserName);
 
@@ -53,7 +53,7 @@ public interface ApplicationRequestService {
      * Created on 2020/1/20
      * @param req
      * @return resultr
-     * @author 谢楠
+     *
      */
     Result addApprequest(CommonReq req, LoginAppUser loginAppUser);
 
@@ -62,7 +62,7 @@ public interface ApplicationRequestService {
      * Created on 2020/2/4
      * @param req
      * @return com.camelot.kuka.model.common.Result
-     * @author 谢楠
+     *
      */
     Result sendMail(CommonReq req, LoginAppUser loginAppUser);
 
@@ -71,7 +71,7 @@ public interface ApplicationRequestService {
      * Created on 2020/2/4
      * @param req
      * @return com.camelot.kuka.model.common.Result
-     * @author 谢楠
+     *
      */
     Result<MessageResp> previewMessage(CommonReq req, LoginAppUser loginAppUser);
 }

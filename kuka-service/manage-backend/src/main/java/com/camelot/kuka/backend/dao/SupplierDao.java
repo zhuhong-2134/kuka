@@ -12,7 +12,7 @@ import java.util.List;
  * <p>Description: [供应商接口]</p>
  * Created on 2020/1/19
  *
- * @author <a href="mailto: xienan@camelotchina.com">谢楠</a>
+ *
  * @version 1.0
  * Copyright (c) 2020 北京柯莱特科技有限公司
  */
@@ -24,7 +24,7 @@ public interface SupplierDao {
      * Created on 2020/2/5
      * @param req
      * @return List<Supplier>
-     * @author 谢楠
+     *
      */
     List<Supplier> pageList(@Param("entity") SupplierPageReq req);
 
@@ -33,7 +33,7 @@ public interface SupplierDao {
      * Created on 2020/2/5
      * @param req
      * @return List<Supplier>
-     * @author 谢楠
+     *
      */
     List<Supplier> supplierPageList(@Param("entity") SupplierPageReq req);
 
@@ -42,7 +42,7 @@ public interface SupplierDao {
      * Created on 2020/2/5
      * @param req
      * @return List<Supplier>
-     * @author 谢楠
+     *
      */
     List<Supplier> visitorPageList(@Param("entity")SupplierPageReq req);
 
@@ -52,7 +52,7 @@ public interface SupplierDao {
      * Created on 2020/2/5
      * @param req
      * @return List<Supplier>
-     * @author 谢楠
+     *
      */
     List<Supplier> findList(@Param("entity") Supplier req);
 
@@ -61,7 +61,7 @@ public interface SupplierDao {
      * Created on 2020/2/5
      * @param suppliers
      * @return int
-     * @author 谢楠
+     *
      */
     int addSupplier(@Param("list") List<Supplier> suppliers);
 
@@ -70,7 +70,7 @@ public interface SupplierDao {
      * Created on 2020/2/5
      * @param user
      * @return int
-     * @author 谢楠
+     *
      */
     Supplier queryById(@Param("entity")Supplier supplier);
 
@@ -79,7 +79,7 @@ public interface SupplierDao {
      * Created on 2020/2/5
      * @param supplier
      * @return int
-     * @author 谢楠
+     *
      */
     int updateSupplier(Supplier supplier);
 
@@ -88,7 +88,7 @@ public interface SupplierDao {
      * Created on 2020/2/5
      * @param supplier
      * @return int
-     * @author 谢楠
+     *
      */
     int delSupplier(Supplier supplier);
 
@@ -97,7 +97,7 @@ public interface SupplierDao {
      * Created on 2020/2/5
      * @param
      * @return List
-     * @author 谢楠
+     *
      */
     List<Supplier> homeSupplierList(@Param("entity") Supplier query);
 
@@ -106,7 +106,7 @@ public interface SupplierDao {
      * Created on 2020/2/5
      * @param
      * @return List
-     * @author 谢楠
+     *
      */
     List<Supplier> homeSupplierPageList(@Param("entity")HomeSupplierPageReq req);
 
@@ -115,7 +115,7 @@ public interface SupplierDao {
      * Created on 2020/2/5
      * @param req
      * @return List<Supplier>
-     * @author 谢楠
+     *
      */
     List<Supplier> findListByIds(@Param("array") Long[] ids);
 }
