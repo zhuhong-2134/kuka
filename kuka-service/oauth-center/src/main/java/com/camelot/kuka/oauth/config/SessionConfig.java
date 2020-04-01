@@ -5,7 +5,7 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
 /**
  * 开启session共享
  * 
- *    cuichunsong@camelotchina.com
+
  *
  */
 @EnableRedisHttpSession

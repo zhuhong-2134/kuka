@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
  * <p>Description: [redis工具类]</p>
  * Created on 2019/7/14
  *
- * @author <a href="mailto: cuichunsong@camelotchina.com">崔春松 </a>
+ *
  * @version 1.0
  * Copyright (c) 2019 北京柯莱特科技有限公司
  */

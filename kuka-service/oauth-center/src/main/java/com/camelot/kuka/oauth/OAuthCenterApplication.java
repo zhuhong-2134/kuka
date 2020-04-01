@@ -10,8 +10,6 @@ import org.springframework.context.annotation.ComponentScan;
 
 /**
  * 认证中心
- * 
- *    cuichunsong@camelotchina.com
  *
  */
 @EnableFeignClients

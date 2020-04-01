@@ -8,8 +8,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 /**
  * 用户中心
- * 
- *    cuichunsong@camelotchina.com
+ *
  *
  */
 @EnableFeignClients

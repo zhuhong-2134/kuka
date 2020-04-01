@@ -8,8 +8,6 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 
 /**
  * 网关系统
- * 
- *    cuichunsong@camelotchina.com
  *
  */
 @EnableFeignClients
