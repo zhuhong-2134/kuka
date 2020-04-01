@@ -132,7 +132,7 @@ public class EnumVal implements Serializable{
 	 * @param clz
 	 * @param select (是否选中第一个 )
 	 * @return
-	 * @author:[崔春松]
+	 *
 	 */
 	@SuppressWarnings("rawtypes")
 	public static String toJson(Class clz, boolean select) {

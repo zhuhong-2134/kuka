@@ -19,7 +19,7 @@ public interface BaseDAO<T> {
 	 * Created on 2019年7月17日
 	 * @param params
 	 * @return
-	 * @author:[崔春松]
+	 *
 	 */
 	public List<T> queryList(Map<String, Object> params);
 	
@@ -27,7 +27,7 @@ public interface BaseDAO<T> {
 	 * <p>Discription:[新增]</p>
 	 * Created on 2019年7月17日
 	 * @param t
-	 * @author:[崔春松]
+	 *
 	 */
 	public Integer add(@Param("entity") T t);
 
@@ -36,7 +36,7 @@ public interface BaseDAO<T> {
 	 * Created on 2019年7月17日
 	 * @param id
 	 * @return
-	 * @author:[崔春松]
+	 *
 	 */
 	public T queryById(Object id);
 
@@ -56,7 +56,7 @@ public interface BaseDAO<T> {
 	 * Created on2019年7月17日
 	 * @param t
 	 * @return
-	 * @author:[崔春松]
+	 *
 	 */
 	public Integer update(@Param("entity") T t);
 
@@ -65,7 +65,7 @@ public interface BaseDAO<T> {
 	 * Created on 2019年7月17日
 	 * @param t
 	 * @return
-	 * @author:[崔春松]
+	 *
 	 */
 	public Integer updateBySelect(@Param("entity") T t);
 
@@ -74,7 +74,7 @@ public interface BaseDAO<T> {
 	 * Created on 2019年7月17日
 	 * @param params
 	 * @return
-	 * @author:[崔春松]
+	 *
 	 */
 	public Integer delete(Map<String, Object> params);
 
@@ -83,7 +83,7 @@ public interface BaseDAO<T> {
 	 * Created on 2019年7月17日
 	 * @param t
 	 * @return
-	 * @author:[崔春松]
+	 *
 	 */
 	public Integer deleteByIdAndRoutingId(@Param("entity") T t);
 
@@ -92,7 +92,7 @@ public interface BaseDAO<T> {
 	 * Created on 2019年7月17日
 	 * @param params
 	 * @return
-	 * @author:[崔春松]
+	 *
 	 */
 	public Integer disableOrEnable(Map<String, Object> params);
 
