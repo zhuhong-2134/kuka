@@ -37,7 +37,7 @@ import java.util.List;
  * <p>Description: [应用请求控制层]</p>
  * Created on 2020/2/19
  *
- * @author <a href="mailto: xienan@camelotchina.com">谢楠</a>
+ *
  * @version 1.0
  * Copyright (c) 2020 北京柯莱特科技有限公司
  */
@@ -58,7 +58,7 @@ public class ApplicationRequestController extends BaseController {
      * Created on 2020/1/20
      * @param
      * @return com.camelot.kuka.model.common.PageResult
-     * @author 谢楠
+     *
      */
     @PostMapping("/apprequest/queryEnum")
     public PageResult queryEnum(){
@@ -76,7 +76,7 @@ public class ApplicationRequestController extends BaseController {
      * Created on 2020/1/20
      * @param req
      * @return com.camelot.kuka.model.common.PageResult
-     * @author 谢楠
+     *
      */
     @PostMapping("/apprequest/pageList")
     public PageResult<List<ApplicationRequestResp>> pageList(AppRequestPageReq req){
@@ -131,7 +131,7 @@ public class ApplicationRequestController extends BaseController {
      * Created on 2020/2/4
      * @param req
      * @return com.camelot.kuka.model.common.Result
-     * @author 谢楠
+     *
      */
     @PostMapping("/apprequest/queryById")
     public Result<ApplicationRequestResp> queryById(CommonReq req){
@@ -148,7 +148,7 @@ public class ApplicationRequestController extends BaseController {
      * Created on 2020/2/4
      * @param req
      * @return com.camelot.kuka.model.common.Result
-     * @author 谢楠
+     *
      */
     @PostMapping("/apprequest/updateStatus")
     public Result updateStatus(ApplicationRequestReq req){
@@ -169,7 +169,7 @@ public class ApplicationRequestController extends BaseController {
      * Created on 2020/2/4
      * @param req
      * @return com.camelot.kuka.model.common.Result
-     * @author 谢楠
+     *
      */
     @PostMapping("/apprequest/add")
     public Result addApprequest(CommonReq req){
@@ -190,7 +190,7 @@ public class ApplicationRequestController extends BaseController {
      * Created on 2020/2/4
      * @param req
      * @return com.camelot.kuka.model.common.Result
-     * @author 谢楠
+     *
      */
     @PostMapping("/apprequest/sendMail")
     public Result sendMail(CommonReq req){
@@ -211,7 +211,7 @@ public class ApplicationRequestController extends BaseController {
      * Created on 2020/2/4
      * @param req
      * @return com.camelot.kuka.model.common.Result
-     * @author 谢楠
+     *
      */
     @PostMapping("/apprequest/previewMessage")
     public Result<MessageResp> previewMessage(CommonReq req){

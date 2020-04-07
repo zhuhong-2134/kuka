@@ -16,7 +16,7 @@ import java.util.Locale;
  * <p>Description: [时间工具类]</p>
  * Created on 2019年8月7日
  *
- * @author <a href="mailto: cuichunsong@camelotchina.com">崔春松</a>
+ *
  * @version 1.0
  * Copyright (c) 2019 北京柯莱特科技有限公司
  */

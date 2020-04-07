@@ -35,7 +35,7 @@ import java.util.List;
  * <p>Description: [集成商请求控制层]</p>
  * Created on 2020/2/19
  *
- * @author <a href="mailto: xienan@camelotchina.com">谢楠</a>
+ *
  * @version 1.0
  * Copyright (c) 2020 北京柯莱特科技有限公司
  */
@@ -57,7 +57,7 @@ public class SupplierRequestController extends BaseController {
      * Created on 2020/1/20
      * @param
      * @return com.camelot.kuka.model.common.PageResult
-     * @author 谢楠
+     *
      */
     @PostMapping("/supplierequest/queryEnum")
     public PageResult queryEnum(){
@@ -74,7 +74,7 @@ public class SupplierRequestController extends BaseController {
      * Created on 2020/1/20
      * @param req
      * @return com.camelot.kuka.model.common.PageResult
-     * @author 谢楠
+     *
      */
     @PostMapping("/supplierequest/pageList")
     public PageResult<List<SupplierRequestResp>> pageList(SupplierRequestPageReq req){
@@ -125,7 +125,7 @@ public class SupplierRequestController extends BaseController {
      * Created on 2020/2/4
      * @param req
      * @return com.camelot.kuka.model.common.Result
-     * @author 谢楠
+     *
      */
     @PostMapping("/supplierequest/queryById")
     public Result<SupplierRequestResp> queryById(CommonReq req){
@@ -142,7 +142,7 @@ public class SupplierRequestController extends BaseController {
      * Created on 2020/2/4
      * @param req
      * @return com.camelot.kuka.model.common.Result
-     * @author 谢楠
+     *
      */
     @PostMapping("/supplierequest/updateStatus")
     public Result updateStatus(SupplierRequestReq req){
@@ -163,7 +163,7 @@ public class SupplierRequestController extends BaseController {
      * Created on 2020/2/4
      * @param req
      * @return com.camelot.kuka.model.common.Result
-     * @author 谢楠
+     *
      */
     @PostMapping("/supplierequest/add")
     public Result addSupplierequest(CommonReq req){
@@ -184,7 +184,7 @@ public class SupplierRequestController extends BaseController {
      * Created on 2020/2/4
      * @param req
      * @return com.camelot.kuka.model.common.Result
-     * @author 谢楠
+     *
      */
     @PostMapping("/supplierequest/sendMail")
     public Result sendMail(CommonReq req){
@@ -205,7 +205,7 @@ public class SupplierRequestController extends BaseController {
      * Created on 2020/2/4
      * @param req
      * @return com.camelot.kuka.model.common.Result
-     * @author 谢楠
+     *
      */
     @PostMapping("/supplierequest/previewMessage")
     public Result<MessageResp> previewMessage(CommonReq req){

@@ -23,7 +23,7 @@ import com.camelot.kuka.model.user.LoginAppUser;
 /**
  * aop实现日志
  *
- * @author 崔春松 cuichunsong@camelotchina.com
+ *
  */
 @Aspect
 public class LogAop {

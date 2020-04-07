@@ -3,7 +3,7 @@ package com.camelot.kuka.model.user.constants;
 /**
  * rabbitmq的exchange和routing key定义
  * 
- * @author 崔春松
+ *
  *
  */
 public interface UserCenterMq {

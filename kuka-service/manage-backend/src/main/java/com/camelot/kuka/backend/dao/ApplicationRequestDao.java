@@ -11,7 +11,7 @@ import java.util.List;
  * <p>Description: [应用请求用户DAO]</p>
  * Created on 2020/1/19
  *
- * @author <a href="mailto: xienan@camelotchina.com">谢楠</a>
+ *
  * @version 1.0
  * Copyright (c) 2020 北京柯莱特科技有限公司
  */
@@ -23,7 +23,7 @@ public interface ApplicationRequestDao {
      * Created on 2020/2/4
      * @param req
      * @return list
-     * @author 谢楠
+     *
      */
     List<ApplicationRequest> pageList(@Param("entity") AppRequestPageReq req);
 
@@ -32,7 +32,7 @@ public interface ApplicationRequestDao {
      * Created on 2020/2/4
      * @param query
      * @return ApplicationRequest
-     * @author 谢楠
+     *
      */
     ApplicationRequest queryInfo(@Param("entity") ApplicationRequest query);
 
@@ -41,7 +41,7 @@ public interface ApplicationRequestDao {
      * Created on 2020/2/4
      * @param list
      * @return int
-     * @author 谢楠
+     *
      */
     int addBatch(@Param("list")List<ApplicationRequest> list);
 
@@ -51,7 +51,7 @@ public interface ApplicationRequestDao {
      * Created on 2020/2/4
      * @param applicationRequest
      * @return int
-     * @author 谢楠
+     *
      */
     int update(ApplicationRequest applicationRequest);
 }

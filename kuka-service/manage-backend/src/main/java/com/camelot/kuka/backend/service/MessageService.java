@@ -10,7 +10,7 @@ import java.util.List;
  * <p>Description: [消息]</p>
  * Created on 2020/1/19
  *
- * @author <a href="mailto: xienan@camelotchina.com">谢楠</a>
+ *
  * @version 1.0
  * Copyright (c) 2020 北京柯莱特科技有限公司
  */
@@ -21,7 +21,7 @@ public interface MessageService {
      * Created on 2020/1/20
      * @param req
      * @return com.camelot.kuka.model.common.PageResult
-     * @author 谢楠
+     *
      */
     Result<List<MessageResp>> findList(MessageReq req);
 
@@ -31,7 +31,7 @@ public interface MessageService {
      * @param req
      * @param loginUserName
      * @return com.camelot.kuka.model.common.PageResult
-     * @author 谢楠
+     *
      */
     Result updateMessage(MessageReq req, String loginUserName);
 
@@ -42,7 +42,7 @@ public interface MessageService {
      * @param req
      * @param loginUserName
      * @return com.camelot.kuka.model.common.PageResult
-     * @author 谢楠
+     *
      */
     Result addMessage(MessageReq req, String loginUserName);
 
@@ -51,7 +51,7 @@ public interface MessageService {
      * Created on 2020/1/20
      * @param req
      * @return com.camelot.kuka.model.common.PageResult
-     * @author 谢楠
+     *
      */
     Result queryCount(MessageReq req);
 }

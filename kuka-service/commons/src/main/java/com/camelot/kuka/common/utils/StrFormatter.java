@@ -7,7 +7,7 @@ import com.camelot.kuka.common.utils.text.Convert;
 /**
  * 字符串格式化
  * 
- * @author xienan
+ *
  */
 public class StrFormatter
 {

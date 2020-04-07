@@ -14,7 +14,7 @@
 ///**
 // * 资源服务配置
 // *
-// * @author 崔春松
+// *
 // *
 // */
 //@EnableResourceServer

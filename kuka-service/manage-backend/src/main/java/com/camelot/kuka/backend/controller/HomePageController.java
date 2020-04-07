@@ -39,7 +39,7 @@ import java.util.List;
  * <p>Description: [首页控制层]</p>
  * Created on 2020/1/19
  *
- * @author <a href="mailto: xienan@camelotchina.com">谢楠</a>
+ *
  * @version 1.0
  * Copyright (c) 2020 北京柯莱特科技有限公司
  */
@@ -61,7 +61,7 @@ public class HomePageController extends BaseController {
      * Created on 2020/1/20
      * @param
      * @return com.camelot.kuka.model.common.Result
-     * @author 谢楠
+     *
      */
     @GetMapping("/home/appQuery")
     public Result<List<ApplicationResp>> appQuery(){
@@ -78,7 +78,7 @@ public class HomePageController extends BaseController {
      * Created on 2020/1/20
      * @param
      * @return com.camelot.kuka.model.common.PageResult
-     * @author 谢楠
+     *
      */
     @GetMapping("/home/supplierQuery")
     public Result<List<SupplierResp>> supplierQuery(){
@@ -95,7 +95,7 @@ public class HomePageController extends BaseController {
      * Created on 2020/1/20
      * @param req
      * @return com.camelot.kuka.model.common.PageResult
-     * @author 谢楠
+     *
      */
     @GetMapping("/home/appEnum")
     public PageResult appEnum(HomeAppPageReq req){
@@ -115,7 +115,7 @@ public class HomePageController extends BaseController {
      * Created on 2020/1/20
      * @param req
      * @return com.camelot.kuka.model.common.PageResult
-     * @author 谢楠
+     *
      */
     @PostMapping("/home/appPageList")
     public PageResult<List<ApplicationResp>> appPageList(HomeAppPageReq req) {
@@ -139,7 +139,7 @@ public class HomePageController extends BaseController {
      * Created on 2020/2/4
      * @param req
      * @return com.camelot.kuka.model.common.Result
-     * @author 谢楠
+     *
      */
     @PostMapping("/home/appById")
     public Result<QyeryUpdateResp> appById(CommonReq req) {
@@ -171,7 +171,7 @@ public class HomePageController extends BaseController {
      * Created on 2020/1/20
      * @param req
      * @return com.camelot.kuka.model.common.PageResult
-     * @author 谢楠
+     *
      */
     @GetMapping("/home/supplierEnum")
     public PageResult supplierEnum(HomeAppPageReq req){
@@ -192,7 +192,7 @@ public class HomePageController extends BaseController {
      * Created on 2020/1/20
      * @param req
      * @return com.camelot.kuka.model.common.PageResult
-     * @author 谢楠
+     *
      */
     @PostMapping("/home/supplierPageList")
     public PageResult<List<SupplierResp>> supplierPageList(HomeSupplierPageReq req){
@@ -217,7 +217,7 @@ public class HomePageController extends BaseController {
      * Created on 2020/1/20
      * @param req
      * @return com.camelot.kuka.model.common.Result
-     * @author 谢楠
+     *
      */
     @PostMapping("/home/supplierById")
     public Result<SupplierResp> supplierById(CommonReq req){

@@ -7,7 +7,7 @@ import java.util.Set;
 /**
  * 需要放开权限的url
  *
- * @author 崔春松
+ *
  */
 public final class PermitAllUrl {
 

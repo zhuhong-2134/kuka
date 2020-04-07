@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * <p>Description: [枚举工具类]</p>
  * Created on 2019年08月20日
- * @author <a href="mailto: hexiaobo@camelotchina.com">贺小波</a>
+ *
  * @version 1.0
  * Copyright (c) 2019 北京柯莱特科技有限公司
  */

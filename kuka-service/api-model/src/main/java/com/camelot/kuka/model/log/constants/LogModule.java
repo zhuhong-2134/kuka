@@ -7,7 +7,7 @@ import java.util.Map;
  * 日志模块定义<br>
  * 作废该类
  *
- * @author 崔春松
+ *
  */
 @Deprecated
 public abstract class LogModule {

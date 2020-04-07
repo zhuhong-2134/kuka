@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 /**
  *  应用图片表
- * @author xienan 2020-02-07
+ *   2020-02-07
  */
 @Data
 public class ApplicationImg implements Serializable {

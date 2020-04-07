@@ -21,7 +21,7 @@ import java.util.List;
  * <p>Description: [购物车控制层]</p>
  * Created on 2020/2/12
  *
- * @author <a href="mailto: xienan@camelotchina.com">谢楠</a>
+ *
  * @version 1.0
  * Copyright (c) 2020 北京柯莱特科技有限公司
  */
@@ -38,7 +38,7 @@ public class ShopCartController extends BaseController {
      * Created on 2020/1/20
      * @param
      * @return com.camelot.kuka.model.common.PageResult
-     * @author 谢楠
+     *
      */
     @GetMapping("/shopCart/queryList")
     public Result<List<ShopCartResp>> queryList(){
@@ -59,7 +59,7 @@ public class ShopCartController extends BaseController {
      * Created on 2020/1/20
      * @param
      * @return com.camelot.kuka.model.common.PageResult
-     * @author 谢楠
+     *
      */
     @PostMapping("/shopCart/add")
     public Result addShopCart(ShopCartReq req){
@@ -80,7 +80,7 @@ public class ShopCartController extends BaseController {
      * Created on 2020/1/20
      * @param
      * @return com.camelot.kuka.model.common.PageResult
-     * @author 谢楠
+     *
      */
     @PostMapping("/shopCart/update")
     public Result updateShopCart(ShopCartReq req){
@@ -101,7 +101,7 @@ public class ShopCartController extends BaseController {
      * Created on 2020/1/20
      * @param
      * @return com.camelot.kuka.model.common.PageResult
-     * @author 谢楠
+     *
      */
     @PostMapping("/shopCart/del")
     public Result delShopCart(CommonReq req){
@@ -122,7 +122,7 @@ public class ShopCartController extends BaseController {
      * Created on 2020/1/20
      * @param
      * @return com.camelot.kuka.model.common.PageResult
-     * @author 谢楠
+     *
      */
     @GetMapping("/shopCart/queryCount")
     public Result queryCount(){

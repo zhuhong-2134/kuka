@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 /**
  *  地区码表
- * @author 谢楠 2020-03-01
+ *    2020-03-01
  */
 @Data
 public class Address implements Serializable {

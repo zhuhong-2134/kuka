@@ -7,8 +7,6 @@ import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
 /**
  * 注册中心<br>
  * 访问地址 http://localhost:8761
- * 
- * @author 崔春松 cuichunsong@camelotchina.com
  *
  */
 @EnableEurekaServer

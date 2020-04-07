@@ -33,7 +33,7 @@ import java.util.Map;
 /**
  * 授权服务器配置
  *
- * @author 崔春松 cuichunsong@camelotchina.com
+
  */
 @Configuration
 @EnableAuthorizationServer

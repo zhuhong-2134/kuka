@@ -40,7 +40,7 @@ import java.util.*;
  * <p>Description: [用户信息]</p>
  * Created on 2020/2/5
  *
- * @author <a href="mailto: xienan@camelotchina.com">谢楠</a>
+ *
  * @version 1.0
  * Copyright (c) 2020 北京柯莱特科技有限公司
  */
@@ -437,6 +437,13 @@ public class SupplierServiceImpl implements SupplierService {
         if (!resultUser.isSuccess()) {
             return Result.error("删除集成商用户失败");
         }
+
+        // 删除集成商创建的用户
+        Application application = new Application();
+        application.setSupplierId(req.getId());
+        application.setDelState(DeleteEnum.YES);
+        // 可能集成商没有应用
+        applicationDao.updateApplicationBySupplier(application);
 
 
         // 删除集成商

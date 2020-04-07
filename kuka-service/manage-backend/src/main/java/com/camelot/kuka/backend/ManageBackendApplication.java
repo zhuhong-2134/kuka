@@ -8,8 +8,6 @@ import org.springframework.context.annotation.ComponentScan;
 
 /**
  * 管理后台
- * 
- * @author 崔春松 cuichunsong@camelotchina.com
  *
  */
 @EnableFeignClients

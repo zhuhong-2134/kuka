@@ -12,7 +12,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 /**
  * swagger文档
  * 
- * @author 崔春松 cuichunsong@camelotchina.com
+
  *
  */
 @Configuration

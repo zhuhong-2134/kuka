@@ -12,7 +12,7 @@ import java.util.List;
 
 /**
  * 邮件模板
- * @author 大老崔
+ *
  * @date 2020/02/17
  */
 public interface MailMouldService {

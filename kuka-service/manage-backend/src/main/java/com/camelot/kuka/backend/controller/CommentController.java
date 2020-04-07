@@ -28,7 +28,7 @@ import java.util.List;
  * <p>Description: [评论控制层]</p>
  * Created on 2020/1/19
  *
- * @author <a href="mailto: xienan@camelotchina.com">谢楠</a>
+ *
  * @version 1.0
  * Copyright (c) 2020 北京柯莱特科技有限公司
  */
@@ -45,7 +45,7 @@ public class CommentController extends BaseController {
      * Created on 2020/1/20
      * @param
      * @return com.camelot.kuka.model.common.PageResult
-     * @author 谢楠
+     *
      */
     @PostMapping("/comment/queryEnum")
     public PageResult queryEnum(){
@@ -61,7 +61,7 @@ public class CommentController extends BaseController {
      * Created on 2020/1/20
      * @param req
      * @return com.camelot.kuka.model.common.PageResult
-     * @author 谢楠
+     *
      */
     @PostMapping("/comment/pageList")
     public PageResult<List<CommentResp>> pageList(CommentPageReq req){
@@ -86,7 +86,7 @@ public class CommentController extends BaseController {
      * Created on 2020/2/4
      * @param req
      * @return com.camelot.kuka.model.common.Result
-     * @author 谢楠
+     *
      */
     @PostMapping("/comment/add")
     public Result addComment(CommentReq req){
@@ -107,7 +107,7 @@ public class CommentController extends BaseController {
      * Created on 2020/2/4
      * @param req
      * @return com.camelot.kuka.model.common.Result
-     * @author 谢楠
+     *
      */
     @PostMapping("/comment/del")
     public Result delComment(CommonReq req){
@@ -128,7 +128,7 @@ public class CommentController extends BaseController {
      * Created on 2020/2/4
      * @param req
      * @return com.camelot.kuka.model.common.Result
-     * @author 谢楠
+     *
      */
     @PostMapping("/comment/queryById")
     public Result<CommentResp> queryById(CommonReq req) {
@@ -145,7 +145,7 @@ public class CommentController extends BaseController {
      * Created on 2020/2/4
      * @param req
      * @return com.camelot.kuka.model.common.Result
-     * @author 谢楠
+     *
      */
     @PostMapping("/comment/toExamine")
     public Result toExamine(CommentReq req){

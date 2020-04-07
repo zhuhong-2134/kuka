@@ -15,7 +15,7 @@ import java.util.List;
  * <p>Description: [评论接口]</p>
  * Created on 2020/2/5
  *
- * @author <a href="mailto: xienan@camelotchina.com">谢楠</a>
+ *
  * @version 1.0
  * Copyright (c) 2020 北京柯莱特科技有限公司
  */
@@ -26,7 +26,7 @@ public interface CommentService {
      * Created on 2020/2/5
      * @param req
      * @return List<Comment>
-     * @author 谢楠
+     *
      */
     List<Comment> pageList(CommentPageReq req);
 
@@ -35,7 +35,7 @@ public interface CommentService {
      * Created on 2020/2/5
      * @param appId
      * @return List<Comment>
-     * @author 谢楠
+     *
      */
     List<Comment> queryByAppId(Long appId);
 
@@ -44,7 +44,7 @@ public interface CommentService {
      * Created on 2020/2/5
      * @param appId
      * @return List<Supplier>
-     * @author 谢楠
+     *
      */
     List<Comment> queryByOrderIds(@Param("array") Long[] appId);
 
@@ -53,7 +53,7 @@ public interface CommentService {
      * Created on 2020/2/5
      * @param req
      * @return List<Supplier>
-     * @author 谢楠
+     *
      */
     Result delComment(CommonReq req, String loginUserName);
 
@@ -62,7 +62,7 @@ public interface CommentService {
      * Created on 2020/2/5
      * @param req
      * @return List<Supplier>
-     * @author 谢楠
+     *
      */
     Result toExamine(CommentReq req, String loginUserName);
 
@@ -71,7 +71,7 @@ public interface CommentService {
      * Created on 2020/2/5
      * @param req
      * @return List<Supplier>
-     * @author 谢楠
+     *
      */
     Result<CommentResp> queryById(CommonReq req);
 
@@ -80,7 +80,7 @@ public interface CommentService {
      * Created on 2020/2/5
      * @param req
      * @return List<Supplier>
-     * @author 谢楠
+     *
      */
     Result addComment(CommentReq req, LoginAppUser loginUser);
 }

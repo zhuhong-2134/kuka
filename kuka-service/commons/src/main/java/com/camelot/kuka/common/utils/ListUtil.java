@@ -15,7 +15,7 @@ import java.util.Map;
  *
  * Created on 2018年1月5日
  *
- * @author <a href="mailto: cuichunsong@camelotchina.com">崔春松</a>
+ *
  * @version 1.0 Copyright (c) 2018 北京柯莱特科技有限公司
  */
 public class ListUtil {
@@ -29,7 +29,7 @@ public class ListUtil {
 	 * @param source
 	 * @param n
 	 * @return
-	 * @author:[崔春松]
+	 *
 	 */
 	public static <T> List<List<T>> averageAssign(List<T> source, int n) {
 		List<List<T>> result = new ArrayList<List<T>>();
@@ -62,7 +62,7 @@ public class ListUtil {
 	 * @param size
 	 *            指定的大小
 	 * @return
-	 * @author:[崔春松]
+	 *
 	 */
 	public static <T> List<List<T>> getSplitList(List<T> list, int size) {
 		List<List<T>> returnList = new ArrayList<List<T>>();
@@ -200,7 +200,7 @@ public class ListUtil {
 	* Created on
 	 * @param stringArray String数组
 	* @return LONG数组
-	* @author 崔春松
+	*
 	*/
 	public static Long[] StringArray2LongArray(String[] stringArray)
 	{

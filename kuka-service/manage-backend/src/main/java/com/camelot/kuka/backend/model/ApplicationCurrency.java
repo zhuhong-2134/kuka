@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 /**
  *  通用产品表
- * @author xienan 2020-02-07
+ *   2020-02-07
  */
 @Data
 public class ApplicationCurrency implements Serializable {

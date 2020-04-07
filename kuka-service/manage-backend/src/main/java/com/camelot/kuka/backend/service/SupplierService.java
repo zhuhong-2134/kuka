@@ -14,7 +14,7 @@ import java.util.List;
  * <p>Description: [供应商接口]</p>
  * Created on 2020/1/19
  *
- * @author <a href="mailto: xienan@camelotchina.com">谢楠</a>
+ *
  * @version 1.0
  * Copyright (c) 2020 北京柯莱特科技有限公司
  */
@@ -25,7 +25,7 @@ public interface SupplierService {
      * Created on 2020/2/5
      * @param req
      * @return List
-     * @author 谢楠
+     *
      */
     List<Supplier> pageList(SupplierPageReq req, LoginAppUser loginAppUser);
 
@@ -35,7 +35,7 @@ public interface SupplierService {
      * Created on 2020/2/5
      * @param req
      * @return List
-     * @author 谢楠
+     *
      */
     Result<List<SupplierResp>> queryList(SupplierPageReq req);
 
@@ -44,7 +44,7 @@ public interface SupplierService {
      * Created on 2020/2/5
      * @param req
      * @return Result
-     * @author 谢楠
+     *
      */
     Result addSupplier(SupplierReq req, String loginUserName);
 
@@ -53,7 +53,7 @@ public interface SupplierService {
      * Created on 2020/2/5
      * @param req
      * @return Result
-     * @author 谢楠
+     *
      */
     Result<SupplierResp> queryById(CommonReq req);
 
@@ -62,7 +62,7 @@ public interface SupplierService {
      * Created on 2020/2/5
      * @param req
      * @return Result
-     * @author 谢楠
+     *
      */
     Result updateSupplier(SupplierReq req, String loginUserName);
 
@@ -71,7 +71,7 @@ public interface SupplierService {
      * Created on 2020/2/5
      * @param req
      * @return Result
-     * @author 谢楠
+     *
      */
     Result delSupplier(CommonReq req, String loginUserName);
 
@@ -80,7 +80,7 @@ public interface SupplierService {
      * Created on 2020/1/20
      * @param loginUserName
      * @return Result
-     * @author 谢楠
+     *
      */
     Long[] queryLoginSupplierIds(String loginUserName);
 
@@ -89,7 +89,7 @@ public interface SupplierService {
      * Created on 2020/2/5
      * @param req
      * @return Result
-     * @author 谢楠
+     *
      */
     Result<SupplierResp> querySuppAndAppById(CommonReq req);
 
@@ -98,7 +98,7 @@ public interface SupplierService {
      * Created on 2020/1/20
      * @param userName
      * @return com.camelot.kuka.model.common.Result
-     * @author 谢楠
+     *
      */
     Result<SupplierResp> queryByCreateName(String userName);
 }

@@ -9,7 +9,7 @@ import java.util.Date;
 
 /**
  *  邮件模板
- * @author 大老崔 2020-02-17
+ *    2020-02-17
  */
 @Data
 public class MailMould implements Serializable {

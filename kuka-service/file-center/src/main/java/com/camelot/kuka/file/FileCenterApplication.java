@@ -6,8 +6,6 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 /**
  * 文件中心
- * 
- * @author 崔春松 cuichunsong@camelotchina.com
  *
  */
 @EnableDiscoveryClient

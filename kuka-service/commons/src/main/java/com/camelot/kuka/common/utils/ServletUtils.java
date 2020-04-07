@@ -14,7 +14,7 @@ import java.io.IOException;
 /**
  * 客户端工具类
  * 
- * @author xienan
+ *
  */
 public class ServletUtils
 {

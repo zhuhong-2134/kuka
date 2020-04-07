@@ -11,7 +11,7 @@ import java.util.List;
  * <p>Description: [菜单信息]</p>
  * Created on 2020/2/17
  *
- * @author <a href="mailto: xienan@camelotchina.com">谢楠</a>
+ *
  * @version 1.0
  * Copyright (c) 2020 北京柯莱特科技有限公司
  */
@@ -22,7 +22,7 @@ public interface MenuService {
      * Created on 2020/2/4
      * @param
      * @return com.camelot.kuka.model.common.Result
-     * @author 谢楠
+     *
      */
     Result<List<MenuTreeResp>> queryList(LoginAppUser loginAppUser);
 }

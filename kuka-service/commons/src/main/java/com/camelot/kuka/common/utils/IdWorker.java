@@ -21,7 +21,7 @@ import java.util.Date;
  * <p>
  * 64位ID (42(毫秒)+5(机器ID)+5(业务编码)+12(重复累加))
  * Created on 2019/11/26 
- * @author  <a href="mailto: cuichunsong@camelotchina.com">崔春松 </a>
+ *
  * @version 1.0
  * Copyright (c) 2019 北京柯莱特科技有限公司
  */

@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
  * <p>Description: [菜单信息]</p>
  * Created on 2020/2/17
  *
- * @author <a href="mailto: xienan@camelotchina.com">谢楠</a>
+ *
  * @version 1.0
  * Copyright (c) 2020 北京柯莱特科技有限公司
  */
@@ -80,7 +80,7 @@ public class MenuServiceImpl implements MenuService {
      * @param treeList
      * @param pid
      * @return java.util.List<com.fehorizon.commonService.model.saas.resp.SysOrgTreeResp>
-     * @author 谢楠
+     *
      */
     public List<MenuTreeResp> getOrgTree(List<MenuTreeResp> treeList, Long pid) {
         List<MenuTreeResp> result = new ArrayList<>();

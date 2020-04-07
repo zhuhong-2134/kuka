@@ -8,7 +8,7 @@ import java.util.Map;
  * <p>Description: [map工具类]</p >
  * Created on 2019年08月30日
  *
- * @author <a href="xienan@camelotchina.com">谢楠</a>
+ *
  * @version 1.0
  * Copyright (c) 2019 北京柯莱特科技有限公司
  */

@@ -3,7 +3,7 @@ package com.camelot.kuka.common.utils;
 /**
  * 通用常量信息
  * 
- * @author xienan
+ *
  */
 public class Constants
 {

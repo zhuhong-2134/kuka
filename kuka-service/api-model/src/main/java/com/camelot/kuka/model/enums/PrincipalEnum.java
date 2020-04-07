@@ -5,7 +5,7 @@ import java.util.EnumSet;
 /**
  * <p>Description: [生成主键KEY枚举类]</p>
  *
- * @author <a href="mailto: cuichunsong@camelotchina.com">谢楠</a>
+ *
  * @version 1.0
  * Copyright (c) 2019 北京柯莱特科技有限公司
  */

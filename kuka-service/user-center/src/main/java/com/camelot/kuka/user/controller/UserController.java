@@ -31,7 +31,7 @@ import java.util.List;
  * <p>Description: [用户信息]</p>
  * Created on 2020/1/19
  *
- * @author <a href="mailto: xienan@camelotchina.com">谢楠</a>
+ *
  * @version 1.0
  * Copyright (c) 2020 北京柯莱特科技有限公司
  */
@@ -136,7 +136,7 @@ public class UserController extends BaseController {
      * Created on 2020/1/20
      * @param
      * @return com.camelot.kuka.model.common.PageResult
-     * @author 谢楠
+     *
      */
     @PostMapping("/users/queryEnum")
     public PageResult queryEnum(){
@@ -155,7 +155,7 @@ public class UserController extends BaseController {
      * Created on 2020/1/20
      * @param req
      * @return com.camelot.kuka.model.common.PageResult
-     * @author 谢楠
+     *
      */
     @PostMapping("/users/pageList")
     public PageResult<List<UserResp>> pageList(UserPageReq req){
@@ -180,7 +180,7 @@ public class UserController extends BaseController {
      * Created on 2020/1/20
      * @param req
      * @return com.camelot.kuka.model.common.PageResult
-     * @author 谢楠
+     *
      */
     @PostMapping("/users/kuka/pageList")
     public PageResult<List<UserResp>> kukaPageList(UserPageReq req){
@@ -207,7 +207,7 @@ public class UserController extends BaseController {
      * Created on 2020/2/4
      * @param req
      * @return com.camelot.kuka.model.common.PageResult
-     * @author 谢楠
+     *
      */
     @PostMapping("/users/add")
     public Result addUser(UserReq req){
@@ -223,7 +223,7 @@ public class UserController extends BaseController {
      * Created on 2020/2/4
      * @param req
      * @return com.camelot.kuka.model.common.PageResult
-     * @author 谢楠
+     *
      */
     @PostMapping("/users/kuka/add")
     public Result kukaAddUser(UserReq req){
@@ -240,7 +240,7 @@ public class UserController extends BaseController {
      * Created on 2020/2/4
      * @param req
      * @return com.camelot.kuka.model.common.PageResult
-     * @author 谢楠
+     *
      */
     @PostMapping("/users/suppiler/add")
     public Result<Long> suppilerAddUser(@RequestBody UserReq req){
@@ -252,7 +252,7 @@ public class UserController extends BaseController {
      * Created on 2020/1/20
      * @param req
      * @return com.camelot.kuka.model.common.PageResult
-     * @author 谢楠
+     *
      */
     @PostMapping("/users/queryById")
     public Result<UserResp> queryById(CommonReq req){
@@ -266,7 +266,7 @@ public class UserController extends BaseController {
      * Created on 2020/2/4
      * @param req
      * @return com.camelot.kuka.model.common.PageResult
-     * @author 谢楠
+     *
      */
     @PostMapping("/users/update")
     public Result updateUser(UserReq req){
@@ -283,7 +283,7 @@ public class UserController extends BaseController {
      * Created on 2020/2/4
      * @param req
      * @return com.camelot.kuka.model.common.PageResult
-     * @author 谢楠
+     *
      */
     @PostMapping("/users/del")
     public Result delUser(CommonReq req){
@@ -299,7 +299,7 @@ public class UserController extends BaseController {
      * Created on 2020/2/4
      * @param req
      * @return com.camelot.kuka.model.common.PageResult
-     * @author 谢楠
+     *
      */
     @PostMapping("/users/updateStatus")
     public Result updateStatus(UserReq req){
@@ -314,7 +314,7 @@ public class UserController extends BaseController {
      * <p>Description:[获取来访所有数据]</p>
      * Created on 2020/1/20
      * @return com.camelot.kuka.model.common.PageResult
-     * @author 谢楠
+     *
      */
     @GetMapping("/users/queryByType")
     public Result<List<UserResp>> queryByType(){

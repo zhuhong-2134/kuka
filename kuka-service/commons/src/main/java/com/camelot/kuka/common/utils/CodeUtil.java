@@ -10,7 +10,7 @@ import java.util.Random;
  * <p>Description: [描述]</p >
  * Created on 2019年08月26日
  *
- * @author <a href="xienan@camelotchina.com">谢楠</a>
+ *
  * @version 1.0
  * Copyright (c) 2019 北京柯莱特科技有限公司
  */

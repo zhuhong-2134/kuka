@@ -4,7 +4,7 @@ package com.camelot.kuka.common.utils;
  * <p>Description: [经纬度计算两个点的之间的距离]</p >
  * Created on 2019年09月09日
  *
- * @author <a href="xienan@camelotchina.com">谢楠</a>
+ *
  * @version 1.0
  * Copyright (c) 2019 北京柯莱特科技有限公司
  */

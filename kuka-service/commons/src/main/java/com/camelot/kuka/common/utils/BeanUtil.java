@@ -14,7 +14,7 @@ import java.util.Map;
 /**
  * <p>Description: [对象操作类]</p>
  * Created on 2019/11/20
- * @author <a href="mailto: hexiaobo@camelotchina.com">贺小波</a>
+ *
  * @version 1.0
  * Copyright (c) 2019 北京柯莱特科技有限公司
  **/
@@ -26,7 +26,7 @@ public abstract class BeanUtil {
      * @param objSource 源对象
      * @param clazz     目标class
      * @return T
-     * @author 贺小波
+     *
      */
     public static <T> T copyProperties(Object objSource, Class<T> clazz) {
         if (null == objSource) {
@@ -57,7 +57,7 @@ public abstract class BeanUtil {
      * @param clazz        目标class
      * @param attributeMap 属性指定关系MAP-若为空默认为同名属性
      * @return T
-     * @author 贺小波
+     *
      */
     public static <T> T copyProperties(Object objSource, Class<T> clazz, Map<String, String> attributeMap) {
         if (attributeMap == null || attributeMap.size() == 0) {
@@ -90,7 +90,7 @@ public abstract class BeanUtil {
      * @param objSource 源对象
      * @param clazz     目标对象
      * @return 转换结果
-     * @author 崔春松
+     *
      */
     public static <T> T copyBean(Object objSource, Class<T> clazz) {
         if (null == objSource) {
@@ -115,7 +115,7 @@ public abstract class BeanUtil {
      * @param objSource 源list
      * @param clazz     目标class
      * @return java.util.List<T>
-     * @author 贺小波
+     *
      */
     public static <T, E> List<T> copyList(List<E> objSource, Class<T> clazz) {
         if (null == objSource) {
@@ -135,7 +135,7 @@ public abstract class BeanUtil {
      * @param clazz        目标class
      * @param attributeMap 属性指定关系MAP-若为空默认为同名属性
      * @return java.util.List<T>
-     * @author 贺小波
+     *
      */
     public static <T, E> List<T> copyList(List<E> objSource, Class<T> clazz, Map<String, String> attributeMap) {
         if (attributeMap == null || attributeMap.size() == 0) {
@@ -157,7 +157,7 @@ public abstract class BeanUtil {
      * @param objSource 源list
      * @param clazz     目标list
      * @return 转换结果
-     * @author 崔春松
+     *
      */
     public static <T, E> List<T> copyBeanList(List<E> objSource, Class<T> clazz) {
         if (null == objSource) {
@@ -180,7 +180,7 @@ public abstract class BeanUtil {
      * @param method       方法集
      * @param attributeMap
      * @return void
-     * @author 贺小波
+     *
      */
     private static <T> void assignment(Object objSource, Class clazz, T objDes, Field[] fields, Method[] method, Map<String, String> attributeMap) {
         Map<String, String> filterMap = new HashMap<>(fields.length);
@@ -212,7 +212,7 @@ public abstract class BeanUtil {
      * @param objSource            源
      * @param objDes               目标
      * @return void
-     * @author 贺小波
+     *
      */
     private static <T> void assignment(Method[] method, String attributeName, String appointAttributeName, Field field, Class clazz, Object objSource, T objDes) {
         try {
@@ -242,7 +242,7 @@ public abstract class BeanUtil {
      * @param fields    属性集
      * @param method    方法集
      * @return void
-     * @author 贺小波
+     *
      */
     private static <T> void assignment(Object objSource, Class clazz, T objDes, Field[] fields, Method[] method) {
         for (Field field : fields) {
@@ -257,7 +257,7 @@ public abstract class BeanUtil {
      * @param method    方法集
      * @param attribute 属性
      * @return boolean
-     * @author 贺小波
+     *
      */
     private static boolean checkMethod(Method[] method, String attribute) {
         boolean flag = false;
@@ -280,7 +280,7 @@ public abstract class BeanUtil {
      * Created on 2019/9/20
      * @param attribute 目标字符串
      * @return java.lang.String
-     * @author 贺小波
+     *
      */
     private static String caseInitials(String attribute) {
         if (null == attribute) {
@@ -296,7 +296,7 @@ public abstract class BeanUtil {
      * Created on 2019/11/20
      * @param value 目标字符串
      * @return boolean
-     * @author 贺小波
+     *
      */
     private static boolean isnull(String value) {
         int strLen;

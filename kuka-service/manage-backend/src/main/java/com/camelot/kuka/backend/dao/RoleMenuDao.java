@@ -14,7 +14,7 @@ import com.camelot.kuka.backend.model.Menu;
  * 角色菜单关系<br>
  * 角色和菜单是多对多关系，role_menu是中间表
  *
- * @author 崔春松
+ *
  */
 @Mapper
 public interface RoleMenuDao {

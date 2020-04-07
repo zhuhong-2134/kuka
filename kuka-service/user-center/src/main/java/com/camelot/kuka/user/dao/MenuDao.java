@@ -10,7 +10,7 @@ import java.util.List;
  * <p>Description: [菜单DAO]</p>
  * Created on 2020/1/19
  *
- * @author <a href="mailto: xienan@camelotchina.com">谢楠</a>
+ *
  * @version 1.0
  * Copyright (c) 2020 北京柯莱特科技有限公司
  */
@@ -22,7 +22,7 @@ public interface MenuDao {
      * Created on 2020/1/19
      * @param query
      * @return List<Role>
-     * @author 谢楠
+     *
      */
     List<Menu> pageList();
 
@@ -31,7 +31,7 @@ public interface MenuDao {
      * Created on 2020/1/19
      * @param
      * @return List<Role>
-     * @author 谢楠
+     *
      */
     List<Menu> queryList(@Param("entity") Menu menuQuer);
 
@@ -40,7 +40,7 @@ public interface MenuDao {
      * Created on 2020/1/19
      * @param list
      * @return int
-     * @author 谢楠
+     *
      */
     int addBatch(@Param("list") List<Menu> list);
 
@@ -49,7 +49,7 @@ public interface MenuDao {
      * Created on 2020/1/19
      * @param menu
      * @return int
-     * @author 谢楠
+     *
      */
     int update(Menu menu);
 }

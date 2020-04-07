@@ -11,7 +11,7 @@ import java.util.List;
  * <p>Description: [订单接口]</p>
  * Created on 2020/1/19
  *
- * @author <a href="mailto: xienan@camelotchina.com">谢楠</a>
+ *
  * @version 1.0
  * Copyright (c) 2020 北京柯莱特科技有限公司
  */
@@ -23,7 +23,7 @@ public interface OrderDao {
      * Created on 2020/2/5
      * @param req
      * @return List
-     * @author 谢楠
+     *
      */
     List<Order> pageList(@Param("entity") OrderPageReq req);
 
@@ -32,7 +32,7 @@ public interface OrderDao {
      * Created on 2020/2/5
      * @param req
      * @return List
-     * @author 谢楠
+     *
      */
     List<Order> supplierPageList(@Param("entity")OrderPageReq req);
 
@@ -41,7 +41,7 @@ public interface OrderDao {
      * Created on 2020/2/5
      * @param req
      * @return List
-     * @author 谢楠
+     *
      */
     List<Order> visitorPageList(@Param("entity")OrderPageReq req);
 
@@ -50,7 +50,7 @@ public interface OrderDao {
      * Created on 2020/2/5
      * @param query
      * @return List
-     * @author 谢楠
+     *
      */
     Order queryById(@Param("entity")Order query);
 
@@ -59,7 +59,7 @@ public interface OrderDao {
      * Created on 2020/2/5
      * @param order
      * @return int
-     * @author 谢楠
+     *
      */
     int update(Order order);
 
@@ -68,7 +68,7 @@ public interface OrderDao {
      * Created on 2020/2/5
      * @param ids
      * @return List
-     * @author 谢楠
+     *
      */
     List<Order> queryByIds(@Param("array")Long[] ids);
 
@@ -77,7 +77,7 @@ public interface OrderDao {
      * Created on 2020/2/5
      * @param list
      * @return List
-     * @author 谢楠
+     *
      */
     int addBatch(@Param("list") List<Order> list);
 }

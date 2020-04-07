@@ -141,7 +141,7 @@ public class PayController extends BaseController {
         body.setOrderNote(note);//商品描述
         body.setBackNotifyUrl(BocPayConfig.notify_url);//异步通知URL
         body.setFrontNotifyUrl(BocPayConfig.return_url);//前端通知URL
-        body.setCloseTime(Long.parseLong(DateUtils.dateToStr(DateUtils.addDate(new Date(), 0,1), "yyyyMMddHHmmss")));//订单关闭时间
+        body.setCloseTime(Long.parseLong(DateUtils.dateToStr(DateUtils.addDate(new Date(), 1,1), "yyyyMMddHHmmss")));//订单关闭时间
         request.setBody(body);
         String xml = XmlUtils.converToXml(request, "UTF-8");
         log.info("格式化的xml值：{}", xml);

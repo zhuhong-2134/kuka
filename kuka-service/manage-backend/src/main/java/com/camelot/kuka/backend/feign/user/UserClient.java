@@ -17,7 +17,7 @@ import java.util.Map;
  * <p>Description: [用户信息feign]</p>
  * Created on 2020/2/5
  *
- * @author <a href="mailto: xienan@camelotchina.com">谢楠</a>
+ *
  * @version 1.0
  * Copyright (c) 2020 北京柯莱特科技有限公司
  */
@@ -29,7 +29,7 @@ public interface UserClient {
      * Created on 2020/1/20
      * @param id
      * @return com.camelot.kuka.model.common.Result
-     * @author 谢楠
+     *
      */
     @GetMapping(value = "/users/client/queryById")
     public Result<UserResp> clientById(@RequestParam("id") Long id);
@@ -55,7 +55,7 @@ public interface UserClient {
      * Created on 2020/1/20
      * @param ids
      * @return com.camelot.kuka.model.common.Result
-     * @author 谢楠
+     *
      */
     @GetMapping(value = "/users/client/queryByIds", params = "ids")
     Result<List<UserResp>> queryByIds(@RequestParam("ids") Long[] ids);
@@ -65,7 +65,7 @@ public interface UserClient {
      * Created on 2020/1/20
      * @param userName
      * @return com.camelot.kuka.model.common.Result
-     * @author 谢楠
+     *
      */
     @GetMapping(value = "/users/client/queryByUserName")
     Result<UserResp> queryByUserName(@RequestParam("userName") String userName);
@@ -83,7 +83,7 @@ public interface UserClient {
      * Created on 2020/1/20
      * @param req
      * @return com.camelot.kuka.model.common.Result
-     * @author 谢楠
+     *
      */
     @PostMapping("/users/client/update")
     Result clientUpdate(@RequestBody UserReq req);
@@ -93,7 +93,7 @@ public interface UserClient {
      * Created on 2020/2/4
      * @param codes
      * @return key code value 名称
-     * @author 谢楠
+     *
      */
     @PostMapping("/address/queryAddressMap")
     Result<Map<String, String>> queryAddressMap(@RequestBody List<String> codes);
@@ -103,7 +103,7 @@ public interface UserClient {
      * Created on 2020/2/4
      * @param req
      * @return com.camelot.kuka.model.common.PageResult
-     * @author 谢楠
+     *
      */
     @PostMapping("/users/suppiler/add")
     Result<Long> suppilerAddUser(@RequestBody UserReq req);

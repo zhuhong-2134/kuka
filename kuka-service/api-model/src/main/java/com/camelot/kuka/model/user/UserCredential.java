@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 /**
  * 用户账号类型
  * 
- * @author 崔春松
+ *
  *
  */
 @Data

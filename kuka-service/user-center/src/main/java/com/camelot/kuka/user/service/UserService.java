@@ -14,7 +14,7 @@ import java.util.List;
  * <p>Description: [用户信息]</p>
  * Created on 2020/1/19
  *
- * @author <a href="mailto: xienan@camelotchina.com">谢楠</a>
+ *
  * @version 1.0
  * Copyright (c) 2020 北京柯莱特科技有限公司
  */
@@ -25,7 +25,7 @@ public interface UserService {
 	 * Created on 2020/1/19
 	 * @param username
 	 * @return com.camelot.kuka.model.user.LoginAppUser
-	 * @author 谢楠
+	 *
 	 */
 	LoginAppUser findByUsername(String username);
 
@@ -43,7 +43,7 @@ public interface UserService {
 	 * Created on 2020/2/4
 	 * @param req
 	 * @return List
-	 * @author 谢楠
+	 *
 	 */
 	List<User> pageList(UserPageReq req);
 
@@ -52,7 +52,7 @@ public interface UserService {
 	 * Created on 2020/2/4
 	 * @param req
 	 * @return Result
-	 * @author 谢楠
+	 *
 	 */
 	Result addUser(UserReq req, String loginUserName);
 
@@ -61,7 +61,7 @@ public interface UserService {
 	 * Created on 2020/2/4
 	 * @param req
 	 * @return Result
-	 * @author 谢楠
+	 *
 	 */
 	Result kukaAddUser(UserReq req, String loginUserName);
 
@@ -70,7 +70,7 @@ public interface UserService {
 	 * Created on 2020/2/4
 	 * @param req
 	 * @return Result
-	 * @author 谢楠
+	 *
 	 */
 	Result visitorAddUser(UserReq req);
 
@@ -86,7 +86,7 @@ public interface UserService {
 	 * Created on 2020/2/4
 	 * @param req
 	 * @return Result
-	 * @author 谢楠
+	 *
 	 */
 	Result updateUser(UserReq req, String loginUserName);
 
@@ -95,7 +95,7 @@ public interface UserService {
 	 * Created on 2020/2/4
 	 * @param req
 	 * @return Result
-	 * @author 谢楠
+	 *
 	 */
 	Result delUser(CommonReq req, String loginUserName);
 
@@ -104,7 +104,7 @@ public interface UserService {
 	 * Created on 2020/2/4
 	 * @param req
 	 * @return Result
-	 * @author 谢楠
+	 *
 	 */
 	Result updatePassWord(UserReq req, String loginUserName);
 
@@ -113,7 +113,7 @@ public interface UserService {
 	 * Created on 2020/2/4
 	 * @param req
 	 * @return com.camelot.kuka.model.common.PageResult
-	 * @author 谢楠
+	 *
 	 */
     Result sendMail(UserReq req);
 
@@ -122,7 +122,7 @@ public interface UserService {
 	 * Created on 2020/2/4
 	 * @param req
 	 * @return com.camelot.kuka.model.common.PageResult
-	 * @author 谢楠
+	 *
 	 */
     Result passwordByMail(UserReq req);
 
@@ -130,7 +130,7 @@ public interface UserService {
 	 * <p>Description:[获取来发展所有数据]</p>
 	 * Created on 2020/1/20
 	 * @return com.camelot.kuka.model.common.PageResult
-	 * @author 谢楠
+	 *
 	 */
 	Result<List<UserResp>> queryByType();
 
@@ -138,7 +138,7 @@ public interface UserService {
 	 * <p>Description:[根据用户名获取]</p>
 	 * Created on 2020/1/20
 	 * @return com.camelot.kuka.model.common.PageResult
-	 * @author 谢楠
+	 *
 	 */
     Result<UserResp> queryByUserName(String userName);
 
@@ -153,7 +153,7 @@ public interface UserService {
 	 * <p>Description:[根据用户名获取]</p>
 	 * Created on 2020/1/20
 	 * @return com.camelot.kuka.model.common.PageResult
-	 * @author 谢楠
+	 *
 	 */
 	Result<List<UserResp>> queryByIds(Long[] ids);
 
@@ -161,7 +161,7 @@ public interface UserService {
 	 * <p>Description:[邮箱或手机号查询]</p>
 	 * Created on 2020/1/20
 	 * @return com.camelot.kuka.model.common.PageResult
-	 * @author 谢楠
+	 *
 	 */
 	Result<UserResp> phoneOrMali(UserReq req);
 
@@ -169,7 +169,7 @@ public interface UserService {
 	 * <p>Description:[新增集成商用户]</p>
 	 * Created on 2020/1/20
 	 * @return com.camelot.kuka.model.common.PageResult
-	 * @author 谢楠
+	 *
 	 */
 	Result<Long> suppilerAddUser(UserReq req);
 
@@ -177,7 +177,7 @@ public interface UserService {
 	 * <p>Description:[获取列表数据]</p>
 	 * Created on 2020/1/20
 	 * @return com.camelot.kuka.model.common.PageResult
-	 * @author 谢楠
+	 *
 	 */
     Result<List<UserResp>> queryByInfo(UserReq userReq);
 }

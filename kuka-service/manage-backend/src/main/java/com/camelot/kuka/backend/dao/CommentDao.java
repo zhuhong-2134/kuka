@@ -12,7 +12,7 @@ import java.util.List;
  * <p>Description: [评论dao]</p>
  * Created on 2020/1/19
  *
- * @author <a href="mailto: xienan@camelotchina.com">谢楠</a>
+ *
  * @version 1.0
  * Copyright (c) 2020 北京柯莱特科技有限公司
  */
@@ -24,7 +24,7 @@ public interface CommentDao {
      * Created on 2020/2/5
      * @param orderIds
      * @return List<Supplier>
-     * @author 谢楠
+     *
      */
     List<Comment> queryByOrderIds(@Param("array")Long[] orderIds);
 
@@ -33,7 +33,7 @@ public interface CommentDao {
      * Created on 2020/2/5
      * @param appId
      * @return List<Supplier>
-     * @author 谢楠
+     *
      */
     List<Comment> queryByAppId(@Param("appId") Long appId);
 
@@ -42,7 +42,7 @@ public interface CommentDao {
      * Created on 2020/2/5
      * @param comment
      * @return int
-     * @author 谢楠
+     *
      */
     int update(Comment comment);
 
@@ -51,7 +51,7 @@ public interface CommentDao {
      * Created on 2020/2/5
      * @param req
      * @return int
-     * @author 谢楠
+     *
      */
     List<Comment> pageList(@Param("entity") CommentPageReq req);
 
@@ -60,7 +60,7 @@ public interface CommentDao {
      * Created on 2020/2/5
      * @param query
      * @return int
-     * @author 谢楠
+     *
      */
     Comment queryInfo(@Param("entity")Comment query);
 
@@ -69,7 +69,7 @@ public interface CommentDao {
      * Created on 2020/2/5
      * @param list
      * @return int
-     * @author 谢楠
+     *
      */
     int addBatch(@Param("list") List<Comment> list);
 
@@ -78,7 +78,7 @@ public interface CommentDao {
      * Created on 2020/2/5
      * @param req
      * @return int
-     * @author 谢楠
+     *
      */
     List<Comment> queryList(@Param("entity") Comment req);
 }

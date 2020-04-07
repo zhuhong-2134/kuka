@@ -9,7 +9,7 @@ import java.text.DecimalFormat;
  * </p>
  * Created on 2019-09-05
  *
- * @author <a href="mailto: wangxingke@camelotchina.com">xienan</a>
+ *
  * @version 1.0 Copyright (c) 2019 北京柯莱特科技有限公司
  */
 public class NumberUtil {

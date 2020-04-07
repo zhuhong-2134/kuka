@@ -16,8 +16,6 @@ import org.springframework.stereotype.Service;
 
 /**
  * redis存储授权码
- * 
- * @author 崔春松 cuichunsong@camelotchina.com
  *
  */
 @Service

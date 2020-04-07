@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 /**
  *  角色菜单中间表
- * @author xienan 2020-02-17
+ *   2020-02-17
  */
 @Data
 public class RoleMenu implements Serializable {

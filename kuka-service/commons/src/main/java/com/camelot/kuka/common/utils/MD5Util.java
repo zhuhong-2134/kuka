@@ -9,7 +9,7 @@ import java.security.NoSuchAlgorithmException;
  * </p>
  * Created on 2019-09-05
  *
- * @author <a href="mailto: wangxingke@camelotchina.com">王兴科</a>
+ *
  * @version 1.0 Copyright (c) 2019 北京柯莱特科技有限公司
  */
 public class MD5Util {

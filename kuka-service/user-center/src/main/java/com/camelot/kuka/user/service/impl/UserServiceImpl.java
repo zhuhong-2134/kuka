@@ -35,7 +35,7 @@ import java.util.*;
  * <p>Description: [类功能描述]</p>
  * Created on 2020/1/19
  *
- * @author <a href="mailto: xienan@camelotchina.com">谢楠</a>
+ *
  * @version 1.0
  * Copyright (c) 2020 北京柯莱特科技有限公司
  */
@@ -122,6 +122,9 @@ public class UserServiceImpl implements UserService {
         }
         if(user.getSource()==null){//如果用户来源为空设置为后台创建
             user.setSource(CreateSourceEnum.BACKSTAGE);
+        }
+        if(user.getRoleId()==null){//如果角色为空则设置为3
+            user.setRoleId(3L);
         }
         // 默认的用户头像
         if (StringUtils.isBlank(user.getPhotoUrl())) {

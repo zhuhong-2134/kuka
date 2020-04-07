@@ -11,7 +11,7 @@ import java.util.List;
  * <p>Description: [角色DAO]</p>
  * Created on 2020/1/19
  *
- * @author <a href="mailto: xienan@camelotchina.com">谢楠</a>
+ *
  * @version 1.0
  * Copyright (c) 2020 北京柯莱特科技有限公司
  */
@@ -23,7 +23,7 @@ public interface RoleDao {
      * Created on 2020/1/19
      * @param req
      * @return List<Role>
-     * @author 谢楠
+     *
      */
     List<Role> pageList(@Param("entity") RolePageReq req);
 
@@ -32,7 +32,7 @@ public interface RoleDao {
      * Created on 2020/1/19
      * @param query
      * @return List<Role>
-     * @author 谢楠
+     *
      */
     List<Role> findList(@Param("entity") Role query);
 
@@ -41,7 +41,7 @@ public interface RoleDao {
      * Created on 2020/1/19
      * @param list
      * @return int
-     * @author 谢楠
+     *
      */
     int addBatch(@Param("list") List<Role> list);
 
@@ -50,7 +50,7 @@ public interface RoleDao {
      * Created on 2020/1/19
      * @param role)
      * @return int
-     * @author 谢楠
+     *
      */
     int update(Role role);
 
@@ -59,7 +59,7 @@ public interface RoleDao {
      * Created on 2020/1/19
      * @param id
      * @return int
-     * @author 谢楠
+     *
      */
     Role qeuryById(@Param("id") Long id);
 
@@ -68,7 +68,7 @@ public interface RoleDao {
      * Created on 2020/1/19
      * @param id
      * @return int
-     * @author 谢楠
+     *
      */
     List<Role> qeuryByIds(@Param("array") Long[] ids);
 }

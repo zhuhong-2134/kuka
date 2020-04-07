@@ -9,7 +9,7 @@ import java.util.Date;
 
 /**
  *  购物车
- * @author 谢楠 2020-03-02
+ *    2020-03-02
  */
 @Data
 public class ShopCartResp implements Serializable {
