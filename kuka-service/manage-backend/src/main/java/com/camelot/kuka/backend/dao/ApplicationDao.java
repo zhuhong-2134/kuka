@@ -82,7 +82,6 @@ public interface ApplicationDao {
      */
     int update(Application application);
 
-
     /***
      * <p>Description:[首页获取]</p>
      * Created on 2020/2/5
@@ -109,4 +108,13 @@ public interface ApplicationDao {
      *
      */
     int updateApplicationNum(Application application);
+
+    /***
+     * <p>Description:[根据集成商ID修改删除状态]</p>
+     * Created on 2020/2/5
+     * @param application
+     * @return int
+     *
+     */
+    int updateApplicationBySupplier(Application application);
 }

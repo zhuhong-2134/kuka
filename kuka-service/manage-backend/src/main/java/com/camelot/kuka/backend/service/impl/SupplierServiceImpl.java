@@ -438,6 +438,13 @@ public class SupplierServiceImpl implements SupplierService {
             return Result.error("删除集成商用户失败");
         }
 
+        // 删除集成商创建的用户
+        Application application = new Application();
+        application.setSupplierId(req.getId());
+        application.setDelState(DeleteEnum.YES);
+        // 可能集成商没有应用
+        applicationDao.updateApplicationBySupplier(application);
+
 
         // 删除集成商
         Supplier supplier = new Supplier();

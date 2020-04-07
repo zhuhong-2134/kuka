@@ -442,4 +442,13 @@
 			trade_count = trade_count + #{tradeCount}
 		WHERE id = #{id}
 	</update>
+
+	<update id="updateApplicationBySupplier">
+		UPDATE
+			t_application
+		SET
+			del_state = #{delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
+		WHERE
+			supplier_id = #{supplierId}
+	</update>
 </mapper>
