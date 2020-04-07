@@ -123,6 +123,9 @@ public class UserServiceImpl implements UserService {
         if(user.getSource()==null){//如果用户来源为空设置为后台创建
             user.setSource(CreateSourceEnum.BACKSTAGE);
         }
+        if(user.getRoleId()==null){//如果角色为空则设置为3
+            user.setRoleId(3L);
+        }
         // 默认的用户头像
         if (StringUtils.isBlank(user.getPhotoUrl())) {
             user.setPhotoUrl("http://www.kukaplus.com/static/imgs/zhuce.jpg");
