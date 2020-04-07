@@ -126,6 +126,10 @@ public class ApplicationController extends BaseController {
             // 开启分页
             startPage();
             // 返回分页
+            if(null == req){
+                req = new AppPageReq();
+            }
+            req.setAppStatus(AppStatusEnum.YES);
             List<Application> application = applicationService.queryList(req, loginAppUser);
             PageResult<List<ApplicationResp>> page = getPage(application, ApplicationResp.class);
             page.putEnumVal("classTypeEnum", EnumVal.getEnumList(AppTypeEnum.class));
