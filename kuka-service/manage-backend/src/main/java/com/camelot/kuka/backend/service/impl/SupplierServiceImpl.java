@@ -442,6 +442,8 @@ public class SupplierServiceImpl implements SupplierService {
         Application application = new Application();
         application.setSupplierId(req.getId());
         application.setDelState(DeleteEnum.YES);
+        application.setUpdateBy(loginUserName);
+        application.setUpdateTime(new Date());
         // 可能集成商没有应用
         applicationDao.updateApplicationBySupplier(application);
 

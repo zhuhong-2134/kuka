@@ -448,6 +448,8 @@
 			t_application
 		SET
 			del_state = #{delState, typeHandler=com.camelot.kuka.common.mybatis.handler.EnumTypeHandler},
+			update_time = #{updateTime},
+			update_by = #{updateBy}
 		WHERE
 			supplier_id = #{supplierId}
 	</update>
