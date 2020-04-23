@@ -46,6 +46,11 @@ spring:
     enabled: true
     sender:
       type: web
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+
+
 mybatis:
   type-aliases-package: com.camelot.kuka.model.user
   mapper-locations: classpath:/mybatis-mappers/*

@@ -21,6 +21,7 @@ import com.camelot.kuka.user.service.RoleService;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -84,6 +85,7 @@ public class RoleController extends BaseController {
             return PageResult.error("网络异常, 请稍后再试");
         }
     }
+
 
     /***
      * <p>Description:[列表查询]</p>

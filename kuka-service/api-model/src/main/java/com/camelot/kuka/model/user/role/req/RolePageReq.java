@@ -1,6 +1,6 @@
 package com.camelot.kuka.model.user.role.req;
 
-import com.camelot.kuka.model.enums.DeleteEnum;
+import com.camelot.kuka.model.common.PageDomain;
 import com.camelot.kuka.model.enums.user.role.RolePageEnum;
 import lombok.Data;
 
@@ -16,7 +16,7 @@ import java.util.Date;
  * Copyright (c) 2020 北京柯莱特科技有限公司
  */
 @Data
-public class RolePageReq implements Serializable {
+public class RolePageReq extends PageDomain implements Serializable {
 
 	private static final long serialVersionUID = -8359193017155677693L;
 
