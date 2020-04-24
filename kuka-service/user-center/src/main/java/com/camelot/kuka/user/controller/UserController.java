@@ -1,5 +1,8 @@
 package com.camelot.kuka.user.controller;
 
+import com.alicp.jetcache.Cache;
+import com.alicp.jetcache.anno.CacheType;
+import com.alicp.jetcache.anno.CreateCache;
 import com.camelot.kuka.common.controller.BaseController;
 import com.camelot.kuka.common.utils.AppUserUtil;
 import com.camelot.kuka.model.common.CommonReq;
@@ -16,6 +19,7 @@ import com.camelot.kuka.model.user.LoginAppUser;
 import com.camelot.kuka.model.user.req.UserPageReq;
 import com.camelot.kuka.model.user.req.UserReq;
 import com.camelot.kuka.model.user.resp.UserResp;
+import com.camelot.kuka.user.model.User;
 import com.camelot.kuka.user.service.UserService;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +29,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -323,5 +328,39 @@ public class UserController extends BaseController {
             user.setUserName(user.getName());
         });
         return listResult;
+    }
+
+
+    /**
+     * 远程缓存
+     */
+    @CreateCache(name = "user:remote:jetCache", expire = 60, cacheType = CacheType.REMOTE)
+    private Cache<String, User> userRemoteCache;
+    /***
+     * <p>Description:[远程缓存]</p>
+     * Created on 2019/12/5
+     * @param userName
+     * @return com.xiaonan.common.Result<com.xiaonan.user.entity.User>
+     * @author 谢楠
+     */
+    @PostMapping("get/remoteJetCache")
+    public Result<User> remoteJetCache(String userName) {
+        User user = userRemoteCache.get(userName);
+        if (null == user) {
+            log.info("\n 远程缓存失效, 重新获取, userName = {}", userName);
+            user = setUser(userName);
+            userRemoteCache.put(userName, user);
+            return Result.success(user);
+        }
+        log.info("\n 远程缓存, 获取, userName = {}", userName);
+        return Result.success(user);
+    }
+
+    private User setUser(String userName) {
+        User u = new User();
+        u.setUserName(userName);
+        u.setPassword("123456");
+        u.setCreateTime(new Date());
+        return u;
     }
 }

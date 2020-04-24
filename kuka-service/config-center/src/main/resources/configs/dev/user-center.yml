@@ -50,6 +50,28 @@ spring:
     time-zone: GMT+8
     date-format: yyyy-MM-dd HH:mm:ss
 
+jetcache:
+  statIntervalMinutes: 1 #统计间隔
+  areaInCacheName: false
+  local:
+    default: #默认area
+      type: caffeine
+      keyConvertor: fastjson
+  remote:
+    default:
+      type: redis.lettuce #使用lettuce
+      keyConvertor: fastjson
+      valueEncoder: java
+      valueDecoder: java
+      poolConfig:
+        minIdle: 1
+        maxIdle: 50
+        maxTotal: 1000
+        maxWait: 1000
+      # uri: ['redis://password@192.168.14.231:6379/0','redis://password@192.168.14.232:6379/0','redis://password@192.168.14.233:6379/0']
+      uri:
+        - redis://A5B4w1u5@123.57.69.18:6379/4  #redis://密码@IP:端口/库
+      readFrom: masterPreferred #master优先
 
 mybatis:
   type-aliases-package: com.camelot.kuka.model.user
